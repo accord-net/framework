@@ -37,9 +37,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample21.png" width="320" height="160" />
+    /// <img src="..\images\imaging\sample21.png" width="320" height="160" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/polar.png" width="200" height="200" />
+    /// <img src="..\images\imaging\polar.png" width="200" height="200" />
     /// </remarks>
     /// 
     /// <seealso cref="TransformFromPolar"/>

@@ -36,11 +36,6 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///   Elementwise matrix and vector operations.
-    /// </summary>
-    ///
-    [GeneratedCode("Accord.NET T4 Templates", "3.7")]
     public static partial class Elementwise
     {
         private static TOutput[] VectorCreateAs<TInput, TOutput>(TInput[] vector)

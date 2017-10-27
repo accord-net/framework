@@ -76,7 +76,7 @@ namespace Accord.Tests.Imaging
 
             Assert.AreEqual(784, descriptors.Count);
             double sum = descriptors.Sum(x => x.Sum());
-            Assert.AreEqual(3359.1014569812564, sum, 1e-10);
+            Assert.AreEqual(3359.1014569812564, sum, 1e-3);
         }
 
         [Test]

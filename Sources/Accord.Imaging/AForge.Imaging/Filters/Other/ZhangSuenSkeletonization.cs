@@ -51,9 +51,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample14.png" width="150" height="150" />
+    /// <img src="..\images\imaging\sample14.png" width="150" height="150" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/ZhangSuen_skeletonization.png" width="150" height="150" />
+    /// <img src="..\images\imaging\ZhangSuen_skeletonization.png" width="150" height="150" />
     /// </remarks>
     /// 
     public class ZhangSuenSkeletonization : BaseUsingCopyPartialFilter

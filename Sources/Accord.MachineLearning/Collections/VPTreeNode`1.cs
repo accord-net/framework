@@ -25,6 +25,7 @@ namespace Accord.Collections
     using System;
     using System.Linq;
     using System.Collections.Generic;
+    using Accord.Compat;
 #if !MONO
     /// <summary>
     ///   Node of a <see cref="VPTree"/>.

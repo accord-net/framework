@@ -915,7 +915,7 @@ namespace Accord.Statistics.Analysis
             double[][] B = coef.Copy();
 
             if (method == AnalysisMethod.Standardize)
-                B.Divide(stdDev, dimension: 0, result: B);
+                B.Divide(stdDev, dimension: (VectorType)0, result: B);
 
             double[] a = means.Dot(B);
             a.Multiply(-1.0, result: a);
@@ -942,9 +942,9 @@ namespace Accord.Statistics.Analysis
             if (!inPlace)
                 result = Jagged.CreateAs(matrix);
 
-            matrix.Subtract(columnMeans, dimension: 0, result: result);
+            matrix.Subtract(columnMeans, dimension: (VectorType)0, result: result);
             if (this.analysisMethod == AnalysisMethod.Standardize)
-                result.Divide(columnStdDev, dimension: 0, result: result);
+                result.Divide(columnStdDev, dimension: (VectorType)0, result: result);
 
             return result;
         }
@@ -964,9 +964,9 @@ namespace Accord.Statistics.Analysis
             if (!inPlace)
                 result = Jagged.CreateAs(matrix);
 
-            matrix.Subtract(columnMeans, dimension: 0, result: result);
+            matrix.Subtract(columnMeans, dimension: (VectorType)0, result: result);
             if (this.analysisMethod == AnalysisMethod.Standardize)
-                result.Divide(columnStdDev, dimension: 0, result: result);
+                result.Divide(columnStdDev, dimension: (VectorType)0, result: result);
 
             return result;
         }

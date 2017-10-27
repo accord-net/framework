@@ -52,6 +52,7 @@ namespace Accord.Audio.Formats
     /// </code>
     /// </example>
     /// 
+    [FormatDecoder("wav")]
     public class WaveDecoder : IAudioDecoder
     {
         private SoundStream waveStream;

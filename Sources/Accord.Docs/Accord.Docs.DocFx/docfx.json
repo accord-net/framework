@@ -1,0 +1,105 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            //"Sources/Accord.NET.sln"
+            "Sources/Accord.Docs/Namespaces/Accord.Namespaces.csproj",
+            "Sources/Accord.Audio/Accord.Audio.csproj",
+            "Sources/Accord.Audio.DirectSound/Accord.Audio.DirectSound.csproj",
+            "Sources/Accord.Audition/Accord.Audition.csproj",
+            "Sources/Accord.Controls/Accord.Controls.csproj",
+            "Sources/Accord.Controls.Audio/Accord.Controls.Audio.csproj",
+            "Sources/Accord.Controls.Imaging/Accord.Controls.Imaging.csproj",
+            "Sources/Accord.Controls.Vision/Accord.Controls.Vision.csproj",
+            "Sources/Accord.Core/Accord.Core.csproj",
+            "Sources/Accord.DataSets/Accord.DataSets.csproj",
+            "Sources/Accord.Fuzzy/Accord.Fuzzy.csproj",
+            "Sources/Accord.Genetic/Accord.Genetic.csproj",
+            "Sources/Accord.Imaging/Accord.Imaging.csproj",
+            "Sources/Accord.IO/Accord.IO.csproj",
+            "Sources/Accord.MachineLearning/Accord.MachineLearning.csproj",
+            "Sources/Accord.Math/Accord.Math.csproj",
+            "Sources/Accord.Math.Core/Accord.Math.Core.csproj",
+            "Sources/Accord.Neuro/Accord.Neuro.csproj",
+            "Sources/Accord.Statistics/Accord.Statistics.csproj",
+            "Sources/Accord.Text/Accord.Text.csproj",
+            "Sources/Accord.Video/Accord.Video.csproj",
+            "Sources/Accord.Video.DirectShow/Accord.Video.DirectShow.csproj",
+            "Sources/Accord.Video.Kinect/Accord.Video.Kinect.csproj",
+            "Sources/Accord.Video.VFW/Accord.Video.VFW.csproj",
+            "Sources/Accord.Video.Ximea/Accord.Video.Ximea.csproj",
+            "Sources/Accord.Vision/Accord.Vision.csproj",
+            "Sources/Extras/Accord.Imaging (Noncommercial)/Accord.Imaging (Noncommercial).csproj",
+            "Sources/Extras/Accord.MachineLearning (GPL)/Accord.MachineLearning (GPL).csproj",
+            "Sources/Extras/Accord.Math (Noncommercial)/Accord.Math (Noncommercial).csproj",
+            "Sources/Extras/Accord.Video.FFMPEG (GPL)/Video.FFMPEG.vcxproj"
+          ],
+          "exclude": [
+            "**/obj/**",
+            "**/bin/**",
+            "_site/**"
+          ],
+          "src": "../../../" // start from the project's root
+        }
+      ],
+      "dest": "obj/api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml"
+        ],
+        "src": "obj"
+      },
+      {
+        "files": [
+          "api/*.md",
+          "articles/**.md",
+          "toc.yml",
+          "*.md"
+        ],
+        "exclude": [
+          "obj/**",
+          "_site/**"
+        ]
+      },
+      {
+        "files": [
+          "images/**"
+        ],
+        "exclude": [
+        ],
+        "src": "../Accord.Docs.SHFB/" // Start from Sandcastle Help File Builder project folder
+      },
+    ],
+    "resource": [
+      {
+        "files": [
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/_site/**"
+        ]
+      }
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "apidoc/**.md"
+        ],
+        "exclude": [
+          "obj/**",
+          "_site/**"
+        ]
+      }
+    ],
+    "dest": "_site",
+    "template": [
+      "default"
+    ]
+  }
+}

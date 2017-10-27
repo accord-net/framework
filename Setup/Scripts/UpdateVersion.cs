@@ -52,14 +52,25 @@ namespace Accord.Setup.Scripts
             replaceAssemblyInfo(frameworkRootPath, tag, major, minor, rev, build);
             replaceNetStandardTargets(frameworkRootPath, tag, major, minor, rev, build);
             replaceDocumentation(frameworkRootPath, major, minor, rev);
+            replaceAppVeyor(frameworkRootPath, major, minor, rev);
         }
 
         private static void replaceDocumentation(string frameworkRootPath, string major, string minor, string rev)
         {
             string pattern = "<HelpFileVersion>.*</HelpFileVersion>";
-            string docPath = Path.Combine(frameworkRootPath, "Sources/Accord.Docs/Accord.Documentation/Accord.Documentation.shfbproj");
+            string docPath = Path.Combine(frameworkRootPath, "Sources/Accord.Docs/Accord.Docs.SHFB/Accord.Docs.SHFB.shfbproj");
             string contents = File.ReadAllText(docPath);
             string replacement = String.Format("<HelpFileVersion>{0}.{1}.{2}.0</HelpFileVersion>", major, minor, rev);
+            contents = Regex.Replace(contents, pattern, replacement);
+            File.WriteAllText(docPath, contents);
+        }
+
+        private static void replaceAppVeyor(string frameworkRootPath, string major, string minor, string rev)
+        {
+            string pattern = "version: .*";
+            string docPath = Path.Combine(frameworkRootPath, ".appveyor.yml");
+            string contents = File.ReadAllText(docPath);
+            string replacement = String.Format("version: {0}.{1}.{2}.{{build}}", major, minor, rev);
             contents = Regex.Replace(contents, pattern, replacement);
             File.WriteAllText(docPath, contents);
         }

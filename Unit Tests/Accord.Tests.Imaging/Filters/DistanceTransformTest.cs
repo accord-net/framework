@@ -30,6 +30,7 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.IO;
 #if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
@@ -41,21 +42,24 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest1()
         {
+            string localPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "distance");
+            Directory.CreateDirectory(localPath);
+
             // Bitmap cards = new TestImages().GetImage("cards.jpg");
             Bitmap cards = Accord.Imaging.Image.Clone(Resources.cards);
-            cards.Save(@"c:\Temp\input.jpg");
+            cards.Save(Path.Combine(localPath, "input.jpg"));
 
             Bitmap grayCards = Grayscale.CommonAlgorithms.BT709.Apply(cards);
-            grayCards.Save(@"c:\Temp\grayscale.jpg");
+            grayCards.Save(Path.Combine(localPath, "grayscale.jpg"));
 
             Bitmap binaryCards = new Threshold(200).Apply(grayCards);
-            binaryCards.Save(@"c:\Temp\binary.jpg");
+            binaryCards.Save(Path.Combine(localPath, "binary.jpg"));
 
             var dt = new DistanceTransform();
             Bitmap result = dt.Apply(binaryCards);
             Assert.AreEqual(35.805027, dt.MaximumDistance, 1e-5);
             Assert.AreEqual(new IntPoint(254, 129), dt.UltimateErodedPoint);
-            result.Save(@"c:\Temp\distance_transform.jpg");
+            result.Save(Path.Combine(localPath, "distance_transform.jpg"));
 
             Assert.IsNotNull(result);
         }

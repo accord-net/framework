@@ -25,6 +25,7 @@ namespace Accord.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Linq;
 
     /// <summary>
     ///   Filter to mark (highlight) rectangles in a image.
@@ -58,7 +59,16 @@ namespace Accord.Imaging.Filters
             get { return fillColor; }
             set { fillColor = value; }
         }
-            
+
+        /// <summary>
+        ///   The set of rectangles.
+        /// </summary>
+        /// 
+        public Rectangle SingleRectangle
+        {
+            get { return rectangles.First(); }
+            set { rectangles = new[] { value }; }
+        }
 
         /// <summary>
         ///   The set of rectangles.

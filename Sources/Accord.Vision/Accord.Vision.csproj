@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Vision</RootNamespace>
     <AssemblyName>Accord.Vision</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -55,7 +55,6 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Accord.Imaging\BagOfVisualWords.cs" />
-    <Compile Include="Accord.Imaging\BagOfVisualWordsStatistics.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`1.cs" />
     <Compile Include="Accord.Imaging\BaseBagOfVisualWords`5.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`4.cs" />

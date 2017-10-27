@@ -30,6 +30,7 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.IO;
     using System.Linq;
 #if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
@@ -42,8 +43,11 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ApplyTest1()
         {
+            string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "watershed");
+            Directory.CreateDirectory(basePath);
+
             Bitmap shapes = Accord.Imaging.Image.Clone(Resources.water);
-            shapes.Save(@"c:\Temp\shapes.jpg");
+            shapes.Save(Path.Combine(basePath, "shapes.jpg"));
 
             var bw = new BinaryWatershed();
             Bitmap result = bw.Apply(shapes);
@@ -63,7 +67,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(x, bw.MaxPoints.Select(i => i.X).ToArray());
             Assert.AreEqual(y, bw.MaxPoints.Select(i => i.Y).ToArray());
 
-            result.Save(@"c:\Temp\watershed.jpg");
+            result.Save(Path.Combine(basePath, "watershed.jpg"));
 
             GrayscaleToRGB toRGB = new GrayscaleToRGB();
             result = toRGB.Apply(result);
@@ -72,7 +76,7 @@ namespace Accord.Tests.Imaging
             marker.Points = bw.MaxPoints;
             Bitmap marked = marker.Apply(result);
 
-            marked.Save(@"c:\Temp\watershed-marks.jpg");
+            marked.Save(Path.Combine(basePath, "watershed-marks.jpg"));
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(marked);

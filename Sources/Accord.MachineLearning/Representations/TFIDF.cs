@@ -546,13 +546,13 @@ namespace Accord.MachineLearning
 
 
 
-        Sparse<double> ITransform<string[], Sparse<double>>.Transform(string[] input)
+        Sparse<double> ICovariantTransform<string[], Sparse<double>>.Transform(string[] input)
         {
             Sparse<double> r;
             return Transform(input, out r);
         }
 
-        Sparse<double>[] ITransform<string[], Sparse<double>>.Transform(string[][] input)
+        Sparse<double>[] ICovariantTransform<string[], Sparse<double>>.Transform(string[][] input)
         {
             return Transform(input, new Sparse<double>[input.Length]);
         }

@@ -85,7 +85,17 @@ namespace Accord.Statistics.Analysis
     /// </para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\LogisticRegressionAnalysisTest.cs" region="doc_learn_summary" />
+    /// 
+    /// <para>
+    ///   The last example shows how to learn a logistic regression analysis using data 
+    ///   given in the form of a System.Data.DataTable. This data is also heterogeneous, mixing 
+    ///   both discrete (symbol) variables and continuous variables. This example is also available
+    ///   for <see cref="MultipleLinearRegressionAnalysis"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\LogisticRegressionAnalysisTest.cs" region="doc_learn_database" />
     /// </example>
+    /// 
+    /// <seealso cref="MultipleLinearRegressionAnalysis"/>
     /// 
     [Serializable]
     public class LogisticRegressionAnalysis : TransformBase<double[], double>, // TODO: Rename to BinaryLogLikelihoodClassifierBase

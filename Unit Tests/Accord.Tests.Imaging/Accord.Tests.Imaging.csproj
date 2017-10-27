@@ -67,6 +67,7 @@
     <Compile Include="CentralMomentsTest.cs" />
     <Compile Include="Filters\BinaryWatershedTest.cs" />
     <Compile Include="Filters\DistanceTransformTest.cs" />
+    <Compile Include="Filters\MorphologicalTests.cs" />
     <Compile Include="Filters\ResizeTest.cs" />
     <Compile Include="Filters\WhitePatchTest.cs" />
     <Compile Include="Filters\GrayWorldTest.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="HaralickTest.cs" />
     <Compile Include="Filters\KirschEdgeDetectorTest.cs" />
     <Compile Include="HyperrectTest.cs" />
+    <Compile Include="HoughTest.cs" />
     <Compile Include="IntegralImageTest.cs" />
     <Compile Include="LocalBinaryPatternsTest.cs" />
     <Compile Include="Filters\GaborTest.cs" />

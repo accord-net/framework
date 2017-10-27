@@ -41,9 +41,12 @@ namespace Accord.Tests.Vision
         [Test]
         public void kmeans()
         {
+            string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "kmeans");
+            Directory.CreateDirectory(basePath);
+
             #region doc_kmeans
             // Load a test image (shown in a picture box below)
-            var sampleImages = new TestImages(path: Path.GetTempPath());
+            var sampleImages = new TestImages(path: basePath);
             Bitmap image = sampleImages.GetImage("airplane.png");
 
             // ImageBox.Show("Original", image).Hold();
@@ -88,9 +91,12 @@ namespace Accord.Tests.Vision
         [Test]
         public void meanShift()
         {
+            string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "kmeans");
+            Directory.CreateDirectory(basePath);
+
             #region doc_meanshift
             // Load a test image (shown in a picture box below)
-            var sampleImages = new TestImages(path: Path.GetTempPath());
+            var sampleImages = new TestImages(path: basePath);
             Bitmap image = sampleImages.GetImage("airplane.png");
 
             // ImageBox.Show("Original", image).Hold();

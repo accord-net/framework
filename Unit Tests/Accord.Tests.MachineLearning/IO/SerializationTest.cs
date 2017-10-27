@@ -28,7 +28,6 @@ namespace Accord.Tests.IO
     using System.IO;
     using System.Text;
     using Accord.IO;
-    using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
     using Accord.Math;
     using System.Globalization;

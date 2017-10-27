@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Imaging</RootNamespace>
     <AssemblyName>Accord.Imaging</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -55,6 +55,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Accord.DataSets\TestImages.cs" />
+    <Compile Include="Interest Points\Base\BaseCornersDetector.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Divide.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Multiply.cs" />
     <Compile Include="AForge.Imaging\Filters\Convolution\FastBoxBlur.cs" />
@@ -253,6 +254,8 @@
     <Compile Include="Blob Processing\RecursiveBlobCounter.cs" />
     <Compile Include="AForge.Imaging\SusanCornersDetector.cs" />
     <Compile Include="AForge.Imaging\TemplateMatch.cs" />
+    <Compile Include="Interest Points\Base\BaseSparseFeatureExtractor.cs" />
+    <Compile Include="Interest Points\Base\BaseFeatureExtractor.cs" />
     <Compile Include="Interest Points\Haralick\HaralickDescriptorDictionary.cs" />
     <Compile Include="Textures\Base\BaseTextureGenerator.cs" />
     <Compile Include="Textures\CloudsTexture.cs" />
@@ -285,7 +288,6 @@
     <Compile Include="Filters\GrayWorld.cs" />
     <Compile Include="Filters\Kuwahara.cs" />
     <Compile Include="Filters\WolfJolionThreshold.cs" />
-    <Compile Include="Interest Points\Base\IFeatureDescriptor.cs" />
     <Compile Include="Interest Points\FeatureDescriptor.cs" />
     <Compile Include="ObjectiveFidelity.cs" />
     <Compile Include="DrawingExtensions.cs" />
@@ -313,7 +315,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interest Points\CornerFeaturePoint.cs" />
     <Compile Include="Interest Points\CornerFeaturesDetector.cs" />
-    <Compile Include="Interest Points\Base\IFeatureDetector.cs" />
+    <Compile Include="Interest Points\Base\IImageFeatureExtractor.cs" />
     <Compile Include="Moments\HuMoments.cs" />
     <Compile Include="Moments\MomentsBase.cs" />
     <Compile Include="Interest Points\Matching\CorrelationMatching.cs" />

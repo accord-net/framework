@@ -26,6 +26,7 @@ namespace Accord.Audio
     using System.Runtime.InteropServices;
     using Accord.Compat;
     using System.Numerics;
+    using Accord.Audio.Formats;
 
     /// <summary>
     ///   Specifies the format of each sample in a signal.
@@ -97,11 +98,12 @@ namespace Accord.Audio
     ///  <para>
     ///  A sample refers to a value or set of values at a point in time 
     ///  and/or space.</para>
+    ///</remarks>
     ///
-    /// <para>Sample usage:</para>
+    /// <example>
     /// <code>
     /// // create an empty audio signal 
-    /// Signal signal = new Signal( channels, length, sampleRate, format );
+    /// Signal signal = new Signal(channels, length, sampleRate, format);
     /// </code>
     /// 
     /// <code>
@@ -120,9 +122,12 @@ namespace Accord.Audio
     /// </code>
     /// 
     /// <para>
-    /// For an example on how to decode a signal from a Wave file, please
-    /// take a look on the WaveDecoder and WaveFileAudioSource documentation.</para>
-    /// </remarks>
+    /// It is also possible to load signals from a file or stream, as long as you have
+    /// a decoder for the given format available. For example, in order to load a .wav
+    /// file using DirectSound, please add a reference to Accord.Audio.DirectSound and
+    /// run the following code snippet:</para>
+    /// <code source="Unit Tests\Accord.Tests.Audio\SignalTest.cs" region="doc_energy" />
+    /// </example>
     /// 
     /// <seealso cref="ComplexSignal"/>
     ///
@@ -270,6 +275,10 @@ namespace Accord.Audio
         /// <summary>
         ///   Computes the signal energy.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\SignalTest.cs" region="doc_energy" />
+        /// </example>
         /// 
         public double GetEnergy()
         {
@@ -601,6 +610,19 @@ namespace Accord.Audio
                 handle.Free();
                 ptrData = IntPtr.Zero;
             }
+        }
+
+        /// <summary>
+        ///   Loads a signal from a file, such as a ".wav" file.
+        /// </summary>
+        /// 
+        /// <param name="fileName">Name of the file to be read.</param>
+        /// 
+        /// <returns>The signal that has been read from the file.</returns>
+        /// 
+        public static Signal FromFile(string fileName)
+        {
+            return AudioDecoder.DecodeFromFile(fileName);
         }
 
         #endregion

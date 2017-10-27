@@ -27,11 +27,122 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
+    using Accord.Statistics.Filters;
+    using System.Data;
+    using Accord.Statistics.Testing;
+    using Accord.Statistics.Models.Regression.Fitting;
 
     [TestFixture]
     public class LogisticRegressionAnalysisTest
     {
 
+#if !NO_DATA_TABLE
+        [Test]
+        public void gh_937()
+        {
+            #region doc_learn_database
+            // Note: this example uses a System.Data.DataTable to represent input data,
+            // but note that this is not required. The data could have been represented
+            // as jagged double matrices (double[][]) directly.
+
+            // If you have to handle heterogeneus data in your application, such as user records
+            // in a database, this data is best represented within the framework using a .NET's 
+            // DataTable object. In order to try to learn a classification or regression model
+            // using this datatable, first we will need to convert the table into a representation
+            // that the machine learning model can understand. Such representation is quite often,
+            // a matrix of doubles (double[][]).
+            var data = new DataTable("Customer Revenue Example");
+
+            data.Columns.Add("Day", "CustomerId", "Time (hour)", "Weather", "Buy");
+            data.Rows.Add("D1", 0, 8, "Sunny", true);
+            data.Rows.Add("D2", 1, 10, "Sunny", true);
+            data.Rows.Add("D3", 2, 10, "Rain", false);
+            data.Rows.Add("D4", 3, 16, "Rain", true);
+            data.Rows.Add("D5", 4, 15, "Rain", true);
+            data.Rows.Add("D6", 5, 20, "Rain", false);
+            data.Rows.Add("D7", 6, 12, "Cloudy", true);
+            data.Rows.Add("D8", 7, 12, "Sunny", false);
+
+            // One way to perform this conversion is by using a Codification filter. The Codification
+            // filter can take care of converting variables that actually denote symbols (i.e. the 
+            // weather in the example above) into representations that make more sense given the assumption
+            // of a real vector-based classifier.
+
+            // Create a codification codebook
+            var codebook = new Codification()
+            {
+                { "Weather", CodificationVariable.Categorical },
+                { "Time (hour)", CodificationVariable.Continuous },
+                { "Revenue", CodificationVariable.Continuous },
+            };
+
+            // Learn from the data
+            codebook.Learn(data);
+
+            // Now, we will use the codebook to transform the DataTable into double[][] vectors. Due
+            // the way the conversion works, we can end up with more columns in your output vectors
+            // than the ones started with. If you would like more details about what those columns
+            // represent, you can pass then as 'out' parameters in the methods that follow below.
+            string[] inputNames;  // (note: if you do not want to run this example yourself, you 
+            string outputName;    // can see below the new variable names that will be generated)
+
+            // Now, we can translate our training data into integer symbols using our codebook:
+            double[][] inputs = codebook.Apply(data, "Weather", "Time (hour)").ToJagged(out inputNames);
+            double[] outputs = codebook.Apply(data, "Buy").ToVector(out outputName);
+            // (note: the Apply method transform a DataTable into another DataTable containing the codified 
+            //  variables. The ToJagged and ToVector methods are then used to transform those tables into
+            //  double[][] matrices and double[] vectors, respectively.
+
+            // If we would like to learn a logistic regression model for this data, there are two possible
+            // ways depending on which aspect of the logistic regression we are interested the most. If we
+            // are interested in interpreting the logistic regression, performing hypothesis tests with the
+            // coefficients and performing an actual _logistic regression analysis_, then we can use the
+            // LogisticRegressionAnalysis class for this. If however we are only interested in using
+            // the learned model directly to predict new values for the dataset, then we could be using the
+            // LogisticRegression and IterativeReweightedLeastSquares classes directly instead. 
+
+            // This example deals with the former case. For the later, please see the documentation page
+            // for the LogisticRegression class.
+
+            // We can create a new multiple linear analysis for the variables
+            var lra = new LogisticRegressionAnalysis()
+            {
+                // We can also inform the names of the new variables that have been created by the
+                // codification filter. Those can help in the visualizing the analysis once it is 
+                // data-bound to a visual control such a Windows.Forms.DataGridView or WPF DataGrid:
+
+                Inputs = inputNames, // will be { "Weather: Sunny", "Weather: Rain, "Weather: Cloudy", "Time (hours)" }
+                Output = outputName  // will be "Revenue"
+            };
+
+            // Compute the analysis and obtain the estimated regression
+            LogisticRegression regression = lra.Learn(inputs, outputs);
+
+            // And then predict the label using
+            double predicted = lra.Transform(inputs[0]); // result will be ~0.287
+
+            // Because we opted for doing a MultipleLinearRegressionAnalysis instead of a simple
+            // linear regression, we will have further information about the regression available:
+            int inputCount = lra.NumberOfInputs;   // should be 4
+            int outputCount = lra.NumberOfOutputs; // should be 1
+            double logl = lra.LogLikelihood;       // should be -4.6035570737785525
+            ChiSquareTest x2 = lra.ChiSquare;      // should be 1.37789 (p=0.8480, non-significant)
+            double[] stdErr = lra.StandardErrors;  // should be high except for the last value of 0.27122079214927985 (due small data)
+            double[] or = lra.OddsRatios;          // should be 1.1116659950687609 for the last coefficient (related to time of day)
+            LogisticCoefficientCollection c = lra.Coefficients; // coefficient table (bind to a visual control for quick inspection)
+            double[][] h = lra.InformationMatrix;  // should contain Fisher's information matrix for the problem
+            #endregion
+
+            Assert.AreEqual(0.28703150858677107, predicted, 1e-8);
+            Assert.AreEqual(4, inputCount, 1e-8);
+            Assert.AreEqual(1, outputCount, 1e-8);
+            Assert.AreEqual(-4.6035570737785525, logl, 1e-8);
+            Assert.IsTrue(new[] { 0.0019604927838235376, 88.043929817973222, 101.42211648160144, 2.1954970044905113E-07, 1.1116659950687609 }.IsEqual(or, 1e-4));
+
+            Assert.AreEqual(1.377897662970609, x2.Statistic, 1e-8);
+            Assert.AreEqual(0.84802726696077046, x2.PValue, 1e-8);
+        }
+#endif
 
         [Test]
         public void ComputeTest1()
@@ -46,7 +157,7 @@ namespace Accord.Tests.Statistics
 
             double[] actual = regression.Result;
 
-            double[] expected = 
+            double[] expected =
             {
                 0.000012, 0.892611, 0.991369, 0.001513, 0.904055,
                 0.001446, 0.998673, 0.001260, 0.629312, 0.004475,
@@ -78,7 +189,7 @@ namespace Accord.Tests.Statistics
 
             double[] actual = regression.Probability(inputs);
 
-            double[] expected = 
+            double[] expected =
             {
                 0.000012, 0.892611, 0.991369, 0.001513, 0.904055,
                 0.001446, 0.998673, 0.001260, 0.629312, 0.004475,
@@ -238,16 +349,16 @@ namespace Accord.Tests.Statistics
             double[][] inputs =
             {
                 //            Age  Smoking
-                new double[] { 55,    0   }, 
-                new double[] { 28,    0   }, 
-                new double[] { 65,    1   }, 
-                new double[] { 46,    0   }, 
-                new double[] { 86,    1   }, 
-                new double[] { 56,    1   }, 
-                new double[] { 85,    0   }, 
-                new double[] { 33,    0   }, 
-                new double[] { 21,    1   }, 
-                new double[] { 42,    1   }, 
+                new double[] { 55,    0   },
+                new double[] { 28,    0   },
+                new double[] { 65,    1   },
+                new double[] { 46,    0   },
+                new double[] { 86,    1   },
+                new double[] { 56,    1   },
+                new double[] { 85,    0   },
+                new double[] { 33,    0   },
+                new double[] { 21,    1   },
+                new double[] { 42,    1   },
             };
 
             // Additionally, we also have information about whether
@@ -409,16 +520,16 @@ namespace Accord.Tests.Statistics
             double[][] inputs =
             {
                 //            Age  Smoking
-                new double[] { 55,    0   }, 
-                new double[] { 28,    0   }, 
-                new double[] { 65,    1   }, 
-                new double[] { 46,    0   }, 
-                new double[] { 86,    1   }, 
-                new double[] { 56,    1   }, 
-                new double[] { 85,    0   }, 
-                new double[] { 33,    0   }, 
-                new double[] { 21,    1   }, 
-                new double[] { 42,    1   }, 
+                new double[] { 55,    0   },
+                new double[] { 28,    0   },
+                new double[] { 65,    1   },
+                new double[] { 46,    0   },
+                new double[] { 86,    1   },
+                new double[] { 56,    1   },
+                new double[] { 85,    0   },
+                new double[] { 33,    0   },
+                new double[] { 21,    1   },
+                new double[] { 42,    1   },
             };
 
             // Additionally, we also have information about whether

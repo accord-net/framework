@@ -16,6 +16,9 @@
     <None Include="Archiver\package-samples.cmd" />
     <None Include="create-release.cmd" />
     <None Include="Installer\Build.cmd" />
+    <None Include="NuGet\Accord.Audition.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="NuGet\Accord.DataSets.nuspec" />
     <None Include="NuGet\Accord.Fuzzy.nuspec" />
     <None Include="NuGet\Accord.Genetic.nuspec" />

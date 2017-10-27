@@ -27,7 +27,7 @@ namespace Accord.Compat
     using System.Collections.Generic;
     using System.Reflection;
 
-    internal static class TypeExtensions
+    internal static partial class TypeExtensions
     {
 
         public static object GetValue(this PropertyInfo info, object obj)

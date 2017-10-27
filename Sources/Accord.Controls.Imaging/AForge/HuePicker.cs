@@ -26,12 +26,12 @@ namespace Accord.Controls
     /// 
     /// <para>If control's type is set to <see cref="HuePickerType.Value"/>, then it allows selecting single
     /// hue value and looks like this:<br />
-    /// <img src="img/controls/hue_picker1.png" width="220" height="220" />
+    /// <img src="..\images\controls\hue_picker1.png" width="220" height="220" />
     /// </para>
     /// 
     /// <para>If control's type is set to <see cref="HuePickerType.Range"/>, then it allows selecting range
     /// of hue values and looks like this:<br />
-    /// <img src="img/controls/hue_picker2.png" width="220" height="220" />
+    /// <img src="..\images\controls\hue_picker2.png" width="220" height="220" />
     /// </para>
     /// </remarks>
     /// 

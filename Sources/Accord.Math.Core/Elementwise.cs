@@ -23,12 +23,41 @@
 namespace Accord.Math
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    ///   Vector types.
+    /// </summary>
+    /// 
+    public enum VectorType : int
+    {
+        /// <summary>
+        ///   The vector is a row vector, meaning it should have a size equivalent 
+        ///   to [1 x N] where N is the number of elements in the vector.
+        /// </summary>
+        /// 
+        RowVector = 0,
+
+        /// <summary>
+        ///   The vector is a column vector, meaning it should have a size equivalent
+        ///   to [N x 1] where N is the number of elements in the vector.
+        /// </summary>
+        /// 
+        ColumnVector = 1
+    }
+
+    /// <summary>
+    ///   Elementwise matrix and vector operations.
+    /// </summary>
+    /// 
+    /// <seealso cref="VectorType"/>
+    ///
+    [GeneratedCode("Accord.NET T4 Templates", "3.7")]
     public static partial class Elementwise
     {
         private static int rows<U>(U[] b)
@@ -172,6 +201,83 @@ namespace Accord.Math
 
         [Conditional("DEBUG")]
         static void check<T, U, V>(int d, T[] a, U[][] b, V[][] result)
+        {
+            if (d == 0)
+            {
+                if (cols(b) != rows(a))
+                    throw new DimensionMismatchException("b");
+            }
+            else
+            {
+                if (rows(b) != rows(a))
+                    throw new DimensionMismatchException("b");
+            }
+            if (rows(b) != rows(result) || cols(b) != cols(result))
+                throw new DimensionMismatchException("result");
+        }
+
+
+
+
+
+
+
+
+        [Conditional("DEBUG")]
+        static void check<T, U, V>(VectorType d, T[,] a, U[] b, V[,] result)
+        {
+            if (d == 0)
+            {
+                if (cols(a) != rows(b))
+                    throw new DimensionMismatchException("b");
+            }
+            else
+            {
+                if (rows(a) != rows(b))
+                    throw new DimensionMismatchException("b");
+            }
+            if (rows(a) != rows(result) || cols(a) != cols(result))
+                throw new DimensionMismatchException("result");
+        }
+
+        [Conditional("DEBUG")]
+        static void check<T, U, V>(VectorType d, T[][] a, U[] b, V[][] result)
+        {
+            if (d == 0)
+            {
+                if (cols(a) != rows(b))
+                    throw new DimensionMismatchException("b");
+            }
+            else
+            {
+                if (rows(a) != rows(b))
+                    throw new DimensionMismatchException("b");
+            }
+            if (rows(a) != rows(result) || cols(a) != cols(result))
+                throw new DimensionMismatchException("result");
+        }
+
+
+
+        [Conditional("DEBUG")]
+        static void check<T, U, V>(VectorType d, T[] a, U[,] b, V[,] result)
+        {
+            if (d == 0)
+            {
+                if (cols(b) != rows(a))
+                    throw new DimensionMismatchException("b");
+            }
+            else
+            {
+                if (rows(b) != rows(a))
+                    throw new DimensionMismatchException("b");
+            }
+            if (rows(b) != rows(result) || cols(b) != cols(result))
+                throw new DimensionMismatchException("result");
+        }
+
+        [Conditional("DEBUG")]
+        static void check<T, U, V>(VectorType d, T[] a, U[][] b, V[][] result)
         {
             if (d == 0)
             {

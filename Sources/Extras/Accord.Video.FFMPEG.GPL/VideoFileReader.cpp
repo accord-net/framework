@@ -55,6 +55,7 @@ namespace Accord {
                 libffmpeg::AVCodecContext*		CodecContext;
                 libffmpeg::AVFrame*				VideoFrame;
                 struct libffmpeg::SwsContext*	ConvertContext;
+                unsigned long int nextFrameIndex;
 
                 libffmpeg::AVPacket* Packet;
                 int uint8_tsRemaining;
@@ -69,6 +70,7 @@ namespace Accord {
 
                     Packet = nullptr;
                     uint8_tsRemaining = 0;
+                    nextFrameIndex = 0;
                 }
             };
 
@@ -203,9 +205,19 @@ namespace Accord {
                 data = nullptr;
             }
 
-            // Read next video frame of the current video file
-            Bitmap^ VideoFileReader::ReadVideoFrame()
+            int64_t FrameToPTS(libffmpeg::AVStream* stream, int frame)
             {
+                return (int64_t(frame) * stream->r_frame_rate.den * stream->time_base.den)
+                    / (int64_t(stream->r_frame_rate.num) * stream->time_base.num);
+            }
+
+           
+
+            Bitmap^ VideoFileReader::readVideoFrame(int frameIndex, BitmapData^ output)
+            {
+                if (frameIndex == -1)
+                    frameIndex = data->nextFrameIndex;
+
                 CheckIfDisposed();
 
                 if (data == nullptr)
@@ -215,6 +227,16 @@ namespace Accord {
                 Bitmap^ bitmap = nullptr;
                 int uint8_tsDecoded;
                 bool exit = false;
+                bool needsToSeek = false;
+
+                if (frameIndex != this->data->nextFrameIndex) 
+                {
+                    needsToSeek = true;
+                    libffmpeg::avcodec_flush_buffers(data->VideoStream->codec);
+                    int error = libffmpeg::av_seek_frame(data->FormatContext, data->VideoStream->index, frameIndex, AVSEEK_FLAG_FRAME | AVSEEK_FLAG_BACKWARD);
+                    if (error < 0)
+                        throw gcnew VideoException("Error while seeking frame.");
+                }
 
                 while (true)
                 {
@@ -232,7 +254,13 @@ namespace Accord {
 
                         // did we finish the current frame? Then we can return
                         if (frameFinished)
-                            return DecodeVideoFrame();
+                        {
+                            if (!needsToSeek || data->VideoFrame->pts >= FrameToPTS(data->VideoStream, frameIndex))
+                            {
+                                data->nextFrameIndex = frameIndex + 1;
+                                return DecodeVideoFrame(output);
+                            }
+                        }
                     }
 
                     // read the next packet, skipping all packets that aren't for this stream
@@ -273,19 +301,25 @@ namespace Accord {
 
                 // is there a frame
                 if (frameFinished)
-                    bitmap = DecodeVideoFrame();
+                    bitmap = DecodeVideoFrame(output);
 
                 return bitmap;
             }
 
             // Decodes video frame into managed Bitmap
-            Bitmap^ VideoFileReader::DecodeVideoFrame()
+            Bitmap^ VideoFileReader::DecodeVideoFrame(BitmapData^ bitmapData)
             {
-                Bitmap^ bitmap = gcnew Bitmap(data->CodecContext->width, data->CodecContext->height, PixelFormat::Format24bppRgb);
+                Bitmap^ bitmap = nullptr;
 
-                // lock the bitmap
-                BitmapData^ bitmapData = bitmap->LockBits(System::Drawing::Rectangle(0, 0, data->CodecContext->width, data->CodecContext->height),
-                    ImageLockMode::ReadOnly, PixelFormat::Format24bppRgb);
+                if (bitmapData == nullptr)
+                {
+                    // create a new Bitmap with format 24-bpp RGB
+                    bitmap = gcnew Bitmap(data->CodecContext->width, data->CodecContext->height, PixelFormat::Format24bppRgb);
+
+                    // lock the bitmap
+                    bitmapData = bitmap->LockBits(System::Drawing::Rectangle(0, 0, data->CodecContext->width, data->CodecContext->height),
+                        ImageLockMode::ReadWrite, PixelFormat::Format24bppRgb);
+                }
 
                 uint8_t* srcData[4] = { static_cast<uint8_t*>(static_cast<void*>(bitmapData->Scan0)),
                     nullptr, nullptr, nullptr };
@@ -295,9 +329,12 @@ namespace Accord {
                 libffmpeg::sws_scale(data->ConvertContext, data->VideoFrame->data, data->VideoFrame->linesize, 0,
                     data->CodecContext->height, srcData, srcLinesize);
 
-                bitmap->UnlockBits(bitmapData);
+                if (bitmap != nullptr)
+                    bitmap->UnlockBits(bitmapData); // unlock only if we have created the bitmap ourselves
                 return bitmap;
             }
+
+            
         }
     }
 }

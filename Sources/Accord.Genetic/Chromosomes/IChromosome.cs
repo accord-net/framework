@@ -20,11 +20,11 @@ namespace Accord.Genetic
     public interface IChromosome : IComparable
     {
         /// <summary>
-        /// Chromosome's fintess value.
+        /// Chromosome's fitness value.
         /// </summary>
         /// 
         /// <remarks><para>The fitness value represents chromosome's usefulness - the greater the
-        /// value, the more useful it.</para></remarks>
+        /// value, the more useful it is.</para></remarks>
         /// 
         double Fitness { get; }
 

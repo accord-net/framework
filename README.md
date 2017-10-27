@@ -1,5 +1,7 @@
 # Accord.NET Framework
 
+[![DOI](https://zenodo.org/badge/3964514.svg)](https://zenodo.org/badge/latestdoi/3964514)
+[![Build status](https://ci.appveyor.com/api/projects/status/ns9h9opjmu8iw3ep?svg=true)](https://ci.appveyor.com/project/cesarsouza/framework)
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
 [![Github All Releases](https://img.shields.io/github/downloads/accord-net/framework/total.svg)]()
 [![License](https://img.shields.io/badge/license-LGPL--2.1-blue.svg)](LICENSE)
@@ -15,7 +17,7 @@ After merging with the AForge.NET project, the framework now offers a unified AP
 - [Use the Learn(x, y)](http://accord-framework.net/docs/html/M_Accord_MachineLearning_VectorMachines_Learning_SequentialMinimalOptimization_Learn.htm) to create a [machine learning model](http://accord-framework.net/docs/html/T_Accord_MachineLearning_VectorMachines_SupportVectorMachine.htm) learned from the data; 
 - Use the model's [Transform](http://accord-framework.net/docs/html/M_Accord_MachineLearning_ClassifierBase_2_Transform.htm), [Decide](http://accord-framework.net/docs/html/M_Accord_MachineLearning_ClassifierBase_2_Decide_1.htm), [Scores](http://accord-framework.net/docs/html/M_Accord_MachineLearning_BinaryScoreClassifierBase_1_Scores_3.htm), [Probabilities](http://accord-framework.net/docs/html/M_Accord_MachineLearning_BinaryLikelihoodClassifierBase_1_Probabilities.htm) or [LogLikelihoods](http://accord-framework.net/docs/html/M_Accord_MachineLearning_VectorMachines_SupportVectorMachine_2_LogLikelihood.htm) methods.
 
-For more information, please see the getting started guide, and check the wiki. *Note: the wiki is being gradually updated/rewritten followed the recent merge/refactoring. Please do not hesitate to edit it if you would like!*
+For more information, please see the [getting started guide](https://github.com/accord-net/framework/wiki/Getting-started), and check [the classfication wiki](https://github.com/accord-net/framework/wiki/Classification). *Please do not hesitate to edit the wiki if you would like!*
 
 
 # Installing
@@ -100,7 +102,7 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
 
 If you would like to contribute, please do so by helping us update the [project's Wiki pages](https://github.com/accord-net/framework/wiki). While you could also make a donation through PayPal [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N4Q6YQSPWN8BG), Flattr [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=cesarsouza&url=https://github.com/accord-net/framework&title=Accord.NET&language=&tags=github&category=software), or any of the cryptocurrencies shown below, as well as fill-in bug reports and contribute code in the form of pull requests, the most precious donation we could receive would be a bit of your time - [please take some minutes to submit us more documentation examples to our Wiki pages](https://github.com/accord-net/framework/wiki) :wink: 
 
-Donate using cryptocurrencties:
+Donate using cryptocurrencies:
 - ```BTC: 16EUrG7AqbhrAbgVA1J3m4udFm3XFUntDE```
 - ```ETH: 0xc152EA8c985984C34C08b54201a632E98AE98e8F```
 - ```LTC: LPkWpq1ChUXXxpHZwvKFicVeWSXKPtnaYC```

@@ -379,34 +379,19 @@ namespace Accord.Tests.Math
                 gradient: (x) => new[]
                 {
                     2 * (200 * Math.Pow(x[0], 3) - 200 * x[0] * x[1] + x[0] - 1), // df/dx = 2(200x³-200xy+x-1)
-                    200 * (x[1] - x[0]*x[0])                                   // df/dy = 200(y-x²)
+                    200 * (x[1] - x[0]*x[0])                                      // df/dy = 200(y-x²)
                 }
             );
 
-            // Now we can start stating the constraints
-            var constraints = new List<NonlinearConstraint>()
-            {
-                // Add the non-negativity constraint for x
-                new NonlinearConstraint(f,
-                    // 1st constraint: x should be greater than or equal to 0
-                    function: (x) => x[0], // x
-                    shouldBe: ConstraintType.GreaterThanOrEqualTo,
-                    value: 0,
-                    gradient: (x) => new[] { 1.0, 0.0 }
-                ),
-
-                // Add the non-negativity constraint for y
-                new NonlinearConstraint(f,
-                    // 2nd constraint: y should be greater than or equal to 0
-                    function: (x) => x[1], // y 
-                    shouldBe: ConstraintType.GreaterThanOrEqualTo,
-                    value: 0,
-                    gradient: (x) => new[] { 0.0, 1.0 }
-                )
-            };
+            // As before, we state the constraints. However, to illustrate the flexibility
+            // of the AugmentedLagrangian, we shall use LinearConstraints to constrain the problem.
+            double[,] a = Matrix.Identity(2); // Set up the constraint matrix...
+            double[] b = Vector.Zeros(2);     // ...and the values they must be greater than
+            int numberOfEqualities = 0;
+            var linearConstraints = LinearConstraintCollection.Create(a, b, numberOfEqualities);
 
             // Finally, we create the non-linear programming solver
-            var solver = new AugmentedLagrangian(f, constraints);
+            var solver = new AugmentedLagrangian(f, linearConstraints);
 
             // And attempt to find a minimum
             bool success = solver.Minimize();
@@ -423,9 +408,9 @@ namespace Accord.Tests.Math
             Assert.AreEqual(1, solver.Solution[0], 1e-6);
             Assert.AreEqual(1, solver.Solution[1], 1e-6);
 
-            Assert.IsFalse(Double.IsNaN(minValue));
-            Assert.IsFalse(Double.IsNaN(solver.Solution[0]));
-            Assert.IsFalse(Double.IsNaN(solver.Solution[1]));
+            Assert.IsFalse(double.IsNaN(minValue));
+            Assert.IsFalse(double.IsNaN(solver.Solution[0]));
+            Assert.IsFalse(double.IsNaN(solver.Solution[1]));
         }
 
         [Test]

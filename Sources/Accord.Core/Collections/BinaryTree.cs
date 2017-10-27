@@ -27,21 +27,42 @@ namespace Accord.Collections
     using Accord.Compat;
 
     /// <summary>
-    ///   Base class for binary trees.
+    ///   Base class for binary trees. This class does not implement a binary search
+    ///   tree, but can used to implement one. For binary search trees, please refer
+    ///   to <see cref="RedBlackTree{T}"/>, KDTree and VPTree.
     /// </summary>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The <see cref="BinaryTree{TNode}"/> class is a base class for other tree classes
+    ///   such as <see cref="RedBlackTree{T}"/>, KDTree and VPTree. For examples on how to
+    ///   use those classes, please see their respective documentation pages.</para>
+    ///   
+    /// <para>
+    ///   If you would like to implement your own binary tree that inherits from this class,
+    ///   then you can do so as shown in the following example. First, make sure your custom
+    ///   node class inherits from <see cref="BinaryNode{T}"/> and passes itself as the generic 
+    ///   argument of <see cref="BinaryNode{T}"/>:</para>
+    /// <code source="Unit Tests\Accord.Tests.Core\BinaryTreeTest.cs" region="doc_ctor_1" />
+    /// 
+    /// <para>
+    ///   Now, once the tree node has been implemented, we can create a new <see cref="BinaryTree{TNode}"/>
+    ///   and explore the tree in different ways as shown below:</para>
+    /// <code source="Unit Tests\Accord.Tests.Core\BinaryTreeTest.cs" region="doc_ctor_2" />
+    /// </example>
     /// 
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
     [Serializable]
     public class BinaryTree<TNode> : IEnumerable<TNode>
-        where TNode : BinaryNode<TNode>, new()
+        where TNode : BinaryNode<TNode>
     {
 
         /// <summary>
         ///   Gets the root node of this tree.
         /// </summary>
         /// 
-        public TNode Root { get; protected set; }
+        public TNode Root { get; set; }
 
         /// <summary>
         ///   Returns an enumerator that iterates through the tree.

@@ -97,10 +97,11 @@ namespace Accord.Tests.Statistics.Models.Fields
         }
 
         [Test, Category("Intensive")]
-        [Ignore("Intensive")]
+        [Ignore("Intensive")] // reproducible parallelization of this test requires #870
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting NormalQuasiNewtonHiddenLearningTest.learn_pendigits_normalization");
+            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits2");
 
             using (var travis = new KeepTravisAlive())
             {
@@ -109,7 +110,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 Accord.Math.Random.Generator.Seed = 0;
 
                 // Download the PENDIGITS dataset from UCI ML repository
-                var pendigits = new Pendigits(path: Path.GetTempPath());
+                var pendigits = new Pendigits(path: localDownloadPath);
 
                 // Get and pre-process the training set
                 double[][][] trainInputs = pendigits.Training.Item1;

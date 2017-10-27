@@ -29,6 +29,7 @@ namespace Accord.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   <see cref="Haralick"/>'s operation modes.
@@ -110,7 +111,7 @@ namespace Accord.Imaging
     ///   The first example shows how to extract Haralick descriptors given an image.</para>
     ///   <code source="Unit Tests\Accord.Tests.Imaging\HaralickTest.cs" region="doc_apply" />
     ///   <para><b>Input image:</b></para>
-    ///   <img src="img/imaging/wood_texture.jpg" width="320" height="240" />
+    ///   <img src="..\images\imaging\wood_texture.jpg" width="320" height="240" />
     ///   
     /// <para>
     ///   The second example shows how to use the Haralick feature extractor as part of a
@@ -124,8 +125,7 @@ namespace Accord.Imaging
     /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
     /// <seealso cref="HarrisCornersDetector"/>
     /// 
-    public class Haralick : IFeatureDetector<FeatureDescriptor>,
-        IFeatureDetector<IFeatureDescriptor<double[]>>
+    public class Haralick : BaseFeatureExtractor<FeatureDescriptor>
     {
         int cellSize = 0;  // size of the cell, in number of pixels
         bool normalize = false;
@@ -200,7 +200,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets the set of local binary patterns computed for each
-        ///   cell in the last call to <see cref="ProcessImage(Bitmap)"/>.
+        ///   cell in the last call to <see cref="BaseFeatureExtractor{TPoint}.ProcessImage(Bitmap)"/>.
         /// </summary>
         /// 
         public HaralickDescriptorDictionary[,] Descriptors { get { return features; } }
@@ -208,7 +208,7 @@ namespace Accord.Imaging
         /// <summary>
         ///   Gets the <see cref="GrayLevelCooccurrenceMatrix">Gray-level
         ///   Co-occurrence Matrix (GLCM)</see> generated during the last
-        ///   call to <see cref="ProcessImage(UnmanagedImage)"/>.
+        ///   call to <see cref="BaseFeatureExtractor{TPoint}.Transform(UnmanagedImage)"/>.
         /// </summary>
         /// 
         public GrayLevelCooccurrenceMatrix Matrix { get { return matrix; } }
@@ -291,36 +291,23 @@ namespace Accord.Imaging
 
             this.cellSize = size;
             this.normalize = norm;
+
+            base.SupportedFormats.UnionWith(new[] {
+                PixelFormat.Format8bppIndexed,
+                PixelFormat.Format24bppRgb,
+                PixelFormat.Format32bppRgb,
+                PixelFormat.Format32bppArgb });
         }
 
-
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   This method should be implemented by inheriting classes to implement the 
+        ///   actual feature extraction, transforming the input image into a list of features.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found features points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(UnmanagedImage image)
+        protected override IEnumerable<FeatureDescriptor> InnerTransform(UnmanagedImage image)
         {
             // TODO: Improve memory usage of this method by
             // caching into class variables whenever possible
-
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
 
             // make sure we have grayscale image
             UnmanagedImage grayImage = null;
@@ -389,7 +376,7 @@ namespace Accord.Imaging
 
 
 
-            var blocks = new List<double[]>();
+            var blocks = new List<FeatureDescriptor>();
 
             switch (mode)
             {
@@ -418,101 +405,11 @@ namespace Accord.Imaging
             {
                 // TODO: Remove this block and instead propose a general architecture 
                 //       for applying normalizations to descriptor blocks
-                foreach (double[] block in blocks)
-                    block.Divide(block.Euclidean() + epsilon, result: block);
+                foreach (FeatureDescriptor block in blocks)
+                    block.Descriptor.Divide(block.Descriptor.Euclidean() + epsilon, result: block.Descriptor);
             }
 
             return blocks;
-        }
-
-
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(new UnmanagedImage(imageData));
-        }
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(Bitmap image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
-
-            try
-            {
-                // process the image
-                return ProcessImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-        }
-
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
         }
 
 
@@ -521,21 +418,19 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
             var clone = new Haralick();
+            clone.SupportedFormats = supportedFormats;
             clone.autoGray = autoGray;
             clone.cellSize = cellSize;
             clone.degrees = degrees;
             clone.distance = distance;
             clone.featureCount = featureCount;
+            clone.SupportedFormats = SupportedFormats;
             if (features != null)
                 clone.features = (HaralickDescriptorDictionary[,])features.Clone();
             if (matrix != null)
@@ -543,34 +438,6 @@ namespace Accord.Imaging
             clone.mode = mode;
             clone.normalize = normalize;
             return clone;
-        }
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, 
-        ///   or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged
-        ///   resources; <c>false</c> to release only unmanaged resources.</param>
-        /// 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-            }
-
-            // free native resources if there are any.
         }
 
     }

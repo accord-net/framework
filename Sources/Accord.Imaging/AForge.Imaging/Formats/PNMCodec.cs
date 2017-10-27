@@ -58,6 +58,10 @@ namespace Accord.Imaging.Formats
     /// <code source="Unit Tests\Accord.Tests.Imaging\Formats\PNMCodecTest.cs" region="doc_load" />
     /// </example>
     /// 
+    [FormatDecoder("pbm")]
+    [FormatDecoder("pgm")]
+    [FormatDecoder("pnm")]
+    [FormatDecoder("ppm")]
     public class PNMCodec : IImageDecoder
     {
         // stream with PNM encoded data

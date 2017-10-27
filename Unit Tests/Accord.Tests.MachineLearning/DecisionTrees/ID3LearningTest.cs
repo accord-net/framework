@@ -834,7 +834,7 @@ namespace Accord.Tests.MachineLearning
             // representation. Since all variables are categories, it does not matter if they are represented
             // as strings, or numbers, since both are just symbols for the event they represent. Since numbers
             // are more easily representable than text string, we will convert the problem to use a discrete 
-            // alphabet through the use of a <see cref="Accord.Statistics.Filters.Codification">codebook</see>.</para>
+            // alphabet through the use of a Accord.Statistics.Filters.Codification codebook.</para>
 
             // A codebook effectively transforms any distinct possible value for a variable into an integer 
             // symbol. For example, “Sunny” could as well be represented by the integer label 0, “Overcast” 

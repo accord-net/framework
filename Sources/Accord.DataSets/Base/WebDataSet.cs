@@ -27,12 +27,9 @@ namespace Accord.DataSets.Base
     using System.Net;
     using ICSharpCode.SharpZipLib.BZip2;
     using ICSharpCode.SharpZipLib.GZip;
+    using Accord;
     using Accord.Compat;
-#if NETSTANDARD
-    using ICSharpCode.SharpZipLib.Lzw;
-#else
-    using ICSharpCode.SharpZipLib.LZW;
-#endif
+    using System.Threading;
 
     /// <summary>
     ///   Base class for sparse datasets that can be downloaded from LIBSVM website.
@@ -119,23 +116,8 @@ namespace Accord.DataSets.Base
             if (!File.Exists(downloadedFullFilePath))
             {
                 Directory.CreateDirectory(localPath);
-
-                int maxAttempts = 3;
-                for (int numberOfAttempts = 0; numberOfAttempts <= maxAttempts; numberOfAttempts++)
-                {
-                    try
-                    {
-                        numberOfAttempts++;
-                        using (var client = new WebClient())
-                            client.DownloadFile(url, downloadedFullFilePath);
-                        break;
-                    }
-                    catch (WebException)
-                    {
-                        if (numberOfAttempts == maxAttempts)
-                            throw;
-                    }
-                }
+                using (var client = ExtensionMethods.NewWebClient())
+                    client.DownloadFileWithRetry(url, downloadedFullFilePath);
             }
 
 
@@ -171,7 +153,7 @@ namespace Accord.DataSets.Base
                 if (!File.Exists(uncompressedFileName))
                 {
                     using (var compressedFile = new FileStream(downloadedFullFilePath, FileMode.Open, FileAccess.Read))
-                    using (var decompressedFile = new LzwInputStream(compressedFile))
+                    using (var decompressedFile = new Accord.IO.Compression.LzwInputStream(compressedFile))
                     using (var uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew, FileAccess.Write))
                     {
                         decompressedFile.CopyTo(uncompressedFile);
@@ -185,6 +167,7 @@ namespace Accord.DataSets.Base
 
             return true;
         }
+
 
         private static bool endsWith(string str, string value)
         {

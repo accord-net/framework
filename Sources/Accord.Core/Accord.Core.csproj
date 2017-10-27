@@ -5,7 +5,7 @@
     <RootNamespace>Accord</RootNamespace>
     <AssemblyName>Accord</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -50,11 +50,13 @@
   <ItemGroup>
     <Compile Include="AForge.Core\Delegates.cs" />
     <Compile Include="AForge.Core\DoublePoint.cs" />
+    <Compile Include="Attributes\FormatDecoderAttribute.cs" />
     <Compile Include="Attributes\SourceTypeAttribute.cs" />
     <Compile Include="Attributes\SerializationBinderAttribute.cs" />
     <Compile Include="Attributes\SurrogateSelectorAttribute.cs" />
     <Compile Include="Collections\BinaryNode.cs" />
     <Compile Include="Collections\BinaryTree.cs" />
+    <Compile Include="Collections\ITreeNode.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Collections\PriorityQueueNode.cs" />
     <Compile Include="Collections\OrderedDictionary`2.cs" />
@@ -68,6 +70,8 @@
     <Compile Include="Compatibility\EnvironmentEx.cs" />
     <Compile Include="Compatibility\TypeExtensions.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="Features\IFeatureDescriptor.cs" />
+    <Compile Include="Features\IFeatureExtractor.cs" />
     <Compile Include="InterlockedEx.cs" />
     <Compile Include="MachineLearning\Classifiers\IClassifier.cs" />
     <Compile Include="MachineLearning\Classifiers\Multiclass\IMulticlassClassifier.cs" />

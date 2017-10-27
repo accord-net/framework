@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 {
     using System;
     using Accord.Statistics.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   Antecedent expression for <see cref="DecisionRule"/>s.

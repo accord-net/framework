@@ -61,7 +61,7 @@ namespace Accord.Math.Optimization
     public class GaussNewton : BaseLeastSquaresMethod, ILeastSquaresMethod, IConvergenceLearning
     {
 
-        private double[] gradient;
+        private double[] gradient; // this is just a cached vector to avoid memory allocations
         private double[] errors;
         private double[] deltas;
 
@@ -215,17 +215,17 @@ namespace Accord.Math.Optimization
 
                     () => new double[NumberOfParameters],
 
-                    (i, state, gradient) =>
+                    (i, state, grad) =>
                     {
-                        Gradient(Solution, inputs[i], result: gradient);
+                        Gradient(Solution, inputs[i], result: grad);
 
-                        for (int j = 0; j < gradient.Length; j++)
-                            jacobian[j][i] = -gradient[j];
+                        for (int j = 0; j < grad.Length; j++)
+                            jacobian[j][i] = -grad[j];
 
-                        return gradient;
+                        return grad;
                     },
 
-                    (gradient) => { }
+                    (grad) => { }
                 );
             }
 

@@ -43,7 +43,7 @@ namespace Accord.Imaging
     /// <seealso cref="FastRetinaKeypointDetector"/>
     /// 
     [Serializable]
-    public class FastRetinaKeypoint : IFeaturePoint<byte[]>, IFeaturePoint
+    public class FastRetinaKeypoint : IFeaturePoint<byte[]>, IFeaturePoint<double[]>
     {
 
         /// <summary>

@@ -36,9 +36,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample9.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample9.png" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/rotate_bicubic.png" width="320" height="240" />
+    /// <img src="..\images\imaging\rotate_bicubic.png" width="320" height="240" />
     /// </remarks>
     /// 
     /// <seealso cref="RotateBilinear"/>

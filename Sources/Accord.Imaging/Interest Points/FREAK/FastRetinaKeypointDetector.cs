@@ -22,6 +22,7 @@
 
 namespace Accord.Imaging
 {
+    using Accord.Compat;
     using Accord.Imaging.Filters;
     using AForge;
     using System;
@@ -125,11 +126,7 @@ namespace Accord.Imaging
     /// <seealso cref="LocalBinaryPattern"/>
     /// 
     [Serializable]
-    public class FastRetinaKeypointDetector :
-        IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>,
-        IFeatureDetector<IFeatureDescriptor<double[]>, double[]>,
-        IFeatureDetector<FastRetinaKeypoint, byte[]>,
-        IFeatureDetector<FastRetinaKeypoint, double[]>
+    public class FastRetinaKeypointDetector : BaseSparseFeatureExtractor<FastRetinaKeypoint>
     {
 
         private FastRetinaKeypointDescriptorType featureType = FastRetinaKeypointDescriptorType.Standard;
@@ -208,9 +205,6 @@ namespace Accord.Imaging
             }
         }
 
-
-
-
         /// <summary>
         ///   Initializes a new instance of the <see cref="FastRetinaKeypointDetector"/> class.
         /// </summary>
@@ -246,31 +240,23 @@ namespace Accord.Imaging
         private void init(ICornersDetector detector)
         {
             this.Detector = detector;
+
+            base.SupportedFormats.UnionWith(new[]
+            {
+                PixelFormat.Format8bppIndexed,
+                PixelFormat.Format24bppRgb,
+                PixelFormat.Format32bppRgb,
+                PixelFormat.Format32bppArgb,
+            });
         }
 
-
-
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   This method should be implemented by inheriting classes to implement the 
+        ///   actual feature extraction, transforming the input image into a list of features.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        public List<FastRetinaKeypoint> ProcessImage(UnmanagedImage image)
+        protected override IEnumerable<FastRetinaKeypoint> InnerTransform(UnmanagedImage image)
         {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
             // make sure we have grayscale image
             if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
@@ -282,7 +268,6 @@ namespace Accord.Imaging
                 grayImage = Grayscale.CommonAlgorithms.BT709.Apply(image);
             }
 
-
             // 1. Extract corners points from the image.
             List<IntPoint> corners = Detector.ProcessImage(grayImage);
 
@@ -290,10 +275,8 @@ namespace Accord.Imaging
             for (int i = 0; i < corners.Count; i++)
                 features.Add(new FastRetinaKeypoint(corners[i].X, corners[i].Y));
 
-
             // 2. Compute the integral for the given image
             integral = IntegralImage.FromBitmap(grayImage);
-
 
             // 3. Compute feature descriptors if required
             descriptor = null;
@@ -326,138 +309,16 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Process image looking for interest points.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<FastRetinaKeypoint> ProcessImage(Bitmap image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
-
-            try
-            {
-                // process the image
-                return ProcessImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-        }
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<FastRetinaKeypoint> ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(new UnmanagedImage(imageData));
-        }
-
-
-
-        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, byte[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image);
-        }
-
-        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, byte[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData);
-        }
-
-        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, byte[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image);
-        }
-
-        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image);
-        }
-
-        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData);
-        }
-
-        IEnumerable<FastRetinaKeypoint> IFeatureDetector<FastRetinaKeypoint, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image);
-        }
-
-        IEnumerable<IFeatureDescriptor<byte[]>> IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
-        }
-
-        IEnumerable<IFeatureDescriptor<byte[]>> IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
-        }
-
-        IEnumerable<IFeatureDescriptor<byte[]>> IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<double[]>)x);
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(x => (IFeatureDescriptor<double[]>)x);
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<double[]>)x);
-        }
-
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
             var clone = new FastRetinaKeypointDetector();
             clone.featureType = featureType;
             clone.octaves = octaves;
             clone.scale = scale;
+            clone.SupportedFormats = supportedFormats;
 
             if (descriptor != null)
             {
@@ -468,34 +329,6 @@ namespace Accord.Imaging
             }
 
             return clone;
-        }
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, 
-        ///   or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged
-        ///   resources; <c>false</c> to release only unmanaged resources.</param>
-        /// 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-            }
-
-            // free native resources if there are any.
         }
 
     }

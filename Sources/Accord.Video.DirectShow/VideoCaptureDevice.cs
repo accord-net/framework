@@ -1,9 +1,30 @@
+// Accord Direct Show Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
 // AForge Direct Show Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © AForge.NET, 2009-2013
 // contacts@aforgenet.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Video.DirectShow
@@ -22,35 +43,21 @@ namespace Accord.Video.DirectShow
     /// Video source for local video capture device (for example USB webcam).
     /// </summary>
     /// 
-    /// <remarks><para>This video source class captures video data from local video capture device,
-    /// like USB web camera (or internal), frame grabber, capture board - anything which
-    /// supports <b>DirectShow</b> interface. For devices which has a shutter button or
-    /// support external software triggering, the class also allows to do snapshots. Both
-    /// video size and snapshot size can be configured.</para>
-    /// 
-    /// <para>Sample usage:</para>
-    /// <code>
-    /// // enumerate video devices
-    /// videoDevices = new FilterInfoCollection( FilterCategory.VideoInputDevice );
-    /// // create video source
-    /// VideoCaptureDevice videoSource = new VideoCaptureDevice( videoDevices[0].MonikerString );
-    /// // set NewFrame event handler
-    /// videoSource.NewFrame += new NewFrameEventHandler( video_NewFrame );
-    /// // start the video source
-    /// videoSource.Start( );
-    /// // ...
-    /// // signal to stop when you no longer need capturing
-    /// videoSource.SignalToStop( );
-    /// // ...
-    /// 
-    /// private void video_NewFrame( object sender, NewFrameEventArgs eventArgs )
-    /// {
-    ///     // get new frame
-    ///     Bitmap bitmap = eventArgs.Frame;
-    ///     // process the frame
-    /// }
-    /// </code>
+    /// <remarks>
+    ///   <para>This video source class captures video data from local video capture device,
+    ///   like USB web camera (or internal), frame grabber, capture board - anything which
+    ///   supports <b>DirectShow</b> interface. For devices which has a shutter button or
+    ///   support external software triggering, the class also allows to do snapshots. Both
+    ///   video size and snapshot size can be configured.</para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part_1" />
+    /// <para>
+    ///   The video_NewFrame event could have been defined as in any of the following examples:</para>
+    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part_2" />
+    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part_3" />
+    /// </example>
     /// 
     public class VideoCaptureDevice : IVideoSource
     {
@@ -1139,7 +1146,8 @@ namespace Accord.Video.DirectShow
                     {
                         VideoControlFlags caps;
                         videoControl.GetCaps(pinStillImage, out caps);
-                        isSnapshotSupported = ((caps & VideoControlFlags.ExternalTriggerEnable) != 0);
+                        isSnapshotSupported = (((caps & VideoControlFlags.ExternalTriggerEnable) != 0) || 
+                                               ((caps & VideoControlFlags.Trigger) != 0));
                     }
                 }
 

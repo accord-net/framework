@@ -24,6 +24,7 @@ namespace Accord.Collections
 {
     using System;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Tree node with arbitrary number of children.
@@ -32,7 +33,7 @@ namespace Accord.Collections
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
     [Serializable]
-    public class TreeNode<TNode>
+    public class TreeNode<TNode> : ITreeNode<TNode>
         where TNode : TreeNode<TNode>
     {
         /// <summary>
@@ -107,5 +108,4 @@ namespace Accord.Collections
         }
 
     }
-
 }

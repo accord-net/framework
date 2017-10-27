@@ -67,12 +67,51 @@ namespace Accord.Audio
     using Accord.Audio.Windows;
     using Accord.Math;
     using Accord.Compat;
+    using Accord.Audio.Filters;
+
+    /// <summary>
+    ///   Obsolete. Please use <see cref="MelFrequencyCepstrumCoefficient"/> instead.
+    /// </summary>
+    /// 
+    [Obsolete("Please use MelFrequencyCepstrumCoefficient instead.")]
+    public class MFCC : MelFrequencyCepstrumCoefficient
+    {
+        /// <summary>
+        ///   Obsolete. Please use <see cref="MelFrequencyCepstrumCoefficient"/> instead.
+        /// </summary>
+        /// 
+        public MFCC(
+            int filterCount = 40,
+            int cepstrumCount = 13,
+            double lowerFrequency = 133.3333,
+            double upperFrequency = 6855.4976,
+            double alpha = 0.97,
+            int samplingRate = 16000,
+            int frameRate = 100,
+            double windowLength = 0.0256,
+            int numberOfBins = 512
+            )
+            : base(filterCount, cepstrumCount, lowerFrequency, upperFrequency, alpha, samplingRate, frameRate, windowLength, numberOfBins)
+        {
+        }
+
+        /// <summary>
+        ///   Extracts MFCC feature vectors from an audio <see cref="Signal"/>.
+        /// </summary>
+        /// 
+        /// <param name="signal">The signal to be processed.</param>
+        /// 
+        public double[][] ProcessSignal(Signal signal)
+        {
+            return Transform(signal).Select(x => x.Descriptor).ToArray();
+        }
+    }
 
     /// <summary>
     ///   Mel-Frequency Cepstral Coefficients.
     /// </summary>
     /// 
-    public class MFCC
+    public class MelFrequencyCepstrumCoefficient : BaseAudioFeatureExtractor<MelFrequencyCepstrumCoefficientDescriptor>
     {
         private int m_nfilt;
         private int m_ncep;
@@ -80,9 +119,11 @@ namespace Accord.Audio
         private double m_upperf;
         private double m_alpha;
         private int m_frate;
+        private double m_windowLength;
         private int m_wlen;
         private int m_nfft;
         private float m_fshift;
+        private int m_samplingRate;
         private RaisedCosineWindow m_win;
         private int m_prior;
         private double[,] m_filters;
@@ -103,7 +144,7 @@ namespace Accord.Audio
         /// <param name="windowLength">Length of the window.</param>
         /// <param name="numberOfBins">The number of bins.</param>
         /// 
-        public MFCC(
+        public MelFrequencyCepstrumCoefficient(
             int filterCount = 40,
             int cepstrumCount = 13,
             double lowerFrequency = 133.3333,
@@ -115,6 +156,11 @@ namespace Accord.Audio
             int numberOfBins = 512
             )
         {
+            base.SupportedFormats.UnionWith(new[]
+            {
+                SampleFormat.Format32BitIeeeFloat
+            });
+
             m_lowerf = lowerFrequency;
             m_upperf = upperFrequency;
             m_nfft = numberOfBins;
@@ -122,6 +168,8 @@ namespace Accord.Audio
             m_nfilt = filterCount;
             m_frate = frameRate;
             m_fshift = (float)samplingRate / frameRate;
+            m_samplingRate = samplingRate;
+            m_windowLength = windowLength;
 
             // Build Hamming window
             m_wlen = (int)(windowLength * samplingRate);
@@ -194,19 +242,24 @@ namespace Accord.Audio
             m_dst = dctmat(filterCount, cepstrumCount, System.Math.PI / filterCount);
         }
 
+
         /// <summary>
-        ///   Extracts MFCC feature vectors from an audio <see cref="Signal"/>.
+        ///   This method should be implemented by inheriting classes to implement the 
+        ///   actual feature extraction, transforming the input image into a list of features.
         /// </summary>
         /// 
-        /// <param name="signal">The signal to be processed.</param>
-        /// 
-        public double[][] ProcessSignal(Signal signal)
+        protected override IList<MelFrequencyCepstrumCoefficientDescriptor> InnerTransform(Signal signal)
         {
+            if (signal.Channels > 1)
+            {
+                signal = new MonoFilter().Apply(signal);
+            }
+
             float[] w_fSig = new float[signal.Length];
             signal.CopyTo(w_fSig);
 
             int w_nfr = (int)(signal.Length / m_fshift + 1);
-            double[][] w_mfcc = Jagged.Zeros(w_nfr, m_ncep);
+            var w_mfcc = new MelFrequencyCepstrumCoefficientDescriptor[w_nfr];
             for (int w_fr = 0; w_fr < w_nfr; w_fr++)
             {
                 int w_start = (int)System.Math.Round(w_fr * m_fshift);
@@ -220,17 +273,18 @@ namespace Accord.Audio
                 int w_len = w_frame.Length;
                 if (w_len < m_wlen)
                 {
-                    Array.Resize<Int16>(ref w_frame, m_wlen);
+                    Array.Resize(ref w_frame, m_wlen);
                     for (int w_i = w_len; w_i < m_wlen; w_i++)
                         w_frame[w_i] = 0;
                 }
+
                 double[] w_s2mfc = frame2s2mfc(w_frame);
-                for (int w_i = 0; w_i < w_s2mfc.Length; w_i++)
-                    w_mfcc[w_fr][w_i] = w_s2mfc[w_i];
+                w_mfcc[w_fr] = new MelFrequencyCepstrumCoefficientDescriptor(w_fr, w_s2mfc);
             }
 
             return w_mfcc;
         }
+
 
         /// <summary>
         ///   After the speech signals hass been sent to a high-pass filter in the previous steps of the
@@ -457,5 +511,24 @@ namespace Accord.Audio
                 w_ret[w_i] = 700.0 * (System.Math.Pow(10.0, p_m[w_i] / 2595.0) - 1.0);
             return w_ret;
         }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        public override object Clone()
+        {
+            return new MelFrequencyCepstrumCoefficient(
+                filterCount: m_nfilt,
+                cepstrumCount: m_ncep,
+                lowerFrequency: m_lowerf,
+                upperFrequency: m_upperf,
+                alpha: m_alpha,
+                samplingRate: m_samplingRate,
+                frameRate: m_frate,
+                windowLength: m_windowLength,
+                numberOfBins: m_nfft);
+        }
+
     }
 }

@@ -20,7 +20,6 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#if !NETSTANDARD1_4
 namespace Accord.IO
 {
     using System;
@@ -34,6 +33,7 @@ namespace Accord.IO
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Model serializer. Can be used to serialize and deserialize (i.e. save and 
@@ -98,7 +98,12 @@ namespace Accord.IO
         /// <param name="stream">The stream to which the object is to be serialized.</param>
         /// <param name="compression">The type of compression to use. Default is None.</param>
         /// 
-        public static void Save<T>(this T obj, BinaryFormatter formatter, Stream stream, SerializerCompression compression = DEFAULT_COMPRESSION)
+#if NETSTANDARD1_4
+    internal
+#else
+    public
+#endif
+        static void Save<T>(this T obj, BinaryFormatter formatter, Stream stream, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
             if (formatter.SurrogateSelector == null)
                 formatter.SurrogateSelector = GetSurrogate(typeof(T));
@@ -338,7 +343,12 @@ namespace Accord.IO
         /// 
         /// <returns>The deserialized object.</returns>
         /// 
-        public static T Load<T>(Stream stream, BinaryFormatter formatter, SerializerCompression compression = DEFAULT_COMPRESSION)
+#if NETSTANDARD1_4
+    internal
+#else
+        public
+#endif
+        static T Load<T>(Stream stream, BinaryFormatter formatter, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
             lock (lockObj)
             {
@@ -395,6 +405,9 @@ namespace Accord.IO
 
         private static SerializationBinder GetBinder(Type type)
         {
+#if NETSTANDARD1_4
+            throw new NotSupportedException("Serialization Binders are not supported in .NET Standard 1.4.");
+#else
             // Try to get the binder by checking if there type is
             // marked with a SerializationBinderAttribute
             var attribute = Attribute.GetCustomAttribute(type,
@@ -413,10 +426,14 @@ namespace Accord.IO
             }
 
             return null;
+#endif
         }
 
         private static SurrogateSelector GetSurrogate(Type type)
         {
+#if NETSTANDARD1_4
+            throw new NotSupportedException("Surrogates are not supported in .NET Standard 1.4.");
+#else
             // Try to get the binder by checking if there type is
             // marked with a SerializationBinderAttribute
             var attribute = Attribute.GetCustomAttribute(type,
@@ -435,6 +452,7 @@ namespace Accord.IO
             }
 
             return null;
+#endif
         }
 
         private static Assembly resolve(object sender, ResolveEventArgs args)
@@ -465,4 +483,3 @@ namespace Accord.IO
         }
     }
 }
-#endif

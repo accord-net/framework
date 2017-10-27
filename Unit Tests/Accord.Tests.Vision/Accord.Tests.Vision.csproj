@@ -121,6 +121,10 @@
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Video\Accord.Video.csproj">
+      <Project>{809725DC-6502-4732-A51C-DEB7FEA12975}</Project>
+      <Name>Accord.Video</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Vision\Accord.Vision.csproj">
       <Project>{C70A159D-74A4-405F-9A7F-C17ACF451CCA}</Project>
       <Name>Accord.Vision</Name>

@@ -116,9 +116,9 @@ namespace Accord.Imaging
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample8.jpg" width="400" height="300" />
+    /// <img src="..\images\imaging\sample8.jpg" width="400" height="300" />
     /// <para><b>Hough circle transformation image:</b></para>
-    /// <img src="img/imaging/hough_circles.jpg" width="400" height="300" />
+    /// <img src="..\images\imaging\hough_circles.jpg" width="400" height="300" />
     /// </remarks>
     /// 
     /// <seealso cref="HoughLineTransformation"/>

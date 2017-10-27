@@ -60,9 +60,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample12.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample12.png" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/dilation.png" width="320" height="240" />
+    /// <img src="..\images\imaging\dilation.png" width="320" height="240" />
     /// </remarks>
     /// 
     /// <seealso cref="Erosion"/>

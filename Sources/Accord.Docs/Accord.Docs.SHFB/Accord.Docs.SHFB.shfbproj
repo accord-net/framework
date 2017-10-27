@@ -1,0 +1,1610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <!-- The configuration and platform will be used to determine which
+         assemblies to include from solution and project documentation
+         sources -->
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{048acc63-3b91-4e14-b5a3-38e7898426fe}</ProjectGuid>
+    <SHFBSchemaVersion>2015.6.5.0</SHFBSchemaVersion>
+    <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual
+         Studio adds them anyway -->
+    <AssemblyName>Documentation</AssemblyName>
+    <RootNamespace>Documentation</RootNamespace>
+    <Name>Accord.Docs.SHFB</Name>
+    <!-- SHFB properties -->
+    <OutputPath>..\..\..\..\..\..\Docs\</OutputPath>
+    <HtmlHelpName>Accord.NET</HtmlHelpName>
+    <DocumentationSources>
+      <DocumentationSource sourceFile="..\..\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Audio\Accord.Audio.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Audition\Accord.Audition.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Audio\Accord.Controls.Audio.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Statistics\Accord.Controls.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Controls.Vision\Accord.Controls.Vision.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Core\Accord.Core.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Fuzzy\Accord.Fuzzy.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Genetic\Accord.Genetic.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Imaging\Accord.Imaging.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.IO\Accord.IO.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Math\Accord.Math.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Neuro\Accord.Neuro.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Statistics\Accord.Statistics.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.Kinect\Accord.Video.Kinect.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.VFW\Accord.Video.VFW.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video.Ximea\Accord.Video.Ximea.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Video\Accord.Video.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Vision\Accord.Vision.csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Imaging.NonCommercial\Accord.Imaging (Noncommercial).csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL).csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" configuration="net462" platform="Win32" />
+      <DocumentationSource sourceFile="..\..\Accord.DataSets\Accord.DataSets.csproj" />
+      <DocumentationSource sourceFile="..\..\Accord.Text\Accord.Text.csproj" />
+    </DocumentationSources>
+    <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2017. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
+    <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="True">&lt;b&gt;Accord.NET Framework&lt;/b&gt;</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audio" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Audio.ComplexFilters" isDocumented="True">Contains frequency-domain signal filters.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audio.Filters" isDocumented="True">Contains time-domain signal processing filters.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audio.Generators" isDocumented="True">Contains specialized signal generators. Generate square signals, sinusoids, pulse and other filters for use in signal processing.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audio.Windows" isDocumented="True">Contains audio window functions which can be used to split signals in time.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Math.Decompositions" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Audition.Beat" isDocumented="True">Contains beat detection algorithms and related methods.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audition.Tempo" isDocumented="True">Contains tempo detection algorithms and related methods.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Controls" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Audio.Formats" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.DirectSound" isDocumented="True">Contains audio devices to reproduce and capture sounds exposed through DirectSound.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Imaging" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Imaging.Filters" isDocumented="True">Contains the image processing filters such as the Wavelet transform, stereo rectification, image blending and point markers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines.Learning" isDocumented="True">Contains algorithms for training Support Vector Machines (SVMs).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Neuro.Learning" isDocumented="True">Contains neural network learning algorithms such as the Levenberg-Marquardt (LM) with Bayesian Regularization and the Resilient Backpropagation (RProp) for multi-layer networks. This namespace extends the AForge.Neuro namespace of the AForge.NET project.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Analysis" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Filters" isDocumented="True">Contains data processing filters, such as data normalization, discretization, equalization, selection and projection filters.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Kernels" isDocumented="True">Contains more than 30+ kernel functions for machine learning and statistical applications. Kernel functions are used in kernel methods such as the Support Vector Machine (SVM).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Regression" isDocumented="True">Contains statistical regression models such as logistic and linear regressions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Regression.Linear" isDocumented="True">Linear statistical regression models such as simple, polynomial, multiple and multivariate linear regressions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Testing" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Visualizations" isDocumented="True">Contains classes for statistical visualization such as Histograms and Scatterplots.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Wavelets" isDocumented="True">The &lt;b&gt;Accord.Wavelets&lt;/b&gt; namespace contains 1D and 2D wavelets transforms suitable for signal and imaging processing tasks.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="AForge" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging.ComplexFilters" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging.Filters" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging.Textures" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Math" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Math.Geometry" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Math.Random" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Neuro" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Neuro.Learning" isDocumented="False" />
+      <NamespaceSummaryItem name="Accord.Vision" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Vision.Detection" isDocumented="True">Contains object detectors such as the Viola-Jones (Haar feature) method. The Haar cascades are completely compatible with OpenCV generated definitions and the assembly comes with direct support for bundled definitions for face and nose templates.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Vision.Tracking" isDocumented="True">Contains classes for object tracking. Include the Camshift algorithm, color segmentation-based trackers and dynamic template matching trackers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Controls.Imaging" isDocumented="True">Windows Forms controls to show and handle images. Contains a convenient ImageBox? control which mimics the traditional MessageBox behavior for quickly displaying or inspecting images.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Markov" isDocumented="True">Contains classes related to Hidden Markov Models and their learning algorithms. Offers support for both discrete and continuous-density models, as well as Markov classifiers and threshold models for sequence rejection.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Controls.Vision" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Imaging.Converters" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Imaging.Moments" isDocumented="True">Contains image moments calculators such as central and raw moments,</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.Bayes" isDocumented="True">Contains discrete and continuous density Naive Bayes models for pattern recognition and concept learning. Supports a wide diversity of probabilistic distributions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Learning" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Math.ComplexExtensions" isDocumented="True">Contains extension methods to operate over Complex numbers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Differentiation" isDocumented="True">Contains methods for the automatic differentiation of mathematical formulas, such as the Finite Differences method.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Formats" isDocumented="True">Contains methods and classes to convert to and from various matrix formats, such as the formats used by Octave (MATLAB-compatible) and Mathematica.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Geometry" isDocumented="True">Contains geometry-related classes. Can identify convex-hulls, detect curvatures and extract convexity defects. When used together with the Imaging and Vision namespaces, can create finger detection components.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Optimization" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Math.Wavelets" isDocumented="True">Contains Wavelet transforms such as the Cohen-Daubechies-Feauveau and the Haar Wavelet transforms.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Analysis.ContrastFunctions" isDocumented="True">Contains contrast functions to be used with Independent Component Analysis (ICA).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions.Fitting" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions.Multivariate" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions.Univariate" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Formats" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Kernels.Sparse" isDocumented="True">Contains kernel function able to deal with sparse data in LibSVM's format.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Links" isDocumented="True">Contains link functions for generalized linear models, such as the Logit, the Probit and Cauchit link functions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Features" isDocumented="True">Contains CRF feature functions such as Emission, Transition, First and Second Moments features.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Functions" isDocumented="True">Contains potential functions for CRFs and HCRFs.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Learning" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Markov.Learning" isDocumented="True">Contains learning algorithms such as Baum-Welch.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Markov.Topology" isDocumented="True">Contains topologies for HMMs, such as Forward-only and Ergodic topologies.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Regression.Fitting" isDocumented="True">Fitting (learning) algorithms for regression models, such as the Iterative Reweighted Least Squares for standard logistic regressors and the Lower-Bound approximator for multinomial logistic regression.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Moving" isDocumented="True">Contains classes to estimate moving statistics, i.e. statistics computed within a time frame window.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Running" isDocumented="True">Contains classes to estimate running statistics, i.e. statistics which should be computed and updated as soon as new data becomes available.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Vision.Detection.Cascades" isDocumented="True">Built-in Haar cascade definitions to use with the Haar feature object detector. Those definitions can be called directly from code without need for loading XML files.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.Boosting" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.Boosting.Learners" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Prunning" isDocumented="False" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.Geometry" isDocumented="True">Contains methods for robust estimation of geometry entities.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.Structures" isDocumented="True">Contains specialized search structures, such as K-dimensional Trees.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Environments" isDocumented="True">Contains algorithm environments you can inherit from and let your code be similar to famous environments such as R and Octave.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Kinematics" isDocumented="True">Contains classes to model complex kinematic chains, useful for robotic applications.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.ActivationFunctions" isDocumented="True">Contains different activation functions for artificial neurons.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Layers" isDocumented="True">Contains different layer architecures for artificial neural networks.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Networks" isDocumented="True">Contains different neural network architectures, such as specialized architectures for deep learning and Boltzmann machines.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Neurons" isDocumented="True">Contains different kinds of artificial neurons.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Visualization" isDocumented="True">Contains methods to visualize information drawn from neural networks.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Testing.Power" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Pruning" isDocumented="True" />
+      <NamespaceSummaryItem name="System.Collections.Generic" isDocumented="False" />
+      <NamespaceSummaryItem name="Accord.Collections" isDocumented="True">Contains collections such as Lists, Dictionaries, Trees and other useful structures.</NamespaceSummaryItem>
+    </NamespaceSummaries>
+    <ProjectSummary>&amp;lt%3bpara&amp;gt%3b
+  Accord.NET provides statistical analysis, machine learning, image processing and computer vision methods for .NET applications. Once an extension to the former AForge.NET Framework, the framework grew to incorporate AForge.NET and complement it with new features, adding to a more complete environment for scientific computing in .NET. &amp;lt%3b/para&amp;gt%3b
+
+
+&amp;lt%3bpara&amp;gt%3b
+  The framework is divided in libraries, available through an executable installer, standalone compressed archives and NuGet packages. Those libraries are divided among three main functionalities, listed below:&amp;lt%3b/para&amp;gt%3b
+
+&amp;lt%3bpara&amp;gt%3b
+       &amp;lt%3bh2&amp;gt%3bScientific computing&amp;lt%3b/h2&amp;gt%3b
+       &amp;lt%3blist type=&amp;quot%3bbullet&amp;quot%3b&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Math&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains a matrix extension library, along with a suite of
+             numerical matrix decomposition methods, numerical optimization algorithms
+             for constrained and unconstrained problems, special functions and other 
+             tools for scientific applications.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Statistics&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains probability distributions, hypothesis testing, statistical models and methods such as Linear and Logistic regression, Hidden Markov Models, %28Hidden%29 Conditional Random Fields, Principal Component Analysis, Partial Least Squares, Discriminant Analysis, Kernel methods and many other related techniques.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.MachineLearning&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Support Vector Machines, Decision Trees, Naive Bayesian models, K-means, Gaussian Mixture models and general algorithms such as Ransac, Cross-validation and Grid-Search for machine-learning applications. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Neuro&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient Backpropagation, the Nguyen-Widrow initialization algorithm, Deep Belief Networks and Restrictured Boltzmann Machines, and many other neural network related items. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3b/list&amp;gt%3b&amp;lt%3b/para&amp;gt%3b  
+       
+&amp;lt%3bpara&amp;gt%3b
+       &amp;lt%3bh2&amp;gt%3bSignal and image processing&amp;lt%3b/h2&amp;gt%3b
+       &amp;lt%3blist type=&amp;quot%3bbullet&amp;quot%3b&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Imaging&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains interest point detectors %28such as Harris, SURF, FAST and FREAK%29, image filters, image matching and 
+             image stitching methods, as well as feature extractors such as Histograms of Oriented Gradients and Haralick&amp;#39%3bs textural feature descriptors. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Audio&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains methods to process, transforms, filters and handle audio signals for machine learning and statistical applications. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Vision&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+            Real-time face detection and tracking, as well as general methods for detecting, tracking and transforming objects in image streams. Contains cascade definitions, Camshift and Dynamic Template Matching trackers.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+     &amp;lt%3b/list&amp;gt%3b&amp;lt%3b/para&amp;gt%3b
+            
+&amp;lt%3bpara&amp;gt%3b
+       &amp;lt%3bh2&amp;gt%3bSupport libraries&amp;lt%3b/h2&amp;gt%3b
+       &amp;lt%3blist type=&amp;quot%3bbullet&amp;quot%3b&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Histograms, scatterplots and tabular data viewers for scientific applications.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls&amp;quot%3b/&amp;gt%3b.Imaging&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Windows Forms controls to show and handle images. Contains a convenient ImageBox control which mimics the traditional MessageBox for quickly displaying or inspecting images.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls&amp;quot%3b/&amp;gt%3b.Audio&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Windows Forms controls to display waveforms and audio-related information. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls.Vision&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Windows Forms components and controls to track head, face and hand movements and other computer vision related tasks.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+     &amp;lt%3b/list&amp;gt%3b&amp;lt%3b/para&amp;gt%3b
+
+&amp;lt%3bpara&amp;gt%3b
+  &amp;lt%3b/para&amp;gt%3b
+
+&amp;lt%3bpara&amp;gt%3b
+  A complete listing of the framework&amp;#39%3bs namespaces is presented below. Please click on any of the namespace names for more details.&amp;lt%3b/para&amp;gt%3b</ProjectSummary>
+    <HelpTitle>Accord.NET Framework</HelpTitle>
+    <FooterText>
+    </FooterText>
+    <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
+    <KeepLogFile>True</KeepLogFile>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
+    <RootNamespaceTitle>Framework modules</RootNamespaceTitle>
+    <ApiFilter>
+      <Filter entryType="Namespace" fullName="Accord.Math" isExposed="True">
+        <Filter entryType="Class" fullName="Accord.Math.Matrix" filterName="Matrix" isExposed="True">
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.Dot" filterName="Dot" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.DotAndDot" filterName="DotAndDot" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithDiagonal" filterName="DotWithDiagonal" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.DotWithTransposed" filterName="DotWithTransposed" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDot" filterName="TransposeAndDot" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndDotWithDiagonal" filterName="TransposeAndDotWithDiagonal" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiply" filterName="TransposeAndMultiply" isExposed="False" />
+          <Filter entryType="Method" fullName="Accord.Math.Matrix.TransposeAndMultiplyByDiagonal" filterName="TransposeAndMultiplyByDiagonal" isExposed="False" />
+        </Filter>
+      </Filter>
+      <Filter entryType="Namespace" fullName="AForge.Math" isExposed="False" />
+      <Filter entryType="Namespace" fullName="System.Collections.Generic" isExposed="False" />
+    </ApiFilter>
+    <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
+    <ComponentConfigurations>
+      <ComponentConfig id="Code Block Component" enabled="True">
+        <component id="Code Block Component">
+          <basePath value="C:\Projects\Accord.NET\framework\" />
+          <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
+          <allowMissingSource value="false" />
+          <removeRegionMarkers value="false" />
+          <colorizer syntaxFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xml" styleFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}PresentationStyles\Colorizer\highlight.css" scriptFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="0" numberLines="false" outlining="false" keepSeeTags="false" defaultTitle="true" />
+        </component>
+      </ComponentConfig>
+    </ComponentConfigurations>
+    <CleanIntermediates>False</CleanIntermediates>
+    <PresentationStyle>VS2013</PresentationStyle>
+    <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
+    <NamingMethod>MemberName</NamingMethod>
+    <HelpFileVersion>3.8.0.0</HelpFileVersion>
+    <FrameworkVersion>.NET Framework 4.6.2</FrameworkVersion>
+    <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
+    <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
+    <CollectionTocStyle>Flat</CollectionTocStyle>
+    <MSHelp2SdkLinkType>Msdn</MSHelp2SdkLinkType>
+    <IncludeStopWordList>True</IncludeStopWordList>
+    <SdkLinkTarget>Blank</SdkLinkTarget>
+    <Preliminary>False</Preliminary>
+    <Language>en-US</Language>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <PlugInConfigurations>
+    </PlugInConfigurations>
+    <HeaderText>
+    </HeaderText>
+    <HelpAttributes />
+    <IndentHtml>True</IndentHtml>
+    <TransformComponentArguments>
+      <Argument Key="logoFile" Value="logo.png" />
+      <Argument Key="logoHeight" Value="" />
+      <Argument Key="logoWidth" Value="" />
+      <Argument Key="logoAltText" Value="Accord.NET (logo)" />
+      <Argument Key="logoPlacement" Value="left" />
+      <Argument Key="logoAlignment" Value="left" />
+      <Argument Key="maxVersionParts" Value="" />
+      <Argument Key="defaultLanguage" Value="cs" />
+      <Argument Key="includeEnumValues" Value="true" />
+      <Argument Key="baseSourceCodeUrl" Value="https://github.com/accord-net/framework/blob/master/Sources/" />
+      <Argument Key="requestExampleUrl" Value="https://github.com/accord-net/framework/issues/new" />
+    </TransformComponentArguments>
+    <MaximumGroupParts>2</MaximumGroupParts>
+    <NamespaceGrouping>False</NamespaceGrouping>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <CppCommentsFixup>False</CppCommentsFixup>
+    <WebsiteSdkLinkType>None</WebsiteSdkLinkType>
+    <HtmlSdkLinkType>None</HtmlSdkLinkType>
+    <IncludeFavorites>False</IncludeFavorites>
+    <BinaryTOC>True</BinaryTOC>
+    <SaveComponentCacheCapacity>1000</SaveComponentCacheCapacity>
+    <TocParentId>-1</TocParentId>
+    <TocParentVersion>100</TocParentVersion>
+    <TopicVersion>100</TopicVersion>
+    <TocOrder>-1</TocOrder>
+    <MSHelpViewerSdkLinkType>None</MSHelpViewerSdkLinkType>
+    <CatalogVersion>100</CatalogVersion>
+    <CatalogProductId>VS</CatalogProductId>
+    <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
+    <SourceCodeBasePath>..\..\</SourceCodeBasePath>
+  </PropertyGroup>
+  <!-- There are no properties for these groups.  AnyCPU needs to appear in
+       order for Visual Studio to perform the build.  The others are optional
+       common platform types that may appear. -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\..\..\..\..\Docs\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="icons\" />
+    <Folder Include="images\" />
+    <Folder Include="images\" />
+    <Folder Include="diagrams\classes\" />
+    <Folder Include="images\filters\" />
+    <Folder Include="images\hmm\" />
+    <Folder Include="images\imaging" />
+    <Folder Include="images\math" />
+    <Folder Include="images\neuro" />
+    <Folder Include="images\controls" />
+    <Folder Include="images\video" />
+    <Folder Include="images\visualizations" />
+    <Folder Include="resources\" />
+    <Folder Include="diagrams\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\Contributors.txt">
+      <Link>Contributors.txt</Link>
+    </Content>
+    <Content Include="..\..\..\Copyright.txt">
+      <Link>Copyright.txt</Link>
+    </Content>
+    <Content Include="..\..\..\License.txt">
+      <Link>License.txt</Link>
+    </Content>
+    <Content Include="..\..\..\Release notes.txt">
+      <Link>Release notes.txt</Link>
+    </Content>
+    <Content Include="resources\Accord.NET (icon).png">
+      <ImageId>Accord.NET (icon origo)</ImageId>
+      <AlternateText>Accord.NET (icon origo)</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+      <ExcludeFromToc>True</ExcludeFromToc>
+    </Content>
+    <Content Include="icons\logo.png">
+      <ImageId>logo</ImageId>
+      <AlternateText>logo</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Audio.Formats.png">
+      <ImageId>Accord.Audio.Formats</ImageId>
+      <AlternateText>Accord.Audio.Formats</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Audio.png">
+      <ImageId>Accord.Audio</ImageId>
+      <AlternateText>Accord.Audio</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Audition.png">
+      <ImageId>Accord.Audition</ImageId>
+      <AlternateText>Accord.Audition</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Controls.png">
+      <ImageId>Accord.Controls</ImageId>
+      <AlternateText>Accord.Controls</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Controls.Vision.png">
+      <ImageId>Accord.Controls.Vision</ImageId>
+      <AlternateText>Accord.Controls.Vision</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Core.png">
+      <ImageId>Accord.Core</ImageId>
+      <AlternateText>Accord.Core</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.DirectSound.png">
+      <ImageId>Accord.DirectSound</ImageId>
+      <AlternateText>Accord.Direct Sound</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Imaging.png">
+      <ImageId>Accord.Imaging</ImageId>
+      <AlternateText>Accord.Imaging</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.MachineLearning.Boosting.png">
+      <ImageId>Accord.MachineLearning.Boosting</ImageId>
+      <AlternateText>Accord.Machine Learning.Boosting</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.MachineLearning.Clustering.png">
+      <ImageId>Accord.MachineLearning.Clustering</ImageId>
+      <AlternateText>Accord.Machine Learning.Clustering</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.MachineLearning.DecisionTrees.png">
+      <ImageId>Accord.MachineLearning.DecisionTrees</ImageId>
+      <AlternateText>Accord.Machine Learning.Decision Trees</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.MachineLearning.png">
+      <ImageId>Accord.MachineLearning</ImageId>
+      <AlternateText>Accord.Machine Learning</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.MachineLearning.Structures.png">
+      <ImageId>Accord.MachineLearning.Structures</ImageId>
+      <AlternateText>Accord.Machine Learning.Structures</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.MachineLearning.VectorMachines.png">
+      <ImageId>Accord.MachineLearning.VectorMachines</ImageId>
+      <AlternateText>Accord.Machine Learning.Vector Machines</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Math.png">
+      <ImageId>Accord.Math</ImageId>
+      <AlternateText>Accord.Math</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Neuro.png">
+      <ImageId>Accord.Neuro</ImageId>
+      <AlternateText>Accord.Neuro</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.png">
+      <ImageId>Accord.Statistics</ImageId>
+      <AlternateText>Accord.Statistics</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Vision.png">
+      <ImageId>Accord.Vision</ImageId>
+      <AlternateText>Accord.Vision</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="Resources\Accord.NET (logo small).png">
+      <ImageId>Accord.NET (logo small)</ImageId>
+      <AlternateText>Accord.NET (logo small)</AlternateText>
+    </Content>
+    <Content Include="resources\Accord.NET (logo large).png">
+      <ImageId>Accord.NET (logo large)</ImageId>
+      <AlternateText>Accord.NET (logo large)</AlternateText>
+    </Content>
+    <Content Include="resources\Accord.NET (icon small).png">
+      <ImageId>Accord.NET (icon small)</ImageId>
+      <AlternateText>Accord.NET (icon small)</AlternateText>
+    </Content>
+    <Content Include="resources\Accord.NET (icon large).png">
+      <ImageId>Accord.NET (icon large)</ImageId>
+      <AlternateText>Accord.NET (icon large)</AlternateText>
+    </Content>
+    <Content Include="images\one-way-anova.png">
+      <ImageId>one-way-anova</ImageId>
+      <AlternateText>one-way-anova</AlternateText>
+    </Content>
+    <Content Include="images\image-to-matrix-string.png">
+      <ImageId>image-to-matrix-string</ImageId>
+      <AlternateText>image-to-matrix-string</AlternateText>
+    </Content>
+    <Content Include="images\image-to-matrix-table.png">
+      <ImageId>image-to-matrix-table</ImageId>
+      <AlternateText>image-to-matrix-table</AlternateText>
+    </Content>
+    <Content Include="images\image-to-matrix.png">
+      <ImageId>image-to-matrix</ImageId>
+      <AlternateText>image-to-matrix</AlternateText>
+    </Content>
+    <Content Include="images\matrix-to-image.png">
+      <ImageId>matrix-to-image</ImageId>
+      <AlternateText>matrix-to-image</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Imaging.Converters.png">
+      <ImageId>Accord.Imaging.Converters</ImageId>
+      <AlternateText>Accord.Imaging.Converters</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Analysis.png">
+      <ImageId>Accord.Statistics.Analysis</ImageId>
+      <AlternateText>Accord.Statistics.Analysis</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Distributions.png">
+      <ImageId>Accord.Statistics.Distributions</ImageId>
+      <AlternateText>Accord.Statistics.Distributions</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Kernels.png">
+      <ImageId>Accord.Statistics.Kernels</ImageId>
+      <AlternateText>Accord.Statistics.Kernels</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Models.png">
+      <ImageId>Accord.Statistics.Models</ImageId>
+      <AlternateText>Accord.Statistics.Models</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Testing.png">
+      <ImageId>Accord.Statistics.Testing</ImageId>
+      <AlternateText>Accord.Statistics.Testing</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="images\border-following.png">
+      <ImageId>border-following</ImageId>
+      <AlternateText>border-following</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.MachineLearning.GPL.png">
+      <ImageId>Accord.MachineLearning.GPL</ImageId>
+      <AlternateText>Accord.Machine Learning.GPL</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Math.Decompositions.png">
+      <ImageId>Accord.Math.Decompositions</ImageId>
+      <AlternateText>Accord.Math.Decompositions</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Models.Fields.png">
+      <ImageId>Accord.Statistics.Models.Fields</ImageId>
+      <AlternateText>Accord.Statistics.Models.Fields</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Models.Markov.png">
+      <ImageId>Accord.Statistics.Models.Markov</ImageId>
+      <AlternateText>Accord.Statistics.Models.Markov</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
+    <Content Include="images\roc-curve.png">
+      <ImageId>roc-curve</ImageId>
+      <AlternateText>roc-curve</AlternateText>
+    </Content>
+    <Content Include="images\logistic-regression.png">
+      <ImageId>logistic</ImageId>
+      <AlternateText>logistic</AlternateText>
+    </Content>
+    <Content Include="images\linear-anova.png">
+      <ImageId>linear-anova</ImageId>
+      <AlternateText>linear-anova</AlternateText>
+    </Content>
+    <Content Include="images\linear-regression.png">
+      <ImageId>linear-regression</ImageId>
+      <AlternateText>linear-regression</AlternateText>
+    </Content>
+    <Content Include="images\cox-hazards.png">
+      <ImageId>cox-hazards</ImageId>
+      <AlternateText>cox-hazards</AlternateText>
+    </Content>
+    <Content Include="images\fast.png">
+      <ImageId>fast</ImageId>
+      <AlternateText>fast</AlternateText>
+    </Content>
+    <Content Include="images\kirsch.png">
+      <ImageId>kirsch</ImageId>
+      <AlternateText>kirsch</AlternateText>
+    </Content>
+    <Content Include="images\kmeans-end.png">
+      <ImageId>kmeans-end</ImageId>
+      <AlternateText>kmeans-end</AlternateText>
+    </Content>
+    <Content Include="images\kmeans-start.png">
+      <ImageId>kmeans-start</ImageId>
+      <AlternateText>kmeans-start</AlternateText>
+    </Content>
+    <Content Include="images\kuwahara.png">
+      <ImageId>kuwahara</ImageId>
+      <AlternateText>kuwahara</AlternateText>
+    </Content>
+    <Content Include="images\lines-gabor.png">
+      <ImageId>lines-gabor</ImageId>
+      <AlternateText>lines-gabor</AlternateText>
+    </Content>
+    <Content Include="images\lines.png">
+      <ImageId>lines</ImageId>
+      <AlternateText>lines</AlternateText>
+    </Content>
+    <Content Include="images\mean-shift-end.png">
+      <ImageId>mean-shift-end</ImageId>
+      <AlternateText>mean-shift-end</AlternateText>
+    </Content>
+    <Content Include="images\mean-shift-start.png">
+      <ImageId>mean-shift-start</ImageId>
+      <AlternateText>mean-shift-start</AlternateText>
+    </Content>
+    <Content Include="images\robinson.png">
+      <ImageId>robinson</ImageId>
+      <AlternateText>robinson</AlternateText>
+    </Content>
+    <Content Include="images\variance.png">
+      <ImageId>variance</ImageId>
+      <AlternateText>variance</AlternateText>
+    </Content>
+    <Content Include="images\normalization-filter.png">
+      <ImageId>normalization-filter</ImageId>
+      <AlternateText>normalization-filter</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Imaging.Filters.png">
+      <ImageId>Accord.Imaging.Filters</ImageId>
+      <AlternateText>Accord.Imaging.Filters</AlternateText>
+    </Content>
+    <Content Include="images\filters\input-table.png">
+      <ImageId>input-table</ImageId>
+      <AlternateText>input-table</AlternateText>
+    </Content>
+    <Content Include="images\filters\output-codification.png">
+      <ImageId>output-codification</ImageId>
+      <AlternateText>output-codification</AlternateText>
+    </Content>
+    <Content Include="images\filters\output-discretization.png">
+      <ImageId>output-discretization</ImageId>
+      <AlternateText>output-discretization</AlternateText>
+    </Content>
+    <Content Include="images\filters\output-projection.png">
+      <ImageId>output-projection</ImageId>
+      <AlternateText>output-projection</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-joint-probability.png">
+      <ImageId>hmm-joint-probability</ImageId>
+      <AlternateText>hmm-joint-probability</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-model.png">
+      <ImageId>hmm-model</ImageId>
+      <AlternateText>hmm-model</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-sequence-probability.png">
+      <ImageId>hmm-sequence-probability</ImageId>
+      <AlternateText>hmm-sequence-probability</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-tuple.png">
+      <ImageId>hmm-tuple</ImageId>
+      <AlternateText>hmm-tuple</AlternateText>
+    </Content>
+    <Content Include="images\hmm\map-decision.png">
+      <ImageId>map-decision</ImageId>
+      <AlternateText>map-decision</AlternateText>
+    </Content>
+    <Content Include="images\hmm\ml-decision.png">
+      <ImageId>ml-decision</ImageId>
+      <AlternateText>ml-decision</AlternateText>
+    </Content>
+    <Content Include="images\freak.png">
+      <ImageId>freak</ImageId>
+      <AlternateText>freak</AlternateText>
+    </Content>
+    <Content Include="images\niblack.png">
+      <ImageId>niblack</ImageId>
+      <AlternateText>niblack</AlternateText>
+    </Content>
+    <Content Include="images\sauvola.png">
+      <ImageId>sauvola</ImageId>
+      <AlternateText>sauvola</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Math.Optimization.png">
+      <ImageId>Accord.Math.Optimization</ImageId>
+      <AlternateText>Accord.Math.Optimization</AlternateText>
+    </Content>
+    <Content Include="images\panorama-3.png">
+      <ImageId>panorama-3</ImageId>
+      <AlternateText>panorama-3</AlternateText>
+    </Content>
+    <Content Include="images\panorama-2.png">
+      <ImageId>panorama-2</ImageId>
+      <AlternateText>panorama-2</AlternateText>
+    </Content>
+    <Content Include="images\panorama-1.png">
+      <ImageId>panorama-1</ImageId>
+      <AlternateText>panorama-1</AlternateText>
+    </Content>
+    <Content Include="images\differenceOfGaussians.png">
+      <ImageId>differenceOfGaussians</ImageId>
+      <AlternateText>difference Of Gaussians</AlternateText>
+    </Content>
+    <Content Include="images\gray-world.png">
+      <ImageId>gray-world</ImageId>
+      <AlternateText>gray-world</AlternateText>
+    </Content>
+    <Content Include="images\wavelet-1.png">
+      <ImageId>wavelet-1</ImageId>
+      <AlternateText>wavelet-1</AlternateText>
+    </Content>
+    <Content Include="images\wavelet-2.png">
+      <ImageId>wavelet-2</ImageId>
+      <AlternateText>wavelet-2</AlternateText>
+    </Content>
+    <Content Include="images\white-patch.png">
+      <ImageId>white-patch</ImageId>
+      <AlternateText>white-patch</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.IO.png">
+      <ImageId>Accord.IO</ImageId>
+      <AlternateText>Accord.IO</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Math.Comparers.png">
+      <ImageId>Accord.Math.Comparers</ImageId>
+      <AlternateText>Accord.Math.Comparers</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Math.Integration.png">
+      <ImageId>Accord.Math.Integration</ImageId>
+      <AlternateText>Accord.Math.Integration</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Distributions.Multivariate.png">
+      <ImageId>Accord.Statistics.Distributions.Multivariate</ImageId>
+      <AlternateText>Accord.Statistics.Distributions.Multivariate</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Distributions.Univariate.png">
+      <ImageId>Accord.Statistics.Distributions.Univariate</ImageId>
+      <AlternateText>Accord.Statistics.Distributions.Univariate</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\databar-box.png">
+      <ImageId>databar-box</ImageId>
+      <AlternateText>databar-box</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\datagrid-box.png">
+      <ImageId>datagrid-box</ImageId>
+      <AlternateText>datagrid-box</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\histogram-box.png">
+      <ImageId>histogram-box</ImageId>
+      <AlternateText>histogram-box</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\scatterplot-box-1.png">
+      <ImageId>scatterplot-box-1</ImageId>
+      <AlternateText>scatterplot-box-1</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\scatterplot-box-2.png">
+      <ImageId>scatterplot-box-2</ImageId>
+      <AlternateText>scatterplot-box-2</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\scatterplot-box.png">
+      <ImageId>scatterplot-box</ImageId>
+      <AlternateText>scatterplot-box</AlternateText>
+    </Content>
+    <Content Include="images\grid-fixed-steps.png">
+      <ImageId>grid-fixed-steps</ImageId>
+      <AlternateText>grid-fixed-steps</AlternateText>
+    </Content>
+    <Content Include="images\grid-step-size.png">
+      <ImageId>grid-step-size</ImageId>
+      <AlternateText>grid-step-size</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Fuzzy.png">
+      <ImageId>Accord.Fuzzy</ImageId>
+      <AlternateText>Accord.Fuzzy</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Genetic.png">
+      <ImageId>Accord.Genetic</ImageId>
+      <AlternateText>Accord.Genetic</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Video.DirectShow.png">
+      <ImageId>Accord.Video.DirectShow</ImageId>
+      <AlternateText>Accord.Video.Direct Show</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Video.Kinect.png">
+      <ImageId>Accord.Video.Kinect</ImageId>
+      <AlternateText>Accord.Video.Kinect</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Video.png">
+      <ImageId>Accord.Video</ImageId>
+      <AlternateText>Accord.Video</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Video.VFW.png">
+      <ImageId>Accord.Video.VFW</ImageId>
+      <AlternateText>Accord.Video.VFW</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Video.Ximea.png">
+      <ImageId>Accord.Video.Ximea</ImageId>
+      <AlternateText>Accord.Video.Ximea</AlternateText>
+    </Content>
+    <Content Include="images\imaging\adaptive_smooth.png">
+      <ImageId>adaptive_smooth</ImageId>
+      <AlternateText>adaptive smooth</AlternateText>
+    </Content>
+    <Content Include="images\imaging\add.png">
+      <ImageId>add</ImageId>
+      <AlternateText>add</AlternateText>
+    </Content>
+    <Content Include="images\imaging\additive_noise.jpg">
+      <ImageId>additive_noise</ImageId>
+      <AlternateText>additive noise</AlternateText>
+    </Content>
+    <Content Include="images\imaging\anaglyph.png">
+      <ImageId>anaglyph</ImageId>
+      <AlternateText>anaglyph</AlternateText>
+    </Content>
+    <Content Include="images\imaging\anaglyph_glasses.png">
+      <ImageId>anaglyph_glasses</ImageId>
+      <AlternateText>anaglyph glasses</AlternateText>
+    </Content>
+    <Content Include="images\imaging\background.jpg">
+      <ImageId>background</ImageId>
+      <AlternateText>background</AlternateText>
+    </Content>
+    <Content Include="images\imaging\backward_quadrilateral.jpg">
+      <ImageId>backward_quadrilateral</ImageId>
+      <AlternateText>backward quadrilateral</AlternateText>
+    </Content>
+    <Content Include="images\imaging\bayer_dithering.jpg">
+      <ImageId>bayer_dithering</ImageId>
+      <AlternateText>bayer dithering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\bayer_filter.jpg">
+      <ImageId>bayer_filter</ImageId>
+      <AlternateText>bayer filter</AlternateText>
+    </Content>
+    <Content Include="images\imaging\bg.jpg">
+      <ImageId>bg</ImageId>
+      <AlternateText>bg</AlternateText>
+    </Content>
+    <Content Include="images\imaging\biggest_blob.jpg">
+      <ImageId>biggest_blob</ImageId>
+      <AlternateText>biggest blob</AlternateText>
+    </Content>
+    <Content Include="images\imaging\bilateral.jpg">
+      <ImageId>bilateral</ImageId>
+      <AlternateText>bilateral</AlternateText>
+    </Content>
+    <Content Include="images\imaging\blobs_filtering.jpg">
+      <ImageId>blobs_filtering</ImageId>
+      <AlternateText>blobs filtering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\blur.jpg">
+      <ImageId>blur</ImageId>
+      <AlternateText>blur</AlternateText>
+    </Content>
+    <Content Include="images\imaging\bottomhat.png">
+      <ImageId>bottomhat</ImageId>
+      <AlternateText>bottomhat</AlternateText>
+    </Content>
+    <Content Include="images\imaging\bradley_local_thresholding.png">
+      <ImageId>bradley_local_thresholding</ImageId>
+      <AlternateText>bradley local thresholding</AlternateText>
+    </Content>
+    <Content Include="images\imaging\brightness_correction.jpg">
+      <ImageId>brightness_correction</ImageId>
+      <AlternateText>brightness correction</AlternateText>
+    </Content>
+    <Content Include="images\imaging\burkes.jpg">
+      <ImageId>burkes</ImageId>
+      <AlternateText>burkes</AlternateText>
+    </Content>
+    <Content Include="images\imaging\canny_edges.png">
+      <ImageId>canny_edges</ImageId>
+      <AlternateText>canny edges</AlternateText>
+    </Content>
+    <Content Include="images\imaging\canvas_crop.jpg">
+      <ImageId>canvas_crop</ImageId>
+      <AlternateText>canvas crop</AlternateText>
+    </Content>
+    <Content Include="images\imaging\canvas_move.jpg">
+      <ImageId>canvas_move</ImageId>
+      <AlternateText>canvas move</AlternateText>
+    </Content>
+    <Content Include="images\imaging\channel_filtering.jpg">
+      <ImageId>channel_filtering</ImageId>
+      <AlternateText>channel filtering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\closing.png">
+      <ImageId>closing</ImageId>
+      <AlternateText>closing</AlternateText>
+    </Content>
+    <Content Include="images\imaging\clouds_texture.jpg">
+      <ImageId>clouds_texture</ImageId>
+      <AlternateText>clouds texture</AlternateText>
+    </Content>
+    <Content Include="images\imaging\color_burkes.png">
+      <ImageId>color_burkes</ImageId>
+      <AlternateText>color burkes</AlternateText>
+    </Content>
+    <Content Include="images\imaging\color_filtering.jpg">
+      <ImageId>color_filtering</ImageId>
+      <AlternateText>color filtering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\color_floyd_steinberg.png">
+      <ImageId>color_floyd_steinberg</ImageId>
+      <AlternateText>color floyd steinberg</AlternateText>
+    </Content>
+    <Content Include="images\imaging\color_jarvis_judice_ninke.png">
+      <ImageId>color_jarvis_judice_ninke</ImageId>
+      <AlternateText>color jarvis judice ninke</AlternateText>
+    </Content>
+    <Content Include="images\imaging\color_remapping.jpg">
+      <ImageId>color_remapping</ImageId>
+      <AlternateText>color remapping</AlternateText>
+    </Content>
+    <Content Include="images\imaging\color_sierra.png">
+      <ImageId>color_sierra</ImageId>
+      <AlternateText>color sierra</AlternateText>
+    </Content>
+    <Content Include="images\imaging\color_stucki.png">
+      <ImageId>color_stucki</ImageId>
+      <AlternateText>color stucki</AlternateText>
+    </Content>
+    <Content Include="images\imaging\conservative_smoothing.png">
+      <ImageId>conservative_smoothing</ImageId>
+      <AlternateText>conservative smoothing</AlternateText>
+    </Content>
+    <Content Include="images\imaging\contrast_correction.jpg">
+      <ImageId>contrast_correction</ImageId>
+      <AlternateText>contrast correction</AlternateText>
+    </Content>
+    <Content Include="images\imaging\contrast_stretch.jpg">
+      <ImageId>contrast_stretch</ImageId>
+      <AlternateText>contrast stretch</AlternateText>
+    </Content>
+    <Content Include="images\imaging\crop.jpg">
+      <ImageId>crop</ImageId>
+      <AlternateText>crop</AlternateText>
+    </Content>
+    <Content Include="images\imaging\deskew.png">
+      <ImageId>deskew</ImageId>
+      <AlternateText>deskew</AlternateText>
+    </Content>
+    <Content Include="images\imaging\difference.png">
+      <ImageId>difference</ImageId>
+      <AlternateText>difference</AlternateText>
+    </Content>
+    <Content Include="images\imaging\difference_edges.png">
+      <ImageId>difference_edges</ImageId>
+      <AlternateText>difference edges</AlternateText>
+    </Content>
+    <Content Include="images\imaging\dilatation.png">
+      <ImageId>dilatation</ImageId>
+      <AlternateText>dilatation</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ebm_result.png">
+      <ImageId>ebm_result</ImageId>
+      <AlternateText>ebm result</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ebm_sample1.png">
+      <ImageId>ebm_sample1</ImageId>
+      <AlternateText>ebm sample 1</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ebm_sample2.png">
+      <ImageId>ebm_sample2</ImageId>
+      <AlternateText>ebm sample 2</AlternateText>
+    </Content>
+    <Content Include="images\imaging\edges.png">
+      <ImageId>edges</ImageId>
+      <AlternateText>edges</AlternateText>
+    </Content>
+    <Content Include="images\imaging\emboss.jpg">
+      <ImageId>emboss</ImageId>
+      <AlternateText>emboss</AlternateText>
+    </Content>
+    <Content Include="images\imaging\equalized.jpg">
+      <ImageId>equalized</ImageId>
+      <AlternateText>equalized</AlternateText>
+    </Content>
+    <Content Include="images\imaging\erosion.png">
+      <ImageId>erosion</ImageId>
+      <AlternateText>erosion</AlternateText>
+    </Content>
+    <Content Include="images\imaging\euclidean_filtering.jpg">
+      <ImageId>euclidean_filtering</ImageId>
+      <AlternateText>euclidean filtering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\extract_channel.jpg">
+      <ImageId>extract_channel</ImageId>
+      <AlternateText>extract channel</AlternateText>
+    </Content>
+    <Content Include="images\imaging\filled_holes.png">
+      <ImageId>filled_holes</ImageId>
+      <AlternateText>filled holes</AlternateText>
+    </Content>
+    <Content Include="images\imaging\flat_field.jpg">
+      <ImageId>flat_field</ImageId>
+      <AlternateText>flat field</AlternateText>
+    </Content>
+    <Content Include="images\imaging\floyd_steinberg.jpg">
+      <ImageId>floyd_steinberg</ImageId>
+      <AlternateText>floyd steinberg</AlternateText>
+    </Content>
+    <Content Include="images\imaging\fourier.jpg">
+      <ImageId>fourier</ImageId>
+      <AlternateText>fourier</AlternateText>
+    </Content>
+    <Content Include="images\imaging\frequency_filter.jpg">
+      <ImageId>frequency_filter</ImageId>
+      <AlternateText>frequency filter</AlternateText>
+    </Content>
+    <Content Include="images\imaging\from_polar.png">
+      <ImageId>from_polar</ImageId>
+      <AlternateText>from polar</AlternateText>
+    </Content>
+    <Content Include="images\imaging\gamma.jpg">
+      <ImageId>gamma</ImageId>
+      <AlternateText>gamma</AlternateText>
+    </Content>
+    <Content Include="images\imaging\gaussian_blur.jpg">
+      <ImageId>gaussian_blur</ImageId>
+      <AlternateText>gaussian blur</AlternateText>
+    </Content>
+    <Content Include="images\imaging\gaussian_sharpen.jpg">
+      <ImageId>gaussian_sharpen</ImageId>
+      <AlternateText>gaussian sharpen</AlternateText>
+    </Content>
+    <Content Include="images\imaging\grayscale.jpg">
+      <ImageId>grayscale</ImageId>
+      <AlternateText>grayscale</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hit-and-miss.png">
+      <ImageId>hit-and-miss</ImageId>
+      <AlternateText>hit-and-miss</AlternateText>
+    </Content>
+    <Content Include="images\imaging\homogenity_edges.png">
+      <ImageId>homogenity_edges</ImageId>
+      <AlternateText>homogenity edges</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hor_histogram.jpg">
+      <ImageId>hor_histogram</ImageId>
+      <AlternateText>hor histogram</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hough-input.png">
+      <ImageId>hough-input</ImageId>
+      <AlternateText>hough-input</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hough-output0.png">
+      <ImageId>hough-output0</ImageId>
+      <AlternateText>hough-output 0</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hough-output1.png">
+      <ImageId>hough-output1</ImageId>
+      <AlternateText>hough-output 1</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hough-output2.png">
+      <ImageId>hough-output2</ImageId>
+      <AlternateText>hough-output 2</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hough_circles.jpg">
+      <ImageId>hough_circles</ImageId>
+      <AlternateText>hough circles</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hough_lines.jpg">
+      <ImageId>hough_lines</ImageId>
+      <AlternateText>hough lines</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hrls.png">
+      <ImageId>hrls</ImageId>
+      <AlternateText>hrls</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hsl_filtering.jpg">
+      <ImageId>hsl_filtering</ImageId>
+      <AlternateText>hsl filtering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hsl_filtering2.jpg">
+      <ImageId>hsl_filtering2</ImageId>
+      <AlternateText>hsl filtering 2</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hsl_linear.jpg">
+      <ImageId>hsl_linear</ImageId>
+      <AlternateText>hsl linear</AlternateText>
+    </Content>
+    <Content Include="images\imaging\hue_modifier.jpg">
+      <ImageId>hue_modifier</ImageId>
+      <AlternateText>hue modifier</AlternateText>
+    </Content>
+    <Content Include="images\imaging\icon.png">
+      <ImageId>icon</ImageId>
+      <AlternateText>icon</AlternateText>
+    </Content>
+    <Content Include="images\imaging\image_warp.png">
+      <ImageId>image_warp</ImageId>
+      <AlternateText>image warp</AlternateText>
+    </Content>
+    <Content Include="images\imaging\intersect.png">
+      <ImageId>intersect</ImageId>
+      <AlternateText>intersect</AlternateText>
+    </Content>
+    <Content Include="images\imaging\invert.jpg">
+      <ImageId>invert</ImageId>
+      <AlternateText>invert</AlternateText>
+    </Content>
+    <Content Include="images\imaging\iterative_threshold.png">
+      <ImageId>iterative_threshold</ImageId>
+      <AlternateText>iterative threshold</AlternateText>
+    </Content>
+    <Content Include="images\imaging\jarvis_judice_ninke.jpg">
+      <ImageId>jarvis_judice_ninke</ImageId>
+      <AlternateText>jarvis judice ninke</AlternateText>
+    </Content>
+    <Content Include="images\imaging\jitter.jpg">
+      <ImageId>jitter</ImageId>
+      <AlternateText>jitter</AlternateText>
+    </Content>
+    <Content Include="images\imaging\labeling.jpg">
+      <ImageId>labeling</ImageId>
+      <AlternateText>labeling</AlternateText>
+    </Content>
+    <Content Include="images\imaging\labyrinth_texture.jpg">
+      <ImageId>labyrinth_texture</ImageId>
+      <AlternateText>labyrinth texture</AlternateText>
+    </Content>
+    <Content Include="images\imaging\levels_linear.jpg">
+      <ImageId>levels_linear</ImageId>
+      <AlternateText>levels linear</AlternateText>
+    </Content>
+    <Content Include="images\imaging\marble_texture.jpg">
+      <ImageId>marble_texture</ImageId>
+      <AlternateText>marble texture</AlternateText>
+    </Content>
+    <Content Include="images\imaging\mask.png">
+      <ImageId>mask</ImageId>
+      <AlternateText>mask</AlternateText>
+    </Content>
+    <Content Include="images\imaging\masked_image.jpg">
+      <ImageId>masked_image</ImageId>
+      <AlternateText>masked image</AlternateText>
+    </Content>
+    <Content Include="images\imaging\mean.png">
+      <ImageId>mean</ImageId>
+      <AlternateText>mean</AlternateText>
+    </Content>
+    <Content Include="images\imaging\median.png">
+      <ImageId>median</ImageId>
+      <AlternateText>median</AlternateText>
+    </Content>
+    <Content Include="images\imaging\merge.png">
+      <ImageId>merge</ImageId>
+      <AlternateText>merge</AlternateText>
+    </Content>
+    <Content Include="images\imaging\mirror.jpg">
+      <ImageId>mirror</ImageId>
+      <AlternateText>mirror</AlternateText>
+    </Content>
+    <Content Include="images\imaging\morph.png">
+      <ImageId>morph</ImageId>
+      <AlternateText>morph</AlternateText>
+    </Content>
+    <Content Include="images\imaging\morpho-dilation3x3-binary.png">
+      <ImageId>morpho-dilation3x3-binary</ImageId>
+      <AlternateText>morpho-dilation 3x 3-binary</AlternateText>
+    </Content>
+    <Content Include="images\imaging\morpho-dilation3x3-result.png">
+      <ImageId>morpho-dilation3x3-result</ImageId>
+      <AlternateText>morpho-dilation 3x 3-result</AlternateText>
+    </Content>
+    <Content Include="images\imaging\move_towards.png">
+      <ImageId>move_towards</ImageId>
+      <AlternateText>move towards</AlternateText>
+    </Content>
+    <Content Include="images\imaging\object.jpg">
+      <ImageId>object</ImageId>
+      <AlternateText>object</AlternateText>
+    </Content>
+    <Content Include="images\imaging\oil_painting.jpg">
+      <ImageId>oil_painting</ImageId>
+      <AlternateText>oil painting</AlternateText>
+    </Content>
+    <Content Include="images\imaging\opening.png">
+      <ImageId>opening</ImageId>
+      <AlternateText>opening</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ordered_color_dithering.png">
+      <ImageId>ordered_color_dithering</ImageId>
+      <AlternateText>ordered color dithering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ordered_dithering.jpg">
+      <ImageId>ordered_dithering</ImageId>
+      <AlternateText>ordered dithering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\otsu_threshold.png">
+      <ImageId>otsu_threshold</ImageId>
+      <AlternateText>otsu threshold</AlternateText>
+    </Content>
+    <Content Include="images\imaging\pixellate.jpg">
+      <ImageId>pixellate</ImageId>
+      <AlternateText>pixellate</AlternateText>
+    </Content>
+    <Content Include="images\imaging\pointed_color_fill.jpg">
+      <ImageId>pointed_color_fill</ImageId>
+      <AlternateText>pointed color fill</AlternateText>
+    </Content>
+    <Content Include="images\imaging\pointed_mean_fill.jpg">
+      <ImageId>pointed_mean_fill</ImageId>
+      <AlternateText>pointed mean fill</AlternateText>
+    </Content>
+    <Content Include="images\imaging\polar.png">
+      <ImageId>polar</ImageId>
+      <AlternateText>polar</AlternateText>
+    </Content>
+    <Content Include="images\imaging\posterization.png">
+      <ImageId>posterization</ImageId>
+      <AlternateText>posterization</AlternateText>
+    </Content>
+    <Content Include="images\imaging\quadrilateral_bilinear.png">
+      <ImageId>quadrilateral_bilinear</ImageId>
+      <AlternateText>quadrilateral bilinear</AlternateText>
+    </Content>
+    <Content Include="images\imaging\quadrilateral_ex_bilinear.png">
+      <ImageId>quadrilateral_ex_bilinear</ImageId>
+      <AlternateText>quadrilateral ex bilinear</AlternateText>
+    </Content>
+    <Content Include="images\imaging\quadrilateral_finder.png">
+      <ImageId>quadrilateral_finder</ImageId>
+      <AlternateText>quadrilateral finder</AlternateText>
+    </Content>
+    <Content Include="images\imaging\quadrilateral_nearest.png">
+      <ImageId>quadrilateral_nearest</ImageId>
+      <AlternateText>quadrilateral nearest</AlternateText>
+    </Content>
+    <Content Include="images\imaging\reduced_colors.png">
+      <ImageId>reduced_colors</ImageId>
+      <AlternateText>reduced colors</AlternateText>
+    </Content>
+    <Content Include="images\imaging\replace_channel.jpg">
+      <ImageId>replace_channel</ImageId>
+      <AlternateText>replace channel</AlternateText>
+    </Content>
+    <Content Include="images\imaging\resize_bicubic.png">
+      <ImageId>resize_bicubic</ImageId>
+      <AlternateText>resize bicubic</AlternateText>
+    </Content>
+    <Content Include="images\imaging\resize_bilinear.png">
+      <ImageId>resize_bilinear</ImageId>
+      <AlternateText>resize bilinear</AlternateText>
+    </Content>
+    <Content Include="images\imaging\resize_nearest.png">
+      <ImageId>resize_nearest</ImageId>
+      <AlternateText>resize nearest</AlternateText>
+    </Content>
+    <Content Include="images\imaging\rotate_bicubic.png">
+      <ImageId>rotate_bicubic</ImageId>
+      <AlternateText>rotate bicubic</AlternateText>
+    </Content>
+    <Content Include="images\imaging\rotate_bilinear.png">
+      <ImageId>rotate_bilinear</ImageId>
+      <AlternateText>rotate bilinear</AlternateText>
+    </Content>
+    <Content Include="images\imaging\rotate_channels.jpg">
+      <ImageId>rotate_channels</ImageId>
+      <AlternateText>rotate channels</AlternateText>
+    </Content>
+    <Content Include="images\imaging\rotate_nearest.png">
+      <ImageId>rotate_nearest</ImageId>
+      <AlternateText>rotate nearest</AlternateText>
+    </Content>
+    <Content Include="images\imaging\salt_noise.jpg">
+      <ImageId>salt_noise</ImageId>
+      <AlternateText>salt noise</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample1.jpg">
+      <ImageId>sample1</ImageId>
+      <AlternateText>sample 1</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample10.png">
+      <ImageId>sample10</ImageId>
+      <AlternateText>sample 10</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample11.png">
+      <ImageId>sample11</ImageId>
+      <AlternateText>sample 11</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample12.png">
+      <ImageId>sample12</ImageId>
+      <AlternateText>sample 12</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample13.png">
+      <ImageId>sample13</ImageId>
+      <AlternateText>sample 13</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample14.png">
+      <ImageId>sample14</ImageId>
+      <AlternateText>sample 14</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample15.png">
+      <ImageId>sample15</ImageId>
+      <AlternateText>sample 15</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample16_left.png">
+      <ImageId>sample16_left</ImageId>
+      <AlternateText>sample 16 left</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample16_right.png">
+      <ImageId>sample16_right</ImageId>
+      <AlternateText>sample 16 right</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample17.png">
+      <ImageId>sample17</ImageId>
+      <AlternateText>sample 17</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample18.jpg">
+      <ImageId>sample18</ImageId>
+      <AlternateText>sample 18</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample19.png">
+      <ImageId>sample19</ImageId>
+      <AlternateText>sample 19</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample2.jpg">
+      <ImageId>sample2</ImageId>
+      <AlternateText>sample 2</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample20.png">
+      <ImageId>sample20</ImageId>
+      <AlternateText>sample 20</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample21.png">
+      <ImageId>sample21</ImageId>
+      <AlternateText>sample 21</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample22.png">
+      <ImageId>sample22</ImageId>
+      <AlternateText>sample 22</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample23.png">
+      <ImageId>sample23</ImageId>
+      <AlternateText>sample 23</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample24.png">
+      <ImageId>sample24</ImageId>
+      <AlternateText>sample 24</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample3.jpg">
+      <ImageId>sample3</ImageId>
+      <AlternateText>sample 3</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample4.jpg">
+      <ImageId>sample4</ImageId>
+      <AlternateText>sample 4</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample5.jpg">
+      <ImageId>sample5</ImageId>
+      <AlternateText>sample 5</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample6.png">
+      <ImageId>sample6</ImageId>
+      <AlternateText>sample 6</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample7.png">
+      <ImageId>sample7</ImageId>
+      <AlternateText>sample 7</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample8.jpg">
+      <ImageId>sample8</ImageId>
+      <AlternateText>sample 8</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sample9.png">
+      <ImageId>sample9</ImageId>
+      <AlternateText>sample 9</AlternateText>
+    </Content>
+    <Content Include="images\imaging\saturation_correction.jpg">
+      <ImageId>saturation_correction</ImageId>
+      <AlternateText>saturation correction</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sepia.jpg">
+      <ImageId>sepia</ImageId>
+      <AlternateText>sepia</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sharpen.jpg">
+      <ImageId>sharpen</ImageId>
+      <AlternateText>sharpen</AlternateText>
+    </Content>
+    <Content Include="images\imaging\shrink.jpg">
+      <ImageId>shrink</ImageId>
+      <AlternateText>shrink</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sierra.jpg">
+      <ImageId>sierra</ImageId>
+      <AlternateText>sierra</AlternateText>
+    </Content>
+    <Content Include="images\imaging\simple_skeletonization.png">
+      <ImageId>simple_skeletonization</ImageId>
+      <AlternateText>simple skeletonization</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sis_threshold.png">
+      <ImageId>sis_threshold</ImageId>
+      <AlternateText>sis threshold</AlternateText>
+    </Content>
+    <Content Include="images\imaging\sobel_edges.png">
+      <ImageId>sobel_edges</ImageId>
+      <AlternateText>sobel edges</AlternateText>
+    </Content>
+    <Content Include="images\imaging\stucki.jpg">
+      <ImageId>stucki</ImageId>
+      <AlternateText>stucki</AlternateText>
+    </Content>
+    <Content Include="images\imaging\subtract.png">
+      <ImageId>subtract</ImageId>
+      <AlternateText>subtract</AlternateText>
+    </Content>
+    <Content Include="images\imaging\susan_corners.png">
+      <ImageId>susan_corners</ImageId>
+      <AlternateText>susan corners</AlternateText>
+    </Content>
+    <Content Include="images\imaging\textile_texture.jpg">
+      <ImageId>textile_texture</ImageId>
+      <AlternateText>textile texture</AlternateText>
+    </Content>
+    <Content Include="images\imaging\textured_filter1.jpg">
+      <ImageId>textured_filter1</ImageId>
+      <AlternateText>textured filter 1</AlternateText>
+    </Content>
+    <Content Include="images\imaging\textured_filter2.jpg">
+      <ImageId>textured_filter2</ImageId>
+      <AlternateText>textured filter 2</AlternateText>
+    </Content>
+    <Content Include="images\imaging\textured_merge1.jpg">
+      <ImageId>textured_merge1</ImageId>
+      <AlternateText>textured merge 1</AlternateText>
+    </Content>
+    <Content Include="images\imaging\textured_merge2.jpg">
+      <ImageId>textured_merge2</ImageId>
+      <AlternateText>textured merge 2</AlternateText>
+    </Content>
+    <Content Include="images\imaging\texturer.jpg">
+      <ImageId>texturer</ImageId>
+      <AlternateText>texturer</AlternateText>
+    </Content>
+    <Content Include="images\imaging\thinning.png">
+      <ImageId>thinning</ImageId>
+      <AlternateText>thinning</AlternateText>
+    </Content>
+    <Content Include="images\imaging\threshold.jpg">
+      <ImageId>threshold</ImageId>
+      <AlternateText>threshold</AlternateText>
+    </Content>
+    <Content Include="images\imaging\thresholded_difference.png">
+      <ImageId>thresholded_difference</ImageId>
+      <AlternateText>thresholded difference</AlternateText>
+    </Content>
+    <Content Include="images\imaging\thresholded_euclidean_difference.png">
+      <ImageId>thresholded_euclidean_difference</ImageId>
+      <AlternateText>thresholded euclidean difference</AlternateText>
+    </Content>
+    <Content Include="images\imaging\threshold_carry.jpg">
+      <ImageId>threshold_carry</ImageId>
+      <AlternateText>threshold carry</AlternateText>
+    </Content>
+    <Content Include="images\imaging\tophat.png">
+      <ImageId>tophat</ImageId>
+      <AlternateText>tophat</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ver_histogram.jpg">
+      <ImageId>ver_histogram</ImageId>
+      <AlternateText>ver histogram</AlternateText>
+    </Content>
+    <Content Include="images\imaging\vrls.png">
+      <ImageId>vrls</ImageId>
+      <AlternateText>vrls</AlternateText>
+    </Content>
+    <Content Include="images\imaging\water_wave.jpg">
+      <ImageId>water_wave</ImageId>
+      <AlternateText>water wave</AlternateText>
+    </Content>
+    <Content Include="images\imaging\wood_texture.jpg">
+      <ImageId>wood_texture</ImageId>
+      <AlternateText>wood texture</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ycbcr_filtering.jpg">
+      <ImageId>ycbcr_filtering</ImageId>
+      <AlternateText>ycbcr filtering</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ycbcr_linear.jpg">
+      <ImageId>ycbcr_linear</ImageId>
+      <AlternateText>ycbcr linear</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ycbcr_replace_channel.jpg">
+      <ImageId>ycbcr_replace_channel</ImageId>
+      <AlternateText>ycbcr replace channel</AlternateText>
+    </Content>
+    <Content Include="images\imaging\ZhangSuen_skeletonization.png">
+      <ImageId>ZhangSuen_skeletonization</ImageId>
+      <AlternateText>Zhang Suen skeletonization</AlternateText>
+    </Content>
+    <Content Include="images\math\close_points_merging_optimizer.png">
+      <ImageId>close_points_merging_optimizer</ImageId>
+      <AlternateText>close points merging optimizer</AlternateText>
+    </Content>
+    <Content Include="images\math\flat_angles_optimizer.png">
+      <ImageId>flat_angles_optimizer</ImageId>
+      <AlternateText>flat angles optimizer</AlternateText>
+    </Content>
+    <Content Include="images\math\line_straightening_optimizer.png">
+      <ImageId>line_straightening_optimizer</ImageId>
+      <AlternateText>line straightening optimizer</AlternateText>
+    </Content>
+    <Content Include="images\math\potential_corners.png">
+      <ImageId>potential_corners</ImageId>
+      <AlternateText>potential corners</AlternateText>
+    </Content>
+    <Content Include="images\neuro\sigmoid.bmp">
+      <ImageId>sigmoid</ImageId>
+      <AlternateText>sigmoid</AlternateText>
+    </Content>
+    <Content Include="images\neuro\sigmoid_bipolar.bmp">
+      <ImageId>sigmoid_bipolar</ImageId>
+      <AlternateText>sigmoid bipolar</AlternateText>
+    </Content>
+    <Content Include="images\neuro\threshold.bmp">
+      <ImageId>threshold</ImageId>
+      <AlternateText>threshold</AlternateText>
+    </Content>
+    <Content Include="images\controls\histogram.jpg">
+      <ImageId>histogram</ImageId>
+      <AlternateText>histogram</AlternateText>
+    </Content>
+    <Content Include="images\controls\hue_picker1.png">
+      <ImageId>hue_picker1</ImageId>
+      <AlternateText>hue picker 1</AlternateText>
+    </Content>
+    <Content Include="images\controls\hue_picker2.png">
+      <ImageId>hue_picker2</ImageId>
+      <AlternateText>hue picker 2</AlternateText>
+    </Content>
+    <Content Include="images\controls\manipulator_round.png">
+      <ImageId>manipulator_round</ImageId>
+      <AlternateText>manipulator round</AlternateText>
+    </Content>
+    <Content Include="images\controls\manipulator_square.png">
+      <ImageId>manipulator_square</ImageId>
+      <AlternateText>manipulator square</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_control.png">
+      <ImageId>slider_control</ImageId>
+      <AlternateText>slider control</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_gradient.png">
+      <ImageId>slider_gradient</ImageId>
+      <AlternateText>slider gradient</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_inner_gradient.png">
+      <ImageId>slider_inner_gradient</ImageId>
+      <AlternateText>slider inner gradient</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_outer_gradient.png">
+      <ImageId>slider_outer_gradient</ImageId>
+      <AlternateText>slider outer gradient</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_threshold.png">
+      <ImageId>slider_threshold</ImageId>
+      <AlternateText>slider threshold</AlternateText>
+    </Content>
+    <Content Include="images\video\VideoCaptureDeviceForm.png">
+      <ImageId>VideoCaptureDeviceForm</ImageId>
+      <AlternateText>Video Capture Device Form</AlternateText>
+    </Content>
+    <Content Include="images\video\HW_SW_buffers.png">
+      <ImageId>HW_SW_buffers</ImageId>
+      <AlternateText>HW SW buffers</AlternateText>
+    </Content>
+    <Content Include="images\video\kinect.jpg">
+      <ImageId>kinect</ImageId>
+      <AlternateText>kinect</AlternateText>
+    </Content>
+    <Content Include="images\video\matching_frame_223.png">
+      <ImageId>frame_223</ImageId>
+      <AlternateText>frame 223</AlternateText>
+    </Content>
+    <Content Include="images\video\haar_frame_24.png">
+      <ImageId>frame_24</ImageId>
+      <AlternateText>frame 24</AlternateText>
+    </Content>
+    <Image Include="resources\Accord.NET.png">
+      <CopyToMedia>True</CopyToMedia>
+      <AlternateText>Accord.NET</AlternateText>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+      <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.DirectSound, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+      <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System</Name>
+      <AssemblyName>System.dll</AssemblyName>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System.Core</Name>
+      <AssemblyName>System.Core.dll</AssemblyName>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>System.Drawing</Name>
+      <AssemblyName>System.Drawing.dll</AssemblyName>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60">
+      <HintPath>..\..\..\Externals\ZedGraph\ZedGraph.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Building.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\Accord.NET (icon).ico">
+      <ExcludeFromToc>True</ExcludeFromToc>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Name>Accord.Math.Core</Name>
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- Import the SHFB build targets -->
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
+</Project>

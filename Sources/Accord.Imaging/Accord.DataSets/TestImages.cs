@@ -97,6 +97,18 @@ namespace Accord.DataSets
     /// 
     public class TestImages
     {
+        string path;
+
+        static readonly string[] opencv = new[]
+        {
+            "sudoku.png",
+            "HappyFish.jpg",
+            "lena.jpg",
+            "text_defocus.jpg",
+            "text_motion.jpg",
+            "tree.avi"
+        };
+
         static readonly string[] imageNames = new []
         {
             "airplane.png",
@@ -133,9 +145,8 @@ namespace Accord.DataSets
             "us092.pgm",
             "watch.png",
             "zelda.png",
-        };
+        }.Concatenate(opencv);
 
-        string path;
 
         /// <summary>
         ///   Gets all the image names that can be passed to
@@ -167,7 +178,7 @@ namespace Accord.DataSets
         public bool CorrectIndexedPalettes { get; set; }
 
         /// <summary>
-        ///   Downloads and prepares the Iris dataset.
+        ///   Downloads and prepares the test images dataset.
         /// </summary>
         /// 
         /// <param name="path">The path where datasets will be stored. If null or empty, the dataset
@@ -208,7 +219,17 @@ namespace Accord.DataSets
                     "property and in the Accord.DataSets.TestImages class documentation page.", name));
             }
 
-            Bitmap bmp = Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + name, path);
+            Bitmap bmp;
+
+            if (opencv.Contains(name))
+            {
+                bmp = Accord.Imaging.Image.FromUrl("https://raw.githubusercontent.com/opencv/opencv/master/samples/data/" + name, path);
+            }
+            else
+            {
+                bmp = Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + name, path);
+            }
+            
 
             if (CorrectIndexedPalettes && bmp.IsColor8bpp())
                 Accord.Imaging.Image.ConvertColor8bppToGrayscale8bpp(bmp);

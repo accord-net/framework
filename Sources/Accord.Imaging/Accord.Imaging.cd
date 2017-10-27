@@ -381,7 +381,7 @@
       <FileName>Interest Points\FREAK\FastRetinaKeypointDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Accord.Imaging.FastRetinaKeypointDetector" BaseTypeListCollapsed="true">
+  <Class Name="Accord.Imaging.FastRetinaKeypoinTExtractor" BaseTypeListCollapsed="true">
     <Position X="30.5" Y="17.5" Width="3" />
     <Members>
       <Field Name="descriptor" Hidden="true" />
@@ -395,7 +395,7 @@
     </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQBAAAMAAAADAAAAFkIBAAABAAEAAAA=</HashCode>
-      <FileName>Interest Points\FREAK\FastRetinaKeypointDetector.cs</FileName>
+      <FileName>Interest Points\FREAK\FastRetinaKeypoinTExtractor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -634,7 +634,7 @@
     <Position X="30.5" Y="20.25" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>Interest Points\FREAK\FastRetinaKeypointDetector.cs</FileName>
+      <FileName>Interest Points\FREAK\FastRetinaKeypoinTExtractor.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Imaging.HaralickMode">

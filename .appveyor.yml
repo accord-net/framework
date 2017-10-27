@@ -1,0 +1,62 @@
+version: 3.8.0.{build}
+
+image:
+- Visual Studio 2017
+
+configuration:
+- mono
+- net35
+- net40
+- net45
+- net46
+- net462
+
+platform: Any CPU
+
+matrix:
+  exclude:
+    - configuration: net35
+      image: Visual Studio 2017
+
+clone_depth: 5
+
+before_build:
+- cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
+
+build:
+  project: Sources/Accord.NET.sln
+  parallel: true
+  verbosity: normal
+  
+test:
+  assemblies:
+    only:
+    - Accord.Tests.Audio.dll
+    - Accord.Tests.Controls.dll
+    - Accord.Tests.Core.dll
+    - Accord.Tests.Imaging.dll
+    - Accord.Tests.IO.dll
+    - Accord.Tests.MachineLearning.dll
+    - Accord.Tests.Math.dll
+    - Accord.Tests.Math.Cpp.dll
+    - Accord.Tests.Math.Interop.dll
+    - Accord.Tests.Neuro.dll
+    - Accord.Tests.Statistics.dll
+    - Accord.Tests.Statistics.VB.dll
+    - Accord.Tests.Text.dll
+    - Accord.Tests.Video.dll
+    - Accord.Tests.Vision.dll
+    
+  categories:
+    except:
+    - Office
+    - Random
+    - Slow
+    
+notifications:
+- provider: Webhook
+  url: https://webhooks.gitter.im/e/322469abaeff8aca5bc9
+  method: POST
+  on_build_success: false
+  on_build_failure: false
+  on_build_status_changed: true

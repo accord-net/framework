@@ -195,12 +195,12 @@ namespace Accord.Statistics.Analysis
                     this.Means = x.Mean(dimension: 0);
 
                     double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
-                    x.Subtract(Means, dimension: 0, result: matrix);
+                    x.Subtract(Means, dimension: (VectorType)0, result: matrix);
 
                     if (Method == PrincipalComponentMethod.Standardize)
                     {
                         this.StandardDeviations = x.StandardDeviation(Means);
-                        matrix.Divide(StandardDeviations, dimension: 0, result: matrix);
+                        matrix.Divide(StandardDeviations, dimension: (VectorType)0, result: matrix);
                     }
 
                     //  The principal components of 'Source' are the eigenvectors of Cov(Source). Thus if we
@@ -223,12 +223,12 @@ namespace Accord.Statistics.Analysis
                     this.Means = x.WeightedMean(weights: weights);
 
                     double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
-                    x.Subtract(Means, dimension: 0, result: matrix);
+                    x.Subtract(Means, dimension: (VectorType)0, result: matrix);
 
                     if (Method == PrincipalComponentMethod.Standardize)
                     {
                         this.StandardDeviations = x.WeightedStandardDeviation(weights, Means);
-                        matrix.Divide(StandardDeviations, dimension: 0, result: matrix);
+                        matrix.Divide(StandardDeviations, dimension: (VectorType)0, result: matrix);
                     }
 
                     double[,] cov = x.WeightedCovariance(weights, Means);
@@ -266,7 +266,7 @@ namespace Accord.Statistics.Analysis
             }
 
             if (Whiten)
-                ComponentVectors.Divide(SingularValues, dimension: 1, result: ComponentVectors);
+                ComponentVectors.Divide(SingularValues, dimension: (VectorType)1, result: ComponentVectors);
 
             // Computes additional information about the analysis and creates the
             //  object-oriented structure to hold the principal components found.
@@ -279,7 +279,7 @@ namespace Accord.Statistics.Analysis
         {
             double[][] weights = ComponentVectors;
             if (Method == PrincipalComponentMethod.Standardize || Method == PrincipalComponentMethod.CorrelationMatrix)
-                weights = weights.Divide(StandardDeviations, dimension: 0);
+                weights = weights.Divide(StandardDeviations, dimension: (VectorType)0);
 
             double[] bias = weights.Dot(Means).Multiply(-1);
 
@@ -462,9 +462,9 @@ namespace Accord.Statistics.Analysis
             // if the data has been standardized or centered,
             //  we need to revert those operations as well
             if (this.Method == PrincipalComponentMethod.Standardize || this.Method == PrincipalComponentMethod.CorrelationMatrix)
-                reversion.Multiply(StandardDeviations, dimension: 0, result: reversion);
+                reversion.Multiply(StandardDeviations, dimension: (VectorType)0, result: reversion);
 
-            reversion.Add(Means, dimension: 0, result: reversion);
+            reversion.Add(Means, dimension: (VectorType)0, result: reversion);
             return reversion;
         }
 

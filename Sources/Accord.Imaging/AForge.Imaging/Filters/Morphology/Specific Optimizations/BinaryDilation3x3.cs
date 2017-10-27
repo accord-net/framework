@@ -50,6 +50,16 @@ namespace Accord.Imaging.Filters
     /// <para>The filter accepts 8 bpp grayscale (binary) images for processing.</para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\Filters\MorphologicalTests.cs" region="doc_binary_dilation_3x3" />
+    /// <para>
+    ///   Binarized image:</para>
+    /// <img src="..\images\imaging\morpho-dilation3x3-binary.png" />
+    /// <para>
+    ///   Result image:</para>
+    /// <img src="..\images\imaging\morpho-dilation3x3-result.png" />
+    /// </example>
+    /// 
     /// <seealso cref="Dilation"/>
     /// <seealso cref="Dilation3x3"/>
     /// 

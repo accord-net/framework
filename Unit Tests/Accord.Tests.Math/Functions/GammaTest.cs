@@ -186,6 +186,25 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void NegativeGammaFunctionsTest()
+        {
+            double x = -1.8209678549077879;
+            double gamma = Gamma.Function(x); // 5.4511741801042106
+            double log = Gamma.Log(x);        // 1.6958310313607003
+            double psi = Gamma.Digamma(x);    // -6.2100942259248626
+            double tri = Gamma.Trigamma(x);   // 35.915302055854525
+
+            double a = 4.2;
+            double lower = Gamma.LowerIncomplete(a, x); // 0.000015685073063633753
+            double upper = Gamma.UpperIncomplete(a, x); // 0.9999843149269364
+
+            Assert.AreEqual(3.4523682307588364, gamma, 1e-10); // https://www.wolframalpha.com/input/?i=gamma%5B-1.8209678549077879%5D
+            Assert.AreEqual(-4.1343001655848468, psi); // https://www.wolframalpha.com/input/?i=digamma(-1.8209678549077879)
+            Assert.AreEqual(34.283184056369407, tri);  // https://www.wolframalpha.com/input/?i=trigamma(-1.8209678549077879)
+            Assert.AreEqual(Math.Log(3.4523682307588364), log, 1e-10);
+        }
+
+        [Test]
         public void GammaTest2()
         {
             double x = 171;

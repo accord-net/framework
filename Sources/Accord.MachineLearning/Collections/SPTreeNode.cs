@@ -59,10 +59,15 @@ namespace Accord.Collections
     using System.Text;
     using Accord.Math;
     using Accord;
+    using Accord.Compat;
 
     /// <summary>
-    ///   Node for a Space-Partitioning Tree.
+    ///   Node for a <see cref="SPTree">Space-Partitioning Tree</see>.
     /// </summary>
+    /// 
+    /// <seealso cref="SPTree"/>
+    /// <seealso cref="VPTree"/>
+    /// <seealso cref="KDTree"/>
     /// 
     [Serializable]
     public class SPTreeNode : TreeNode<SPTreeNode>

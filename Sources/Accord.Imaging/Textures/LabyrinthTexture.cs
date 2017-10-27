@@ -51,7 +51,7 @@ namespace Accord.Imaging.Textures
     /// </code>
     ///
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/labyrinth_texture.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\labyrinth_texture.jpg" width="320" height="240" />
     /// </remarks>
     /// 
     public class LabyrinthTexture : BaseTextureGenerator, ITextureGenerator

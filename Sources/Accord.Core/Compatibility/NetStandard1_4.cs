@@ -31,6 +31,9 @@ namespace Accord.Compat
     using System.Threading;
     using System.Globalization;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Net.Http;
 
     internal static class DBNull
     {
@@ -56,19 +59,91 @@ namespace Accord.Compat
 
     }
 
+    [Flags]
+    internal enum BindingFlags
+    {
+        Default = 0,
+        IgnoreCase = 1,
+        DeclaredOnly = 2,
+        Instance = 4,
+        Static = 8,
+        Public = 16,
+        NonPublic = 32,
+        FlattenHierarchy = 64,
+        InvokeMethod = 256,
+        CreateInstance = 512,
+        GetField = 1024,
+        SetField = 2048,
+        GetProperty = 4096,
+        SetProperty = 8192,
+        PutDispProperty = 16384,
+        PutRefDispProperty = 32768,
+        ExactBinding = 65536,
+        SuppressChangeType = 131072,
+        OptionalParamBinding = 262144,
+        IgnoreReturn = 16777216
+    }
+
+    internal static partial class TypeExtensions
+    {
+        public static bool IsInstanceOfType(this Type type, object obj)
+        {
+            return obj != null && type.GetTypeInfo().IsAssignableFrom(obj.GetType().GetTypeInfo());
+        }
+
+        private static bool check(MethodBase a, BindingFlags flags)
+        {
+            if (flags.HasFlag(BindingFlags.NonPublic) && a.IsPublic)
+                return false;
+            if (flags.HasFlag(BindingFlags.Public) && !a.IsPublic)
+                return false;
+            if (flags.HasFlag(BindingFlags.Static) && !a.IsStatic)
+                return false;
+            return true;
+        }
+
+        private static bool check(FieldInfo a, BindingFlags flags)
+        {
+            if (flags.HasFlag(BindingFlags.NonPublic) && a.IsPublic)
+                return false;
+            if (flags.HasFlag(BindingFlags.Public) && !a.IsPublic)
+                return false;
+            if (flags.HasFlag(BindingFlags.Static) && !a.IsStatic)
+                return false;
+            return true;
+        }
+
+        public static MethodInfo[] GetMethods(this Type type, BindingFlags flags)
+        {
+            var methods = new List<MethodInfo>();
+            foreach (var method in type.GetTypeInfo().DeclaredMethods)
+                if (check(method, flags))
+                    methods.Add(method);
+            return methods.ToArray();
+        }
+
+        public static FieldInfo GetField(this Type type, string name, BindingFlags flags)
+        {
+            var field = type.GetTypeInfo().GetDeclaredField(name);
+                if (check(field, flags))
+                    return field;
+            return null;
+        }
+    }
+
     internal class ResolveEventArgs
     {
         public string Name { get; internal set; }
     }
 
     /// <summary>
-    ///   Minimum SerializationInfo implementation to make Accord.NET compile under NetStandard 1.4.
+    ///   Minimum SerializationBinder implementation to make Accord.NET compile under NetStandard 1.4.
     /// </summary>
     /// 
     public class SerializationBinder
     {
         /// <summary>
-        ///   Minimum SerializationInfo implementation to make Accord.NET compile under NetStandard 1.4.
+        ///   Minimum BindToType implementation to make Accord.NET compile under NetStandard 1.4.
         /// </summary>
         /// 
         public virtual Type BindToType(string assemblyName, string typeName)
@@ -88,6 +163,15 @@ namespace Accord.Compat
     /// 
     public class SerializationInfo
     {
+        /// <summary>
+        ///   Minimum SerializationInfo implementation to make Accord.NET compile under NetStandard 1.4.
+        /// </summary>
+        /// 
+        public object GetValue(string name, Type t)
+        {
+            throw new NotSupportedException("Not supported in .NET Standard 1.4.");
+        }
+
         /// <summary>
         /// Performs an implicit conversion from SerializationInfo to <see cref="System.String" />.
         /// </summary>
@@ -358,9 +442,13 @@ namespace Accord.Compat
 
     internal class OnDeserializingAttribute : Attribute { }
 
+    internal class SurrogateSelectionAttribute : Attribute { }
+
     internal class BinaryFormatter
     {
         public object Binder { get; internal set; }
+
+        public SurrogateSelector SurrogateSelector { get; set; }
 
         internal void Serialize<T>(GZipStream gzip, T obj)
         {
@@ -383,11 +471,90 @@ namespace Accord.Compat
         }
     }
 
+    internal class SurrogateSelector
+    {
+    }
+
     internal class AppDomain
     {
         public static AppDomain CurrentDomain { get; internal set; }
 
         public Func<object, ResolveEventArgs, Assembly> AssemblyResolve { get; internal set; }
+
+        internal Assembly Load(string name)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class WebClient : IDisposable
+    {
+        public Dictionary<string, string> Headers = new Dictionary<string, string>();
+
+        public WebClient()
+        {
+
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public void DownloadFile(string url, string filename)
+        {
+            DownloadFileAsync(new Uri(url), filename).RunSynchronously();
+        }
+
+        public Task DownloadFileAsync(Uri requestUri, string filename)
+        {
+            using (Stream stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                return DownloadDataAsync(requestUri, stream);
+        }
+
+        public byte[] DownloadData(string url)
+        {
+            MemoryStream stream = new MemoryStream();
+            DownloadDataAsync(new Uri(url), stream).RunSynchronously();
+            return stream.ToArray();
+        }
+
+        public string DownloadString(string url)
+        {
+            byte[] bytes = DownloadData(url);
+            return ASCIIEncoding.ASCII.GetString(bytes, 0, bytes.Length);
+        }
+
+        public async Task DownloadDataAsync(Uri requestUri, Stream stream)
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+                    {
+                        foreach (var h in Headers)
+                            request.Headers.Add(h.Key, h.Value);
+
+                        using (Stream contentStream = await (await httpClient.SendAsync(request)).Content.ReadAsStreamAsync())
+                        {
+                            await contentStream.CopyToAsync(stream);
+                        }
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new WebException(ex);
+            }
+        }
+    }
+
+    internal class WebException : HttpRequestException
+    {
+        public WebException(HttpRequestException ex)
+            : base("HttpRequestException", ex)
+        {
+        }
     }
 }
 #endif

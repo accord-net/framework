@@ -28,7 +28,6 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
     using System;
     using System.Data;

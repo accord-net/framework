@@ -34,11 +34,11 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/sample6.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample6.png" width="320" height="240" />
     /// <para><b>Overlay image:</b></para>
-    /// <img src="img/imaging/sample7.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample7.png" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/add.png" width="320" height="240" />
+    /// <img src="..\images\imaging\add.png" width="320" height="240" />
     /// </remarks>
     /// 
     /// <seealso cref="Merge"/>

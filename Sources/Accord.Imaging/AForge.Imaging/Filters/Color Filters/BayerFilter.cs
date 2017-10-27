@@ -37,9 +37,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/sample23.png" width="640" height="480" />
+    /// <img src="..\images\imaging\sample23.png" width="640" height="480" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/bayer_filter.jpg" width="640" height="480" />
+    /// <img src="..\images\imaging\bayer_filter.jpg" width="640" height="480" />
     /// </remarks>
     /// 
     /// <see cref="BayerFilterOptimized"/>

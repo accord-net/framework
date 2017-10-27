@@ -27,6 +27,7 @@ namespace Accord.Tests.Audio
     using Accord.Audio.Windows;
     using Accord.Math;
     using System.IO;
+    using Accord.DataSets;
 
     [TestFixture]
     public class SignalTest
@@ -55,6 +56,25 @@ namespace Accord.Tests.Audio
             double expected = 0.54439;
             double actual = target.GetEnergy();
             Assert.AreEqual(expected, actual, 1e-4);
+        }
+
+        [Test]
+        public void GetEnergyTest_doc()
+        {
+            string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "energy");
+
+            #region doc_energy
+            // Let's say we would like to compute the energy of an audio signal. For this,
+            // we will take an example signal from the Free Spoken Digits Dataset (FSDD):
+            FreeSpokenDigitsDataset fsdd = new FreeSpokenDigitsDataset(basePath);
+            Signal signal = fsdd.GetSignal(digit: 3, speaker: "jackson", index: 0);
+
+            // The energy is defined as the sum of squared values in all 
+            // channels of the audio signal. In this case, it should be:
+            double energy = signal.GetEnergy(); // 19.448728048242629
+            #endregion
+
+            Assert.AreEqual(19.448728048242629, energy, 1e-10);
         }
 
         [Test]
@@ -90,7 +110,6 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(expected, actual);
 
         }
-
 
         [Test]
         public void RectangularWindowTest()

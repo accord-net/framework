@@ -29,7 +29,6 @@ namespace Accord.Tests.MachineLearning
     using System.Data;
     using Accord.Statistics.Filters;
     using Accord.Math;
-    using Accord.Tests.MachineLearning.Properties;
     using Accord.MachineLearning.DecisionTrees.Learning;
 
 

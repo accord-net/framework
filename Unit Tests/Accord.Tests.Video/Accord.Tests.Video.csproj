@@ -61,6 +61,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="VideoCaptureDeviceTest.cs" />
     <Compile Include="BoundaryTest.cs" />
     <Compile Include="EmptyBoundaryTest.cs" />
     <Compile Include="MJPEGStreamParserTest.cs" />
@@ -83,6 +84,14 @@
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
+      <Name>Accord.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj">
+      <Project>{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}</Project>
+      <Name>Accord.Video.DirectShow</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Video\Accord.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>

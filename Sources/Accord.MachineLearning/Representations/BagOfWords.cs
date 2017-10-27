@@ -294,7 +294,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        int[] ITransform<string[], int[]>.Transform(string[] input)
+        int[] ICovariantTransform<string[], int[]>.Transform(string[] input)
         {
             return Transform(input, new int[NumberOfWords]);
         }
@@ -356,7 +356,7 @@ namespace Accord.MachineLearning
             return Transform(input, Jagged.Zeros<double>(input.Length, NumberOfWords));
         }
 
-        int[][] ITransform<string[], int[]>.Transform(string[][] input)
+        int[][] ICovariantTransform<string[], int[]>.Transform(string[][] input)
         {
             return Transform(input, Jagged.Zeros<int>(input.Length, NumberOfWords));
         }
@@ -431,12 +431,12 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        Sparse<double> ITransform<string[], Sparse<double>>.Transform(string[] input)
+        Sparse<double> ICovariantTransform<string[], Sparse<double>>.Transform(string[] input)
         {
             return Sparse.FromDense(Transform(input));
         }
 
-        Sparse<double>[] ITransform<string[], Sparse<double>>.Transform(string[][] input)
+        Sparse<double>[] ICovariantTransform<string[], Sparse<double>>.Transform(string[][] input)
         {
             return Transform(input, new Sparse<double>[input.Length]);
         }
@@ -459,6 +459,23 @@ namespace Accord.MachineLearning
                 result[i] = t.Transform(input[i]);
             });
             return result;
+        }
+
+
+
+        /// <summary>
+        ///   Creates the default clustering algorithm for Bag-of-Words models (<see cref="KMeans"/>).
+        /// </summary>
+        /// 
+        /// <param name="numberOfWords">The number of clusters for k-means.</param>
+        /// 
+        public static KMeans GetDefaultClusteringAlgorithm(int numberOfWords)
+        {
+            return new KMeans(numberOfWords)
+            {
+                ComputeCovariances = false,
+                UseSeeding = Seeding.KMeansPlusPlus,
+            };
         }
     }
 }

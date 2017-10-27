@@ -45,6 +45,7 @@ namespace Accord.IO
     using System.IO;
     using Accord.IO.Resources;
     using System.Net;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents a reader that provides fast, non-cached, forward-only access to CSV data.  
@@ -262,7 +263,8 @@ namespace Accord.IO
         /// 
         public static CsvReader FromUrl(string url, bool hasHeaders)
         {
-            WebClient client = new WebClient();
+            WebClient client = ExtensionMethods.NewWebClient();
+            Console.WriteLine("Downloading {0}", url);
             byte[] bytes = client.DownloadData(url);
             MemoryStream stream = new MemoryStream(bytes);
             return new CsvReader(stream, hasHeaders);

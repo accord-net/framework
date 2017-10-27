@@ -415,7 +415,7 @@ namespace Accord.Tests.Statistics
         };
 
         [Test]
-        [TestCaseSource(nameof(QuartilesTestValues))]
+        [TestCaseSource("QuartilesTestValues")]
         public void return_correct_q1_value_for_vector(double[] values, double expectedQ1, double expectedQ3)
         {
             var q1 = values.LowerQuartile(type: QuantileMethod.R);

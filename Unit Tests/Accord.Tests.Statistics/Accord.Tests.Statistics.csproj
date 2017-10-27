@@ -126,6 +126,7 @@
     <Compile Include="Distributions\Univariate\Continuous\GompertzDistributionTest.cs" />
     <Compile Include="Models\Regression\ProbitRegressionTest.cs" />
     <Compile Include="RunningCircularStatisticsTest.cs" />
+    <Compile Include="KalmanFilterTest.cs" />
     <Compile Include="StatisticsTest.cs" />
     <Compile Include="Testing\BartlettTestTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />

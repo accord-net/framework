@@ -50,9 +50,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample11.png" width="256" height="256" />
+    /// <img src="..\images\imaging\sample11.png" width="256" height="256" />
     /// <para><b>Result image (calculated threshold is 102):</b></para>
-    /// <img src="img/imaging/iterative_threshold.png" width="256" height="256" />
+    /// <img src="..\images\imaging\iterative_threshold.png" width="256" height="256" />
     /// </remarks>
     /// 
     /// <seealso cref="OtsuThreshold"/>

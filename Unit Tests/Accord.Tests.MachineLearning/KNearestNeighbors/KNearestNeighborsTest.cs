@@ -209,6 +209,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, acc);
             Assert.AreEqual(1, kappa);
 
+#if !NO_BINARY_SERIALIZATION
             #region doc_serialization
             // After we have created and learned our model, let's say we would 
             // like to save it to disk. For this, we can import the Accord.IO 
@@ -233,6 +234,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(knn.NumberOfOutputs, loaded_knn.NumberOfOutputs);
             Assert.AreEqual(knn.Outputs, loaded_knn.Outputs);
             Assert.AreEqual(knn.Token, loaded_knn.Token);
+#endif
         }
 
         [Test]

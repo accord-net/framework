@@ -42,6 +42,16 @@ public class MatrixOperationTemplate : Template
             // "long",
             // "uint", "ulong", "ushort"
         };
+
+        string dim_doc = @"		/// <param name=""dimension"">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href=""VectorType.RowVector""/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href=""VectorType.ColumnVector""/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>";
+
 #>
 // Accord Math Library
 // The Accord.NET Framework
@@ -237,24 +247,25 @@ namespace Accord.Math
             return <#=name#>(a, b, new <#=r#>[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
-        /// </param>
-        /// 
+<#=dim_doc#>
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a,  <#=b#>[] b, int dimension)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, VectorType dimension)
         {
             return <#=name#>(a, b, dimension, MatrixCreateAs<<#=a#>, <#=r#>>(a));
         }
@@ -265,21 +276,92 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
-        /// </param>
-        /// 
+<#=dim_doc#>
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a,  <#=b#>[] b, int dimension)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, VectorType dimension)
         {
             return <#=name#>(a, b, dimension, JaggedCreateAs<<#=a#>, <#=r#>>(a));
         }
+
+                /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, VectorType dimension)
+        {
+            return <#=name#>(a, b, dimension, MatrixCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+        /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, VectorType dimension)
+        {
+            return <#=name#>(a, b, dimension, JaggedCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, MatrixCreateAs<<#=a#>, <#=r#>>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, JaggedCreateAs<<#=a#>, <#=r#>>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, MatrixCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, JaggedCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   <#=act#> a scalar <c>a</c> <#=com#> to the main diagonal of matrix <c>B</c>.
@@ -432,7 +514,7 @@ namespace Accord.Math
                 {
 #>
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
@@ -514,7 +596,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a scalar <c>b</c>.
@@ -617,7 +699,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -642,7 +724,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   <#=act#> a vector <c>a</c> <#=com#> a vector<c>b</c>.
@@ -663,14 +745,14 @@ namespace Accord.Math
                 result[i] = (<#=r#>)((<#=r#>)a[i] <#=op#> (<#=r#>)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   <#=act#> a vector <c>a</c> <#=com#> a scalar <c>b</c>.
@@ -711,35 +793,109 @@ namespace Accord.Math
                 result[i] = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, int dimension, <#=r#>[,] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, int dimension, <#=r#>[][] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, int dimension, <#=r#>[,] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, int dimension, <#=r#>[][] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
-        /// </param>
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a,  <#=b#>[] b, int dimension, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, VectorType dimension, <#=r#>[,] result)
+        {
+            return <#=name#>(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, VectorType dimension, <#=r#>[][] result)
+        {
+            return <#=name#>(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+<#=dim_doc#>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, VectorType dimension, <#=r#>[,] result)
         {
             check<<#=a#>, <#=b#>, <#=r#>>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -767,20 +923,14 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
-        /// </param>
+<#=dim_doc#>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a,  <#=b#>[] b, int dimension, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, VectorType dimension, <#=r#>[][] result)
         {
             check<<#=a#>, <#=b#>, <#=r#>>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -798,7 +948,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -809,20 +959,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -959,7 +1096,7 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 <#+
                 }

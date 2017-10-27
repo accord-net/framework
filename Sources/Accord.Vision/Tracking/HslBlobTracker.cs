@@ -33,6 +33,9 @@ namespace Accord.Vision.Tracking
     ///   Blob object tracker.
     /// </summary>
     /// 
+    /// <seealso cref="MatchingTracker"/>
+    /// <seealso cref="Camshift"/>
+    /// 
     public class HslBlobTracker : IObjectTracker
     {
         private TrackingObject trackingObject;

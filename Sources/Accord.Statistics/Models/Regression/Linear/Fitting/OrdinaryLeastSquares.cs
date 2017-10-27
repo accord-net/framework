@@ -125,7 +125,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (weights != null)
             {
                 double[] sqrtW = weights.Sqrt();
-                X = Elementwise.Multiply(X, sqrtW, dimension: 1, result: X);
+                X = Elementwise.Multiply(X, sqrtW, dimension: (VectorType)1, result: X);
                 y = Elementwise.Multiply(y, sqrtW);
             }
 
@@ -167,7 +167,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (weights != null)
             {
                 double[] sqrtW = weights.Sqrt();
-                x = Elementwise.Multiply(x, sqrtW, dimension: 1);
+                x = Elementwise.Multiply(x, sqrtW, dimension: (VectorType)1);
                 y = Elementwise.Multiply(y, sqrtW);
             }
 
@@ -208,8 +208,8 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (weights != null)
             {
                 double[] sqrtW = weights.Sqrt();
-                x = Elementwise.Multiply(x, sqrtW, dimension: 1);
-                y = Elementwise.Multiply(y, sqrtW, dimension: 1);
+                x = Elementwise.Multiply(x, sqrtW, dimension: (VectorType)1);
+                y = Elementwise.Multiply(y, sqrtW, dimension: (VectorType)1);
             }
 
             decomposition = x.Decompose(leastSquares: IsRobust);

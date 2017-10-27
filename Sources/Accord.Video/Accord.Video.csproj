@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Video</RootNamespace>
     <AssemblyName>Accord.Video</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -42,7 +42,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
@@ -50,6 +53,7 @@
     </Compile>
     <Compile Include="AsyncVideoSource.cs" />
     <Compile Include="ByteArrayUtils.cs" />
+    <Compile Include="DataSets\TestVideos.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Internal\Boundary.cs" />
     <Compile Include="Internal\MJPEGStreamParser.cs" />

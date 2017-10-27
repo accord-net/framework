@@ -256,6 +256,8 @@ namespace Accord.Math
         {
             if (x == 0)
                 return Double.NegativeInfinity;
+            if (x < 0)
+                return Digamma(1 - x) + Math.PI / Math.Tan(-Math.PI * x);
 
             double s = 0;
             double w = 0;
@@ -355,6 +357,13 @@ namespace Accord.Math
         /// 
         public static double Trigamma(double x)
         {
+            if (x < 0)
+            {
+                double v = Math.PI / Math.Sin(-Math.PI * x);
+                return -Trigamma(1 - x) + v * v;
+            }
+
+
             double a = 0.0001;
             double b = 5.0;
             double b2 = 0.1666666667;
@@ -780,8 +789,8 @@ namespace Accord.Math
                 x = x - d;
             }
 
-                // Resort to interval halving if Newton iteration did not converge. 
-        ihalve:
+            // Resort to interval halving if Newton iteration did not converge. 
+            ihalve:
 
             d = 0.0625;
             if (x0 == Double.MaxValue)
@@ -866,6 +875,6 @@ namespace Accord.Math
             return x;
         }
 
-        
+
     }
 }

@@ -26,6 +26,7 @@ namespace Accord.Imaging.Converters
     using System.Drawing.Imaging;
     using Accord.Imaging;
     using Accord.Math;
+    using System;
 
     /// <summary>
     ///   Bitmap to multidimensional matrix converter.
@@ -102,6 +103,18 @@ namespace Accord.Imaging.Converters
         IConverter<Bitmap, byte[][]>,
         IConverter<UnmanagedImage, byte[,]>,
         IConverter<UnmanagedImage, byte[][]>,
+        IConverter<Bitmap, double[,,]>,
+        IConverter<Bitmap, double[][][]>,
+        IConverter<UnmanagedImage, double[,,]>,
+        IConverter<UnmanagedImage, double[][][]>,
+        IConverter<Bitmap, float[,,]>,
+        IConverter<Bitmap, float[][][]>,
+        IConverter<UnmanagedImage, float[,,]>,
+        IConverter<UnmanagedImage, float[][][]>,
+        IConverter<Bitmap, byte[,,]>,
+        IConverter<Bitmap, byte[][][]>,
+        IConverter<UnmanagedImage, byte[,,]>,
+        IConverter<UnmanagedImage, byte[][][]>,
         IConverter<Bitmap, Color[,]>,
         IConverter<Bitmap, Color[][]>,
         IConverter<UnmanagedImage, Color[,]>,
@@ -318,6 +331,118 @@ namespace Accord.Imaging.Converters
 
             input.UnlockBits(bitmapData);
         }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out double[,,] output)
+        {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out double[][][] output)
+        {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out float[,,] output)
+        {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out float[][][] output)
+        {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out byte[,,] output)
+        {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Bitmap input, out byte[][][] output)
+        {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+
+
+
 
         /// <summary>
         ///   Converts an image from one representation to another.
@@ -637,5 +762,226 @@ namespace Accord.Imaging.Converters
             }
         }
 
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out double[][][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Jagged.Zeros(height, width, pixelSize);
+
+            if (Channel != 0)
+                throw new InvalidOperationException("The Channel property will be ignored when converting to a rank-3 tensor.");
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int d = 0; d < pixelSize; d++, src++)
+                            output[y][x][d] = Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
+                    }
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out float[,,] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Matrix.Zeros<float>(height, width, pixelSize);
+
+            if (Channel != 0)
+                throw new InvalidOperationException("The Channel property will be ignored when converting to a rank-3 tensor.");
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int d = 0; d < pixelSize; d++, src++)
+                            output[y, x, d] = (float)Vector.Scale(*src, (float)0, (float)255, Min, Max);
+                    }
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out float[][][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Jagged.Zeros<float>(height, width, pixelSize);
+
+            if (Channel != 0)
+                throw new InvalidOperationException("The Channel property will be ignored when converting to a rank-3 tensor.");
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int d = 0; d < pixelSize; d++, src++)
+                            output[y][x][d] = (float)Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
+                    }
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out byte[,,] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Matrix.Zeros<byte>(height, width, pixelSize);
+
+            if (Channel != 0)
+                throw new InvalidOperationException("The Channel property will be ignored when converting to a rank-3 tensor.");
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int d = 0; d < pixelSize; d++, src++)
+                            output[y, x, d] = (byte)Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
+                    }
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out byte[][][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Jagged.Zeros<byte>(height, width, pixelSize);
+
+            if (Channel != 0)
+                throw new InvalidOperationException("The Channel property will be ignored when converting to a rank-3 tensor.");
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int d = 0; d < pixelSize; d++, src++)
+                            output[y][x][d] = (byte)Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
+                    }
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out double[,,] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = Matrix.Zeros<double>(height, width, pixelSize);
+
+            if (Channel != 0)
+                throw new InvalidOperationException("The Channel property will be ignored when converting to a rank-3 tensor.");
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int d = 0; d < pixelSize; d++, src++)
+                            output[y, x, d] = Vector.Scale(*src, (double)0, (double)255, Min, Max);
+                    }
+                    src += offset;
+                }
+            }
+        }
     }
 }

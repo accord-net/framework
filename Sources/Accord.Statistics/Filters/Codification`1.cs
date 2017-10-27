@@ -72,6 +72,7 @@ namespace Accord.Statistics.Filters
     [SurrogateSelector(typeof(Codification.Selector))]
 #endif
     public partial class Codification<T> : BaseFilter<Codification<T>.Options, Codification<T>>,
+        // TODO: It may be better if the codification filter could transform T in T (instead of int or double)
         ITransform<T[], double[]>, IUnsupervisedLearning<Codification<T>, T[], double[]>,
         ITransform<T[], int[]>, IUnsupervisedLearning<Codification<T>, T[], int[]>
     {
@@ -463,12 +464,12 @@ namespace Accord.Statistics.Filters
             return result;
         }
 
-        double[] ITransform<T[], double[]>.Transform(T[] input)
+        double[] ICovariantTransform<T[], double[]>.Transform(T[] input)
         {
             return Transform(new[] { input }, new double[][] { new double[NumberOfOutputs] })[0];
         }
 
-        double[][] ITransform<T[], double[]>.Transform(T[][] input)
+        double[][] ICovariantTransform<T[], double[]>.Transform(T[][] input)
         {
             return Transform(input, Jagged.Zeros(input.Length, NumberOfOutputs));
         }
@@ -619,9 +620,14 @@ namespace Accord.Statistics.Filters
             if (!this.initialized)
                 Learn(data);
 
+            var order = new List<DataColumn>();
+
             // For each column having a mapping
             foreach (DataColumn column in data.Columns)
             {
+                DataColumn currentColumn = result.Columns[column.ColumnName];
+                order.Add(currentColumn);
+
                 if (!this.Columns.Contains(column.ColumnName))
                     continue;
 
@@ -631,20 +637,23 @@ namespace Accord.Statistics.Filters
                 if (options.VariableType == CodificationVariable.Ordinal)
                 {
                     // Change its type from string to integer
-                    result.Columns[options.ColumnName].MaxLength = -1;
+                    currentColumn.MaxLength = -1;
                     if (options.HasMissingValue && options.MissingValueReplacement != null && options.MissingValueReplacement != DBNull.Value)
                     {
-                        result.Columns[options.ColumnName].DataType = options.MissingValueReplacement.GetType();
+                        currentColumn.DataType = options.MissingValueReplacement.GetType();
                     }
                     else
                     {
-                        result.Columns[options.ColumnName].DataType = typeof(int);
+                        currentColumn.DataType = typeof(int);
                     }
                 }
 
                 // If we want to avoid implying an order relationship between them
                 else if (options.VariableType == CodificationVariable.Categorical)
                 {
+                    // Remove the column from the schema
+                    order.Remove(currentColumn);
+
                     // Create extra columns for each possible value
                     for (int i = 0; i < options.NumberOfOutputs; i++)
                     {
@@ -652,19 +661,19 @@ namespace Accord.Statistics.Filters
                         T symbolName = options.Mapping.Reverse[i];
                         string factorName = getFactorName(options, symbolName);
 
-                        result.Columns.Add(new DataColumn(factorName, typeof(int))
+                        order.Add(new DataColumn(factorName, typeof(int))
                         {
                             DefaultValue = 0
                         });
                     }
-
-                    // Remove the column from the schema
-                    result.Columns.Remove(options.ColumnName);
                 }
 
                 // If we want to avoid implying an order relationship between them
                 else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
                 {
+                    // Remove the column from the schema
+                    order.Remove(currentColumn);
+
                     // Create extra columns for each possible value
                     for (int i = 0; i < options.NumberOfOutputs; i++)
                     {
@@ -672,28 +681,25 @@ namespace Accord.Statistics.Filters
                         T symbolName = options.Mapping.Reverse[i + 1];
                         string factorName = getFactorName(options, symbolName);
 
-                        result.Columns.Add(new DataColumn(factorName, typeof(int))
+                        order.Add(new DataColumn(factorName, typeof(int))
                         {
                             DefaultValue = 0
                         });
                     }
-
-                    // Remove the column from the schema
-                    result.Columns.Remove(options.ColumnName);
                 }
 
                 else if (options.VariableType == CodificationVariable.Continuous)
                 {
                     // Change its type from to double
-                    result.Columns[options.ColumnName].MaxLength = -1;
-                    result.Columns[options.ColumnName].DataType = typeof(double);
+                    currentColumn.MaxLength = -1;
+                    currentColumn.DataType = typeof(double);
                 }
 
                 else if (options.VariableType == CodificationVariable.Discrete)
                 {
                     // Change its type from to int
-                    result.Columns[options.ColumnName].MaxLength = -1;
-                    result.Columns[options.ColumnName].DataType = typeof(double);
+                    currentColumn.MaxLength = -1;
+                    currentColumn.DataType = typeof(double);
                 }
 
                 else
@@ -701,6 +707,10 @@ namespace Accord.Statistics.Filters
                     throw new InvalidOperationException("Unknown variable type: " + options.VariableType);
                 }
             }
+
+            // Put the columns back in the same order
+            result.Columns.Clear();
+            result.Columns.AddRange(order.ToArray());
 
 
             // Now for each row on the original table

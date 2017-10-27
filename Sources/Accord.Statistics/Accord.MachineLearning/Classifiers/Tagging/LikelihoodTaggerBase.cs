@@ -376,12 +376,12 @@ namespace Accord.MachineLearning
             return LogLikelihoods(sequences, ref decision, result);
         }
 
-        double ITransform<TInput[], double>.Transform(TInput[] input)
+        double ICovariantTransform<TInput[], double>.Transform(TInput[] input)
         {
             return LogLikelihood(input);
         }
 
-        double[] ITransform<TInput[], double>.Transform(TInput[][] input)
+        double[] ICovariantTransform<TInput[], double>.Transform(TInput[][] input)
         {
             return LogLikelihood(input);
         }

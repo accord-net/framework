@@ -61,6 +61,33 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a zero-valued rank-3 tensor.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the matrix to be created.</typeparam>
+        /// <param name="rows">The number of rows in the tensor.</param>
+        /// <param name="columns">The number of columns in the tensor.</param>
+        /// <param name="depth">The number of channels in the tensor.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][][] Zeros<T>(int rows, int columns, int depth)
+        {
+            T[][][] matrix = new T[rows][][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrix[i] = new T[columns][];
+                for (int j = 0; j < matrix[i].Length; j++)
+                    matrix[i][j] = new T[depth];
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
         ///   Creates a zero-valued matrix.
         /// </summary>
         /// 
@@ -95,6 +122,24 @@ namespace Accord.Math
         public static double[][] Zeros(int rows, int columns)
         {
             return Zeros<double>(rows, columns);
+        }
+
+        /// <summary>
+        ///   Creates a zero-valued rank-3 tensor.
+        /// </summary>
+        /// 
+        /// <param name="rows">The number of rows in the tensor.</param>
+        /// <param name="columns">The number of columns in the tensor.</param>
+        /// <param name="depth">The number of channels in the tensor.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] Zeros(int rows, int columns, int depth)
+        {
+            return Zeros<double>(rows, columns, depth);
         }
 
         /// <summary>

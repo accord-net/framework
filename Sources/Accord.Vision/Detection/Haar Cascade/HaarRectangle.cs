@@ -24,6 +24,7 @@ namespace Accord.Vision.Detection
 {
     using System;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Scalable rectangular area.
@@ -141,6 +142,9 @@ namespace Accord.Vision.Detection
         ///   Scales the values of this rectangle.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void ScaleRectangle(float value)
         {
             ScaledX = (int)(X * value);
@@ -153,6 +157,9 @@ namespace Accord.Vision.Detection
         ///   Scales the weight of this rectangle.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void ScaleWeight(float scale)
         {
             ScaledWeight = Weight * scale;

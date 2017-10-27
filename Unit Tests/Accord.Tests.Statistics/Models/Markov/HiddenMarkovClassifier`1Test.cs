@@ -34,7 +34,7 @@ namespace Accord.Tests.Statistics
 
 
     [TestFixture]
-    public class GenericSequenceClassifierTest
+    public class HiddenMarkovClassifier1Test
     {
 
 

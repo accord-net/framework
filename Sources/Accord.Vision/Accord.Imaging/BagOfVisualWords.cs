@@ -116,8 +116,8 @@ namespace Accord.Imaging
     /// <para>
     ///   In some applications, learning a BoW with the default settings might need a large amount of memory to be
     ///   available. In those cases, it is possible to reduce the memory and CPU requirements for the learning phase
-    ///   using the <see cref="BaseBagOfVisualWords{A,B,C,D,E}.NumberOfDescriptors"/> and 
-    ///   <see cref="BaseBagOfVisualWords{A,B,C,D,E}.MaxDescriptorsPerImage"/> properties. It is also possible
+    ///   using the <see cref="BaseBagOfWords{A,B,C,D,E,F}.NumberOfDescriptors"/> and 
+    ///   <see cref="BaseBagOfWords{A,B,C,D,E,F}.MaxDescriptorsPerInstance"/> properties. It is also possible
     ///   to avoid loading all images at once by feeding the algorithm with the image filenames instead of their Bitmap
     ///   representations:</para>
     ///   
@@ -127,7 +127,7 @@ namespace Accord.Imaging
     /// 
     /// <seealso cref="BagOfVisualWords{TPoint}"/>
     /// <seealso cref="BagOfVisualWords{TPoint, TFeature}"/>
-    /// <seealso cref="BagOfVisualWords{TPoint, TFeature, TClustering, TDetector}"/>
+    /// <seealso cref="BagOfVisualWords{TPoint, TFeature, TClustering, TExtractor}"/>
     /// 
     [Serializable]
     public class BagOfVisualWords :
@@ -147,7 +147,7 @@ namespace Accord.Imaging
         /// 
         public BagOfVisualWords(int numberOfWords)
         {
-            base.Init(new SpeededUpRobustFeaturesDetector(), base.KMeans(numberOfWords));
+            base.Init(new SpeededUpRobustFeaturesDetector(), BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>
@@ -158,8 +158,7 @@ namespace Accord.Imaging
         /// 
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(//IClusteringAlgorithm<double[]>
-            IUnsupervisedLearning<IClassifier<double[], int>, double[], int> algorithm)
+        public BagOfVisualWords(IUnsupervisedLearning<IClassifier<double[], int>, double[], int> algorithm)
         {
             base.Init(new SpeededUpRobustFeaturesDetector(), algorithm);
         }
@@ -202,7 +201,7 @@ namespace Accord.Imaging
         /// 
         [Obsolete("Please use the Accord.IO.Serializer<BagOfVisualWords<TPoint>>.Load() method instead.")]
         public static BagOfVisualWords<TPoint> Load<TPoint>(Stream stream)
-            where TPoint : IFeaturePoint
+            where TPoint : IFeaturePoint<double[]>
         {
             return Serializer.Load<BagOfVisualWords<TPoint>>(stream);
         }
@@ -217,7 +216,7 @@ namespace Accord.Imaging
         /// 
         [Obsolete("Please use the Accord.IO.Serializer<BagOfVisualWords<TPoint>>.Load() method instead.")]
         public static BagOfVisualWords<TPoint> Load<TPoint>(string path)
-            where TPoint : IFeaturePoint
+            where TPoint : IFeaturePoint<double[]>
         {
             return Serializer.Load<BagOfVisualWords<TPoint>>(path);
         }
@@ -253,7 +252,7 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        /// Creates a Bag-of-Words model using SURF and K-Means.
+        /// Creates a Bag-of-Words model using <see cref="SpeededUpRobustFeaturesDetector"/> and <see cref="KMeans"/>
         /// </summary>
         /// 
         public static BagOfVisualWords Create(int numberOfWords)
@@ -265,71 +264,110 @@ namespace Accord.Imaging
         /// Creates a Bag-of-Words model using the given feature detector and clustering algorithm.
         /// </summary>
         /// 
-        public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], TClustering, TDetector>
-            Create<TDetector, TClustering>(TDetector detector, TClustering clustering)
-            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int> //IClusteringAlgorithm<double[]>
-            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
+        public static BagOfVisualWords<FeatureDescriptor, double[], TClustering, IImageFeatureExtractor<FeatureDescriptor>>
+            Create<TExtractor, TClustering>(IImageFeatureExtractor<FeatureDescriptor> detector, TClustering clustering)
+            where TClustering: IUnsupervisedLearning<IClassifier<double[], int>, double[], int>
         {
-            return Create<TDetector, TClustering, IFeatureDescriptor<double[]>, double[]>(detector, clustering);
+            return new BagOfVisualWords<FeatureDescriptor, double[], TClustering, IImageFeatureExtractor<FeatureDescriptor>>(detector, clustering);
         }
 
-        /// <summary>
-        /// Creates a Bag-of-Words model using the given feature detector and K-Means.
-        /// </summary>
-        /// 
-        public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TDetector>
-            Create<TDetector>(TDetector detector, int numberOfWords)
-            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
-        {
-            return Create<TDetector, KMeans, IFeatureDescriptor<double[]>, double[]>(detector, new KMeans(numberOfWords));
-        }
+       
 
         /// <summary>
-        /// Creates a Bag-of-Words model using the given feature detector and K-Means.
-        /// </summary>
-        /// 
-        public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TDetector>
-            Create<TDetector, TClustering>(TDetector detector, int numberOfWords)
-            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
-        {
-            return Create<TDetector, KMeans, IFeatureDescriptor<double[]>, double[]>(detector, new KMeans(numberOfWords));
-        }
-
-        /// <summary>
-        /// Creates a Bag-of-Words model using the SURF feature detector and the given clustering algorithm.
+        /// Creates a Bag-of-Words model using the <see cref="SpeededUpRobustFeaturesDetector">SURF feature detector</see> and the given clustering algorithm.
         /// </summary>
         /// 
         public static BagOfVisualWords<SpeededUpRobustFeaturePoint, double[], TClustering, SpeededUpRobustFeaturesDetector>
             Create<TClustering>(TClustering clustering)
-            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int>// IClusteringAlgorithm<double[]>
+            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int>
         {
             return Create<SpeededUpRobustFeaturesDetector, TClustering, SpeededUpRobustFeaturePoint, double[]>(new SpeededUpRobustFeaturesDetector(), clustering);
         }
 
-
+#if NET35
         /// <summary>
         /// Creates a Bag-of-Words model using the given feature detector and clustering algorithm.
         /// </summary>
         /// 
-        public static BagOfVisualWords<IFeatureDescriptor<TFeature>, TFeature, TClustering, TDetector>
-            Create<TDetector, TClustering, TFeature>(TDetector detector, TClustering clustering)
-            where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> //IClusteringAlgorithm<TFeature>
-            where TDetector : IFeatureDetector<IFeatureDescriptor<TFeature>, TFeature>
+        public static BagOfVisualWords<FastRetinaKeypoint, byte[], TClustering, FastRetinaKeypointDetector>
+            Create<TExtractor, TClustering, TPoint>(FastRetinaKeypointDetector detector, TClustering clustering)
+            where TClustering : IUnsupervisedLearning<IClassifier<byte[], int>, byte[], int>
+            where TExtractor : FastRetinaKeypointDetector
         {
-            return Create<TDetector, TClustering, IFeatureDescriptor<TFeature>, TFeature>(detector, clustering);
+            return Create<FastRetinaKeypointDetector, TClustering, FastRetinaKeypoint, byte[]>(detector, clustering);
         }
 
         /// <summary>
         /// Creates a Bag-of-Words model using the given feature detector and clustering algorithm.
         /// </summary>
         /// 
-        public static BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>
-            Create<TDetector, TClustering, TPoint, TFeature>(TDetector detector, TClustering clustering)
-            where TPoint : IFeatureDescriptor<TFeature>
-            where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> //IClusteringAlgorithm<TFeature>
-            where TDetector : IFeatureDetector<TPoint, TFeature>
+        public static BagOfVisualWords<FastRetinaKeypoint, double[], TClustering, FastRetinaKeypointDetector>
+            Create<TClustering>(FastRetinaKeypointDetector detector, TClustering clustering)
+            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int>
         {
-            return new BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>(detector, clustering);
+            return Create<FastRetinaKeypointDetector, TClustering, FastRetinaKeypoint, double[]>(detector, clustering);
+        }
+
+        /// <summary>
+        /// Creates a Bag-of-Words model using the given feature detector and clustering algorithm.
+        /// </summary>
+        /// 
+        public static BagOfVisualWords<FeatureDescriptor, double[], TClustering, TExtractor>
+            Create<TExtractor, TClustering>(TExtractor detector, TClustering clustering)
+            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int>
+            where TExtractor : BaseFeatureExtractor<FeatureDescriptor>
+        {
+            return Create<TExtractor, TClustering, FeatureDescriptor, double[]>(detector, clustering);
+        }
+#else
+        /// <summary>
+        /// Creates a Bag-of-Words model using the given feature detector and clustering algorithm.
+        /// </summary>
+        /// 
+        public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], TClustering, TExtractor>
+            Create<TExtractor, TClustering>(TExtractor detector, TClustering clustering)
+            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int>
+            where TExtractor : IImageFeatureExtractor<IFeatureDescriptor<double[]>>
+        {
+            return Create<TExtractor, TClustering, IFeatureDescriptor<double[]>, double[]>(detector, clustering);
+        }
+#endif
+
+
+        /// <summary>
+        /// Creates a Bag-of-Words model using the given feature detector and <see cref="KMeans"/>.
+        /// </summary>
+        /// 
+        public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TExtractor>
+            Create<TExtractor>(TExtractor detector, int numberOfWords)
+            where TExtractor : IImageFeatureExtractor<IFeatureDescriptor<double[]>>
+        {
+            return Create<TExtractor, KMeans, IFeatureDescriptor<double[]>, double[]>(detector, BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
+        }
+
+        /// <summary>
+        /// Creates a Bag-of-Words model using the given feature detector and clustering algorithm.
+        /// </summary>
+        /// 
+        public static BagOfVisualWords<IFeatureDescriptor<TFeature>, TFeature, TClustering, TExtractor>
+            Create<TExtractor, TClustering, TFeature>(TExtractor detector, TClustering clustering)
+            where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> 
+            where TExtractor : IImageFeatureExtractor<IFeatureDescriptor<TFeature>>
+        {
+            return Create<TExtractor, TClustering, IFeatureDescriptor<TFeature>, TFeature>(detector, clustering);
+        }
+
+        /// <summary>
+        /// Creates a Bag-of-Words model using the given feature detector and clustering algorithm.
+        /// </summary>
+        /// 
+        public static BagOfVisualWords<TPoint, TFeature, TClustering, TExtractor>
+            Create<TExtractor, TClustering, TPoint, TFeature>(TExtractor detector, TClustering clustering)
+            where TPoint : IFeatureDescriptor<TFeature>
+            where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> 
+            where TExtractor : IImageFeatureExtractor<TPoint>
+        {
+            return new BagOfVisualWords<TPoint, TFeature, TClustering, TExtractor>(detector, clustering);
         }
     }
 

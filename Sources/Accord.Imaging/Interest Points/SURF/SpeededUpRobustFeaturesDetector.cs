@@ -33,6 +33,7 @@ namespace Accord.Imaging
     using AForge;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   SURF Feature descriptor types.
@@ -90,22 +91,21 @@ namespace Accord.Imaging
     /// 
     /// <example>
     /// <para>
-    ///   The first example shows how to extract HOG descriptors from a standard test image:</para>
-    ///   <code source="Unit Tests\Accord.Tests.Imaging\SpeedUpRobustFeaturesDetectorTest.cs" region="doc_apply" />
+    ///   The first example shows how to extract SURF descriptors from a standard test image:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\SpeededUpRobustFeaturesDetectorTest.cs" region="doc_apply" />
     ///   
     /// <para>
-    ///   The second example shows how to use HOG descriptors as part of a BagOfVisualWords (BoW) pipeline 
+    ///   The second example shows how to use SURF descriptors as part of a BagOfVisualWords (BoW) pipeline 
     ///   for image classification:</para>
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_learn" />
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification" />
     /// </example>
-    /// 
     ///
     /// <seealso cref="SpeededUpRobustFeaturePoint"/>
     /// <seealso cref="SpeededUpRobustFeaturesDescriptor"/>
     ///
     [Serializable]
-    public class SpeededUpRobustFeaturesDetector : ICornersDetector, IFeatureDetector<SpeededUpRobustFeaturePoint>
+    public class SpeededUpRobustFeaturesDetector : BaseSparseFeatureExtractor<SpeededUpRobustFeaturePoint>
     {
         private int octaves = 5;
         private int initial = 2;
@@ -145,6 +145,12 @@ namespace Accord.Imaging
             this.threshold = threshold;
             this.octaves = octaves;
             this.initial = initial;
+
+            base.SupportedFormats.UnionWith(new[] {
+                PixelFormat.Format8bppIndexed,
+                PixelFormat.Format24bppRgb,
+                PixelFormat.Format32bppRgb,
+                PixelFormat.Format32bppArgb });
         }
 
 
@@ -241,36 +247,12 @@ namespace Accord.Imaging
             }
         }
 
-
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   This method should be implemented by inheriting classes to implement the 
+        ///   actual feature extraction, transforming the input image into a list of features.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<SpeededUpRobustFeaturePoint> ProcessImage(UnmanagedImage image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
-            return processImage(image);
-        }
-
-        private List<SpeededUpRobustFeaturePoint> processImage(UnmanagedImage image)
+        protected override IEnumerable<SpeededUpRobustFeaturePoint> InnerTransform(UnmanagedImage image)
         {
             // 1. Compute the integral for the given image
             if (image.PixelFormat == PixelFormat.Format8bppIndexed)
@@ -408,65 +390,6 @@ namespace Accord.Imaging
         }
 
 
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<SpeededUpRobustFeaturePoint> ProcessImage(BitmapData imageData)
-        {
-            return processImage(new UnmanagedImage(imageData));
-        }
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<SpeededUpRobustFeaturePoint> ProcessImage(Bitmap image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
-
-            try
-            {
-                // process the image
-                return processImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-        }
-
-
         private static double[] interpolate(int y, int x, ResponseLayer top, ResponseLayer mid, ResponseLayer bot)
         {
             int bs = bot.Width / top.Width;
@@ -508,74 +431,14 @@ namespace Accord.Imaging
         }
 
 
-
-        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image);
-        }
-
-        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData);
-        }
-
-        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image);
-        }
-
-
-        #region ICornersDetector Members
-
         /// <summary>
-        /// Process image looking for corners.
-        /// </summary>
-        /// <param name="image">Unmanaged source image to process.</param>
-        /// <returns>
-        /// Returns list of found corners (X-Y coordinates).
-        /// </returns>
-        List<IntPoint> ICornersDetector.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(p => new IntPoint((int)p.X, (int)p.Y));
-        }
-
-        /// <summary>
-        /// Process image looking for corners.
-        /// </summary>
-        /// <param name="imageData">Source image data to process.</param>
-        /// <returns>
-        /// Returns list of found corners (X-Y coordinates).
-        /// </returns>
-        List<IntPoint> ICornersDetector.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(p => new IntPoint((int)p.X, (int)p.Y));
-        }
-
-        /// <summary>
-        /// Process image looking for corners.
-        /// </summary>
-        /// <param name="image">Source image to process.</param>
-        /// <returns>
-        /// Returns list of found corners (X-Y coordinates).
-        /// </returns>
-        List<IntPoint> ICornersDetector.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(p => new IntPoint((int)p.X, (int)p.Y));
-        }
-
-        #endregion
-
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        ///
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
             var clone = new SpeededUpRobustFeaturesDetector(threshold, octaves, initial);
+            clone.SupportedFormats = supportedFormats;
             clone.computeOrientation = computeOrientation;
             clone.featureType = featureType;
             clone.initial = initial;
@@ -589,17 +452,7 @@ namespace Accord.Imaging
             return clone;
         }
 
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, 
-        ///   or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
+       
         /// <summary>
         ///   Releases unmanaged and - optionally - managed resources.
         /// </summary>
@@ -607,7 +460,7 @@ namespace Accord.Imaging
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged
         ///   resources; <c>false</c> to release only unmanaged resources.</param>
         /// 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -618,5 +471,6 @@ namespace Accord.Imaging
             this.integral = null;
             this.descriptor = null;
         }
+
     }
 }

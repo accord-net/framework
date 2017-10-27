@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Testing
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sources of variation in a <see cref="TwoWayAnova">two-way ANOVA experiment</see>.

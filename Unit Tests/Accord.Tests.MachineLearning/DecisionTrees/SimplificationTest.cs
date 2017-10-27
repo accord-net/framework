@@ -29,8 +29,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.DecisionTrees.Rules;
     using Accord.Math;
     using Accord.Statistics.Filters;
-    using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
+    using Accord.Tests.MachineLearning.Properties;
 
     [TestFixture]
     public class SimplificationTest

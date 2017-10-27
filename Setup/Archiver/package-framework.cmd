@@ -38,7 +38,7 @@ mkdir ..\bin
 set output=..\bin\%fullname%
 del %output%
 
-set ignore=-x*.tmp -x*\.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.sdf -x*\obj -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml -x*.VC.db -x*.VC.opendb -x*.tmp
+set ignore=-x*.tmp -x*\.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.sdf -x*\obj -x*\.svn* -x*.lastcodeanalysissucceeded -x*.CodeAnalysisLog.xml -x*.VC.db -x*.VC.opendb -x*.tmp -x*.GhostDoc.xml -x*.ib_preset -x*.psess
 
 %rar% %opts%    %output% "..\..\Contributors.txt"
 %rar% %opts%    %output% "..\..\Copyright.txt"
@@ -52,10 +52,11 @@ set ignore=-x*.tmp -x*\.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.s
 %rar% %opts% -r %output% "..\..\Release\net45"           %ignore%
 %rar% %opts% -r %output% "..\..\Release\net46"           %ignore%
 %rar% %opts% -r %output% "..\..\Release\net462"          %ignore%
+%rar% %opts% -r %output% "..\..\Release\netstandard1.4"  %ignore%
 %rar% %opts% -r %output% "..\..\Release\netstandard2.0"  %ignore%
-%rar% %opts% -r %output% "..\..\Sources\*"               %ignore%         -x*\TestResults -x*\Accord.Music -x*.shfbproj_* 
+%rar% %opts% -r %output% "..\..\Sources\*"               %ignore% -x*\bin\ -x*\obj -x*\packages -x*\TestResults -x*\Accord.Music -x*.shfbproj_* -x*_site -x*Release -x*Debug
 %rar% %opts% -r %output% "..\..\Unit Tests\*"            %ignore% -x*\bin -x*\TestResults -x*\Accord.Music -x*.shfbproj_* 
-%rar% %opts% -r %output% "..\..\Samples\*"               %ignore% -x*\bin\x64\ -x*\bin\Debug -x*\bin\Release -x*\bin\x86\Debug -x"*\bin\x86\Release 3.5" -x*\packages 
+%rar% %opts% -r %output% "..\..\Samples\*"               %ignore% -x*\bin\ -x*\obj -x*\packages 
 %rar% %opts% -r %output% "..\..\Externals\*"             %ignore% -x*.pdb 
 %rar% %opts% -r %output% "..\..\Setup\*"                 %ignore% -x*\bin 
 %rar% t         %output%

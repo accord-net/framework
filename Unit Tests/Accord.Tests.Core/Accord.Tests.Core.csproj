@@ -60,6 +60,7 @@
     <Compile Include="IntPointTest.cs" />
     <Compile Include="IntRangeTest.cs" />
     <Compile Include="SerializerTest.cs" />
+    <Compile Include="BinaryTreeTest.cs" />
     <Compile Include="SparseTest.cs" />
     <Compile Include="PointTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

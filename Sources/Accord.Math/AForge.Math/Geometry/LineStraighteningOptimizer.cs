@@ -32,7 +32,7 @@ namespace Accord.Math.Geometry
     /// <para>
     /// For example, the below circle shape comprised of 65 points, can be optimized to 8 points
     /// by setting <see cref="MaxDistanceToRemove"/> to 10.<br />
-    /// <img src="img/math/line_straightening_optimizer.png" width="268" height="238" />
+    /// <img src="..\images\math\line_straightening_optimizer.png" width="268" height="238" />
     /// </para>
     /// </remarks>
     /// 

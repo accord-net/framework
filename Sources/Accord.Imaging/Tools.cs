@@ -1397,6 +1397,8 @@ namespace Accord.Imaging
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
+        /// <seealso cref="MatrixToImage"/>
+        /// 
         public static Bitmap ToBitmap(this byte[,] pixels)
         {
             Bitmap bitmap;
@@ -1413,6 +1415,8 @@ namespace Accord.Imaging
         /// values as <see cref="System.Double">bytes</see>.</param>
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToImage"/>
         /// 
         public static Bitmap ToBitmap(this short[,] pixels)
         {
@@ -1431,6 +1435,8 @@ namespace Accord.Imaging
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
+        /// <seealso cref="MatrixToImage"/>
+        /// 
         public static Bitmap ToBitmap(this double[,] pixels)
         {
             Bitmap bitmap;
@@ -1447,6 +1453,8 @@ namespace Accord.Imaging
         /// values as <see cref="System.Double">bytes</see>.</param>
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToImage"/>
         /// 
         public static Bitmap ToBitmap(this int[,] pixels)
         {
@@ -1465,11 +1473,98 @@ namespace Accord.Imaging
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
+        /// <seealso cref="MatrixToImage"/>
+        /// 
         public static Bitmap ToBitmap(this float[,] pixels)
         {
             Bitmap bitmap;
             new MatrixToImage().Convert(pixels, out bitmap);
             return bitmap;
+        }
+        #endregion
+
+
+
+
+        #region ToMatrix
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[,,] ToMatrix(this Bitmap bitmap)
+        {
+            double[,,] matrix;
+            new ImageToMatrix().Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][][] ToJagged(this Bitmap bitmap)
+        {
+            double[][][] matrix;
+            new ImageToMatrix().Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[,] ToMatrix(this Bitmap bitmap, int channel)
+        {
+            double[,] matrix;
+            new ImageToMatrix()
+            {
+                Channel = channel
+            }.Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][] ToJagged(this Bitmap bitmap, int channel)
+        {
+            double[][] matrix;
+            new ImageToMatrix()
+            {
+                Channel = channel
+            }.Convert(bitmap, out matrix);
+            return matrix;
         }
         #endregion
 
@@ -1573,11 +1668,54 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        /// Locks a Bitmap into system memory.
+        ///   Locks a Bitmap into system memory.
         /// </summary>
+        /// 
         public static BitmapData LockBits(this Bitmap value, ImageLockMode mode)
         {
             return value.LockBits(new Rectangle(0, 0, value.Width, value.Height), mode, value.PixelFormat);
+        }
+
+        /// <summary>
+        ///   Locks a Bitmap into system memory and executes an operation with a 
+        ///   <see cref="UnmanagedImage"/> that points to this memory location.
+        /// </summary>
+        /// 
+        public static TResult LockBits<TResult>(this Bitmap input, ImageLockMode lockMode, Func<UnmanagedImage, TResult> func)
+        {
+            BitmapData imageData = input.LockBits(lockMode);
+
+            try
+            {
+                // process the image
+                return func(new UnmanagedImage(imageData));
+            }
+            finally
+            {
+                // unlock image
+                input.UnlockBits(imageData);
+            }
+        }
+
+        /// <summary>
+        ///   Locks a Bitmap into system memory and executes an operation with a 
+        ///   <see cref="UnmanagedImage"/> that points to this memory location.
+        /// </summary>
+        /// 
+        public static void LockBits<TResult>(this Bitmap input, ImageLockMode lockMode, Action<UnmanagedImage> func)
+        {
+            BitmapData imageData = input.LockBits(lockMode);
+
+            try
+            {
+                // process the image
+                func(new UnmanagedImage(imageData));
+            }
+            finally
+            {
+                // unlock image
+                input.UnlockBits(imageData);
+            }
         }
 
 

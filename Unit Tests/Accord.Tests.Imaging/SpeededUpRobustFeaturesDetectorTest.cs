@@ -78,9 +78,9 @@ namespace Accord.Tests.Imaging
             // as for example, in the Bag-of-Visual-Words approach for classification.
             #endregion
 
-            Assert.AreEqual(784, descriptors.Count);
+            Assert.AreEqual(523, descriptors.Count);
             double sum = features.Sum(x => x.Sum());
-            Assert.AreEqual(3359.1014569812564, sum, 1e-10);
+            Assert.AreEqual(2340.9402310500964, sum, 1e-10);
         }
 
         [Test]

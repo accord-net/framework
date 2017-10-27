@@ -38,9 +38,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/grayscale.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\grayscale.jpg" width="480" height="361" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/burkes.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\burkes.jpg" width="480" height="361" />
     /// </remarks>
     /// 
     /// <seealso cref="FloydSteinbergDithering"/>

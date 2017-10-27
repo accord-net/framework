@@ -171,7 +171,7 @@ namespace Accord.Math
 
 
 
-#region Type conversions
+        #region Type conversions
 
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
@@ -451,7 +451,7 @@ namespace Accord.Math
 #endif
 
 
-#endregion
+        #endregion
 
         /// <summary>
         ///   Creates a vector containing every index that can be used to
@@ -493,7 +493,7 @@ namespace Accord.Math
         }
 
 
-#region DataTable Conversions
+        #region DataTable Conversions
 #if !NETSTANDARD1_4
         /// <summary>
         ///   Converts a DataTable to a double[,] array.
@@ -981,6 +981,111 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
+        public static double[] ToVector(this DataTable table)
+        {
+            return ToVector<double>(table);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static double[] ToVector(this DataTable table, IFormatProvider provider)
+        {
+            return ToVector<double>(table, provider);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        public static double[] ToVector(this DataTable table, out string columnName)
+        {
+            return ToVector<double>(table, out columnName);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static double[] ToVector(this DataTable table, IFormatProvider provider, out string columnName)
+        {
+            return ToVector<double>(table, provider, out columnName);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static double[] ToVector(this DataTable table, string columnName)
+        {
+            return ToVector<double>(table, columnName);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static T[] ToVector<T>(this DataTable table)
+        {
+            String name;
+            return ToVector<T>(table, out name);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static T[] ToVector<T>(this DataTable table, IFormatProvider provider)
+        {
+            String name;
+            return ToVector<T>(table, provider, out name);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static T[] ToVector<T>(this DataTable table, out string columnName)
+        {
+            if (table.Columns.Count > 1)
+                throw new ArgumentException("The given table has more than one column. Please specify which column should be converted.");
+
+            columnName = table.Columns[0].ColumnName;
+            return table.Columns[0].ToArray<T>();
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static T[] ToVector<T>(this DataTable table, IFormatProvider provider, out string columnName)
+        {
+            if (table.Columns.Count > 1)
+                throw new ArgumentException("The given table has more than one column. Please specify which column should be converted.");
+
+            columnName = table.Columns[0].ColumnName;
+            return table.Columns[0].ToArray<T>(provider);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[] array.
+        /// </summary>
+        /// 
+        public static T[] ToVector<T>(this DataTable table, string columnName)
+        {
+            return table.Columns[columnName].ToArray<T>();
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
         [Obsolete("Please use ToJagged() instead.")]
         public static double[][] ToArray(this DataTable table)
         {
@@ -1201,12 +1306,12 @@ namespace Accord.Math
             return m;
         }
 #endif
-#endregion
+        #endregion
 
 
 
 
-#region Obsolete
+        #region Obsolete
 #if !NETSTANDARD1_4
         /// <summary>
         ///   Converts a DataColumn to a int[] array.
@@ -1228,7 +1333,7 @@ namespace Accord.Math
             return ToArray<int>(table, columnNames);
         }
 #endif
-#endregion
+        #endregion
 
 
     }

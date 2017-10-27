@@ -13,16 +13,20 @@ namespace Accord.Imaging.Formats
     using System.ComponentModel;
 
     /// <summary>
-    /// Image decoder interface, which specifies set of methods, which should be
-    /// implemented by image decoders for different file formats.
+    ///   Common interface for image decoders. Image decoders can read images stored
+    ///   in different formats (e.g. PNG, JPG, <see cref="PNMCodec">PNM</see>, 
+    ///   <see cref="FITSCodec">FITS</see> and transform them into <see cref="Bitmap"/>.
     /// </summary>
     /// 
-    /// <remarks><para>The interface specifies set of methods, which are suitable not
-    /// only for simple one-frame image formats. The interface also defines methods
-    /// to work with image formats designed to store multiple frames and image formats
-    /// which provide different type of image description (like acquisition
-    /// parameters, etc).
-    /// </para></remarks>
+    /// <remarks>
+    ///   <para>
+    ///   The interface also defines methods to work with image formats designed to store 
+    ///   multiple frames and image formats which provide different type of image description 
+    ///   (like acquisition parameters, etc).</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="PNMCodec"/>
+    /// <seealso cref="FITSCodec"/>
     /// 
     public interface IImageDecoder
     {

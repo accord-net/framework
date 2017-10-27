@@ -5,7 +5,7 @@
     <RootNamespace>Accord.MachineLearning</RootNamespace>
     <AssemblyName>Accord.MachineLearning.GPL</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />  
+  <Import Project="..\..\Accord.NET.targets" />  
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL</OutputPath>
