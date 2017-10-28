@@ -31,7 +31,7 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public struct PearsonCorrelation : ISimilarity<double[]>
+    public struct PearsonCorrelation : ISimilarity<double[]>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -72,6 +72,17 @@ namespace Accord.Math.Distances
             double den = Math.Sqrt((p2 - (p * p) / n) * (q2 - (q * q) / n));
 
             return (den == 0) ? 0 : num / den;
+        }
+
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new PearsonCorrelation();
         }
     }
 }

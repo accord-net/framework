@@ -34,7 +34,7 @@ namespace Accord.Math.Distances
     /// <typeparam name="T">The type of the elements to be compared.</typeparam>
     /// 
     [Serializable]
-    public struct Hamming<T> : IMetric<T[]>
+    public struct Hamming<T> : IMetric<T[]>, ICloneable
         where T : IEquatable<T>
     {
         /// <summary>
@@ -63,5 +63,15 @@ namespace Accord.Math.Distances
             return sum;
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Hamming<T>();
+        }
     }
 }

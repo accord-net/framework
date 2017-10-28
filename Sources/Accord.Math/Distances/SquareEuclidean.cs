@@ -37,7 +37,7 @@ namespace Accord.Math.Distances
     public struct SquareEuclidean :
         IDistance<double[]>, ISimilarity<double[]>,
         IDistance<double>, ISimilarity<double>,
-        IDistance<Sparse<double>>, ISimilarity<Sparse<double>>
+        IDistance<Sparse<double>>, ISimilarity<Sparse<double>>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -251,5 +251,15 @@ namespace Accord.Math.Distances
             return sum;
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new SquareEuclidean();
+        }
     }
 }

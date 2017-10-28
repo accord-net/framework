@@ -35,7 +35,7 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public struct BrayCurtis : IDistance<double[]>
+    public struct BrayCurtis : IDistance<double[]>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -68,5 +68,15 @@ namespace Accord.Math.Distances
             return sumN / sumP;
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new BrayCurtis();
+        }
     }
 }
