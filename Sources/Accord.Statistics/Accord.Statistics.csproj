@@ -543,6 +543,7 @@
     <Compile Include="Testing\ZTest.cs" />
     <Compile Include="Testing\Base\HypothesisTypes.cs" />
     <Compile Include="Measures\Tools.cs" />
+    <Compile Include="TimeSeries\StatTools.cs" />
     <Compile Include="Visualizations\ScatterplotClassValueCollection.cs" />
     <Compile Include="Visualizations\HistogramBinCollection.cs" />
     <Compile Include="Visualizations\HistogramBin.cs" />

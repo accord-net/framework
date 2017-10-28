@@ -2,8 +2,9 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright Liang Xie 2017
+// Copyright © Liang Xie 2017
 // xie1978 at hotmail dot com
+//
 // Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
@@ -22,7 +23,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Statistics
+namespace Accord.Tests.Statistics.TimeSeries
 {
     using Accord.Statistics.TimeSeries;
     using NUnit.Framework;
@@ -38,16 +39,17 @@ namespace Accord.Tests.Statistics
             int SeriesSize = 100;
             double[] values = new double[SeriesSize];
             for (int i = 0; i < SeriesSize; i++)
-            {
                 values[i] = Math.Sin(i);
-            }
 
-            double[] expectedACF = new double[10] { 1.0, 0.53515447, -0.4075514, -0.96025719, -0.62773328, 0.2691908, 0.90248604, 0.70133678, -0.13356576, -0.82902385 };
+            double[] expectedACF = new double[] 
+            {
+                1.0, 0.53515447, -0.4075514, -0.96025719, -0.62773328,
+                0.2691908, 0.90248604, 0.70133678, -0.13356576, -0.82902385
+            };
 
             int windowSize = values.Length;
 
-            double[] computedACF = StatTools.acf(values, 10);
-
+            double[] computedACF = TimeSeriesTools.AutoCorrelationFunction(values, 10);
 
             Assert.AreEqual(expectedACF, computedACF);
         }

@@ -130,6 +130,7 @@
     <Compile Include="RunningCircularStatisticsTest.cs" />
     <Compile Include="KalmanFilterTest.cs" />
     <Compile Include="StatisticsTest.cs" />
+    <Compile Include="StatToolsTest.cs" />
     <Compile Include="Testing\BartlettTestTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />
     <Compile Include="Filters\GroupingFilterTest.cs" />

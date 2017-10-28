@@ -4,7 +4,8 @@
 //
 // Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
-// Copyright Liang Xie 2017
+//
+// Copyright © Liang Xie 2017
 // xie1978 at hotmail dot com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,22 +25,25 @@
 
 namespace Accord.Statistics.TimeSeries
 {
-    using Accord.Audio;
     using Accord.Math;
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Numerics;
-    
-    public static class StatTools
+    using Accord.Math.Transforms;
+
+    /// <summary>
+    ///   Static tools for time series analysis (e.g. <see cref="AutoCorrelationFunction(double[], int)">ACF</see>,
+    ///   <see cref="Periodogram(double[])">periodograms</see>, and others).
+    /// </summary>
+    /// 
+    public static class TimeSeriesTools
     {
         /// <summary>
         ///   Calculates the auto correlation function using Wiener–Khinchin theorem.
         /// </summary>
         /// 
         /// <param name="vector">
-        ///   A vector of observations whose AutoCorrelation Function will be calculated. It is assumed that
-        ///   the vector is a 1-D array of type double
+        ///   A vector of observations whose AutoCorrelation Function will be calculated. 
+        ///   It is assumed that the vector is a 1-D array of type double.
         /// </param>
         /// <param name="nlag">
         ///   Number of lags to return autocorrelation for. Integer.
@@ -49,20 +53,16 @@ namespace Accord.Statistics.TimeSeries
         ///   Returns a vector of type double giving the autocorrelation function upto given lags.
         /// </returns>
         /// 
-        public static double[] acf(double[] vector, int nlag)
+        public static double[] AutoCorrelationFunction(double[] vector, int nlag)
         {
-
             int nTime = vector.Length;
+
             if (nlag < 1)
-            {
                 nlag = nTime;
-            }
+
             if (nTime <= 1)
-            {
-                //throw new System.ArgumentException("Vector length should be >=2", "vector");
-                double[] acf1 = new double[] { };
-                return acf1;
-            }
+                return new double[] { };
+
             // padding the length to be the power of 2 to facilitate FFT speed.
             int newLength = Convert.ToInt32(Math.Pow(2, Math.Ceiling(Math.Log(nTime, 2))));
 
@@ -80,7 +80,8 @@ namespace Accord.Statistics.TimeSeries
                     Frf[k] = 0;
                 }
             }
-            Accord.Math.Transforms.FourierTransform2.FFT(Frf, Accord.Math.FourierTransform.Direction.Forward);
+
+            FourierTransform2.FFT(Frf, Accord.Math.FourierTransform.Direction.Forward);
 
             // calculate inverse(backward) FFT of ( Frf*Conjugate(Frf) )
             Complex[] iFTFTj = new Complex[Frf.Length];
@@ -91,12 +92,15 @@ namespace Accord.Statistics.TimeSeries
                 double ImaginaryPart = Frf[k].Real * FrfConj.Imaginary + Frf[k].Imaginary * FrfConj.Real;
                 iFTFTj[k] = new Complex(RealPart, ImaginaryPart);
             }
-            Accord.Math.Transforms.FourierTransform2.FFT(iFTFTj, Accord.Math.FourierTransform.Direction.Backward);
+
+            FourierTransform2.FFT(iFTFTj, Accord.Math.FourierTransform.Direction.Backward);
 
             // calculate ACF, normalized against the first item
             double[] acf = new double[nTime];
+
             double normalizer = 1.0;
             int newlag = nTime < nlag ? nTime : nlag;
+
             for (int k = 0; k < newlag; k++)
             {
                 acf[k] = iFTFTj[k].Real / (nTime * normalizer);
@@ -106,6 +110,7 @@ namespace Accord.Statistics.TimeSeries
                     acf[0] = 1.0;
                 }
             }
+
             return acf;
         }
 
@@ -123,27 +128,25 @@ namespace Accord.Statistics.TimeSeries
         ///   Returns a vector of type double giving the periodogram of the vector.
         /// </returns>
 
-        public static double[] periodogram(double[] vector)
+        public static double[] Periodogram(double[] vector)
         {
             int nTime = vector.Length;
             double[] pwr = new double[vector.Length];
 
             if (nTime == 1)
             {
-                //throw new System.ArgumentException("Vector length should be >=2", "vector");
-                //double[] pwr = new double[] { 1.0 };
                 pwr[0] = 1.0;
                 return pwr;
             }
 
             Complex[] vectorComplex = new Complex[vector.Length];
             for (int k = 0; k < vector.Length; k++)
-            {
                 vectorComplex[k] = new Complex(vector[k], 0);
-            }
-            Accord.Math.Transforms.FourierTransform2.FFT(vectorComplex, Accord.Math.FourierTransform.Direction.Forward);
-            pwr = Accord.Audio.Tools.GetPowerSpectrum(vectorComplex);
+
+            FourierTransform2.FFT(vectorComplex, FourierTransform.Direction.Forward);
+            pwr = FourierTransform2.GetPowerSpectrum(vectorComplex);
             return pwr;
         }
+
     }
 }

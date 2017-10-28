@@ -68,114 +68,64 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Computes the Magnitude spectrum of a complex signal.
+        ///   Obsolete. Please use <see cref="Accord.Math.Transforms.FourierTransform2.GetMagnitudeSpectrum(Complex[])"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use Accord.Math.Transforms.FourierTransform2.GetMagnitudeSpectrum(fft) instead.")]
         public static double[] GetMagnitudeSpectrum(Complex[] fft)
         {
-            if (fft == null)
-                throw new ArgumentNullException("fft");
-
-            // assumes fft is symmetric
-
-            // In a two-sided spectrum, half the energy is displayed at the positive frequency,
-            // and half the energy is displayed at the negative frequency. Therefore, to convert
-            // from a two-sided spectrum to a single-sided spectrum, discard the second half of
-            // the array and multiply every point except for DC by two.
-
-            int numUniquePts = (int)System.Math.Ceiling((fft.Length + 1) / 2.0);
-            double[] mx = new double[numUniquePts];
-
-            mx[0] = fft[0].Magnitude / fft.Length;
-            for (int i = 0; i < numUniquePts; i++)
-            {
-                mx[i] = fft[i].Magnitude * 2 / fft.Length;
-            }
-
-            return mx;
+            return Accord.Math.Transforms.FourierTransform2.GetMagnitudeSpectrum(fft);
         }
 
         /// <summary>
-        ///   Computes the Power spectrum of a complex signal.
+        ///   Obsolete. Please use <see cref="Accord.Math.Transforms.FourierTransform2.GetPowerSpectrum(Complex[])"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use Accord.Math.Transforms.FourierTransform2.GetPowerSpectrum(fft) instead.")]
         public static double[] GetPowerSpectrum(Complex[] fft)
         {
-            if (fft == null) 
-                throw new ArgumentNullException("fft");
-
-            int n = (int)System.Math.Ceiling((fft.Length + 1) / 2.0);
-
-            double[] mx = new double[n];
-
-            mx[0] = fft[0].SquaredMagnitude() / fft.Length;
-
-            for (int i = 1; i < n; i++)
-                mx[i] = fft[i].SquaredMagnitude() * 2.0 / fft.Length;
-
-            return mx;
+            return Accord.Math.Transforms.FourierTransform2.GetPowerSpectrum(fft);
         }
 
         /// <summary>
-        ///   Computes the Phase spectrum of a complex signal.
+        ///   Obsolete. Please use <see cref="Accord.Math.Transforms.FourierTransform2.GetPhaseSpectrum(Complex[])"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use Accord.Math.Transforms.FourierTransform2.GetPhaseSpectrum(fft) instead.")]
         public static double[] GetPhaseSpectrum(Complex[] fft)
         {
-            if (fft == null) throw new ArgumentNullException("fft");
-
-            int n = (int)System.Math.Ceiling((fft.Length + 1) / 2.0);
-
-            double[] mx = new double[n];
-
-            for (int i = 0; i < n; i++)
-                mx[i] = fft[i].Phase;
-
-            return mx;
+            return Accord.Math.Transforms.FourierTransform2.GetPhaseSpectrum(fft);
         }
 
         /// <summary>
-        ///   Creates an evenly spaced frequency vector (assuming a symmetric FFT)
+        ///   Obsolete. Please use <see cref="Accord.Math.Transforms.FourierTransform2.GetFrequencyVector(int, int)"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use Accord.Math.Transforms.FourierTransform2.GetFrequencyVector(length, sampleRate) instead.")]
         public static double[] GetFrequencyVector(int length, int sampleRate)
         {
-            int numUniquePts = (int)System.Math.Ceiling((length + 1) / 2.0);
+            return Accord.Math.Transforms.FourierTransform2.GetFrequencyVector(length, sampleRate);
 
-            double[] freq = new double[numUniquePts];
-            for (int i = 0; i < numUniquePts; i++)
-                freq[i] = i * sampleRate / (double)length;
-
-            return freq;
         }
 
         /// <summary>
-        ///   Gets the spectral resolution for a signal of given sampling rate and number of samples.
+        ///   Obsolete. Please use <see cref="Accord.Math.Transforms.FourierTransform2.GetSpectralResolution(int, int)"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use Accord.Math.Transforms.FourierTransform2.GetSpectralResolution(samplingRate, samples) instead.")]
         public static double GetSpectralResolution(int samplingRate, int samples)
         {
-            return samplingRate / (double)samples;
+            return Accord.Math.Transforms.FourierTransform2.GetSpectralResolution(samplingRate, samples);
         }
 
         /// <summary>
-        ///   Gets the power Cepstrum for a complex signal.
+        ///   Obsolete. Please use <see cref="Accord.Math.Transforms.FourierTransform2.GetPowerCepstrum(Complex[])"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use Accord.Math.Transforms.FourierTransform2.GetPowerCepstrum(signal) instead.")]
         public static double[] GetPowerCepstrum(Complex[] signal)
         {
-            if (signal == null)
-                throw new ArgumentNullException("signal");
-
-            FourierTransform.FFT(signal, FourierTransform.Direction.Backward);
-
-            Complex[] logabs = new Complex[signal.Length];
-            for (int i = 0; i < logabs.Length; i++)
-                logabs[i] = new Complex(System.Math.Log(signal[i].Magnitude), 0);
-
-            FourierTransform.FFT(logabs, FourierTransform.Direction.Forward);
-
-            return logabs.Re();
+            return Accord.Math.Transforms.FourierTransform2.GetPowerCepstrum(signal);
         }
 
         /// <summary>
@@ -291,71 +241,36 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///  Serializes (converts) any object to a byte array.
+        ///   Obsolete. Please use the extension method from the Accord namespace instead.
         /// </summary>
         /// 
-        /// <param name="value">The object to be serialized.</param>
-        /// <returns>The byte array containing the serialized object.</returns>
-        /// 
-        public static byte[] ToByteArray<T>(this T value) where T : struct
+        [Obsolete("Please use the extension method from the Accord namespace instead.")]
+        public static byte[] ToByteArray<T>(T value)
+            where T : struct
         {
-            int rawsize = Marshal.SizeOf(value);
-            byte[] rawdata = new byte[rawsize];
-            GCHandle handle = GCHandle.Alloc(rawdata, GCHandleType.Pinned);
-            IntPtr buffer = handle.AddrOfPinnedObject();
-            Marshal.StructureToPtr(value, buffer, false);
-            handle.Free();
-            return rawdata;
+            return ExtensionMethods.ToByteArray(value);
         }
 
         /// <summary>
-        ///   Deserializes (converts) a byte array to a given structure type.
+        ///   Obsolete. Please use <see cref="ExtensionMethods.ToStruct{T}(byte[], int)"/>
         /// </summary>
         /// 
-        /// <remarks>
-        ///  This is a potentiality unsafe operation.
-        /// </remarks>
-        /// 
-        /// <param name="rawData">The byte array containing the serialized object.</param>
-        /// <returns>The object stored in the byte array.</returns>
-        /// 
+        [Obsolete("Please use ToStruct<T>() instead.")]
         public static T RawDeserialize<T>(this byte[] rawData)
+            where T : struct
         {
-            return RawDeserialize<T>(rawData, 0);
+            return rawData.ToStruct<T>();
         }
 
         /// <summary>
-        ///   Deserializes (converts) a byte array to a given structure type.
+        ///   Obsolete. Please use <see cref="ExtensionMethods.ToStruct{T}(byte[], int)"/>
         /// </summary>
         /// 
-        /// <remarks>
-        ///  This is a potentiality unsafe operation.
-        /// </remarks>
-        /// 
-        /// <param name="rawData">The byte array containing the serialized object.</param>
-        /// <param name="position">The starting position in the rawData array where the object is located.</param>
-        /// <returns>The object stored in the byte array.</returns>
-        /// 
+        [Obsolete("Please use ToStruct<T>() instead.")]
         public static T RawDeserialize<T>(this byte[] rawData, int position)
+            where T : struct
         {
-            Type type = typeof(T);
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            int rawsize = Marshal.SizeOf(type);
-#pragma warning restore CS0618 // Type or member is obsolete
-
-            if (rawsize > (rawData.Length - position))
-            {
-                throw new ArgumentException("The given array is smaller than the object size.");
-            }
-
-            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
-            Marshal.Copy(rawData, position, buffer, rawsize);
-#pragma warning disable CS0618 // Type or member is obsolete
-            T obj = (T)Marshal.PtrToStructure(buffer, type);
-#pragma warning restore CS0618 // Type or member is obsolete
-            Marshal.FreeHGlobal(buffer);
-            return obj;
+            return rawData.ToStruct<T>(position);
         }
     }
 }
