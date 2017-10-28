@@ -34,16 +34,15 @@ namespace Accord.Statistics.Kernels
     ///   This class implements the simplest, recursive version of the kernel as described
     ///   in the original paper (see below). Contributions for improving the efficiency of
     ///   this class are welcome.</para>
-    /// </remarks>
     /// 
     /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description><a href="http://www.jmlr.org/papers/volume2/lodhi02a/lodhi02a.pdf">
-    ///       Lodhi, H., Saunders, C., Shawe-Taylor, J., Cristianini, N., & Watkins, C. (2002). 
+    ///       Lodhi, H., Saunders, C., Shawe-Taylor, J., Cristianini, N., and Watkins, C. (2002). 
     ///       Text classification using string kernels. Journal of Machine Learning Research, 
     ///       2(Feb), 419-444. Available on: http://www.jmlr.org/papers/volume2/lodhi02a/lodhi02a.pdf </a>
-    ///       </description></item>
+    ///       </description></item></list></para>
     /// </remarks>
     /// 
     /// <seealso cref="Gaussian"/>

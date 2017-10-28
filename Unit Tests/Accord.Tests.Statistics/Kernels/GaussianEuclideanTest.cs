@@ -70,14 +70,14 @@ namespace Accord.Tests.Statistics
             string y = "aaab";
 
             // Now, we can compute the kernel function as:
-            double k = gaussian.Function(x, y); // 0.96070737352744806
+            double k = gaussian.Function(x, y); // 0.8436074263840595
 
             // We can also obtain the distance in kernel space as:
-            double d = gaussian.Distance(x, y); // 0.078585252945103878
+            double d = gaussian.Distance(x, y); // 0.312785147231881
             #endregion
 
-            Assert.AreEqual(0.96070737352744806, k, 1e-10);
-            Assert.AreEqual(0.078585252945103878, d, 1e-10);
+            Assert.AreEqual(0.8436074263840595, k, 1e-10);
+            Assert.AreEqual(0.312785147231881, d, 1e-10);
         }
 
         [Test]
