@@ -63,7 +63,7 @@ Public Class ProportionalHazardsAnalysisTest
         }
 
         ' First we will extract the input, times And outputs
-        Dim inputs()() As Double = example.Get(Nothing, 0, 1)
+        Dim inputs()() As Double = example.Get(Nothing, startColumn:=0, endColumn:=1)
         Dim times() As Double = example.GetColumn(1)
         Dim output() As SurvivalOutcome = example.GetColumn(2).To(Of SurvivalOutcome())
 

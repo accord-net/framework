@@ -258,12 +258,8 @@ namespace Accord.Math
         /// <param name="array">The vector or array to be converted.</param>
         /// 
         public static TOutput To<TOutput>(this Array array)
-            where TOutput : class, ICloneable, IList, ICollection, IEnumerable
-#if !NET35
-, IStructuralComparable, IStructuralEquatable
-#endif
         {
-            return To(array, typeof(TOutput)) as TOutput;
+            return To(array, typeof(TOutput)).To<TOutput>();
         }
 
         /// <summary>
@@ -277,8 +273,13 @@ namespace Accord.Math
         /// 
         public static object To(this Array array, Type outputType)
         {
-            Type inputType = array.GetType();
+            if (!outputType.IsArray && array.Length == 1)
+            {
+                foreach (var obj in array)
+                    return obj.To(outputType);
+            }
 
+            Type inputType = array.GetType();
             Type inputElementType = inputType.GetElementType();
             Type outputElementType = outputType.GetElementType();
 
@@ -288,65 +289,69 @@ namespace Accord.Math
             {
                 // jagged -> multidimensional
                 result = Array.CreateInstance(outputElementType, array.GetLength(true));
-
-                foreach (var idx in GetIndices(result))
-                {
-                    object inputValue = array.GetValue(true, idx);
-                    object outputValue = convertValue(outputElementType, inputValue);
-                    result.SetValue(outputValue, idx);
-                }
             }
             else if (!inputElementType.IsArray && outputElementType.IsArray)
             {
                 // multidimensional -> jagged
                 result = Array.CreateInstance(outputElementType, array.GetLength(0));
-
-                foreach (var idx in GetIndices(array))
-                {
-                    object inputValue = array.GetValue(idx);
-                    object outputValue = convertValue(outputElementType, inputValue);
-                    result.SetValue(outputValue, true, idx);
-                }
             }
             else if (inputElementType.IsArray && outputElementType.IsArray)
             {
                 // jagged -> jagged
                 result = Array.CreateInstance(outputElementType, array.GetLength(0));
-
-                foreach (var idx in GetIndices(array))
-                {
-                    object inputValue = array.GetValue(idx);
-                    object outputValue = convertValue(outputElementType, inputValue);
-                    result.SetValue(outputValue, idx);
-                }
             }
             else
             {
                 // multidimensional -> multidimensional
-                int rank = outputType.GetArrayRank();
-                int[] length = new int[rank];
-                for (int i = 0; i < length.Length; i++)
-                    length[i] = array.GetLength(i);
+                int[] outputShape = array.GetLength();
+                if (outputType.IsArray)
+                {
+                    if (array.Rank != outputType.GetArrayRank())
+                    {
+                        outputShape = outputShape.Where(i => i != 1).ToArray();
+                        int outputRank = outputType.GetArrayRank();
+                        if (outputRank < outputShape.Length)
+                            throw new Exception();
+                        else if (outputRank > outputShape.Length)
+                            outputShape = outputShape.Concatenate(Accord.Math.Vector.Ones<int>(array.Rank - outputRank));
+                    }
+                }
 
-                result = Array.CreateInstance(outputElementType, length);
+                // multidimensional -> multidimensional
+                result = Array.CreateInstance(outputElementType, outputShape);
+            }
 
-                if (inputElementType == outputElementType && outputElementType.IsPrimitive)
+            BlockCopy(array, result);
+
+            return result;
+        }
+
+        private static void BlockCopy(this Array array, Array result)
+        {
+            Type outputElementType = result.GetType().GetElementType();
+
+            if (array.GetType() == result.GetType())
+            {
+                if (outputElementType.IsPrimitive)
                 {
                     Buffer.BlockCopy(array, 0, result, 0, array.Length * Marshal.SizeOf(outputElementType));
-                    return result;
                 }
                 else
                 {
-                    foreach (var idx in GetIndices(array))
-                    {
-                        object inputValue = array.GetValue(idx);
-                        object outputValue = convertValue(outputElementType, inputValue);
-                        result.SetValue(outputValue, idx);
-                    }
+                    Array.Copy(array, result, array.Length);
                 }
             }
+            else
+            {
+                bool deep = array.Rank != result.Rank;
 
-            return result;
+                foreach (var iter in array.GetIndices(deep).Zip(result.GetIndices(deep), (a, b) => Tuple.Create(a, b)))
+                {
+                    object inputValue = array.GetValue(deep, iter.Item1);
+                    object outputValue = convertValue(outputElementType, inputValue);
+                    result.SetValue(outputValue, iter.Item2);
+                }
+            }
         }
 #endif
 
