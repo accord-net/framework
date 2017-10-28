@@ -674,7 +674,7 @@ namespace Accord.Statistics.Kernels
         /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
         /// 
         public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs)
-            where T : IDistance, ICloneable
+            where T : IDistance<double[]>, ICloneable
         {
             DoubleRange range;
             return Estimate(kernel, inputs, inputs.Length, out range);
@@ -698,7 +698,7 @@ namespace Accord.Statistics.Kernels
         /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
         /// 
         public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs, out DoubleRange range)
-            where T : IDistance, IKernel, ICloneable
+            where T : IDistance<double[]>, IKernel, ICloneable
         {
             return Estimate(kernel, inputs, inputs.Length, out range);
         }
@@ -721,7 +721,7 @@ namespace Accord.Statistics.Kernels
         /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
         /// 
         public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs, int samples)
-            where T : IDistance, IKernel, ICloneable
+            where T : IDistance<double[]>, IKernel, ICloneable
         {
             DoubleRange range;
             return Estimate(kernel, inputs, samples, out range);
@@ -746,7 +746,7 @@ namespace Accord.Statistics.Kernels
         /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
         /// 
         public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs, int samples, out DoubleRange range)
-            where T : IDistance, ICloneable
+            where T : IDistance<double[]>, ICloneable
         {
             if (samples > inputs.Length)
                 throw new ArgumentOutOfRangeException("samples");

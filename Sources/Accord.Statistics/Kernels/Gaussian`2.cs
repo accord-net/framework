@@ -32,6 +32,31 @@ namespace Accord.Statistics.Kernels
     ///   Composite Gaussian Kernel.
     /// </summary>
     /// 
+    /// <para>
+    ///   A composite Gaussian kernel can be used to transform any <see cref="Distance">distance function</see>
+    ///   (implementing the <see cref="IDistance{T}"/> interface) into a kernel function. Therefore, it can be
+    ///   used to easily define kernels over structures (e.g. matrices, trees, graphs) as long as a suitable
+    ///   distance function can be defined over them.
+    /// </para>
+    /// 
+    /// <example>
+    /// <para>
+    ///   Composite Gaussian Kernels can be created using a another kernel or a distance function
+    ///   as a base. The first two examples below show how to create a composite Gaussian kernel
+    ///   from another kernel function:</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Kernels\GaussianLinearTest.cs" region="doc_kernel" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Kernels\GaussianLinearTest.cs" region="doc_kernel_generic" />
+    /// 
+    /// <para>
+    ///   The next two examples how how to create a composite Gaussian kernel function from a distance function:</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Kernels\GaussianEuclideanTest.cs" region="doc_distance" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Kernels\GaussianEuclideanTest.cs" region="doc_distance_generic" />
+    /// </example>
+    /// 
+    /// <seealso cref="Gaussian"/>
+    /// <seealso cref="IKernel"/>
+    /// <seealso cref="IDistance{T}"/>
+    /// 
     [Serializable]
     public struct Gaussian<TDistance, TInput> :
         IKernel<TInput>, IDistance<TInput>, IEstimable<TInput>, ICloneable
