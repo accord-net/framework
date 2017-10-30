@@ -36,7 +36,7 @@ namespace Accord.Math.Distances
     /// <seealso cref="WeightedSquareEuclidean"/>
     ///
     [Serializable]
-    public struct WeightedSquareEuclidean : IDistance<double[]>, ISimilarity<double[]>
+    public struct WeightedSquareEuclidean : IDistance<double[]>, ISimilarity<double[]>, ICloneable
     {
         private double[] weights;
 
@@ -113,5 +113,13 @@ namespace Accord.Math.Distances
             return 1.0 / (1.0 + Distance(x, y));
         }
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new WeightedSquareEuclidean((double[])weights.Clone());
+        }
     }
 }

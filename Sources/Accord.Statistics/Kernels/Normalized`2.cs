@@ -36,8 +36,8 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Normalized<TKernel> : KernelBase, IKernel, ICloneable 
-        where TKernel : IKernel
+    public sealed class Normalized<TKernel, TInput> : KernelBase<TInput>, IKernel<TInput>, ICloneable 
+        where TKernel : IKernel<TInput>
     {
         private TKernel kernel;
         private double power;
@@ -85,7 +85,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
+        public override double Function(TInput x, TInput y)
         {
             return kernel.Function(x, y) / Math.Pow(kernel.Function(x, x) * kernel.Function(y, y), power);
         }

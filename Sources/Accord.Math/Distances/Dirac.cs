@@ -31,7 +31,7 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public struct Dirac<T> : ISimilarity<T>, IDistance<T>
+    public struct Dirac<T> : ISimilarity<T>, IDistance<T>, ICloneable
         where T : IEquatable<T>
     {
         /// <summary>
@@ -73,5 +73,15 @@ namespace Accord.Math.Distances
             return x.Equals(y) ? 1.0 : 0.0;
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Dirac<T>();
+        }
     }
 }

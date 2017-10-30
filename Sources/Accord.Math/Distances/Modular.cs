@@ -47,7 +47,7 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public struct Modular : IDistance<double>, IDistance<int>
+    public struct Modular : IDistance<double>, IDistance<int>, ICloneable
     {
         int modulo;
 
@@ -114,5 +114,15 @@ namespace Accord.Math.Distances
             return Math.Min(Tools.Mod(x - y, modulo), Tools.Mod(y - x, modulo));
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Modular(modulo);
+        }
     }
 }

@@ -709,5 +709,59 @@ namespace Accord
                 }
             }
         }
+
+
+
+        /// <summary>
+        ///  Serializes (converts) a structure to a byte array.
+        /// </summary>
+        /// 
+        /// <param name="value">The structure to be serialized.</param>
+        /// <returns>The byte array containing the serialized structure.</returns>
+        /// 
+        public static byte[] ToByteArray<T>(this T value)
+            where T : struct
+        {
+            int rawsize = Marshal.SizeOf(value);
+            byte[] rawdata = new byte[rawsize];
+            GCHandle handle = GCHandle.Alloc(rawdata, GCHandleType.Pinned);
+            IntPtr buffer = handle.AddrOfPinnedObject();
+            Marshal.StructureToPtr(value, buffer, false);
+            handle.Free();
+            return rawdata;
+        }
+
+        /// <summary>
+        ///   Deserializes (converts) a byte array to a given structure type.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///  This is a potentiality unsafe operation.
+        /// </remarks>
+        /// 
+        /// <param name="rawData">The byte array containing the serialized object.</param>
+        /// <param name="position">The starting position in the rawData array where the object is located.</param>
+        /// <returns>The object stored in the byte array.</returns>
+        /// 
+        public static T ToStruct<T>(this byte[] rawData, int position = 0)
+            where T : struct
+        {
+            Type type = typeof(T);
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            int rawsize = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            if (rawsize > (rawData.Length - position))
+                throw new ArgumentException("The given array is smaller than the object size.");
+
+            IntPtr buffer = Marshal.AllocHGlobal(rawsize);
+            Marshal.Copy(rawData, position, buffer, rawsize);
+#pragma warning disable CS0618 // Type or member is obsolete
+            T obj = (T)Marshal.PtrToStructure(buffer, type);
+#pragma warning restore CS0618 // Type or member is obsolete
+            Marshal.FreeHGlobal(buffer);
+            return obj;
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace Accord.Math.Distances
     /// <typeparam name="T">The type of the elements in the arrays to be compared.</typeparam>
     /// 
     [Serializable]
-    public struct Jaccard<T> : ISimilarity<T[]>, IMetric<T[]>
+    public struct Jaccard<T> : ISimilarity<T[]>, IMetric<T[]>, ICloneable
         where T : IEquatable<T>
     {
         /// <summary>
@@ -117,5 +117,15 @@ namespace Accord.Math.Distances
             return (inter == 0) ? 0 : inter / (double)union;
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Jaccard<T>();
+        }
     }
 }

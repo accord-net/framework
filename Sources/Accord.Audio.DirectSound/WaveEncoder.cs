@@ -296,10 +296,10 @@ namespace Accord.Audio.Formats
         private void updateHeaders()
         {
             header.Length = this.bytes;
-            byte[] dataHeader = header.GetBytes();
+            byte[] dataHeader = header.ToByteArray();
 
             riff.Length = this.bytes + dataHeader.Length + waveFormat.Length;
-            byte[] riffHeader = riff.GetBytes();
+            byte[] riffHeader = riff.ToByteArray();
 
             waveStream.Write(riffHeader, 0, riffHeader.Length);
             waveStream.Write(waveFormat, 0, waveFormat.Length);
@@ -312,7 +312,7 @@ namespace Accord.Audio.Formats
             // Create data header
             header.Header = new char[] { 'd', 'a', 't', 'a' };
             header.Length = this.bytes;
-            byte[] dataHeader = header.GetBytes();
+            byte[] dataHeader = header.ToByteArray();
 
             // Create Wave format header
             format.FmtHeader = new char[] { 'f', 'm', 't', ' ' };
@@ -323,13 +323,13 @@ namespace Accord.Audio.Formats
             format.BitsPerSample = (short)this.bitsPerSample;
             format.BlockAlignment = (short)this.blockAlign;
             format.AverageBytesPerSecond = this.averageBitsPerSecond / 8;
-            waveFormat = format.GetBytes();
+            waveFormat = format.ToByteArray();
 
             // Create RIFF header
             riff.RiffHeader = new char[] { 'R', 'I', 'F', 'F' };
             riff.WaveHeader = new char[] { 'W', 'A', 'V', 'E' };
             riff.Length = this.bytes + dataHeader.Length + waveFormat.Length;
-            byte[] riffHeader = riff.GetBytes();
+            byte[] riffHeader = riff.ToByteArray();
 
             // Write headers to allocate space
             waveStream.Write(riffHeader, 0, riffHeader.Length);
@@ -370,17 +370,6 @@ namespace Accord.Audio.Formats
         public short BlockAlignment;
 
         public short BitsPerSample;
-
-        public byte[] GetBytes()
-        {
-            int rawsize = Marshal.SizeOf(this);
-            byte[] rawdata = new byte[rawsize];
-            GCHandle handle = GCHandle.Alloc(rawdata, GCHandleType.Pinned);
-            IntPtr buffer = handle.AddrOfPinnedObject();
-            Marshal.StructureToPtr(this, buffer, false);
-            handle.Free();
-            return rawdata;
-        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
@@ -393,17 +382,6 @@ namespace Accord.Audio.Formats
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public char[] WaveHeader;
-
-        public byte[] GetBytes()
-        {
-            int rawsize = Marshal.SizeOf(this);
-            byte[] rawdata = new byte[rawsize];
-            GCHandle handle = GCHandle.Alloc(rawdata, GCHandleType.Pinned);
-            IntPtr buffer = handle.AddrOfPinnedObject();
-            Marshal.StructureToPtr(this, buffer, false);
-            handle.Free();
-            return rawdata;
-        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
@@ -414,16 +392,5 @@ namespace Accord.Audio.Formats
         public char[] Header;
 
         public int Length;
-
-        public byte[] GetBytes()
-        {
-            int rawsize = Marshal.SizeOf(this);
-            byte[] rawdata = new byte[rawsize];
-            GCHandle handle = GCHandle.Alloc(rawdata, GCHandleType.Pinned);
-            IntPtr buffer = handle.AddrOfPinnedObject();
-            Marshal.StructureToPtr(this, buffer, false);
-            handle.Free();
-            return rawdata;
-        }
     }
 }

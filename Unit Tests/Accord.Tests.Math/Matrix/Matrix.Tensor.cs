@@ -62,6 +62,39 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void jagged_to_multidimensional()
+        {
+            double[][] a = Jagged.Magic(3);
+
+            double[,] expected = Matrix.Magic(3);
+
+            object actual = a.To<double[,]>();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void string_to_multidimensional()
+        {
+            string[][] a = Jagged.Magic(3).Apply((x, i, j) => x.ToString());
+
+            double[,] expected = Matrix.Magic(3);
+
+            object actual = a.To<double[,]>();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void string_to_jagged()
+        {
+            string[][] a = Jagged.Magic(3).Apply((x, i, j) => x.ToString());
+
+            double[][] expected = Jagged.Magic(3);
+
+            object actual = a.To<double[][]>();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
         public void expand_and_squeeze()
         {
             double[,] a =
@@ -163,6 +196,64 @@ namespace Accord.Tests.Math
             };
 
             Array actual = target.Transpose();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void convert_with_squeeze()
+        {
+            double[,,,] a =
+            {
+                { { { 1 } }, { { 2 } }, { { 3 } } },
+                { { { 4 } }, { { 5 } }, { { 6 } } },
+            };
+
+            int[,] expected =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+            };
+
+            int[,] actual = a.To<int[,]>();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void convert_to_scalar()
+        {
+            double[,,,] a =
+            {
+                { { { 1 } } },
+            };
+
+            int expected = 1;
+            int actual = a.To<int>();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void convert_to_bool_true()
+        {
+            double[,,,] a =
+            {
+                { { { 1 } } },
+            };
+
+            bool expected = true;
+            bool actual = a.To<bool>();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void convert_to_bool_false()
+        {
+            double[,,,] a =
+            {
+                { { { 0 } } },
+            };
+
+            bool expected = false;
+            bool actual = a.To<bool>();
             Assert.AreEqual(expected, actual);
         }
     }

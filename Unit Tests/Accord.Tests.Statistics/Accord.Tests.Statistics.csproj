@@ -100,8 +100,10 @@
     <Compile Include="Distributions\Univariate\UnivariateDistributionTest.cs" />
     <Compile Include="Filters\BranchingFilterTest.cs" />
     <Compile Include="Filters\ImputationFilterTest.cs" />
+    <Compile Include="Kernels\GaussianEuclideanTest.cs" />
     <Compile Include="Kernels\GaussianLinearTest.cs" />
     <Compile Include="Kernels\GaussianDtwTest.cs" />
+    <Compile Include="Kernels\StringSubsequenceTest.cs" />
     <Compile Include="Kernels\QuadraticTest.cs" />
     <Compile Include="Kernels\LinearTest.cs" />
     <Compile Include="Kernels\BSplineTest.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="RunningCircularStatisticsTest.cs" />
     <Compile Include="KalmanFilterTest.cs" />
     <Compile Include="StatisticsTest.cs" />
+    <Compile Include="StatToolsTest.cs" />
     <Compile Include="Testing\BartlettTestTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />
     <Compile Include="Filters\GroupingFilterTest.cs" />

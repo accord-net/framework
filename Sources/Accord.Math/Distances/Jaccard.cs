@@ -49,7 +49,7 @@ namespace Accord.Math.Distances
     /// <seealso cref="Jaccard{T}"/>
     /// 
     [Serializable]
-    public struct Jaccard : ISimilarity<double[]>, IDistance<double[]>
+    public struct Jaccard : ISimilarity<double[]>, IDistance<double[]>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -116,5 +116,15 @@ namespace Accord.Math.Distances
             return (inter == 0) ? 0 : inter / (double)union;
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Jaccard();
+        }
     }
 }

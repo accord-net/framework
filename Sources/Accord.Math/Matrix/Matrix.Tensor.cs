@@ -161,7 +161,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension from which the indices should be extracted.</param>
         /// <param name="indices">Array of indices.</param>
         /// 
-        public static Array Get(Array source, int dimension, int[] indices)
+        public static Array Get(this Array source, int dimension, int[] indices)
         {
             int[] lengths = source.GetLength();
             lengths[dimension] = indices.Length;
@@ -183,7 +183,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension from which the indices should be extracted.</param>
         /// <param name="index">The index.</param>
         /// 
-        public static Array Get(Array source, int dimension, int index)
+        public static Array Get(this Array source, int dimension, int index)
         {
             return Get(source, dimension, index, index + 1);
         }
@@ -197,7 +197,7 @@ namespace Accord.Math
         /// <param name="start">The start index.</param>
         /// <param name="end">The end index.</param>
         /// 
-        public static Array Get(Array source, int dimension, int start, int end)
+        public static Array Get(this Array source, int dimension, int start, int end)
         {
             int[] length = source.GetLength();
             length = length.RemoveAt(dimension);
@@ -223,7 +223,7 @@ namespace Accord.Math
         /// <param name="value">The matrix of values to which matrix elements will be set.</param>
         /// <param name="index">The index.</param>
         /// 
-        public static void Set(Array destination, int dimension, int index, Array value)
+        public static void Set(this Array destination, int dimension, int index, Array value)
         {
             Set(destination, dimension, index, index + 1, value);
         }
@@ -238,7 +238,7 @@ namespace Accord.Math
         /// <param name="start">The start index.</param>
         /// <param name="end">The end index.</param>
         /// 
-        public static void Set(Array destination, int dimension, int start, int end, Array value)
+        public static void Set(this Array destination, int dimension, int start, int end, Array value)
         {
             Type type = destination.GetInnerMostType();
             int rowSize = destination.Length / destination.GetLength(0);

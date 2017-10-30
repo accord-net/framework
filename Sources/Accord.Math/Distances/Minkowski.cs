@@ -47,7 +47,7 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public struct Minkowski : IMetric<double[]>, IMetric<int[]>
+    public struct Minkowski : IMetric<double[]>, IMetric<int[]>, ICloneable
     {
         private double p;
 
@@ -154,5 +154,15 @@ namespace Accord.Math.Distances
         /// 
         public static readonly Minkowski Euclidean = new Minkowski(2);
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Minkowski(p);
+        }
     }
 }
