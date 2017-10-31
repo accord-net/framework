@@ -182,7 +182,7 @@ namespace Accord.Controls
                     else
                     {
                         double[] values;
-                        if (signal.Channels == 1)
+                        if (signal.NumberOfChannels == 1)
                         {
                             values = signal.ToDouble();
                         }

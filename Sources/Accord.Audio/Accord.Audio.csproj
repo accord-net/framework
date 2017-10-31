@@ -58,10 +58,12 @@
     <Compile Include="Features\IAudioFeatureExtractor.cs" />
     <Compile Include="Filters\AddFilter.cs" />
     <Compile Include="Filters\MonoFilter.cs" />
+    <Compile Include="Formats\AudioEncoder.cs" />
     <Compile Include="Formats\AudioDecoder.cs" />
     <Compile Include="Formats\FrameInfo.cs" />
     <Compile Include="Formats\IAudioDecoder.cs" />
     <Compile Include="Formats\IAudioEncoder.cs" />
+    <Compile Include="Generators\Base\BaseSignalGenerator.cs" />
     <Compile Include="Generators\SignalGenerator.cs" />
     <Compile Include="Generators\SineGenerator.cs" />
     <Compile Include="AudioSourceMixer.cs" />
@@ -100,7 +102,7 @@
     <Compile Include="Signals\Signal.cs" />
     <Compile Include="Signals\ComplexSignal.cs" />
     <Compile Include="Generators\CosineGenerator.cs" />
-    <Compile Include="Generators\ISignalGenerator.cs" />
+    <Compile Include="Generators\Base\ISignalGenerator.cs" />
     <Compile Include="Generators\SquareGenerator.cs" />
     <Compile Include="Filters\Base\IFilter.cs" />
     <Compile Include="IAudioSource.cs" />

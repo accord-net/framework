@@ -45,6 +45,7 @@ namespace Accord.Audio.Formats
     /// </code>
     /// </example>
     /// 
+    [FormatEncoder("wav")]
     public class WaveEncoder : IAudioEncoder
     {
         private Stream waveStream;
@@ -273,7 +274,7 @@ namespace Accord.Audio.Formats
             }
 
             // Update counters
-            numberOfSamples += signal.Samples;
+            numberOfSamples += signal.NumberOfSamples;
             numberOfFrames += signal.Length;
             bytes += signal.RawData.Length;
             duration += (int)signal.Duration.TotalMilliseconds;
@@ -339,7 +340,7 @@ namespace Accord.Audio.Formats
 
         private void initialize(Signal signal)
         {
-            this.channels = signal.Channels;
+            this.channels = signal.NumberOfChannels;
             this.sampleRate = signal.SampleRate;
             this.sampleFormat = signal.SampleFormat;
             this.bitsPerSample = Signal.GetSampleSize(signal.SampleFormat);

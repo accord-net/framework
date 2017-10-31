@@ -27,7 +27,7 @@ namespace Accord.Audio.Generators
     /// <summary>
     ///   Square Signal Generator
     /// </summary>
-    public class SquareGenerator : ISignalGenerator
+    public class SquareGenerator : BaseSignalGenerator, ISignalGenerator
     {
 
         /// <summary>
@@ -43,24 +43,6 @@ namespace Accord.Audio.Generators
         public double Amplitude { get; set; }
 
         /// <summary>
-        ///   Gets or sets the Sampling Rate of the generated signals.
-        /// </summary>
-        /// 
-        public int SamplingRate { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the number of channels for the generated signals.
-        /// </summary>
-        /// 
-        public int Channels { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the sample format for created signals.
-        /// </summary>
-        /// 
-        public SampleFormat Format { get; set; }
-
-        /// <summary>
         ///   Creates a new Square Signal Generator.
         /// </summary>
         /// 
@@ -74,7 +56,7 @@ namespace Accord.Audio.Generators
         ///   Generates a signal.
         /// </summary>
         /// 
-        public Signal Generate(int samples)
+        public override Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 
@@ -92,7 +74,7 @@ namespace Accord.Audio.Generators
                         float q = i * p;
                         float t = a * (q - (float)Math.Round(q));
 
-                        for (int c = 0; c < signal.Channels; c++, dst++)
+                        for (int c = 0; c < signal.NumberOfChannels; c++, dst++)
                             *dst = t;
                     }
                 }

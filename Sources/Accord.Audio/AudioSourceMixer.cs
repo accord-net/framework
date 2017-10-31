@@ -370,7 +370,7 @@ namespace Accord.Audio
 
                             short* src = (short*)signal.Data.ToPointer();
 
-                            if (signal.Channels < channels)
+                            if (signal.NumberOfChannels < channels)
                             {
                                 for (int j = 0; j < frameSize; j += 2, src++)
                                 {

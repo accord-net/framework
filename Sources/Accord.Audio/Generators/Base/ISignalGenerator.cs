@@ -59,5 +59,15 @@ namespace Accord.Audio.Generators
         /// 
         Signal Generate(int samples);
 
+        /// <summary>
+        ///   Generates a signal with the given duration.
+        /// </summary>
+        /// 
+        /// <param name="duration">The duration of the signal to generate.</param>
+        /// 
+        /// <returns>The generated signal</returns>
+        /// 
+        Signal Generate(TimeSpan duration);
+
     }
 }

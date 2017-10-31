@@ -30,7 +30,7 @@ namespace Accord.Audio.Generators
     ///   Impulse train signal generator.
     /// </summary>
     /// 
-    public class ImpulseGenerator : ISignalGenerator
+    public class ImpulseGenerator : BaseSignalGenerator, ISignalGenerator
     {
 
         private int interval;
@@ -38,29 +38,10 @@ namespace Accord.Audio.Generators
         private const float ampMax = 1f;
 
         /// <summary>
-        ///   Gets or sets the number of channels to generate.
-        /// </summary>
-        /// 
-        public int Channels { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the sampling rate of channels to generate.
-        /// </summary>
-        /// 
-        public int SamplingRate { get; set; }
-
-        /// <summary>
         ///   Gets or sets the number of pulses to generate in the signal.
         /// </summary>
         /// 
         public int Pulses { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the sample format for created signals.
-        /// </summary>
-        /// 
-        public SampleFormat Format { get; set; }
-
 
         /// <summary>
         ///   Gets or sets the beats per minute for the pulses.
@@ -98,7 +79,7 @@ namespace Accord.Audio.Generators
         ///   Generates the given number of samples.
         /// </summary>
         /// 
-        public Signal Generate(int samples)
+        public override Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 

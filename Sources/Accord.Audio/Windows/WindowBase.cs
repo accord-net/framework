@@ -97,7 +97,7 @@ namespace Accord.Audio.Windows
         /// 
         public virtual Signal Apply(Signal signal, int sampleIndex)
         {
-            int channels = signal.Channels;
+            int channels = signal.NumberOfChannels;
 
             int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
 
@@ -133,13 +133,13 @@ namespace Accord.Audio.Windows
         /// 
         public virtual unsafe ComplexSignal Apply(ComplexSignal complexSignal, int sampleIndex)
         {
-            Complex[,] resultData = new Complex[Length, complexSignal.Channels];
+            Complex[,] resultData = new Complex[Length, complexSignal.NumberOfChannels];
             ComplexSignal result = ComplexSignal.FromArray(resultData, complexSignal.SampleRate);
 
-            int channels = result.Channels;
+            int channels = result.NumberOfChannels;
             int minLength = System.Math.Min(complexSignal.Length - sampleIndex, Length);
 
-            for (int c = 0; c < complexSignal.Channels; c++)
+            for (int c = 0; c < complexSignal.NumberOfChannels; c++)
             {
                 Complex* dst = (Complex*)result.Data.ToPointer() + c;
                 Complex* src = (Complex*)complexSignal.Data.ToPointer() + c + channels * sampleIndex;

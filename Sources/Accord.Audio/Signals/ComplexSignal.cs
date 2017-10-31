@@ -177,7 +177,7 @@ namespace Accord.Audio
         /// 
         public Complex[,] ToArray()
         {
-            Complex[,] array = new Complex[Length, Channels];
+            Complex[,] array = new Complex[Length, NumberOfChannels];
 
             GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
             IntPtr pointer = handle.AddrOfPinnedObject();
@@ -205,7 +205,7 @@ namespace Accord.Audio
         public Complex[] GetChannel(int channel)
         {
             Complex[] array = new Complex[Length];
-            int channels = Channels;
+            int channels = NumberOfChannels;
             int length = Length;
 
             unsafe
@@ -229,7 +229,7 @@ namespace Accord.Audio
         /// 
         private void SetChannel(int channel, Complex[] samples)
         {
-            int channels = Channels;
+            int channels = NumberOfChannels;
             int length = Length;
 
             unsafe
@@ -256,7 +256,7 @@ namespace Accord.Audio
             if (status == ComplexSignalStatus.Normal ||
                 status == ComplexSignalStatus.Analytic)
             {
-                for (int i = 0; i < Channels; i++)
+                for (int i = 0; i < NumberOfChannels; i++)
                 {
                     Complex[] channel = GetChannel(i);
                     FourierTransform.FFT(channel, FourierTransform.Direction.Forward);
@@ -274,7 +274,7 @@ namespace Accord.Audio
         {
             if (status == ComplexSignalStatus.FourierTransformed)
             {
-                for (int i = 0; i < Channels; i++)
+                for (int i = 0; i < NumberOfChannels; i++)
                 {
                     Complex[] channel = GetChannel(i);
                     FourierTransform.FFT(channel, FourierTransform.Direction.Backward);
@@ -291,7 +291,7 @@ namespace Accord.Audio
         {
             if (status == ComplexSignalStatus.Normal)
             {
-                for (int c = 0; c < Channels; c++)
+                for (int c = 0; c < NumberOfChannels; c++)
                 {
                     Complex[] channel = GetChannel(c);
                     HilbertTransform.FHT(channel, FourierTransform.Direction.Forward);
@@ -308,7 +308,7 @@ namespace Accord.Audio
         {
             if (status == ComplexSignalStatus.Analytic)
             {
-                for (int c = 0; c < Channels; c++)
+                for (int c = 0; c < NumberOfChannels; c++)
                 {
                     Complex[] channel = GetChannel(c);
                     HilbertTransform.FHT(channel, FourierTransform.Direction.Backward);
@@ -334,17 +334,17 @@ namespace Accord.Audio
         {
             if (signal.SampleFormat == SampleFormat.Format32BitIeeeFloat)
             {
-                float[] buffer = new float[signal.Samples];
+                float[] buffer = new float[signal.NumberOfSamples];
                 Marshal.Copy(signal.Data, buffer, 0, buffer.Length);
 
-                float[,] data = new float[signal.Length, signal.Channels];
-                Buffer.BlockCopy(buffer, 0, data, 0, signal.Samples * sizeof(float));
+                float[,] data = new float[signal.Length, signal.NumberOfChannels];
+                Buffer.BlockCopy(buffer, 0, data, 0, signal.NumberOfSamples * sizeof(float));
 
                 return FromArray(data, signal.SampleRate);
             }
             else if (signal.SampleFormat == SampleFormat.Format128BitComplex)
             {
-                return new ComplexSignal(signal.RawData, signal.Channels,
+                return new ComplexSignal(signal.RawData, signal.NumberOfChannels,
                     signal.Length, signal.SampleRate);
             }
             else
@@ -449,7 +449,7 @@ namespace Accord.Audio
         {
             // Compute common data
             int length = 0;
-            int nchannels = signals[0].Channels;
+            int nchannels = signals[0].NumberOfChannels;
             int sampleRate = signals[0].SampleRate;
 
             // Compute final length

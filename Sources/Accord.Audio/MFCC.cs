@@ -250,7 +250,7 @@ namespace Accord.Audio
         /// 
         protected override IList<MelFrequencyCepstrumCoefficientDescriptor> InnerTransform(Signal signal)
         {
-            if (signal.Channels > 1)
+            if (signal.NumberOfChannels > 1)
             {
                 signal = new MonoFilter().Apply(signal);
             }

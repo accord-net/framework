@@ -12,7 +12,8 @@
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
     <DefineConstants>TRACE;NET35</DefineConstants>
@@ -40,8 +41,6 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
-
-
   <Choose>
     <When Condition="'$(Configuration)' == 'net35'">
       <ItemGroup>
@@ -80,7 +79,6 @@
       </ItemGroup>
     </Otherwise>
   </Choose>
-
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -99,9 +97,9 @@
     <Compile Include="AudioOutputDevice.cs" />
     <Compile Include="AudioDeviceInfo.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Formats\WaveEncoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WaveDecoder.cs" />
-    <Compile Include="WaveEncoder.cs" />
+    <Compile Include="Formats\WaveDecoder.cs" />
     <Compile Include="WaveFileAudioSource.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -28,7 +28,7 @@ namespace Accord.Audio.Generators
     ///   Sine signal generator.
     /// </summary>
     /// 
-    public class SineGenerator : ISignalGenerator
+    public class SineGenerator : BaseSignalGenerator, ISignalGenerator
     {
         private double theta;
 
@@ -44,24 +44,6 @@ namespace Accord.Audio.Generators
         /// </summary>
         /// 
         public double Amplitude { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the Sampling Rate of the generated signals.
-        /// </summary>
-        /// 
-        public int SamplingRate { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the number of channels for the generated signals.
-        /// </summary>
-        /// 
-        public int Channels { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the sample format for created signals.
-        /// </summary>
-        /// 
-        public SampleFormat Format { get; set; }
 
         /// <summary>
         ///   Constructs a new Cosine Signal Generator.
@@ -96,7 +78,7 @@ namespace Accord.Audio.Generators
         ///   Generates a signal.
         /// </summary>
         /// 
-        public Signal Generate(int samples)
+        public override Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 
@@ -105,16 +87,30 @@ namespace Accord.Audio.Generators
                 if (Format == SampleFormat.Format32BitIeeeFloat)
                 {
                     var dst = (float*)signal.Data.ToPointer();
-                    for (int i = 0; i < signal.Samples; i++)
-                        for (int c = 0; c < signal.Channels; c++, dst++)
+                    for (int i = 0; i < signal.NumberOfFrames; i++)
+                        for (int c = 0; c < signal.NumberOfChannels; c++, dst++)
                             *dst = (float)(Amplitude * Math.Sin(i * theta));
                 }
                 else if (Format == SampleFormat.Format64BitIeeeFloat)
                 {
                     var dst = (double*)signal.Data.ToPointer();
-                    for (int i = 0; i < signal.Samples; i++)
-                        for (int c = 0; c < signal.Channels; c++, dst++)
+                    for (int i = 0; i < signal.NumberOfFrames; i++)
+                        for (int c = 0; c < signal.NumberOfChannels; c++, dst++)
                             *dst = (Amplitude * Math.Sin(i * theta));
+                }
+                else if (Format == SampleFormat.Format32Bit)
+                {
+                    var dst = (Int32*)signal.Data.ToPointer();
+                    for (int i = 0; i < signal.NumberOfFrames; i++)
+                        for (int c = 0; c < signal.NumberOfChannels; c++, dst++)
+                            *dst = (Int32)(Amplitude * Math.Sin(i * theta));
+                }
+                else if (Format == SampleFormat.Format16Bit)
+                {
+                    var dst = (Int16*)signal.Data.ToPointer();
+                    for (int i = 0; i < signal.NumberOfFrames; i++)
+                        for (int c = 0; c < signal.NumberOfChannels; c++, dst++)
+                            *dst = (Int16)(Amplitude * Math.Sin(i * theta));
                 }
                 else
                 {

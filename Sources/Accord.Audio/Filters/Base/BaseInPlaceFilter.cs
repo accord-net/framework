@@ -64,8 +64,8 @@ namespace Accord.Audio.Filters
             CheckSourceFormat(signal.SampleFormat);
 
             // get number of channels and samples
-            int channels = signal.Channels;
-            int samples = signal.Length;
+            int channels = signal.NumberOfChannels;
+            int samples = signal.NumberOfFrames;
 
             // retrieve other information
             int rate = signal.SampleRate;
