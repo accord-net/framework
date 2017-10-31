@@ -19,6 +19,8 @@ using Accord.Video.FFMPEG;
 using System.Drawing.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Imaging;
+using Accord.Audio.Generators;
+using Accord.Audio;
 
 namespace Accord.Perf.MachineLearning
 {
@@ -41,7 +43,8 @@ namespace Accord.Perf.MachineLearning
             //TestSMO();
             //TestMeanShift();
             //TestEmpty();
-            TestHaar();
+            //TestHaar();
+            TestFFMPEG();
         }
 
         private static void TestSparseKernelSVM()
@@ -446,6 +449,57 @@ namespace Accord.Perf.MachineLearning
             Console.WriteLine(sw.Elapsed);
 
             video.Close();
+        }
+
+        static void TestFFMPEG()
+        {
+            var videoWriter = new VideoFileWriter();
+
+            int width = 800;
+            int height = 600;
+            int framerate = 24;
+            string path = Path.GetFullPath("output.mp4");
+            int videoBitRate = 1200 * 1000;
+
+            int audioFrameSize = 44100;
+            int audioBitRate = 128000;
+            int audioSampleRate = 44100;
+            Channels audioChannels = Channels.Mono;
+
+            videoWriter.Open(path,
+                width, height, framerate, VideoCodec.H264, videoBitRate//);
+            , audioFrameSize, audioChannels, audioSampleRate, AudioCodec.MP3, audioBitRate);
+
+            var a = new Accord.DirectSound.AudioDeviceCollection(DirectSound.AudioDeviceCategory.Capture);
+
+            // Generate 1 second of audio
+            SineGenerator gen = new SineGenerator()
+            {
+                SamplingRate = audioSampleRate,
+                Channels = 1,
+                Format = SampleFormat.Format16Bit,
+                Frequency = 10,
+                Amplitude = 1000.9f,
+            };
+
+            Signal s = gen.Generate(TimeSpan.FromSeconds(255));
+            //s.Save("test.wav");
+
+            var m2i = new MatrixToImage();
+            Bitmap frame;
+
+            for (byte i = 0; i < 255; i++)
+            {
+                byte[,] matrix = Matrix.Create(height, width, i);
+                m2i.Convert(matrix, out frame);
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(1));
+
+                // Generate 1 second of audio
+                s = gen.Generate(TimeSpan.FromSeconds(1));
+                videoWriter.WriteAudioFrame(s);
+            }
+
+            videoWriter.Close();
         }
     }
 }

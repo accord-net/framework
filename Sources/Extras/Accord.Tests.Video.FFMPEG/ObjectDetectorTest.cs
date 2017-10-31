@@ -42,6 +42,7 @@ namespace Accord.Tests.Vision
     {
 
         [Test]
+        [Category("Slow")]
         public void ProcessVideo()
         {
             string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "detector");

@@ -34,6 +34,8 @@ namespace Accord.Tests.Audio
     using Accord.Statistics.Analysis;
     using Accord.MachineLearning;
     using Accord.Statistics.Kernels;
+    using Accord.Audio.Formats;
+    using System;
 
     [TestFixture]
     public class BagOfAudioWordsTest
@@ -41,6 +43,8 @@ namespace Accord.Tests.Audio
         [Test]
         public void learn()
         {
+            Type t = typeof(WaveEncoder);
+
             string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "learn");
 
             #region doc_learn
