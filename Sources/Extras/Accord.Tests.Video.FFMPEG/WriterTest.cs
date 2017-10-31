@@ -51,6 +51,82 @@ namespace Accord.Tests.Video
         }
 
         [Test]
+        public void write_video_new_api()
+        {
+            string basePath = TestContext.CurrentContext.TestDirectory;
+
+            #region doc_new_api
+
+            // Let's say we would like to save file using a .avi media 
+            // container and a MPEG4 (DivX/XVid) codec, saving it into:
+            string outputPath = Path.Combine(basePath, "output.avi");
+
+            // First, we create a new VideoFileWriter:
+            var videoWriter = new VideoFileWriter()
+            {
+                // Our video will have the following characteristics:
+                Width = 800,
+                Height = 600,
+                FrameRate = 24,
+                BitRate = 1200 * 1000,
+                VideoCodec = VideoCodec.MPEG4,
+            };
+
+            // We can open for it writing:
+            videoWriter.Open(outputPath);
+
+            // At this point, we can check the console of our application for useful 
+            // information regarding our media streams created by FFMPEG. We can also
+            // check those properties using the class itself, specially for properties
+            // that we didn't set beforehand but that have been filled by FFMPEG:
+
+            int width = videoWriter.Width;
+            int height = videoWriter.Height;
+            int frameRate = videoWriter.FrameRate.Numerator;
+            int bitRate = videoWriter.BitRate;
+            VideoCodec videoCodec = videoWriter.VideoCodec;
+
+            // We haven't set those properties, but FFMPEG has filled them for us:
+            AudioCodec audioCodec = videoWriter.AudioCodec;
+            int audioSampleRate = videoWriter.SampleRate;
+            Channels audioChannels = videoWriter.Channels;
+
+            // Now, let's say we would like to save dummy images of changing color
+            var m2i = new MatrixToImage();
+            Bitmap frame;
+
+            for (byte i = 0; i < 255; i++)
+            {
+                // Create bitmap matrix from a matrix of RGB values:
+                byte[,] matrix = Matrix.Create(height, width, i);
+                m2i.Convert(matrix, out frame);
+
+                // Write the frame to the stream. We can optionally specify
+                // the duration that this frame should remain in the stream:
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(1));
+            }
+
+            // We can get how long our written video is:
+            TimeSpan duration = videoWriter.Duration;
+
+            // Close the stream
+            videoWriter.Close();
+            #endregion
+
+            Assert.AreEqual(2540000000, duration.Ticks);
+
+            Assert.AreEqual(800, width);
+            Assert.AreEqual(600, height);
+            Assert.AreEqual(24, frameRate);
+            Assert.AreEqual(1200000, bitRate);
+            Assert.AreEqual(VideoCodec.MPEG4, videoCodec);
+
+            Assert.AreEqual(AudioCodec.MP3, audioCodec);
+            Assert.AreEqual(44100, audioSampleRate);
+            Assert.AreEqual(Channels.Stereo, audioChannels);
+        }
+
+        [Test]
         public void write_video_test()
         {
             var videoWriter = new VideoFileWriter();
@@ -113,14 +189,6 @@ namespace Accord.Tests.Video
         }
 
         [Test]
-        public void reencode_ogm()
-        {
-            var fileInput = new FileInfo(fireplace_mp4);
-            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output_ogm.ogm"));
-            reencode(fileInput, fileOutput, VideoCodec.Theora);
-        }
-
-        [Test]
         public void reencode_h264_mp4()
         {
             var fileInput = new FileInfo(fireplace_mp4);
@@ -160,7 +228,8 @@ namespace Accord.Tests.Video
                     {
                         using (var bitmap = videoFileReader.ReadVideoFrame())
                         {
-                            if (bitmap == null) { break; }
+                            if (bitmap == null)
+                                break;
                             videoFileWriter.WriteVideoFrame(bitmap);
                         }
                     }
