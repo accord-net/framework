@@ -120,7 +120,7 @@ namespace Accord.Imaging.Formats
         {
             string fileExtension = FormatDecoderAttribute.GetNormalizedExtension(fileName);
 
-            IImageDecoder decoder = FormatDecoderAttribute.GetDecoder(fileExtension, decoderTypes, decoders.Value);
+            IImageDecoder decoder = FormatDecoderAttribute.GetDecoders(fileExtension, decoderTypes, decoders.Value);
 
             if (decoder != null)
             {

@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="AForge.Core\Delegates.cs" />
     <Compile Include="AForge.Core\DoublePoint.cs" />
+    <Compile Include="Attributes\FormatHandlerAttribute.cs" />
+    <Compile Include="Attributes\FormatEncoderAttribute.cs" />
     <Compile Include="Attributes\FormatDecoderAttribute.cs" />
     <Compile Include="Attributes\SourceTypeAttribute.cs" />
     <Compile Include="Attributes\SerializationBinderAttribute.cs" />

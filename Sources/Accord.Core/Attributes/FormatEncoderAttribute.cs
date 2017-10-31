@@ -31,39 +31,38 @@ namespace Accord
     using System.IO;
 
     /// <summary>
-    ///   Specifies that a class can be used to decode a particular file type.
+    ///   Specifies that a class can be used to encode a particular file type.
     /// </summary>
     /// 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public sealed class FormatDecoderAttribute : FormatHandlerAttribute
+    public sealed class FormatEncoderAttribute : FormatHandlerAttribute
     {
-
         /// <summary>
-        ///   Initializes a new instance of the <see cref="FormatDecoderAttribute"/> class.
+        ///   Initializes a new instance of the <see cref="FormatEncoderAttribute"/> class.
         /// </summary>
         /// 
-        public FormatDecoderAttribute(string extension)
+        public FormatEncoderAttribute(string extension)
             : base(extension)
         {
         }
 
-
         /// <summary>
-        ///   Finds a decoder that can process the given normalized file extension.
+        ///   Finds a encoder that can process the given normalized file extension.
         /// </summary>
         /// 
-        /// <typeparam name="TDecoder">The type of the the decoder to be found (e.g. IImageDecoder or IAudioDecoder).</typeparam>
-        /// <param name="fileExtension">The normalized file extension (<see cref="FormatHandlerAttribute.GetNormalizedExtension(string)"/>.</param>
-        /// <param name="decoderTypes">The decoder types.</param>
-        /// <param name="cache">The cache of already instantiated decoder types.</param>
+        /// <typeparam name="TEncoder">The type of the the decoder to be found (e.g. IImageEncoder or IAudioEncoder).</typeparam>
         /// 
-        /// <returns>A decoder implementing the <typeparamref name="TDecoder"/> interface, or null if none have been found.</returns>
+        /// <param name="fileExtension">The normalized file extension (<see cref="FormatHandlerAttribute.GetNormalizedExtension(string)"/>)</param>
+        /// <param name="encoderTypes">The encoder types.</param>
+        /// <param name="cache">The cache of already instantiated encoder types.</param>
         /// 
-        public static TDecoder GetDecoders<TDecoder>(string fileExtension,
-            Dictionary<string, Type> decoderTypes, Dictionary<string, TDecoder> cache)
-            where TDecoder : class
+        /// <returns>An encoder implementing the <typeparamref name="TEncoder"/> interface, or null if none have been found.</returns>
+        /// 
+        public static TEncoder GetEncoder<TEncoder>(string fileExtension,
+            Dictionary<string, Type> encoderTypes, Dictionary<string, TEncoder> cache)
+            where TEncoder : class
         {
-            return GetHandler<TDecoder, FormatDecoderAttribute>(fileExtension, decoderTypes, cache);
+            return GetHandler<TEncoder, FormatEncoderAttribute>(fileExtension, encoderTypes, cache);
         }
     }
 }
