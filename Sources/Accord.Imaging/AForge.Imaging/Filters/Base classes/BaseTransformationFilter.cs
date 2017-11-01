@@ -61,9 +61,7 @@ namespace Accord.Imaging.Filters
         public Bitmap Apply(Bitmap image)
         {
             // lock source bitmap data
-            BitmapData srcData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
+            BitmapData srcData = image.LockBits(ImageLockMode.ReadOnly);
 
             Bitmap dstImage = null;
 
@@ -71,6 +69,43 @@ namespace Accord.Imaging.Filters
             {
                 // apply the filter
                 dstImage = Apply(srcData);
+                dstImage.CopyResolutionFrom(image);
+            }
+            finally
+            {
+                // unlock source image
+                image.UnlockBits(srcData);
+            }
+
+            return dstImage;
+        }
+
+        /// <summary>
+        /// Apply filter to an image.
+        /// </summary>
+        /// 
+        /// <param name="image">Source image to apply filter to.</param>
+        /// <param name="destination">Destination image where the result of the filter will be stored. If set to null, a new image will be created.</param>
+        /// 
+        /// <returns>Returns filter's result obtained by applying the filter to
+        /// the source image.</returns>
+        /// 
+        /// <remarks>The method keeps the source image unchanged and returns
+        /// the result of image processing filter as new image.</remarks>
+        /// 
+        /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
+        ///
+        public Bitmap Apply(Bitmap image, Bitmap destination)
+        {
+            // lock source bitmap data
+            BitmapData srcData = image.LockBits(ImageLockMode.ReadOnly);
+
+            Bitmap dstImage = null;
+
+            try
+            {
+                // apply the filter
+                dstImage = Apply(srcData, destination);
                 dstImage.CopyResolutionFrom(image);
             }
             finally
@@ -99,6 +134,27 @@ namespace Accord.Imaging.Filters
         ///
         public Bitmap Apply(BitmapData imageData)
         {
+            return Apply(imageData, null);
+        }
+
+        /// <summary>
+        /// Apply filter to an image.
+        /// </summary>
+        /// 
+        /// <param name="imageData">Source image to apply filter to.</param>
+        /// <param name="destination">Destination image where the result of the filter will be stored. If set to null, a new image will be created.</param>
+        /// 
+        /// <returns>Returns filter's result obtained by applying the filter to
+        /// the source image.</returns>
+        /// 
+        /// <remarks>The filter accepts bitmap data as input and returns the result
+        /// of image processing filter as new image. The source image data are kept
+        /// unchanged.</remarks>
+        ///
+        /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
+        ///
+        public Bitmap Apply(BitmapData imageData, Bitmap destination)
+        {
             // check pixel format of the source image
             CheckSourceFormat(imageData.PixelFormat);
 
@@ -108,15 +164,25 @@ namespace Accord.Imaging.Filters
             // get new image size
             Size newSize = CalculateNewImageSize(new UnmanagedImage(imageData));
 
-            // create new image of required format
-            Bitmap dstImage = (dstPixelFormat == PixelFormat.Format8bppIndexed) ?
-                Accord.Imaging.Image.CreateGrayscaleImage(newSize.Width, newSize.Height) :
-                new Bitmap(newSize.Width, newSize.Height, dstPixelFormat);
+            if (destination == null)
+            {
+                // create new image of required format
+                destination = (dstPixelFormat == PixelFormat.Format8bppIndexed) ?
+                    Accord.Imaging.Image.CreateGrayscaleImage(newSize.Width, newSize.Height) :
+                    new Bitmap(newSize.Width, newSize.Height, dstPixelFormat);
+            }
+            else
+            {
+                // make sure the destination can hold the required format
+                if (destination.Width < newSize.Width || destination.Height < newSize.Height)
+                    throw new BadImageFormatException("The destination image is smaller than the required size.");
+
+                if (destination.PixelFormat != dstPixelFormat)
+                    throw new BadImageFormatException("The destination image has different pixel format size than the required format.");
+            }
 
             // lock destination bitmap data
-            BitmapData dstData = dstImage.LockBits(
-                new Rectangle(0, 0, newSize.Width, newSize.Height),
-                ImageLockMode.ReadWrite, dstPixelFormat);
+            BitmapData dstData = destination.LockBits(ImageLockMode.WriteOnly);
 
             try
             {
@@ -126,10 +192,10 @@ namespace Accord.Imaging.Filters
             finally
             {
                 // unlock destination images
-                dstImage.UnlockBits(dstData);
+                destination.UnlockBits(dstData);
             }
 
-            return dstImage;
+            return destination;
         }
 
         /// <summary>
