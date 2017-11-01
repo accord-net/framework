@@ -30,6 +30,7 @@
 namespace Accord.Video
 {
     using System;
+    using System.Drawing;
 
     /// <summary>
     /// Delegate for new frame event handler.
@@ -92,27 +93,41 @@ namespace Accord.Video
     /// 
     public class NewFrameEventArgs : EventArgs
     {
-        private System.Drawing.Bitmap frame;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NewFrameEventArgs"/> class.
         /// </summary>
         /// 
         /// <param name="frame">New frame.</param>
         /// 
-        public NewFrameEventArgs(System.Drawing.Bitmap frame)
+        public NewFrameEventArgs(Bitmap frame)
         {
-            this.frame = frame;
+            this.Frame = frame;
         }
+
+        /// <summary>
+        /// Gets the time when the frame started being captured.
+        /// </summary>
+        /// 
+        public DateTime CaptureStarted { get; set; }
+
+        /// <summary>
+        /// Gets the time when the frame finished being captured.
+        /// </summary>
+        /// 
+        public DateTime CaptureFinished { get; set; }
 
         /// <summary>
         /// New frame from video source.
         /// </summary>
         /// 
-        public System.Drawing.Bitmap Frame
-        {
-            get { return frame; }
-        }
+        public Bitmap Frame { get; set; }
+
+        /// <summary>
+        /// Gets the index of this frame since the capturing started.
+        /// </summary>
+        /// 
+        public int FrameIndex { get; set; }
+        public Size FrameSize { get; set; }
     }
 
     /// <summary>
@@ -129,7 +144,18 @@ namespace Accord.Video
         /// </summary>
         /// <param name="description">Error description.</param>
         public VideoSourceErrorEventArgs(string description)
-            : this(description, null) { }
+            : this(description, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VideoSourceErrorEventArgs"/> class.
+        /// </summary>
+        /// <param name="exception">Error exception.</param>
+        public VideoSourceErrorEventArgs(Exception exception)
+            : this(exception.Message, exception)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VideoSourceErrorEventArgs"/> class.
