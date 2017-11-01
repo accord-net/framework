@@ -110,12 +110,16 @@ namespace Accord {
                 }
             }
 
-            void str2native(String^ str, char* native)
+            const char* str2native(String^ str, char* native)
             {
+                if (str == nullptr)
+                    return nullptr;
+
                 IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni(str);
                 wchar_t* nativeFileNameUnicode = (wchar_t*)ptr.ToPointer();
                 int utf8StringSize = WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, nullptr, 0, nullptr, nullptr);
                 WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, native, utf8StringSize, nullptr, nullptr);
+                return native;
             }
 
 

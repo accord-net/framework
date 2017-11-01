@@ -23,6 +23,7 @@
 #pragma once
 
 using namespace System;
+using namespace System::Collections::Generic;
 using namespace System::Drawing;
 using namespace System::Drawing::Imaging;
 using namespace Accord::Video;
@@ -79,6 +80,9 @@ namespace Accord {
                 WriterPrivateData* data;
                 bool disposed;
 
+                Dictionary<String^, String^>^ audioOptions;
+                Dictionary<String^, String^>^ videoOptions;
+
             protected:
                 /// <summary>
                 /// Disposes the object and frees its resources.
@@ -106,6 +110,16 @@ namespace Accord {
                 property TimeSpan Duration
                 {
                     TimeSpan get();
+                }
+
+                property Dictionary<String^, String^>^ AudioOptions
+                {
+                    Dictionary<String^, String^>^ get() { return this->audioOptions; };
+                }
+
+                property Dictionary<String^, String^>^ VideoOptions
+                {
+                    Dictionary<String^, String^>^ get() { return this->videoOptions; };
                 }
 
                 /// <summary>
@@ -287,7 +301,7 @@ namespace Accord {
                 /// 
                 void WriteVideoFrame(Bitmap^ frame)
                 {
-                    WriteVideoFrame(frame, TimeSpan::Zero);
+                    WriteVideoFrame(frame, TimeSpan::Zero, System::Drawing::Rectangle(0, 0, frame->Width, frame->Height));
                 }
 
                 /// <summary>
@@ -324,7 +338,48 @@ namespace Accord {
                 /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
                 /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
                 /// 
-                void WriteVideoFrame(Bitmap^ frame, TimeSpan duration);
+                void WriteVideoFrame(Bitmap^ frame, System::Drawing::Rectangle region)
+                {
+                    WriteVideoFrame(frame, TimeSpan::Zero, region);
+                }
+
+                /// <summary>
+                /// Write new video frame into currently opened video file.
+                /// </summary>
+                ///
+                /// <param name="frame">Bitmap to add as a new video frame.</param>
+                /// <param name="duration">How long the given frame should remain on screen.</param>
+                ///
+                /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
+                /// </remarks>
+                ///
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                /// <exception cref="ArgumentException">The provided bitmap must be 24 or 32 bpp color image or 8 bpp grayscale image.</exception>
+                /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
+                /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
+                /// 
+                void WriteVideoFrame(Bitmap^ frame, TimeSpan duration)
+                {
+                    WriteVideoFrame(frame, duration, System::Drawing::Rectangle(0, 0, frame->Width, frame->Height));
+                }
+
+
+                /// <summary>
+                /// Write new video frame into currently opened video file.
+                /// </summary>
+                ///
+                /// <param name="frame">Bitmap to add as a new video frame.</param>
+                /// <param name="duration">How long the given frame should remain on screen.</param>
+                ///
+                /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
+                /// </remarks>
+                ///
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                /// <exception cref="ArgumentException">The provided bitmap must be 24 or 32 bpp color image or 8 bpp grayscale image.</exception>
+                /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
+                /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
+                /// 
+                void WriteVideoFrame(Bitmap^ frame, TimeSpan duration, System::Drawing::Rectangle region);
 
                 /// <summary>
                 /// Write new video frame into currently opened video file.

@@ -38,7 +38,7 @@ extern "C"
 #include <libswresample/swresample.h>
 }
 
-#define STREAM_PIX_FMT    AV_PIX_FMT_YUV420P // default pix_fmt
+#define STREAM_PIX_FMT    AV_PIX_FMT_YUV422P
 
 using namespace System::IO;
 
@@ -138,7 +138,7 @@ namespace Accord {
 
                     // Defaults
                     m_audio_codec = AudioCodec::Default,
-                    m_audio_bit_rate = 64000;
+                        m_audio_bit_rate = 64000;
                     m_audio_sample_rate = 44100;
                     m_audio_channel_layout = Channels::Stereo;
                     m_audio_frame_size = 10000;
@@ -428,12 +428,11 @@ namespace Accord {
                     this->oc = nullptr;
                 }
 
-                void init(const char* filename, const char* formatName)
+                void init(const char* filename, const char* formatName, AVDictionary* audioOptions, AVDictionary* videoOptions)
                 {
                     if (oc != nullptr)
                         throw gcnew VideoException("Video is already open.");
 
-                    AVDictionary* opt = nullptr;
                     this->oc = nullptr;
 
                     // allocate the output media context
@@ -472,10 +471,10 @@ namespace Accord {
                     // Now that all the parameters are set, we can open the audio and
                     // video codecs and allocate the necessary encode buffers.
                     if (have_video)
-                        open_video(oc, video_codec, &video_st, opt);
+                        open_video(oc, video_codec, &video_st, videoOptions);
 
                     if (have_audio)
-                        open_audio(oc, audio_codec, &audio_st, opt);
+                        open_audio(oc, audio_codec, &audio_st, audioOptions);
 
                     // open the output file, if needed 
                     if (!(fmt->flags & AVFMT_NOFILE))
@@ -497,29 +496,46 @@ namespace Accord {
                     // internally; make sure we do not overwrite it here 
                     CHECK(av_frame_make_writable(ost->frame), "Error making video frame writable");
 
-                    uint8_t* srcData[4] = { static_cast<uint8_t*>(static_cast<void*>(bitmapData->Scan0)), nullptr, nullptr, nullptr };
-                    int srcLinesize[4] = { bitmapData->Stride, 0, 0, 0 };
-
                     if (!ost->sws_ctx)
                     {
+                        AVPixelFormat input_format;
                         // convert source image to the format of the video file
                         if (bitmapData->PixelFormat == PixelFormat::Format8bppIndexed)
-                        {
-                            // prepare scaling context to convert RGB image to video format
-                            ost->sws_ctx = CHECK(sws_getContext(c->width, c->height,
-                                AV_PIX_FMT_GRAY8, c->width, c->height, c->pix_fmt,
-                                sws_flags, nullptr, nullptr, nullptr), "Could not initialize the color conversion context");
-                        }
-                        else
-                        {
-                            // prepare scaling context to convert grayscale image to video format
-                            ost->sws_ctx = CHECK(sws_getContext(c->width, c->height,
-                                AV_PIX_FMT_BGR24, c->width, c->height, c->pix_fmt,
-                                sws_flags, nullptr, nullptr, nullptr), "Could not initialize the grayscale conversion context");
-                        }
+                            input_format = AV_PIX_FMT_GRAY8;
+                        else if (bitmapData->PixelFormat == PixelFormat::Format24bppRgb)
+                            input_format = AV_PIX_FMT_BGR24;
+                        else if (bitmapData->PixelFormat == PixelFormat::Format32bppArgb)
+                            input_format = AV_PIX_FMT_BGRA;
+                        else throw gcnew VideoException("Invalid input video format.");
+
+                        // prepare scaling context to convert grayscale image to video format
+                        ost->sws_ctx = CHECK(sws_getContext(
+                            /*re-scale from:  */ bitmapData->Width, bitmapData->Height, input_format,
+                            /*to dimensions: */ c->width, c->height, c->pix_fmt,
+                            sws_flags, nullptr, nullptr, nullptr), "Could not initialize the grayscale conversion context");
                     }
 
-                    sws_scale(ost->sws_ctx, srcData, srcLinesize, 0, c->height, ost->frame->data, ost->frame->linesize);
+
+                    if (IntPtr::Size == 4) // 32-bits
+                    {
+                        uint32_t* srcData[4] = { (uint32_t*)bitmapData->Scan0.ToPointer(), 0, 0, 0 };
+                        int srcLineSize[4] = { bitmapData->Stride, 0, 0, 0 };
+
+                        sws_scale(ost->sws_ctx, (uint8_t**)srcData, srcLineSize, 0,
+                            bitmapData->Height, ost->frame->data, ost->frame->linesize);
+                    }
+                    else if (IntPtr::Size == 8) // 64-bits
+                    {
+                        uint64_t* srcData[4] = { (uint64_t*)bitmapData->Scan0.ToPointer(), 0, 0, 0 };
+                        int srcLineSize[4] = { bitmapData->Stride, 0, 0, 0 };
+
+                        sws_scale(ost->sws_ctx, (uint8_t**)srcData, srcLineSize, 0,
+                            bitmapData->Height, ost->frame->data, ost->frame->linesize);
+                    }
+                    else
+                    {
+                        throw gcnew Exception("The future is now.");
+                    }
 
                     ost->frame->pts = ost->next_pts;
                     ost->next_pts = ost->next_pts + max(1, duration);
@@ -600,11 +616,14 @@ namespace Accord {
             {
                 this->data = new WriterPrivateData();
 
+                this->audioOptions = gcnew Dictionary<String^, String^>();
+                this->videoOptions = gcnew Dictionary<String^, String^>();
+
                 // Initialize libavcodec, and register all codecs and formats.
                 av_register_all();
-#if DEBUG
+                //#if DEBUG
                 av_log_set_level(AV_LOG_VERBOSE);
-#endif
+                //#endif
             }
 
             // Creates a video file with the specified name and properties
@@ -615,24 +634,28 @@ namespace Accord {
 
                 bool success = false;
 
+                AVDictionary* audioOptions = nullptr;
+                AVDictionary* videoOptions = nullptr;
+
+                char key[2048];
+                char value[2048];
+                char nativeFileName[2048];
+                char nativeFormatName[2048];
+
+                for each(KeyValuePair<String^, String^>^ kvp in this->audioOptions)
+                    av_dict_set(&audioOptions, str2native(kvp->Key, key), str2native(kvp->Value, value), 0);
+
+                for each(KeyValuePair<String^, String^>^ kvp in this->videoOptions)
+                    av_dict_set(&videoOptions, str2native(kvp->Key, key), str2native(kvp->Value, value), 0);
+
                 try
                 {
                     // convert specified managed String to C-style string
-                    char nativeFileName[2048];
-
-                    str2native(fileName, nativeFileName);
-
-                    if (format == nullptr)
-                    {
-                        data->init(nativeFileName, nullptr);
-                    }
-                    else 
-                    {
-                        char nativeFormatName[2048];
-                        str2native(format, nativeFormatName);
-                        data->init(nativeFileName, nativeFormatName);
-                    }
-
+                    data->init(
+                        str2native(fileName, nativeFileName), 
+                        str2native(format, nativeFormatName), 
+                        audioOptions, 
+                        videoOptions);
 
                     if (data->have_video)
                         Console::WriteLine("VideoStream->time_base: {0}/{1}", data->video_st.st->time_base.num, data->video_st.st->time_base.den);
@@ -663,11 +686,10 @@ namespace Accord {
             }
 
             // Writes new video frame to the opened video file
-            void VideoFileWriter::WriteVideoFrame(Bitmap^ frame, TimeSpan duration)
+            void VideoFileWriter::WriteVideoFrame(Bitmap^ frame, TimeSpan duration, System::Drawing::Rectangle region)
             {
                 // lock the bitmap
-                BitmapData^ bitmapData = frame->LockBits(
-                    System::Drawing::Rectangle(0, 0, data->m_video_width, data->m_video_height),
+                BitmapData^ bitmapData = frame->LockBits(region,
                     ImageLockMode::ReadOnly, frame->PixelFormat);
 
                 WriteVideoFrame(bitmapData, duration);
@@ -684,15 +706,10 @@ namespace Accord {
 
                 if ((bitmapData->PixelFormat != PixelFormat::Format24bppRgb) &&
                     (bitmapData->PixelFormat != PixelFormat::Format32bppArgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format32bppPArgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format32bppRgb) &&
                     (bitmapData->PixelFormat != PixelFormat::Format8bppIndexed))
                 {
                     throw gcnew ArgumentException("The provided bitmap must be 24 or 32 bpp color or 8 bpp grayscale image.");
                 }
-
-                if ((bitmapData->Width != data->m_video_width) || (bitmapData->Height != data->m_video_height))
-                    throw gcnew ArgumentException("Bitmap size must be of the same size as video size, which was specified on opening video file.");
 
                 // convert duration to discrete pts 
                 int64_t duration_pts = max(1, TimeSpanToPTS(duration, data->video_st.st, data->video_st.enc));

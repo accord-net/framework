@@ -59,7 +59,7 @@ namespace Accord {
 
             String^ str(int64_t ts, AVRational* tb);
 
-            void str2native(System::String^ str, char* native);
+            const char* str2native(System::String^ str, char* native);
 
 
             int64_t TimeSpanToPTS(TimeSpan& duration, AVStream* stream, AVCodecContext* codec);
