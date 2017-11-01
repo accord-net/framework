@@ -127,6 +127,13 @@ namespace Accord.Video
         /// </summary>
         /// 
         public int FrameIndex { get; set; }
+
+        /// <summary>
+        /// Gets the region of the <see cref="Frame"/> which still contains 
+        /// useful data (it could be that cropping operations have reduced this
+        /// area to a smaller size, which should be reflected by this property).
+        /// </summary>
+        /// 
         public Size FrameSize { get; set; }
     }
 

@@ -287,7 +287,7 @@ namespace Accord.Controls
         public event PlayingFinishedEventHandler PlayingFinished;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VideoSourcePlayer2"/> class.
+        /// Initializes a new instance of the <see cref="VideoSourcePlayer"/> class.
         /// </summary>
         public VideoSourcePlayer()
         {

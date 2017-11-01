@@ -72,7 +72,7 @@ namespace Accord {
             ///   The <a href="https://1drv.ms/v/s!AoiTwBxoR4OAoLJhPozzixD25XcbiQ">generated video file can be found here</a>.</para>
             /// </example>
             ///
-            /// <seealso cref="VideoFileReader"/>
+            /// <seealso cref="Accord.Video.FFMPEG.VideoFileReader"/>
             ///
             public ref class VideoFileWriter : IDisposable
             {
@@ -229,7 +229,12 @@ namespace Accord {
                 [Obsolete("Please set the video properties in this class and pass only the filename to this constructor.")]
                 void Open(String^ fileName, int width, int height)
                 {
+#pragma warning(push)
+#pragma warning(disable: 612)
+#pragma warning(disable: 618)
+#pragma warning(disable: 4947)
                     Open(fileName, width, height, 25);
+#pragma warning(pop)
                 }
 
                 /// <summary>
@@ -239,7 +244,12 @@ namespace Accord {
                 [Obsolete("Please set the video properties in this class and pass only the filename to this constructor.")]
                 void Open(String^ fileName, int width, int height, Rational frameRate)
                 {
+#pragma warning(push)
+#pragma warning(disable: 612)
+#pragma warning(disable: 618)
+#pragma warning(disable: 4947)
                     Open(fileName, width, height, frameRate, FFMPEG::VideoCodec::Default);
+#pragma warning(pop)
                 }
 
                 /// <summary>
@@ -249,7 +259,12 @@ namespace Accord {
                 [Obsolete("Please set the video properties in this class and pass only the filename to this constructor.")]
                 void Open(String^ fileName, int width, int height, Rational frameRate, FFMPEG::VideoCodec codec)
                 {
+#pragma warning(push)
+#pragma warning(disable: 612)
+#pragma warning(disable: 618)
+#pragma warning(disable: 4947)
                     Open(fileName, width, height, frameRate, codec, 400000);
+#pragma warning(pop)
                 }
 
                 /// <summary>
@@ -259,7 +274,12 @@ namespace Accord {
                 [Obsolete("Please set the video properties in this class and pass only the filename to this constructor.")]
                 void Open(String^ fileName, int width, int height, Rational frameRate, FFMPEG::VideoCodec codec, int bitRate)
                 {
+#pragma warning(push)
+#pragma warning(disable: 612)
+#pragma warning(disable: 618)
+#pragma warning(disable: 4947)
                     Open(fileName, width, height, frameRate, codec, bitRate, 0, FFMPEG::Channels::Stereo, 0, FFMPEG::AudioCodec::None, 0);
+#pragma warning(pop)
                 }
 
                 /// <summary>
@@ -328,7 +348,7 @@ namespace Accord {
                 /// </summary>
                 ///
                 /// <param name="frame">Bitmap to add as a new video frame.</param>
-                /// <param name="duration">How long the given frame should remain on screen.</param>
+                /// <param name="region">The region of the bitmap that should be registered on video.</param>
                 ///
                 /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
                 /// </remarks>
@@ -370,6 +390,7 @@ namespace Accord {
                 ///
                 /// <param name="frame">Bitmap to add as a new video frame.</param>
                 /// <param name="duration">How long the given frame should remain on screen.</param>
+                /// <param name="region">The region of the bitmap that should be registered on video.</param>
                 ///
                 /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
                 /// </remarks>
