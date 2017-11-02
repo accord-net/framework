@@ -785,7 +785,9 @@ namespace Accord {
 
             int VideoFileWriter::SampleRate::get()
             {
-                GET(data->audio_st.enc->sample_rate, data->m_audio_sample_rate)
+                if (IsOpen && data->have_audio)
+                    return data->audio_st.enc->sample_rate;
+                return data->m_audio_sample_rate;
             }
 
             void VideoFileWriter::SampleRate::set(int value)

@@ -65,7 +65,8 @@ namespace Accord.Tests.Video
                 AudioCodec = AudioCodec.AAC,
                 AudioBitRate = 44100,
                 Channels = Channels.Stereo,
-                FrameSize = 4096
+                FrameSize = 44100,
+                PixelFormat = PixelFormat.FormatYUV420P
             };
 
             // We can open for it writing:

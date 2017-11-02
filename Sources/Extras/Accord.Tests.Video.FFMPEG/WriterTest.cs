@@ -168,11 +168,10 @@ namespace Accord.Tests.Video
         {
             var fileInput = new FileInfo(fireplace_mp4);
             var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.webm"));
-            reencode(fileInput, fileOutput, VideoCodec.VP8);
+            reencode(fileInput, fileOutput, VideoCodec.VP8, expectedFrameRate: 14.985014985014985d);
         }
 
         [Test]
-        [Category("Slow")]
         public void reencode_vp9()
         {
             var fileInput = new FileInfo(fireplace_mp4);
@@ -204,7 +203,8 @@ namespace Accord.Tests.Video
             reencode(fileInput, fileOutput, VideoCodec.H264);
         }
 
-        private static void reencode(FileInfo fileInput, FileInfo fileOutput, VideoCodec outputCodec)
+        private static void reencode(FileInfo fileInput, FileInfo fileOutput, VideoCodec outputCodec,
+            Accord.Video.FFMPEG.PixelFormat format = PixelFormat.FormatYUV420P, double expectedFrameRate = 2997 / 100.0)
         {
             using (var videoFileReader = new Accord.Video.FFMPEG.VideoFileReader())
             {
@@ -215,14 +215,14 @@ namespace Accord.Tests.Video
                     Assert.AreEqual(2997, videoFileReader.FrameRate.Numerator);
                     Assert.AreEqual(100, videoFileReader.FrameRate.Denominator);
 
-                    videoFileWriter.Open
-                    (
-                        fileOutput.FullName,
-                        videoFileReader.Width,
-                        videoFileReader.Height,
-                        videoFileReader.FrameRate,
-                        outputCodec
-                    );
+                    videoFileWriter.Width = videoFileReader.Width;
+                    videoFileWriter.Height = videoFileReader.Height;
+                    videoFileWriter.FrameRate = videoFileReader.FrameRate;
+                    videoFileWriter.VideoCodec = outputCodec;
+                    Assert.AreEqual(PixelFormat.FormatYUV420P, videoFileWriter.PixelFormat);
+                    videoFileWriter.PixelFormat = format;
+
+                    videoFileWriter.Open(fileOutput.FullName);
 
                     do
                     {
@@ -230,6 +230,7 @@ namespace Accord.Tests.Video
                         {
                             if (bitmap == null)
                                 break;
+
                             videoFileWriter.WriteVideoFrame(bitmap);
                         }
                     }
@@ -245,7 +246,7 @@ namespace Accord.Tests.Video
             {
                 videoFileReader.Open(fileOutput.FullName);
 
-                Assert.AreEqual(2997 / 100.0, videoFileReader.FrameRate.Value, 0.01);
+                Assert.AreEqual(expectedFrameRate, videoFileReader.FrameRate.Value, 0.01);
             }
         }
 
