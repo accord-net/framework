@@ -22,6 +22,12 @@
 
 #pragma once
 
+extern "C"
+{
+#include "libavcodec\avcodec.h"
+}
+
+
 using namespace System;
 
 namespace Accord {

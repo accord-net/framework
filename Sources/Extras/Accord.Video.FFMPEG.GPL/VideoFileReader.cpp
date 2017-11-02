@@ -401,7 +401,7 @@ namespace Accord {
                 );
 
                 for (size_t i = 0; i < data_size; i++)
-                    audio->Add(*data->AudioFrame->data[i]);
+                    audio->Add((uint8_t)(data->AudioFrame->data[i]));
 
                 return audio;
             }

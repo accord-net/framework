@@ -207,6 +207,7 @@
     <ClInclude Include="AudioCodec.h" />
     <ClInclude Include="Channels.h" />
     <ClInclude Include="PacketQueue.h" />
+    <ClInclude Include="PixelFormats.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="Tools.h" />
     <ClInclude Include="VideoCodec.h" />

@@ -38,7 +38,6 @@ extern "C"
 #include <libswresample/swresample.h>
 }
 
-#define STREAM_PIX_FMT    AV_PIX_FMT_YUV422P
 
 using namespace System::IO;
 
@@ -117,6 +116,7 @@ namespace Accord {
                 int             m_video_width;
                 int             m_video_height;
                 Rational        m_video_frame_rate;
+                PixelFormat     m_pixel_format;
 
 
                 WriterPrivateData()
@@ -137,17 +137,18 @@ namespace Accord {
                     audio_st = { 0 };
 
                     // Defaults
-                    m_audio_codec = AudioCodec::Default,
-                        m_audio_bit_rate = 64000;
+                    m_audio_codec = AudioCodec::Default;
+                    m_audio_bit_rate = 64000;
                     m_audio_sample_rate = 44100;
                     m_audio_channel_layout = Channels::Stereo;
                     m_audio_frame_size = 10000;
 
-                    m_video_codec = VideoCodec::Default,
+                    m_video_codec = VideoCodec::Default;
                     m_video_bit_rate = 400000;
                     m_video_width = 352;
                     m_video_height = 288;
                     m_video_frame_rate = Rational(25, 1);
+                    m_pixel_format = PixelFormat::FormatYUV420P;
                 }
 
 
@@ -209,7 +210,7 @@ namespace Accord {
                         c->time_base = ost->st->time_base;
 
                         c->gop_size = 12; // emit one intra frame every twelve frames at most
-                        c->pix_fmt = STREAM_PIX_FMT;
+                        c->pix_fmt = (AVPixelFormat)m_pixel_format;
                         if (c->codec_id == AV_CODEC_ID_MPEG2VIDEO)
                         {
                             // just for testing, we also add B frames
@@ -294,7 +295,9 @@ namespace Accord {
                     // open the codec 
                     int ret = avcodec_open2(c, codec, &opt);
                     av_dict_free(&opt);
-                    CHECK(ret, "Could not open video codec");
+                    CHECK(ret, "Could not open video codec. The most likely reason for this problem is that the current pixel format is not supported by the codec. Try "
+                        "to run your application with a console window open to identify what is the error message produced by FFMPEG. If the error is indeed an error "
+                        "about the pixel format, try to pass 'Accord.Video.FFMPEG.PixelFormat.FormatYUV420P' to the PixelFormat property of this class.");
 
                     // allocate and init a re-usable frame
                     ost->frame = CHECK(alloc_picture(c->pix_fmt, c->width, c->height), "Could not allocate video frame");
@@ -458,13 +461,13 @@ namespace Accord {
                     if (fmt->video_codec != AV_CODEC_ID_NONE)
                     {
                         add_stream(&video_st, oc, &video_codec, fmt->video_codec);
-                        have_video = 1;
+                        have_video = true;
                         encode_video = false;
                     }
                     if (fmt->audio_codec != AV_CODEC_ID_NONE)
                     {
                         add_stream(&audio_st, oc, &audio_codec, fmt->audio_codec);
-                        have_audio = 1;
+                        have_audio = true;
                         encode_audio = false;
                     }
 
@@ -500,11 +503,11 @@ namespace Accord {
                     {
                         AVPixelFormat input_format;
                         // convert source image to the format of the video file
-                        if (bitmapData->PixelFormat == PixelFormat::Format8bppIndexed)
+                        if (bitmapData->PixelFormat == System::Drawing::Imaging::PixelFormat::Format8bppIndexed)
                             input_format = AV_PIX_FMT_GRAY8;
-                        else if (bitmapData->PixelFormat == PixelFormat::Format24bppRgb)
+                        else if (bitmapData->PixelFormat == System::Drawing::Imaging::PixelFormat::Format24bppRgb)
                             input_format = AV_PIX_FMT_BGR24;
-                        else if (bitmapData->PixelFormat == PixelFormat::Format32bppArgb)
+                        else if (bitmapData->PixelFormat == System::Drawing::Imaging::PixelFormat::Format32bppArgb)
                             input_format = AV_PIX_FMT_BGRA;
                         else throw gcnew VideoException("Invalid input video format.");
 
@@ -652,9 +655,9 @@ namespace Accord {
                 {
                     // convert specified managed String to C-style string
                     data->init(
-                        str2native(fileName, nativeFileName), 
-                        str2native(format, nativeFormatName), 
-                        audioOptions, 
+                        str2native(fileName, nativeFileName),
+                        str2native(format, nativeFormatName),
+                        audioOptions,
                         videoOptions);
 
                     if (data->have_video)
@@ -704,9 +707,9 @@ namespace Accord {
                 if (!IsOpen)
                     throw gcnew IOException("A video file was not opened yet.");
 
-                if ((bitmapData->PixelFormat != PixelFormat::Format24bppRgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format32bppArgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format8bppIndexed))
+                if ((bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format24bppRgb) &&
+                    (bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format32bppArgb) &&
+                    (bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format8bppIndexed))
                 {
                     throw gcnew ArgumentException("The provided bitmap must be 24 or 32 bpp color or 8 bpp grayscale image.");
                 }
@@ -724,7 +727,7 @@ namespace Accord {
                 if (!IsOpen)
                     throw gcnew IOException("A video file was not opened yet.");
 
-                if ((signal->Length % data->m_audio_frame_size) == 0)
+                if ((signal->Length % data->m_audio_frame_size) != 0)
                     throw gcnew ArgumentException("Audio frame size must a multiple of the frame size, which was specified on opening video file.");
 
                 data->send_audio_frame(&data->audio_st, signal);
@@ -828,6 +831,19 @@ namespace Accord {
 
 
 
+
+            FFMPEG::PixelFormat VideoFileWriter::PixelFormat::get()
+            {
+                GET((FFMPEG::PixelFormat)data->video_st.enc->pix_fmt, data->m_pixel_format);
+            }
+
+            void VideoFileWriter::PixelFormat::set(FFMPEG::PixelFormat value)
+            {
+                SET(data->m_pixel_format)
+            }
+
+
+
             FFMPEG::Channels VideoFileWriter::Channels::get()
             {
                 GET((FFMPEG::Channels)data->audio_st.enc->channel_layout, data->m_audio_channel_layout)
@@ -842,7 +858,9 @@ namespace Accord {
 
             FFMPEG::VideoCodec VideoFileWriter::VideoCodec::get()
             {
-                GET((FFMPEG::VideoCodec)(int)data->video_st.enc->codec->id, data->m_video_codec)
+                if (IsOpen && data->have_video)
+                    return (FFMPEG::VideoCodec)(int)data->video_st.enc->codec->id;
+                return data->m_video_codec;
             }
 
             void VideoFileWriter::VideoCodec::set(FFMPEG::VideoCodec value)
@@ -854,7 +872,9 @@ namespace Accord {
 
             FFMPEG::AudioCodec VideoFileWriter::AudioCodec::get()
             {
-                GET((FFMPEG::AudioCodec)(int)data->audio_st.enc->codec->id, data->m_audio_codec)
+                if (IsOpen && data->have_audio)
+                    return (FFMPEG::AudioCodec)(int)data->audio_st.enc->codec->id;
+                return data->m_audio_codec;
             }
 
             void VideoFileWriter::AudioCodec::set(FFMPEG::AudioCodec value)

@@ -159,7 +159,15 @@ namespace Accord {
                 AAC = AV_CODEC_ID_AAC,
                 AC3 = AV_CODEC_ID_AC3,
                 DTS = AV_CODEC_ID_DTS,
-                VORBIS = AV_CODEC_ID_VORBIS,
+                    
+                /// <summary>
+                /// Vorbis is a free and open-source software project headed by the Xiph.Org Foundation. The project produces
+                /// an audio coding format and software reference encoder/decoder (codec) for lossy audio compression. Vorbis
+                /// is most commonly used in conjunction with the Ogg container format[7] and it is therefore often referred 
+                /// to as Ogg Vorbis.
+                /// </summary>
+                Vorbis = AV_CODEC_ID_VORBIS,
+
                 DVAUDIO = AV_CODEC_ID_DVAUDIO,
                 WMAV1 = AV_CODEC_ID_WMAV1,
                 WMAV2 = AV_CODEC_ID_WMAV2,
@@ -186,7 +194,12 @@ namespace Accord {
                 MLP = AV_CODEC_ID_MLP,
                 GSM_MS = AV_CODEC_ID_GSM_MS, // as found in WAV
                 ATRAC3 = AV_CODEC_ID_ATRAC3,
-                VOXWARE = AV_CODEC_ID_VOXWARE,
+                    
+                /// <summary>
+                /// VoxWare MetaSound Audio
+                /// </summary>
+                VoxWare = AV_CODEC_ID_VOXWARE,
+
                 APE = AV_CODEC_ID_APE,
                 NELLYMOSER = AV_CODEC_ID_NELLYMOSER,
                 MUSEPACK8 = AV_CODEC_ID_MUSEPACK8,

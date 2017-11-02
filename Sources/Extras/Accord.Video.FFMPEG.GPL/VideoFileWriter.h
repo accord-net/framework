@@ -33,6 +33,7 @@ using namespace Accord::Audio;
 #include "VideoCodec.h"
 #include "AudioCodec.h"
 #include "Channels.h"
+#include "PixelFormats.h"
 
 namespace Accord {
     namespace Video {
@@ -166,6 +167,12 @@ namespace Accord {
                 /// </summary>
                 ///
                 property int FrameSize { int get(); void set(int); }
+
+                /// <summary>
+                /// Gets or sets the pixel format for the current file.
+                /// </summary>
+                ///
+                property FFMPEG::PixelFormat PixelFormat { FFMPEG::PixelFormat get(); void set(FFMPEG::PixelFormat); }
 
                 /// <summary>
                 /// Gets or sets the current audio channel layout for the current file.
