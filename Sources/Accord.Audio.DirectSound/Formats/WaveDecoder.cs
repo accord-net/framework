@@ -26,6 +26,7 @@ namespace Accord.Audio.Formats
     using System.IO;
     using Accord.Audio;
     using SharpDX.Multimedia;
+    using System.Diagnostics;
 
     /// <summary>
     ///   Wave audio file decoder.
@@ -58,21 +59,19 @@ namespace Accord.Audio.Formats
         private SoundStream waveStream;
 
         private int blockAlign;
-        private int channels;
-        private int numberOfFrames;
-        private int numberOfSamples;
+        private int numberOfChannels;
+        private int totalNumberOfFrames;
+        private int totalNumberOfSamples;
         private int duration;
         private int sampleRate;
-        private int bytes;
+        private int bytesRead;
         private int bitsPerSample;
         private int averageBitsPerSecond;
 
-        private float[] buffer;
         private int bufferSize;
 
         /// <summary>
-        ///   Gets the current frame within
-        ///   the current decoder stream.
+        ///   Gets the current frame within the current decoder stream.
         /// </summary>
         /// 
         public int Position
@@ -81,44 +80,50 @@ namespace Accord.Audio.Formats
         }
 
         /// <summary>
-        ///   Gets the number of channels of
-        ///   the underlying Wave stream.
+        ///   Obsolete. Please use <see cref="NumberOfChannels"/> instead.
         /// </summary>
         /// 
-        public int Channels
-        {
-            get { return channels; }
-        }
+        [Obsolete("Please use NumberOfChannels instead.")]
+        public int Channels { get { return numberOfChannels; } }
+
 
         /// <summary>
-        ///   Gets the number of frames of
-        ///   the underlying Wave stream.
+        ///   Gets the number of channels of the underlying Wave stream.
         /// </summary>
         /// 
-        public int Frames
-        {
-            get { return numberOfFrames; }
-        }
+        public int NumberOfChannels { get { return numberOfChannels; } }
 
         /// <summary>
-        ///   Gets the number of samples of
-        ///   the underlying Wave stream.
+        ///   Obsolete. Please use <see cref="NumberOfFrames"/> instead.
         /// </summary>
         /// 
-        public int Samples
-        {
-            get { return numberOfSamples; }
-        }
+        [Obsolete("Please use NumberOfFrames instead.")]
+        public int Frames { get { return totalNumberOfFrames; } }
 
         /// <summary>
-        ///   Gets the sample rate for
-        ///   the underlying Wave stream.
+        ///   Gets the number of frames of the underlying Wave stream.
         /// </summary>
         /// 
-        public int SampleRate
-        {
-            get { return sampleRate; }
-        }
+        public int NumberOfFrames { get { return totalNumberOfFrames; } }
+
+        /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfSamples"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfSamples instead.")]
+        public int Samples { get { return totalNumberOfSamples; } }
+
+        /// <summary>
+        ///   Gets the number of samples of the underlying Wave stream.
+        /// </summary>
+        /// 
+        public int NumberOfSamples { get { return totalNumberOfSamples; } }
+
+        /// <summary>
+        ///   Gets the sample rate for the underlying Wave stream.
+        /// </summary>
+        /// 
+        public int SampleRate { get { return sampleRate; } }
 
         /// <summary>
         ///   Gets the underlying Wave stream.
@@ -130,18 +135,26 @@ namespace Accord.Audio.Formats
         }
 
         /// <summary>
-        ///   Gets the total number of bytes
-        ///   read by this Wave encoder.
+        ///   Obsolete. Please use <see cref="NumberOfBytesRead"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfBytesRead instead.")]
         public int Bytes
         {
-            get { return bytes; }
+            get { return bytesRead; }
         }
 
         /// <summary>
-        ///   Gets the total time span duration (in
-        ///   milliseconds) read by this encoder.
+        ///   Gets the total number of bytes read by this Wave decoder.
+        /// </summary>
+        /// 
+        public int NumberOfBytesRead
+        {
+            get { return bytesRead; }
+        }
+
+        /// <summary>
+        ///   Gets the total time span duration (in milliseconds) read by this encoder.
         /// </summary>
         /// 
         public int Duration
@@ -150,8 +163,7 @@ namespace Accord.Audio.Formats
         }
 
         /// <summary>
-        ///   Gets the average bits per second
-        ///   of the underlying Wave stream.
+        ///   Gets the average bits per second of the underlying Wave stream.
         /// </summary>
         /// 
         public int AverageBitsPerSecond
@@ -160,8 +172,7 @@ namespace Accord.Audio.Formats
         }
 
         /// <summary>
-        ///   Gets the bits per sample of
-        ///   the underlying Wave stream.
+        ///   Gets the bits per sample of the underlying Wave stream.
         /// </summary>
         /// 
         public int BitsPerSample
@@ -210,16 +221,16 @@ namespace Accord.Audio.Formats
         public int Open(SoundStream stream)
         {
             this.waveStream = stream;
-            this.channels = stream.Format.Channels;
+            this.numberOfChannels = stream.Format.Channels;
             this.blockAlign = stream.Format.BlockAlign;
-            this.numberOfFrames = (int)stream.Length / blockAlign;
+            this.totalNumberOfFrames = (int)stream.Length / blockAlign;
             this.sampleRate = stream.Format.SampleRate;
-            this.numberOfSamples = numberOfFrames * Channels;
-            this.duration = (int)(numberOfFrames / (double)sampleRate * 1000.0);
+            this.totalNumberOfSamples = totalNumberOfFrames * this.numberOfChannels;
+            this.duration = (int)(totalNumberOfFrames / (double)sampleRate * 1000.0);
             this.bitsPerSample = stream.Format.BitsPerSample;
             this.averageBitsPerSecond = stream.Format.AverageBytesPerSecond * 8;
 
-            return numberOfFrames;
+            return totalNumberOfFrames;
         }
 
         /// <summary>
@@ -260,38 +271,94 @@ namespace Accord.Audio.Formats
         }
 
         /// <summary>
-        ///   Decodes the Wave stream into a Signal object.
+        ///   Decodes the entire Wave stream into a new Signal object.
         /// </summary>
         /// 
         public Signal Decode()
         {
             // Reads the entire stream into a signal
-            return Decode(0, Frames);
+            return Decode(index: 0, frames: totalNumberOfFrames);
         }
 
-
+        /// <summary>
+        ///   Decodes the entire Wave stream into a new Signal object.
+        /// </summary>
+        /// 
+        public Signal Decode(int frames)
+        {
+            // Reads the entire stream into a signal
+            return Decode(index: 0, frames: frames);
+        }
 
         /// <summary>
-        ///   Decodes the Wave stream into a Signal object.
+        ///   Decodes a number of frames into a Signal object, reusing memory from an
+        ///   existing signal if possible (that may be overwritten with the new data).
+        /// </summary>
+        /// 
+        /// <param name="signal">The existing audio signal to be overwritten. If set to 
+        ///   <c>null</c>, a new <see cref="Signal"/> will be created instead.</param>
+        /// 
+        /// <returns>Returns the decoded signal.</returns>
+        /// 
+        /// <remarks>Implementations of this method may throw
+        /// <see cref="System.NullReferenceException"/> exception in the case if no audio
+        /// stream was opened previously, <see cref="System.ArgumentOutOfRangeException"/> in the
+        /// case if stream does not contain frame with specified index or  <see cref="System.ArgumentException"/>
+        /// exception to report about incorrectly formatted audio.
+        /// </remarks>
+        /// 
+        public Signal Decode(Signal signal)
+        {
+            return Decode(frames: totalNumberOfFrames, signal: signal);
+        }
+
+        /// <summary>
+        ///   Decodes a number of frames into a Signal object, reusing memory from an
+        ///   existing signal if possible (that may be overwritten with the new data).
         /// </summary>
         /// 
         /// <param name="frames">The number of frames to decode.</param>
+        /// <param name="signal">The existing audio signal to be overwritten. If set to 
+        ///   <c>null</c>, a new <see cref="Signal"/> will be created instead.</param>
         /// 
-        public Signal Decode(int frames)
+        /// <returns>Returns the decoded signal.</returns>
+        /// 
+        /// <remarks>Implementations of this method may throw
+        /// <see cref="System.NullReferenceException"/> exception in the case if no audio
+        /// stream was opened previously, <see cref="System.ArgumentOutOfRangeException"/> in the
+        /// case if stream does not contain frame with specified index or  <see cref="System.ArgumentException"/>
+        /// exception to report about incorrectly formatted audio.
+        /// </remarks>
+        /// 
+        public Signal Decode(int frames, Signal signal)
         {
             if (waveStream.Position == waveStream.Length)
                 return null;
 
-            bufferSize = Channels * frames;
+            float[] buffer;
+            bufferSize = numberOfChannels * frames;
 
-            // Create room to store the samples.
-            if (buffer == null || buffer.Length < bufferSize)
+            if (signal != null)
+            {
+                // Check if we have enough room to store the samples
+                if (signal.NumberOfFrames != frames || signal.NumberOfChannels != numberOfChannels || signal.SampleFormat != SampleFormat.Format32BitIeeeFloat)
+                    throw new ArgumentException("The signal does not have the correct number of channels, frames or pixel format.");
+
+                buffer = (float[])signal.InnerData;
+                Debug.Assert(buffer.Length == bufferSize);
+            }
+            else
+            {
                 buffer = new float[bufferSize];
 
-            bytes = readAsFloat(buffer, frames);
+                // This WaveDecoder class always decodes samples as 32-bit IEEE Float.
+                signal = Signal.FromArray(buffer, bufferSize,
+                    numberOfChannels, sampleRate, SampleFormat.Format32BitIeeeFloat);
+            }
 
-            // The decoder always decodes as 32-bit IEEE Float.
-            return Signal.FromArray(buffer, bufferSize, channels, sampleRate, SampleFormat.Format32BitIeeeFloat);
+            bytesRead = readAsFloat(buffer, signal.NumberOfFrames);
+
+            return signal;
         }
 
         /// <summary>
@@ -305,8 +372,33 @@ namespace Accord.Audio.Formats
         /// 
         public Signal Decode(int index, int frames)
         {
-            waveStream.Seek(index * channels, SeekOrigin.Begin);
-            return Decode(frames);
+            return Decode(index: index, frames: frames, signal: null);
+        }
+
+        /// <summary>
+        ///   Decodes a number of frames into a Signal object, reusing memory from an
+        ///   existing signal if possible (that may be overwritten with the new data).
+        /// </summary>
+        /// 
+        /// 
+        /// <param name="index">Audio frame index to start decoding.</param>
+        /// <param name="frames">The number of frames to decode.</param>
+        /// <param name="signal">The existing audio signal to be overwritten. If set to 
+        ///   <c>null</c>, a new <see cref="Signal"/> will be created instead.</param>
+        /// 
+        /// <returns>Returns the decoded signal.</returns>
+        /// 
+        /// <remarks>Implementations of this method may throw
+        /// <see cref="System.NullReferenceException"/> exception in the case if no audio
+        /// stream was opened previously, <see cref="System.ArgumentOutOfRangeException"/> in the
+        /// case if stream does not contain frame with specified index or  <see cref="System.ArgumentException"/>
+        /// exception to report about incorrectly formatted audio.
+        /// </remarks>
+        /// 
+        public Signal Decode(int index, int frames, Signal signal)
+        {
+            waveStream.Seek(index * numberOfChannels, SeekOrigin.Begin);
+            return Decode(frames: frames, signal: null);
         }
 
         /// <summary>
@@ -388,7 +480,7 @@ namespace Accord.Audio.Formats
         {
             int reads;
 
-            int blockSize = sizeof(float) * count * channels;
+            int blockSize = sizeof(float) * count * numberOfChannels;
             byte[] block = new byte[blockSize];
             reads = waveStream.Read(block, 0, blockSize);
 
@@ -411,7 +503,7 @@ namespace Accord.Audio.Formats
         {
             int reads;
 
-            int blockSize = sizeof(short) * count * channels;
+            int blockSize = sizeof(short) * count * numberOfChannels;
             byte[] block = new byte[blockSize];
             reads = waveStream.Read(block, 0, blockSize);
 
@@ -434,7 +526,7 @@ namespace Accord.Audio.Formats
         {
             int reads;
 
-            int blockSize = sizeof(int) * count * channels;
+            int blockSize = sizeof(int) * count * numberOfChannels;
             byte[] block = new byte[blockSize];
             reads = waveStream.Read(block, 0, blockSize);
 

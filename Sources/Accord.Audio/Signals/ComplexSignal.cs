@@ -145,7 +145,7 @@ namespace Accord.Audio
         ///   Constructs a new Complex Signal
         /// </summary>
         /// 
-        public ComplexSignal(byte[] data, int channels, int length, int sampleRate)
+        public ComplexSignal(Array data, int channels, int length, int sampleRate)
             : this(data, channels, length, sampleRate, ComplexSignalStatus.Normal)
         {
         }
@@ -154,9 +154,13 @@ namespace Accord.Audio
         ///   Constructs a new Complex Signal
         /// </summary>
         /// 
-        public ComplexSignal(byte[] data, int channels, int length, int sampleRate, ComplexSignalStatus status)
+        public ComplexSignal(Array data, int channels, int length, int sampleRate, ComplexSignalStatus status)
             : base(data, channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
+            // check signal size
+            if (!Accord.Math.Tools.IsPowerOf2(length))
+                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
+
             this.status = status;
         }
 
@@ -167,6 +171,10 @@ namespace Accord.Audio
         public ComplexSignal(int channels, int length, int sampleRate)
             : base(channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
+            // check signal size
+            if (!Accord.Math.Tools.IsPowerOf2(length))
+                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
+
         }
 
 
@@ -177,14 +185,19 @@ namespace Accord.Audio
         /// 
         public Complex[,] ToArray()
         {
-            Complex[,] array = new Complex[Length, NumberOfChannels];
+            Complex[,] array = new Complex[NumberOfFrames, NumberOfChannels];
 
-            GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            IntPtr pointer = handle.AddrOfPinnedObject();
-#pragma warning disable CS0618 // Type or member is obsolete
-            Marshal.Copy(RawData, 0, pointer, array.Length * Marshal.SizeOf(typeof(Complex)));
-#pragma warning restore CS0618 // Type or member is obsolete
-            handle.Free();
+            unsafe
+            {
+                fixed (Complex* ptrArray = array)
+                {
+                    Complex* src = (Complex*)Data;
+                    Complex* dst = ptrArray;
+
+                    for (int i = 0; i < array.Length; i++, src++, dst++)
+                        *dst = *src;
+                }
+            }
 
             return array;
         }
@@ -204,7 +217,7 @@ namespace Accord.Audio
         /// 
         public Complex[] GetChannel(int channel)
         {
-            Complex[] array = new Complex[Length];
+            Complex[] array = new Complex[NumberOfFrames];
             int channels = NumberOfChannels;
             int length = Length;
 
@@ -230,7 +243,7 @@ namespace Accord.Audio
         private void SetChannel(int channel, Complex[] samples)
         {
             int channels = NumberOfChannels;
-            int length = Length;
+            int length = NumberOfFrames;
 
             unsafe
             {
@@ -344,8 +357,7 @@ namespace Accord.Audio
             }
             else if (signal.SampleFormat == SampleFormat.Format128BitComplex)
             {
-                return new ComplexSignal(signal.RawData, signal.NumberOfChannels,
-                    signal.Length, signal.SampleRate);
+                return new ComplexSignal(signal.InnerData, signal.NumberOfChannels, signal.Length, signal.SampleRate);
             }
             else
             {
@@ -419,22 +431,7 @@ namespace Accord.Audio
             int samples = array.GetLength(0);
             int channels = array.GetLength(1);
 
-            // check signal size
-            if (!Accord.Math.Tools.IsPowerOf2(samples))
-            {
-                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
-            }
-
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            byte[] buffer = new byte[array.Length * Marshal.SizeOf(typeof(Complex))];
-#pragma warning restore CS0618 // Type or member is obsolete
-
-            GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            Marshal.Copy(handle.AddrOfPinnedObject(), buffer, 0, buffer.Length);
-            handle.Free();
-
-            return new ComplexSignal(buffer, channels, samples, sampleRate, status);
+            return new ComplexSignal(array, channels, samples, sampleRate, status);
         }
 
         #endregion
@@ -464,8 +461,8 @@ namespace Accord.Audio
             int pos = 0;
             foreach (ComplexSignal signal in signals)
             {
-                Buffer.BlockCopy(signal.RawData, 0, result.RawData, pos, result.RawData.Length);
-                pos += signal.RawData.Length;
+                Buffer.BlockCopy(signal.InnerData, 0, result.InnerData, pos, result.NumberOfBytes);
+                pos += signal.NumberOfBytes;
             }
 
             return result;

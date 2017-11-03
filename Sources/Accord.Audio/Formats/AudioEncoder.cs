@@ -84,7 +84,8 @@ namespace Accord.Audio.Formats
             }
 
             throw new ArgumentException(String.Format("No suitable encoder has been found for the file format {0}. If ", fileExtension) +
-                "you are trying to encode .wav files, please add a reference to Accord.Audio.DirectSound.", "fileName");
+                "you are trying to encode .wav files, please add a reference to Accord.Audio.DirectSound, and make sure you " +
+                "are using at least one type from assembly in your code (to make sure the assembly is loaded).", "fileName");
         }
 
     }

@@ -135,7 +135,7 @@ namespace Accord.Audio
     ///
     public class Signal : IDisposable
     {
-        private byte[] rawData;
+        private Array rawData;
         private IntPtr ptrData;
         private GCHandle handle;
 
@@ -246,13 +246,36 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Gets the raw binary data representing the signal.
+        ///   Obsolete. Please use <see cref="InnerData"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use InnerData instead.")]
         public byte[] RawData
+        {
+            get { return ToByte(); }
+            protected set { throw new Exception(); }
+        }
+
+        /// <summary>
+        ///   Gets the raw binary data representing the signal. When copying
+        ///   data from this array, use <see cref="NumberOfBytes"/> to determine
+        ///   how many bytes to copy.
+        /// </summary>
+        /// 
+        public Array InnerData
         {
             get { return rawData; }
             protected set { rawData = value; }
+        }
+
+        /// <summary>
+        ///   Gets the number of bytes that this signal can hold. This is
+        ///   the number of bytes currently stored in <see cref="RawData"/>.
+        /// </summary>
+        /// 
+        public int NumberOfBytes
+        {
+            get { return rawData.GetNumberOfBytes(); }
         }
 
         /// <summary>
@@ -278,7 +301,7 @@ namespace Accord.Audio
         /// <param name="format">The sample format for the signal.</param>
         /// <param name="sampleRate">The sample date of the signal.</param>
         /// 
-        public Signal(byte[] data, int channels, int length, int sampleRate, SampleFormat format)
+        public Signal(Array data, int channels, int length, int sampleRate, SampleFormat format)
         {
             init(data, channels, length, sampleRate, format);
         }
@@ -300,7 +323,7 @@ namespace Accord.Audio
             init(data, channels, length, sampleRate, format);
         }
 
-        private void init(byte[] data, int channels, int length, int sampleRate, SampleFormat format)
+        private void init(Array data, int channels, int length, int sampleRate, SampleFormat format)
         {
             this.handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             this.ptrData = handle.AddrOfPinnedObject();
@@ -448,20 +471,37 @@ namespace Accord.Audio
             SampleFormat format = SampleFormat.Format32BitIeeeFloat)
         {
             int bytes = length * Marshal.SizeOf(signal.GetInnerMostType());
-            byte[] buffer = new byte[bytes];
-            Buffer.BlockCopy(signal, 0, buffer, 0, bytes);
             int samples = length / channels;
 
-            return new Signal(buffer, channels, samples, sampleRate, format);
+            return new Signal(signal, channels, samples, sampleRate, format);
         }
 
         /// <summary>
         ///   Copies this signal to a given array.
         /// </summary>
         /// 
-        public void CopyTo(Array array)
+        public virtual void CopyTo(byte[] array)
         {
-            Buffer.BlockCopy(rawData, 0, array, 0, array.Length);
+            if (format == SampleFormat.Format128BitComplex)
+            {
+                // Complex is not primitive, so we need to copy manually
+                unsafe
+                {
+                    fixed (byte* ptrArray = array)
+                    {
+                        byte* src = (byte*)Data;
+                        byte* dst = ptrArray;
+                        int bytes = NumberOfBytes;
+
+                        for (int i = 0; i < bytes; i++, src++, dst++)
+                            *dst = *src;
+                    }
+                }
+            }
+            else
+            {
+                Buffer.BlockCopy(rawData, 0, array, 0, array.Length);
+            }
         }
 
         /// <summary>
@@ -472,15 +512,15 @@ namespace Accord.Audio
         {
             if (format == Audio.SampleFormat.Format32BitIeeeFloat)
             {
-                if (array.Length * sizeof(float) != rawData.Length)
-                    throw new Exception("The provided array is not large enough to contain than the signal.");
-                Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
+                if (array.Length < NumberOfSamples)
+                    throw new Exception("The provided array is not large enough to contain the signal.");
+                Buffer.BlockCopy(rawData, 0, array, 0, array.GetNumberOfBytes());
             }
 
             else if (format == Audio.SampleFormat.Format16Bit)
             {
                 short[] source = new short[NumberOfSamples];
-                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
+                Buffer.BlockCopy(rawData, 0, source, 0, source.GetNumberOfBytes());
                 SampleConverter.Convert(source, array);
             }
 
@@ -498,18 +538,20 @@ namespace Accord.Audio
         {
             if (format == Audio.SampleFormat.Format64BitIeeeFloat)
             {
-                Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
+                if (array.Length < NumberOfSamples)
+                    throw new Exception("The provided array is not large enough to contain the signal.");
+                Buffer.BlockCopy(rawData, 0, array, 0, array.GetNumberOfBytes());
             }
             else if (format == Audio.SampleFormat.Format32BitIeeeFloat)
             {
                 float[] source = new float[NumberOfSamples];
-                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
+                Buffer.BlockCopy(rawData, 0, source, 0, source.GetNumberOfBytes());
                 SampleConverter.Convert(source, array);
             }
             else if (format == Audio.SampleFormat.Format16Bit)
             {
                 short[] source = new short[NumberOfSamples];
-                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
+                Buffer.BlockCopy(rawData, 0, source, 0, source.GetNumberOfBytes());
                 SampleConverter.Convert(source, array);
             }
             else
@@ -540,6 +582,19 @@ namespace Accord.Audio
         public double[] ToDouble()
         {
             double[] array = new double[NumberOfSamples];
+            CopyTo(array);
+            return array;
+        }
+
+        /// <summary>
+        ///   Converts this signal into a array of bytes.
+        /// </summary>
+        /// 
+        /// <returns>An array of bytes.</returns>
+        /// 
+        public byte[] ToByte()
+        {
+            byte[] array = new byte[NumberOfSamples];
             CopyTo(array);
             return array;
         }

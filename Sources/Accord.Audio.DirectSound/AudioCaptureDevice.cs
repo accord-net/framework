@@ -28,6 +28,7 @@ namespace Accord.DirectSound
     using System;
     using System.Threading;
     using Accord.Compat;
+    using System.Data;
 
     /// <summary>
     ///   Audio source for local audio capture device (i.e. a microphone).
@@ -89,7 +90,7 @@ namespace Accord.DirectSound
         private string sourceName;
 
         // user data associated with the audio source
-        private object userData = null;
+        private object userData;
 
         // received frames count
         private int framesReceived;
@@ -103,8 +104,8 @@ namespace Accord.DirectSound
         // specifies the sample rate used in the source
         private int sampleRate = 44100;
 
-        private Thread thread = null;
-        private ManualResetEvent stopEvent = null;
+        private bool needToStop;
+        private Thread thread;
 
         private SampleFormat sampleFormat = SampleFormat.Format32BitIeeeFloat;
 
@@ -163,15 +164,25 @@ namespace Accord.DirectSound
         }
 
         /// <summary>
-        ///   Gets the number of audio channels captured by
-        ///   the device. Currently, only a single channel 
-        ///   is supported.
+        /// Obsolete. Please use <see cref="NumberOfChannels"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfChannels instead.")]
         public int Channels
         {
             get { return 1; }
             set { }
+        }
+
+        /// <summary>
+        ///   Gets the number of audio channels captured by the device. 
+        ///   Currently, only one single channel is supported.
+        /// </summary>
+        /// 
+        public int NumberOfChannels
+        {
+            get { return 1; }
+            set { throw new ReadOnlyException(); }
         }
 
         /// <summary>
@@ -237,10 +248,8 @@ namespace Accord.DirectSound
                     // check thread status
                     if (thread.Join(0) == false)
                         return true;
-
-                    // the thread is not running, free resources
-                    Free();
                 }
+
                 return false;
             }
         }
@@ -300,19 +309,16 @@ namespace Accord.DirectSound
         /// 
         public void Start()
         {
-            if (thread == null)
-            {
-                framesReceived = 0;
-                bytesReceived = 0;
+            if (thread != null)
+                throw new InvalidOperationException("Thread is already running.");
 
-                // create events
-                stopEvent = new ManualResetEvent(false);
+            framesReceived = 0;
+            bytesReceived = 0;
 
-                // create and start new thread
-                thread = new Thread(WorkerThread);
-                thread.Name = device.ToString();
-                thread.Start();
-            }
+            // create and start new thread
+            thread = new Thread(WorkerThread);
+            thread.Name = device.ToString();
+            thread.Start();
         }
 
         /// <summary>
@@ -328,7 +334,7 @@ namespace Accord.DirectSound
             if (thread != null)
             {
                 // signal to stop
-                stopEvent.Set();
+                needToStop = true;
             }
         }
 
@@ -345,8 +351,7 @@ namespace Accord.DirectSound
             {
                 // wait for thread stop
                 thread.Join();
-
-                Free();
+                thread = null;
             }
         }
 
@@ -366,24 +371,10 @@ namespace Accord.DirectSound
         {
             if (this.IsRunning)
             {
-                thread.Abort();
+                SignalToStop();
                 WaitForStop();
             }
         }
-
-        /// <summary>
-        ///   Free resource.
-        /// </summary>
-        /// 
-        private void Free()
-        {
-            thread = null;
-
-            // release events
-            stopEvent.Close();
-            stopEvent = null;
-        }
-
 
 
         /// <summary>
@@ -392,9 +383,10 @@ namespace Accord.DirectSound
         /// 
         private void WorkerThread()
         {
+            needToStop = false;
+
             // Get the selected capture device
             DirectSoundCapture captureDevice = new DirectSoundCapture(device);
-
 
             // Set the capture format
             var bitsPerSample = Signal.GetSampleSize(sampleFormat);
@@ -430,40 +422,40 @@ namespace Accord.DirectSound
                 for (int i = 0; i < notifications.Length; i++)
                     waitHandles[i] = notifications[i].WaitHandle;
 
-
-
                 // Start capturing
                 captureBuffer.Start(true);
-
 
                 if (sampleFormat == SampleFormat.Format32BitIeeeFloat)
                 {
                     float[] currentSample = new float[desiredCaptureSize];
+                    Signal signal = Signal.FromArray(currentSample, sampleRate, sampleFormat);
 
-                    while (!stopEvent.WaitOne(0, true))
+                    while (!needToStop)
                     {
                         int bufferPortionIndex = WaitHandle.WaitAny(waitHandles);
                         captureBuffer.Read(currentSample, 0, currentSample.Length, bufferPortionSize * bufferPortionIndex, LockFlags.None);
-                        OnNewFrame(currentSample);
+                        OnNewFrame(signal);
                     }
                 }
                 else if (sampleFormat == SampleFormat.Format16Bit)
                 {
                     short[] currentSample = new short[desiredCaptureSize];
+                    Signal signal = Signal.FromArray(currentSample, sampleRate, sampleFormat);
 
-                    while (!stopEvent.WaitOne(0, true))
+                    while (!needToStop)
                     {
                         int bufferPortionIndex = WaitHandle.WaitAny(waitHandles);
                         captureBuffer.Read(currentSample, 0, currentSample.Length, bufferPortionSize * bufferPortionIndex, LockFlags.None);
-                        OnNewFrame(currentSample);
+                        OnNewFrame(signal);
                     }
                 }
             }
             catch (Exception ex)
             {
-                if (AudioSourceError != null)
-                    AudioSourceError(this, new AudioSourceErrorEventArgs(ex.Message));
-                else throw;
+                if (AudioSourceError == null)
+                    throw;
+
+                AudioSourceError(this, new AudioSourceErrorEventArgs(ex));
             }
             finally
             {
@@ -492,14 +484,12 @@ namespace Accord.DirectSound
         /// 
         /// <param name="frame">New frame's audio.</param>
         /// 
-        protected void OnNewFrame(Array frame)
+        protected void OnNewFrame(Signal frame)
         {
             framesReceived++;
 
-            if ((!stopEvent.WaitOne(0, true)) && (NewFrame != null))
-            {
-                NewFrame(this, new NewFrameEventArgs(Signal.FromArray(frame, sampleRate, sampleFormat)));
-            }
+            if (NewFrame != null)
+                NewFrame(this, new NewFrameEventArgs(frame));
         }
 
 
@@ -532,7 +522,7 @@ namespace Accord.DirectSound
         }
 
 
-#region IDisposable members
+        #region IDisposable members
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations before the
         ///   <see cref="AudioCaptureDevice"/> is reclaimed by garbage collection.
@@ -566,15 +556,10 @@ namespace Accord.DirectSound
         {
             if (disposing)
             {
-                // free managed resources
-                if (stopEvent != null)
-                {
-                    stopEvent.Close();
-                    stopEvent = null;
-                }
+               
             }
         }
-#endregion
+        #endregion
 
     }
 }

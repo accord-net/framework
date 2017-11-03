@@ -73,6 +73,23 @@ namespace Accord.Audio.Formats
         ///   Decode a number of frames.
         /// </summary>
         /// 
+        /// <param name="frames">The number of frames to decode.</param>
+        /// 
+        /// <returns>Returns the decoded signal.</returns>
+        /// 
+        /// <remarks>Implementations of this method may throw
+        /// <see cref="System.NullReferenceException"/> exception in the case if no audio
+        /// stream was opened previously, <see cref="System.ArgumentOutOfRangeException"/> in the
+        /// case if stream does not contain frame with specified index or  <see cref="System.ArgumentException"/>
+        /// exception to report about incorrectly formatted audio.
+        /// </remarks>
+        /// 
+        Signal Decode(int frames);
+
+        /// <summary>
+        ///   Decode a number of frames.
+        /// </summary>
+        /// 
         /// <param name="index">Audio frame index to start decoding.</param>
         /// <param name="frames">The number of frames to decode.</param>
         /// 
@@ -86,6 +103,47 @@ namespace Accord.Audio.Formats
         /// </remarks>
         /// 
         Signal Decode(int index, int frames);
+
+        /// <summary>
+        ///   Decodes a number of frames into a Signal object, reusing memory from an
+        ///   existing signal if possible (that may be overwritten with the new data).
+        /// </summary>
+        /// 
+        /// 
+        /// <param name="index">Audio frame index to start decoding.</param>
+        /// <param name="frames">The number of frames to decode.</param>
+        /// <param name="signal">The existing audio signal to be overwritten. If set to 
+        ///   <c>null</c>, a new <see cref="Signal"/> will be created instead.</param>
+        /// 
+        /// <returns>Returns the decoded signal.</returns>
+        /// 
+        /// <remarks>Implementations of this method may throw
+        /// <see cref="System.NullReferenceException"/> exception in the case if no audio
+        /// stream was opened previously, <see cref="System.ArgumentOutOfRangeException"/> in the
+        /// case if stream does not contain frame with specified index or  <see cref="System.ArgumentException"/>
+        /// exception to report about incorrectly formatted audio.
+        /// </remarks>
+        /// 
+        Signal Decode(int index, int frames, Signal signal);
+
+        /// <summary>
+        ///   Decode a number of frames.
+        /// </summary>
+        /// 
+        /// <param name="frames">The number of frames to decode.</param>
+        /// <param name="signal">The existing audio signal to be overwritten. If set to 
+        ///   <c>null</c>, a new <see cref="Signal"/> will be created instead.</param>
+        /// 
+        /// <returns>Returns the decoded signal.</returns>
+        /// 
+        /// <remarks>Implementations of this method may throw
+        /// <see cref="System.NullReferenceException"/> exception in the case if no audio
+        /// stream was opened previously, <see cref="System.ArgumentOutOfRangeException"/> in the
+        /// case if stream does not contain frame with specified index or  <see cref="System.ArgumentException"/>
+        /// exception to report about incorrectly formatted audio.
+        /// </remarks>
+        /// 
+        Signal Decode(int frames, Signal signal);
 
 
         /// <summary>

@@ -61,6 +61,8 @@ namespace Accord.Audio.Formats
         private int averageBitsPerSecond;
         private SampleFormat sampleFormat;
 
+        private byte[] buffer;
+
 
         // The following fields are set when the encoder
         // receives the first signal to be written.
@@ -276,7 +278,7 @@ namespace Accord.Audio.Formats
             // Update counters
             numberOfSamples += signal.NumberOfSamples;
             numberOfFrames += signal.Length;
-            bytes += signal.RawData.Length;
+            bytes += signal.NumberOfBytes;
             duration += (int)signal.Duration.TotalMilliseconds;
 
             // Navigate to start position
@@ -289,8 +291,13 @@ namespace Accord.Audio.Formats
             // Go back to previous position
             waveStream.Seek(position, SeekOrigin.Begin);
 
+            if (buffer == null || buffer.Length < signal.NumberOfBytes)
+                buffer = new byte[signal.NumberOfBytes];
+
+            signal.CopyTo(buffer);
+
             // Write the current signal data
-            waveStream.Write(signal.RawData, 0, signal.RawData.Length);
+            waveStream.Write(buffer, 0, signal.NumberOfBytes);
         }
 
 
