@@ -66,7 +66,11 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(target.Length, 8);
             Assert.AreEqual(target.Samples, 16);
             Assert.AreEqual(target.SampleRate, 8000);
+            Assert.AreEqual(256, target.NumberOfBytes);
+            Assert.AreEqual(16, target.InnerData.Length);
+            Assert.AreEqual(16, target.SampleSize);
             Assert.IsNotNull(target.RawData);
+            
         }
 
         [Test]

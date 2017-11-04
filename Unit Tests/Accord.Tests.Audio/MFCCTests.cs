@@ -57,8 +57,8 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(8000, a.SampleRate);
             Assert.AreEqual(5451, a.Samples);
             Assert.AreEqual(4, a.SampleSize);
-            Assert.AreEqual(21804, a.RawData.Length);
-            Assert.AreEqual(a.SampleSize * a.NumberOfFrames * a.NumberOfChannels, a.RawData.Length);
+            Assert.AreEqual(21804, a.NumberOfBytes);
+            Assert.AreEqual(a.SampleSize * a.NumberOfFrames * a.NumberOfChannels, a.NumberOfBytes);
             MelFrequencyCepstrumCoefficientDescriptor[] ra = mfcc.Transform(a).ToArray();
             Assert.AreEqual(35, ra.Length);
             Assert.IsTrue(new double[] { 10.570020645259348d, 1.3484344242338475d, 0.4861056552885234d, -0.79287993818868352d, -0.64182784362935996d, -0.28079835895392041d, -0.46378109632237779d, 0.072039410871952647d, -0.43971730320461733d, 0.48891921252102533d, -0.22502241185050212d, 0.12478713268421229d, -0.13373400147110801d }.IsEqual(ra[0].Descriptor, 1e-8));
@@ -71,8 +71,8 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(8000, b.SampleRate);
             Assert.AreEqual(7510, b.Samples);
             Assert.AreEqual(4, b.SampleSize);
-            Assert.AreEqual(30040, b.RawData.Length);
-            Assert.AreEqual(b.SampleSize * b.NumberOfFrames * b.NumberOfChannels, b.RawData.Length);
+            Assert.AreEqual(30040, b.NumberOfBytes);
+            Assert.AreEqual(b.SampleSize * b.NumberOfFrames * b.NumberOfChannels, b.NumberOfBytes);
             MelFrequencyCepstrumCoefficientDescriptor[] rb = mfcc.Transform(b).ToArray();
             Assert.AreEqual(24, rb.Length);
             Assert.IsTrue(new[] { 10.6434445230168, -0.222107787197107, 0.316067614396639, -0.212769536249701, -0.107755264262885, -0.292732772820073, -0.00445205345925395, 0.024397440969199, 0.0213769364471326, -0.0882765552657509, -0.177682484734242, -0.1013307739251, -0.099014915302743 }.IsEqual(rb[0].Descriptor, 1e-8));
@@ -85,8 +85,8 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(8000, c.SampleRate);
             Assert.AreEqual(4277, c.Samples);
             Assert.AreEqual(4, c.SampleSize);
-            Assert.AreEqual(17108, c.RawData.Length);
-            Assert.AreEqual(b.SampleSize * c.NumberOfFrames * c.NumberOfChannels, c.RawData.Length);
+            Assert.AreEqual(17108, c.NumberOfBytes);
+            Assert.AreEqual(b.SampleSize * c.NumberOfFrames * c.NumberOfChannels, c.NumberOfBytes);
             MelFrequencyCepstrumCoefficientDescriptor[] rc = mfcc.Transform(c).ToArray();
             Assert.AreEqual(27, rc.Length);
             Assert.IsTrue(new[] { 7.24614406589037, -1.16796769512142, -0.134374026111248, -0.192703972718674, 0.112752647291759, -0.118712048308068, -0.0603752892245708, -0.0275002195634854, -0.0830858413953528, -0.0838965948140795, -0.15293502718595, 0.0107796827068413, -0.0491283773795346 }.IsEqual(rc[0].Descriptor, 1e-8));

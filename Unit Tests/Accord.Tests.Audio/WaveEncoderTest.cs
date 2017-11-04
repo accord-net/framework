@@ -27,6 +27,7 @@ namespace Accord.Tests.Audio
     using Accord.Audio;
     using Accord.Audio.Formats;
     using System.IO;
+    using Accord.Math;
 
     [TestFixture]
     public class WaveEncoderTest
@@ -69,7 +70,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(4000, sourceSignal.Duration.TotalMilliseconds);
             Assert.AreEqual(2, sourceSignal.Channels);
             Assert.AreEqual(44100, sourceSignal.SampleRate);
-            Assert.AreEqual(sizeof(float) * 352800, sourceSignal.RawData.Length);
+            Assert.AreEqual(sizeof(float) * 352800, sourceSignal.NumberOfBytes);
             Assert.AreEqual(sizeof(short) * 352800, sourceDecoder.Bytes);
 
 
@@ -115,13 +116,9 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(sourceSignal.Samples, destSignal.Samples);
             Assert.AreEqual(sourceSignal.Duration, destSignal.Duration);
 
-
-            for (int i = 0; i < sourceSignal.RawData.Length; i++)
-            {
-                byte actual = sourceSignal.RawData[i];
-                byte expected = destSignal.RawData[i];
-                Assert.AreEqual(expected, actual);
-            }
+            byte[] actual = sourceSignal.ToByte();
+            byte[] expected = destSignal.ToByte();
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
@@ -131,11 +128,13 @@ namespace Accord.Tests.Audio
 
             Signal sourceSignal = Signal.FromFile(input);
             Assert.AreEqual(352800, sourceSignal.Samples);
+            Assert.AreEqual(sourceSignal.Samples, sourceSignal.NumberOfSamples);
             Assert.AreEqual(176400, sourceSignal.Length);
+            Assert.AreEqual(sourceSignal.Length, sourceSignal.NumberOfFrames);
             Assert.AreEqual(4000, sourceSignal.Duration.TotalMilliseconds);
             Assert.AreEqual(2, sourceSignal.Channels);
             Assert.AreEqual(44100, sourceSignal.SampleRate);
-            Assert.AreEqual(sizeof(float) * 352800, sourceSignal.RawData.Length);
+            Assert.AreEqual(sizeof(float) * 352800, sourceSignal.NumberOfBytes);
 
             string output = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "ab.wav");
             sourceSignal.Save(output);
@@ -164,13 +163,9 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(sourceSignal.Samples, destSignal.Samples);
             Assert.AreEqual(sourceSignal.Duration, destSignal.Duration);
 
-
-            for (int i = 0; i < sourceSignal.RawData.Length; i++)
-            {
-                byte actual = sourceSignal.RawData[i];
-                byte expected = destSignal.RawData[i];
-                Assert.AreEqual(expected, actual);
-            }
+            byte[] actual = sourceSignal.ToByte();
+            byte[] expected = destSignal.ToByte();
+            Assert.AreEqual(expected, actual);
         }
 
     }
