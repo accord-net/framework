@@ -465,15 +465,15 @@ namespace Accord.Perf.MachineLearning
             int audioFrameSize = 44100;
             int audioBitRate = 128000;
             int audioSampleRate = 44100;
-            Channels audioChannels = Channels.Mono;
+            AudioLayout audioChannels = AudioLayout.Mono;
 
 
             videoWriter.Width = width;
             videoWriter.Height = height;
             videoWriter.FrameRate = framerate;
-            videoWriter.VideoCodec = VideoCodec.VP8;
+            videoWriter.VideoCodec = VideoCodec.Vp8;
             videoWriter.BitRate = videoBitRate;
-            videoWriter.PixelFormat = Video.FFMPEG.PixelFormat.FormatYUV420P;
+            videoWriter.PixelFormat = AVPixelFormat.FormatYuv420P;
             videoWriter.Open(path);
 
             //, audioFrameSize, audioChannels, audioSampleRate, AudioCodec.Vorbis, audioBitRate);
@@ -522,7 +522,7 @@ namespace Accord.Perf.MachineLearning
                 Height = 600,
                 FrameRate = 24,
                 BitRate = 1200 * 1000,
-                VideoCodec = VideoCodec.MPEG4,
+                VideoCodec = VideoCodec.Mpeg4,
                 //PixelFormat = Accord.Video.FFMPEG.PixelFormat.FormatYUV420P
             };
 
@@ -543,7 +543,8 @@ namespace Accord.Perf.MachineLearning
             // We haven't set those properties, but FFMPEG has filled them for us:
             AudioCodec audioCodec = videoWriter.AudioCodec;
             int audioSampleRate = videoWriter.SampleRate;
-            Channels audioChannels = videoWriter.Channels;
+            AudioLayout audioChannels = videoWriter.AudioLayout;
+            int numberOfChannels = videoWriter.NumberOfChannels;
 
             // Now, let's say we would like to save dummy images of changing color
             var m2i = new MatrixToImage();
@@ -557,7 +558,7 @@ namespace Accord.Perf.MachineLearning
 
                 // Write the frame to the stream. We can optionally specify
                 // the duration that this frame should remain in the stream:
-                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(1));
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
             }
         }
     }

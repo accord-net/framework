@@ -40,7 +40,7 @@ namespace Accord {
             /// </summary>
             ///
             [System::Flags]
-            public enum class Channels
+            public enum class AudioLayout
             {                
                 /// <summary>
                 ///   Front left speaker.

@@ -64,7 +64,7 @@ namespace Accord.Tests.Video
                 VideoCodec = VideoCodec.H265,
                 AudioCodec = AudioCodec.Aac,
                 AudioBitRate = 44100,
-                Channels = Channels.Stereo,
+                AudioLayout = AudioLayout.Stereo,
                 FrameSize = 44100,
                 PixelFormat = AVPixelFormat.FormatYuv420P
             };
@@ -83,7 +83,8 @@ namespace Accord.Tests.Video
             int bitRate = videoWriter.BitRate;
             VideoCodec videoCodec = videoWriter.VideoCodec;
             AudioCodec audioCodec = videoWriter.AudioCodec;
-            Channels audioChannels = videoWriter.Channels;
+            AudioLayout audioLayout = videoWriter.AudioLayout;
+            int audioChannels = videoWriter.NumberOfChannels;
 
             // We haven't set those properties, but FFMPEG has filled them for us:
             int audioSampleRate = videoWriter.SampleRate;
@@ -136,7 +137,8 @@ namespace Accord.Tests.Video
 
             Assert.AreEqual(AudioCodec.Aac, audioCodec);
             Assert.AreEqual(44100, audioSampleRate);
-            Assert.AreEqual(Channels.Stereo, audioChannels);
+            Assert.AreEqual(AudioLayout.Stereo, audioLayout);
+            Assert.AreEqual(2, audioChannels);
         }
 
     }

@@ -89,7 +89,8 @@ namespace Accord.Tests.Video
             // We haven't set those properties, but FFMPEG has filled them for us:
             AudioCodec audioCodec = videoWriter.AudioCodec;
             int audioSampleRate = videoWriter.SampleRate;
-            Channels audioChannels = videoWriter.Channels;
+            AudioLayout audioLayout = videoWriter.AudioLayout;
+            int audioChannels = videoWriter.NumberOfChannels;
 
             // Now, let's say we would like to save dummy images of changing color
             var m2i = new MatrixToImage();
@@ -123,7 +124,8 @@ namespace Accord.Tests.Video
 
             Assert.AreEqual(AudioCodec.Mp3, audioCodec);
             Assert.AreEqual(44100, audioSampleRate);
-            Assert.AreEqual(Channels.Stereo, audioChannels);
+            Assert.AreEqual(audioLayout, audioLayout);
+            Assert.AreEqual(2, audioChannels);
         }
 
         [Test]

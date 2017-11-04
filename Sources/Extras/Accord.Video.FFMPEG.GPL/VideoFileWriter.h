@@ -38,7 +38,7 @@ using namespace Accord::Audio;
 
 #include "VideoCodec.h"
 #include "AudioCodec.h"
-#include "Channels.h"
+#include "AudioLayouts.h"
 #include "PixelFormats.h"
 #include "SampleFormats.h"
 
@@ -191,7 +191,13 @@ namespace Accord {
                 /// Gets or sets the current audio channel layout for the current file.
                 /// </summary>
                 ///
-                property FFMPEG::Channels Channels { FFMPEG::Channels get(); void set(FFMPEG::Channels); }
+                property FFMPEG::AudioLayout AudioLayout { FFMPEG::AudioLayout get(); void set(FFMPEG::AudioLayout); }
+
+                /// <summary>
+                /// Gets the number of audio channels in the current <see cref="AudioLayout"/>.
+                /// </summary>
+                ///
+                property int NumberOfChannels { int get(); }
 
                 /// <summary>
                 /// Codec to use for the video file.
@@ -298,7 +304,7 @@ namespace Accord {
 #pragma warning(disable: 612)
 #pragma warning(disable: 618)
 #pragma warning(disable: 4947)
-                    Open(fileName, width, height, frameRate, codec, bitRate, 0, FFMPEG::Channels::Stereo, 0, FFMPEG::AudioCodec::None, 0);
+                    Open(fileName, width, height, frameRate, codec, bitRate, 0, FFMPEG::AudioLayout::Stereo, 0, FFMPEG::AudioCodec::None, 0);
 #pragma warning(pop)
                 }
 
@@ -309,7 +315,7 @@ namespace Accord {
                 [Obsolete("Please set the video properties in this class and pass only the filename to this constructor.")]
                 void Open(String^ fileName,
                     int imageWidth, int imageHeight, Rational videoFrameRate, FFMPEG::VideoCodec videoCodec, int videoBitRate,
-                    int audioFrameSize, FFMPEG::Channels audioChannels, int audioSampleRate, FFMPEG::AudioCodec audioCodec, int audioBitRate)
+                    int audioFrameSize, FFMPEG::AudioLayout audioChannels, int audioSampleRate, FFMPEG::AudioCodec audioCodec, int audioBitRate)
                 {
                     this->Width = imageWidth;
                     this->Height = imageHeight;
@@ -317,7 +323,7 @@ namespace Accord {
                     this->VideoCodec = videoCodec;
                     this->BitRate = videoBitRate;
                     this->FrameSize = audioFrameSize;
-                    this->Channels = audioChannels;
+                    this->AudioLayout = audioChannels;
                     this->SampleRate = audioSampleRate;
                     this->AudioCodec = audioCodec;
                     this->AudioBitRate = audioBitRate;

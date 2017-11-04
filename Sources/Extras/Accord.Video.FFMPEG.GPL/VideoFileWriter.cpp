@@ -29,7 +29,7 @@
 #include "StdAfx.h"
 #include "VideoFileWriter.h"
 #include "Tools.h"
-#include "Channels.h"
+#include "AudioLayouts.h"
 #include "PixelFormats.h"
 #include "SampleFormats.h"
 
@@ -117,7 +117,7 @@ namespace Accord {
                 // Audio ouput settings
                 AudioCodec                            m_output_audio_codec;
                 int                                   m_output_audio_bit_rate;
-                Channels                              m_output_audio_channel_layout;
+                AudioLayout                           m_output_audio_channel_layout;
                 AVSampleFormat   m_output_audio_sample_format;
 
                 // Audio input settings
@@ -163,7 +163,7 @@ namespace Accord {
                     // Defaults
                     m_output_audio_codec = AudioCodec::Default;
                     m_output_audio_bit_rate = 64000;
-                    m_output_audio_channel_layout = Channels::Stereo;
+                    m_output_audio_channel_layout = AudioLayout::Stereo;
                     m_output_audio_sample_format = AVSampleFormat::Format64bitDoublePlanar;
                     m_input_audio_sample_rate = 44100;
                     m_input_audio_frame_size = 10000;
@@ -909,16 +909,22 @@ namespace Accord {
 
 
 
-            FFMPEG::Channels VideoFileWriter::Channels::get()
+            FFMPEG::AudioLayout VideoFileWriter::AudioLayout::get()
             {
-                GET((FFMPEG::Channels)data->audio_st.enc->channel_layout, data->m_output_audio_channel_layout)
+                GET((FFMPEG::AudioLayout)data->audio_st.enc->channel_layout, data->m_output_audio_channel_layout)
             }
 
-            void VideoFileWriter::Channels::set(FFMPEG::Channels value)
+            void VideoFileWriter::AudioLayout::set(FFMPEG::AudioLayout value)
             {
                 SET(data->m_output_audio_channel_layout)
             }
 
+
+            int VideoFileWriter::NumberOfChannels::get()
+            {
+                GET(data->audio_st.enc->channels, 
+                    av_get_channel_layout_nb_channels((uint64_t)data->m_output_audio_channel_layout))
+            }
 
 
             FFMPEG::VideoCodec VideoFileWriter::VideoCodec::get()

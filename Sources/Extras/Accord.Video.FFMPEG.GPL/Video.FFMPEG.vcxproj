@@ -205,7 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioCodec.h" />
-    <ClInclude Include="Channels.h" />
+    <ClInclude Include="AudioLayouts.h" />
     <ClInclude Include="PacketQueue.h" />
     <ClInclude Include="PixelFormats.h" />
     <ClInclude Include="SampleFormats.h" />
