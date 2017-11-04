@@ -59,7 +59,7 @@ namespace Accord.Tests.Video
 
             // Let's say we would like to save file using a .avi media 
             // container and a MPEG4 (DivX/XVid) codec, saving it into:
-            string outputPath = Path.Combine(basePath, "output.avi");
+            string outputPath = Path.Combine(basePath, "output_video.avi");
 
             // First, we create a new VideoFileWriter:
             var videoWriter = new VideoFileWriter()
@@ -76,7 +76,7 @@ namespace Accord.Tests.Video
             videoWriter.Open(outputPath);
 
             // At this point, we can check the console of our application for useful 
-            // information regarding our media streams created by FFMPEG. We can also
+            // information regarding the media streams created by FFMPEG. We can also
             // check those properties using the class itself, specially for properties
             // that we didn't set beforehand but that have been filled by FFMPEG:
 
@@ -103,8 +103,8 @@ namespace Accord.Tests.Video
                 m2i.Convert(matrix, out frame);
 
                 // Write the frame to the stream. We can optionally specify
-                // the duration that this frame should remain in the stream:
-                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(1));
+                // the moment that this frame should remain in the stream:
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
             }
 
             // We can get how long our written video is:
@@ -112,6 +112,7 @@ namespace Accord.Tests.Video
 
             // Close the stream
             videoWriter.Close();
+            videoWriter.Dispose();
             #endregion
 
             Assert.AreEqual(2540000000, duration.Ticks);
@@ -122,7 +123,7 @@ namespace Accord.Tests.Video
             Assert.AreEqual(1200000, bitRate);
             Assert.AreEqual(VideoCodec.Mpeg4, videoCodec);
 
-            Assert.AreEqual(AudioCodec.Mp3, audioCodec);
+            Assert.IsTrue(AudioCodec.Default == audioCodec || AudioCodec.Mp3 == audioCodec);
             Assert.AreEqual(44100, audioSampleRate);
             Assert.AreEqual(audioLayout, audioLayout);
             Assert.AreEqual(2, audioChannels);

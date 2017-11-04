@@ -39,9 +39,6 @@ namespace Accord.Tests.Video
     [TestFixture]
     public class WriterWithAudioTest
     {
-
-        string fireplace_mp4 = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "fireplace.mp4");
-
         [Test]
         public void write_video_new_api()
         {
@@ -51,7 +48,7 @@ namespace Accord.Tests.Video
             // Let's say we would like to save file using a .mp4 media 
             // container, a H.265 video codec for the video stream, and 
             // AAC for the audio stream, into the file:
-            string outputPath = Path.Combine(basePath, "output.mp4");
+            string outputPath = Path.Combine(basePath, "output_audio.avi");
 
             // First, we create a new VideoFileWriter:
             var videoWriter = new VideoFileWriter()
@@ -73,7 +70,7 @@ namespace Accord.Tests.Video
             videoWriter.Open(outputPath);
 
             // At this point, we can check the console of our application for useful 
-            // information regarding our media streams created by FFMPEG. We can also
+            // information regarding the media streams created by FFMPEG. We can also
             // check those properties using the class itself, specially for properties
             // that we didn't set beforehand but that have been filled by FFMPEG:
 
@@ -112,8 +109,8 @@ namespace Accord.Tests.Video
                 m2i.Convert(matrix, out frame);
 
                 // Write the frame to the stream. We can optionally specify
-                // the duration that this frame should remain in the stream:
-                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(1));
+                // the moment when this frame should remain in the stream:
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
 
                 // We can also write the audio samples if we need to:
                 Signal signal = g.Generate(TimeSpan.FromSeconds(1)); // generate 1 second of audio

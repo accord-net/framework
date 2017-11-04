@@ -40,19 +40,19 @@ namespace Accord.Tests.Video
     public class AudioReaderTest
     {
 
-        string fireplace_mp4 = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "fireplace.mp4");
-
-
         [Test]
         public void audio_read_test()
         {
-            var fileInput = new FileInfo(fireplace_mp4);
+            Console.WriteLine(typeof(Accord.DirectSound.AudioDeviceInfo));
+
+            string basePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
+
 
             var audio = new List<byte>();
 
-            using (var videoFileReader = new Accord.Video.FFMPEG.VideoFileReader())
+            using (var videoFileReader = new VideoFileReader())
             {
-                videoFileReader.Open(fileInput.FullName);
+                videoFileReader.Open(Path.Combine(basePath, "fireplace.mp4"));
 
                 // Checked using G-Spot 2.70a
                 Assert.AreEqual(699591, videoFileReader.BitRate); // approximate
@@ -62,6 +62,7 @@ namespace Accord.Tests.Video
                 Assert.AreEqual(360, videoFileReader.Height);
                 Assert.AreEqual(true, videoFileReader.IsOpen);
                 Assert.AreEqual(638, videoFileReader.Width);
+                Assert.AreEqual(44100, videoFileReader.SampleRate);
 
                 do
                 {
@@ -75,9 +76,9 @@ namespace Accord.Tests.Video
 
                 videoFileReader.Close();
 
-                Signal s = Signal.FromArray(audio.ToArray(), 44100, SampleFormat.Format32Bit);
+                Signal s = Signal.FromArray(audio.ToArray(), 44100, SampleFormat.Format32BitIeeeFloat);
 
-                s.Save("fireplace_from_h264.wav");
+                s.Save(Path.Combine(basePath, "fireplace_from_h264.wav"));
 
                 Assert.AreEqual(1, s.Channels);
                 Assert.AreEqual(1378340000, s.Duration.Ticks);
@@ -85,7 +86,7 @@ namespace Accord.Tests.Video
                 Assert.AreEqual(1, s.NumberOfChannels);
                 Assert.AreEqual(6078464, s.NumberOfFrames);
                 Assert.AreEqual(6078464, s.NumberOfSamples);
-                Assert.AreEqual(SampleFormat.Format32Bit, s.SampleFormat);
+                Assert.AreEqual(SampleFormat.Format32BitIeeeFloat, s.SampleFormat);
                 Assert.AreEqual(44100, s.SampleRate);
                 Assert.AreEqual(6078464, s.Samples);
                 Assert.AreEqual(4, s.SampleSize);
