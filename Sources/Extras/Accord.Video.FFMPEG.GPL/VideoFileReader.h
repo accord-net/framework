@@ -28,9 +28,16 @@
 
 #pragma once
 
+#include "AudioCodec.h"
+#include "VideoCodec.h"
+#include "SampleFormats.h"
+#include "PixelFormats.h"
+
 using namespace System;
+using namespace System::Collections::Generic;
 using namespace System::Drawing;
 using namespace System::Drawing::Imaging;
+using namespace System::IO;
 using namespace Accord::Video;
 using namespace Accord::Math;
 
@@ -104,39 +111,42 @@ namespace Accord {
             ///
             public ref class VideoFileReader : IDisposable
             {
-                int         m_width;
-                int         m_height;
-                Rational    m_videoFrameRate;
-                String^     m_videoCodecName;
-                Int64       m_videoFramesCount;
-                int         m_videoBitRate;
+                int                    m_width;
+                int                    m_height;
+                Rational               m_videoFrameRate;
+                String^                m_videoCodecName;
+                Int64                  m_videoFramesCount;
+                int                    m_videoBitRate;
+                FFMPEG::VideoCodec     m_videoCodec;
 
-                Rational    m_audioFrameRate;
-                String^     m_audioCodecName;
-                Int64       m_audioFramesCount;
-                int         m_audioBitRate;
+                int                    m_audioSampleRate;
+                FFMPEG::AVSampleFormat m_audioSampleFormat;
+                String^                m_audioCodecName;
+                Int64                  m_audioFramesCount;
+                int                    m_audioBitRate;
+                FFMPEG::AudioCodec     m_audioCodec;
 
                 // private data of the class
                 ReaderPrivateData^ data;
                 bool disposed;
 
                 Bitmap^ DecodeVideoFrame(BitmapData^ bitmapData);
-                System::Collections::Generic::IList<byte>^ DecodeAudioFrame(System::Collections::Generic::IList<byte>^ audio);
+                IList<byte>^ DecodeAudioFrame(IList<byte>^ audio);
 
-                Bitmap^ readVideoFrame(int frameIndex, BitmapData^ image, System::Collections::Generic::IList<byte>^ audio);
+                Bitmap^ readVideoFrame(int frameIndex, BitmapData^ image, IList<byte>^ audio);
 
                 // Checks if video file was opened
                 void CheckIfVideoFileIsOpen()
                 {
                     if (data == nullptr)
-                        throw gcnew System::IO::IOException("Video file is not open, so can not access its properties.");
+                        throw gcnew IOException("Video file is not open, so can not access its properties.");
                 }
 
                 // Check if the object was already disposed
                 void CheckIfDisposed()
                 {
                     if (disposed)
-                        throw gcnew System::ObjectDisposedException("The object was already disposed.");
+                        throw gcnew ObjectDisposedException("The object was already disposed.");
                 }
 
             protected:
@@ -196,6 +206,21 @@ namespace Accord {
                 }
 
                 /// <summary>
+                /// Audio frame rate of the opened video file.
+                /// </summary>
+                ///
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                ///
+                property int SampleRate
+                {
+                    int get()
+                    {
+                        CheckIfVideoFileIsOpen();
+                        return m_audioSampleRate;
+                    }
+                }
+
+                /// <summary>
                 /// Number of video frames in the opened video file.
                 /// </summary>
                 ///
@@ -228,6 +253,38 @@ namespace Accord {
                         return m_videoBitRate;
                     }
                 }
+                
+                /// <summary>
+                /// Gets the codec that has been used to encode the opened video file.
+                /// </summary>
+                ///
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                ///
+                property FFMPEG::VideoCodec VideoCodec
+                {
+                    FFMPEG::VideoCodec get()
+                    {
+                        CheckIfVideoFileIsOpen();
+                        return m_videoCodec;
+                    }
+                }
+
+                /// <summary>
+                /// Gets the audio that has been used to encode audio in the opened video file.
+                /// </summary>
+                ///
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                ///
+                property FFMPEG::AudioCodec AudioCodec
+                {
+                    FFMPEG::AudioCodec get()
+                    {
+                        CheckIfVideoFileIsOpen();
+                        return m_audioCodec;
+                    }
+                }
+
+
 
                 /// <summary>
                 /// Name of codec used for encoding the opened video file.

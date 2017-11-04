@@ -34,12 +34,12 @@
 
 extern "C"
 {
-#include "libavformat\avformat.h"
-#include "libavformat\avio.h"
-#include "libavcodec\avcodec.h"
-#include "libswscale\swscale.h"
+#include <libavformat\avformat.h>
+#include <libavformat\avio.h>
+#include <libavcodec\avcodec.h>
+#include <libswscale\swscale.h>
+#include <libswresample/swresample.h>
 }
-
 
 namespace Accord {
     namespace Video {
@@ -56,7 +56,8 @@ namespace Accord {
                 AVCodecContext*		AudioCodecContext;
                 AVFrame*			VideoFrame;
                 AVFrame*			AudioFrame;
-                struct SwsContext*	ConvertContext;
+                struct SwsContext*	sws_ctx;
+                struct SwrContext*	swr_ctx;
                 unsigned long int   nextFrameIndex;
 
                 AVPacket* Packet;
@@ -74,7 +75,7 @@ namespace Accord {
                     AudioCodecContext = nullptr;
                     AudioFrame = nullptr;
 
-                    ConvertContext = nullptr;
+                    sws_ctx = nullptr;
 
                     Packet = nullptr;
                     uint8_tsRemaining = 0;
@@ -171,11 +172,11 @@ namespace Accord {
                     data->VideoFrame = av_frame_alloc();
 
                     // prepare scaling context to convert RGB image to video format
-                    data->ConvertContext = sws_getContext(data->VideoCodecContext->width, data->VideoCodecContext->height, data->VideoCodecContext->pix_fmt,
+                    data->sws_ctx = sws_getContext(data->VideoCodecContext->width, data->VideoCodecContext->height, data->VideoCodecContext->pix_fmt,
                         data->VideoCodecContext->width, data->VideoCodecContext->height, AV_PIX_FMT_BGR24,
                         SWS_BICUBIC, nullptr, nullptr, nullptr);
 
-                    if (data->ConvertContext == nullptr)
+                    if (data->sws_ctx == nullptr)
                         throw gcnew VideoException("Cannot initialize video frame conversion context.");
 
                     // get some properties of the video file
@@ -184,6 +185,7 @@ namespace Accord {
 
                     AVRational fps = av_stream_get_r_frame_rate(data->VideoStream);
                     m_videoFrameRate = Rational(fps.num, fps.den);
+                    m_videoCodec = (FFMPEG::VideoCodec)data->VideoCodecContext->codec->id;
                     m_videoCodecName = gcnew String(data->VideoCodecContext->codec->name);
                     m_videoFramesCount = data->VideoStream->nb_frames;
                     m_videoBitRate = data->VideoCodecContext->bit_rate;
@@ -202,8 +204,9 @@ namespace Accord {
                         // allocate audio frame
                         data->AudioFrame = av_frame_alloc();
 
-                        AVRational fps = av_stream_get_r_frame_rate(data->AudioStream);
-                        m_audioFrameRate = Rational(fps.num, fps.den);
+                        m_audioSampleRate = data->AudioCodecContext->sample_rate;
+                        m_audioSampleFormat = (AVSampleFormat)data->AudioCodecContext->sample_fmt;
+                        m_audioCodec = (FFMPEG::AudioCodec)data->AudioCodecContext->codec->id;
                         m_audioCodecName = gcnew String(data->AudioCodecContext->codec->name);
                         m_audioFramesCount = data->AudioStream->nb_frames;
                         m_audioBitRate = data->AudioCodecContext->bit_rate;
@@ -242,8 +245,8 @@ namespace Accord {
                     avformat_close_input(&c);
                 }
 
-                if (data->ConvertContext != nullptr)
-                    sws_freeContext(data->ConvertContext);
+                if (data->sws_ctx != nullptr)
+                    sws_freeContext(data->sws_ctx);
 
                 if (data->Packet->data != nullptr)
                     av_free_packet(data->Packet);
@@ -252,7 +255,7 @@ namespace Accord {
             }
 
 
-            Bitmap^ VideoFileReader::readVideoFrame(int frameIndex, BitmapData^ image, System::Collections::Generic::IList<byte>^ audio)
+            Bitmap^ VideoFileReader::readVideoFrame(int frameIndex, BitmapData^ image, IList<byte>^ audio)
             {
                 if (frameIndex == -1)
                     frameIndex = data->nextFrameIndex;
@@ -378,7 +381,7 @@ namespace Accord {
                 int srcLinesize[4] = { bitmapData->Stride, 0, 0, 0 };
 
                 // convert video frame to the RGB bitmap
-                sws_scale(data->ConvertContext, data->VideoFrame->data, data->VideoFrame->linesize, 0,
+                sws_scale(data->sws_ctx, data->VideoFrame->data, data->VideoFrame->linesize, 0,
                     data->VideoCodecContext->height, srcData, srcLinesize);
 
                 if (bitmap != nullptr)
@@ -387,20 +390,31 @@ namespace Accord {
             }
 
             // Decodes audio frame into managed audio signal
-            System::Collections::Generic::IList<byte>^ VideoFileReader::DecodeAudioFrame(System::Collections::Generic::IList<byte>^ audio)
+            IList<byte>^ VideoFileReader::DecodeAudioFrame(IList<byte>^ audio)
             {
-                // convert audio frame to the 16-bit PCM signal
-                int data_size = av_samples_get_buffer_size(
-                    NULL,
-                    data->AudioStream->codec->channels,
-                    data->AudioFrame->nb_samples,
-                    data->AudioStream->codec->sample_fmt,
-                    1
-                );
-
                 // TODO: Use swr to convert to the desired output audio format
-                for (size_t i = 0; i < data_size; i++)
-                    audio->Add((byte)data->AudioFrame->data[i]);
+
+                int nb_channels = data->AudioStream->codec->channels;
+                int frame_size = data->AudioStream->codec->frame_size;
+
+                int bytes_per_sample = av_get_bytes_per_sample(data->AudioStream->codec->sample_fmt);
+                int is_planar = av_sample_fmt_is_planar(data->AudioStream->codec->sample_fmt);
+
+                if (is_planar)
+                {
+                    // Interleave
+                    for (int i = 0; i < frame_size; i++)
+                        for (int j = 0; j < nb_channels; j++)
+                            for (int k = 0; k < bytes_per_sample; k++)
+                                audio->Add((byte)data->AudioFrame->data[j][i * bytes_per_sample + k]);
+                }
+                else
+                {
+                    // Already interleaved
+                    for (int j = 0; j < nb_channels * frame_size * bytes_per_sample; j++)
+                        audio->Add((byte)data->AudioFrame->data[0][j]);
+                }
+
 
                 return audio;
             }
