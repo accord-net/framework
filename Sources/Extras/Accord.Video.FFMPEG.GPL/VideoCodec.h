@@ -944,7 +944,7 @@ namespace Accord {
 
                 /// <summary>
                 ///   High Efficiency Video Coding (HEVC), also known as H.265 and MPEG-H Part 2.
-                ///   This is an alias for <see cref="HEVC"/>.
+                ///   This is an alias for <see cref="Hevc"/>.
                 /// </summary>
                 H265 = Hevc,
                     

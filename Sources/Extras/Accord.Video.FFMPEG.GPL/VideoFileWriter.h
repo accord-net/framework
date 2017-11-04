@@ -41,6 +41,7 @@ using namespace Accord::Audio;
 #include "AudioLayouts.h"
 #include "PixelFormats.h"
 #include "SampleFormats.h"
+#include "VideoFileReader.h"
 
 namespace Accord {
     namespace Video {
@@ -80,7 +81,7 @@ namespace Accord {
             ///   The <a href="https://1drv.ms/v/s!AoiTwBxoR4OAoLJhPozzixD25XcbiQ">generated video file can be found here</a>.</para>
             /// </example>
             ///
-            /// <seealso cref="Accord.Video.FFMPEG.VideoFileReader"/>
+            /// <seealso cref="Accord::Video::FFMPEG::VideoFileReader"/>
             ///
             public ref class VideoFileWriter : IDisposable
             {

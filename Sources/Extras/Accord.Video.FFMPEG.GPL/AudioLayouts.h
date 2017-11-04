@@ -40,132 +40,132 @@ namespace Accord {
             /// </summary>
             ///
             [System::Flags]
-            public enum class AudioLayout
+            public enum class AudioLayout : unsigned long long
             {                
                 /// <summary>
                 ///   Front left speaker.
                 /// </summary>
-                FrontLeft = 0x00000001,
+                FrontLeft = AV_CH_FRONT_LEFT,
 
                 /// <summary>
                 ///   Front right speaker.
                 /// </summary>
-                FrontRight = 0x00000002,
+                FrontRight = AV_CH_FRONT_RIGHT,
 
                 /// <summary>
                 ///   Front center speaker.
                 /// </summary>
-                FrontCenter = 0x00000004,
+                FrontCenter = AV_CH_FRONT_CENTER,
                 
                 /// <summary>
                 ///   Low-frequency speaker (i.e. sub-woofer).
                 /// </summary>
-                LowFrequency = 0x00000008,
+                LowFrequency = AV_CH_LOW_FREQUENCY,
 
                 /// <summary>
                 ///   Back left speaker.
                 /// </summary>
-                BackLeft = 0x00000010,
+                BackLeft = AV_CH_BACK_LEFT,
 
                 /// <summary>
                 ///   Back right speaker.
                 /// </summary>
-                BackRight = 0x00000020,
+                BackRight = AV_CH_BACK_RIGHT,
 
                 /// <summary>
                 ///   Front-left of center speaker.
                 /// </summary>
-                FrontLeftOfCenter = 0x00000040,
+                FrontLeftOfCenter = AV_CH_FRONT_LEFT_OF_CENTER,
                 
                 /// <summary>
                 ///   Front right of center speaker.
                 /// </summary>
-                FrontRightOfCenter = 0x00000080,
+                FrontRightOfCenter = AV_CH_FRONT_RIGHT_OF_CENTER,
 
                 /// <summary>
                 ///   Back center speaker.
                 /// </summary>
-                BackCenter = 0x00000100,
+                BackCenter = AV_CH_BACK_CENTER,
 
                 /// <summary>
                 ///   Side left speaker.
                 /// </summary>
-                SideLeft = 0x00000200,
+                SideLeft = AV_CH_SIDE_LEFT,
 
                 /// <summary>
                 ///   Side right speaker.
                 /// </summary>
-                SideRight = 0x00000400,
+                SideRight = AV_CH_SIDE_RIGHT,
 
                 /// <summary>
                 ///   Top center speaker.
                 /// </summary>
-                TopCenter = 0x00000800,
+                TopCenter = AV_CH_TOP_CENTER,
 
                 /// <summary>
                 ///   Top front left speaker.
                 /// </summary>
-                TopFrontLeft = 0x00001000,
+                TopFrontLeft = AV_CH_TOP_FRONT_LEFT,
 
                 /// <summary>
                 ///   Top front center speaker.
                 /// </summary>
-                TopFrontCenter = 0x00002000,
+                TopFrontCenter = AV_CH_TOP_FRONT_CENTER,
 
                 /// <summary>
                 ///   Top front right speaker.
                 /// </summary>
-                TopFrontRight = 0x00004000,
+                TopFrontRight = AV_CH_TOP_FRONT_RIGHT,
 
                 /// <summary>
                 ///   Top back left speaker.
                 /// </summary>
-                TopBackLeft = 0x00008000,
+                TopBackLeft = AV_CH_TOP_BACK_LEFT,
 
                 /// <summary>
                 ///   Top back center speaker.
                 /// </summary>
-                TopBackCenter = 0x00010000,
+                TopBackCenter = AV_CH_TOP_BACK_CENTER,
 
                 /// <summary>
                 ///   Top back right speaker.
                 /// </summary>
-                TopBackRight = 0x00020000,
+                TopBackRight = AV_CH_TOP_BACK_RIGHT,
 
                 /// <summary>
                 ///   Stereo left downmix (for when reducing more than two channels into simple stereo).
                 /// </summary>
-                StereoLeft = 0x20000000,  
+                StereoLeft = AV_CH_STEREO_LEFT,  
 
                 /// <summary>
                 ///   Stereo right downmix (for when reducing more than two channels into simple stereo).
                 /// </summary>
-                StereoRight = 0x40000000, 
+                StereoRight = AV_CH_STEREO_RIGHT,
                     
                 /// <summary>
                 ///   Wide left.
                 /// </summary>
-                WideLeft = 0x0000000080000000ULL,
+                WideLeft = AV_CH_WIDE_LEFT,
 
                 /// <summary>
                 ///   Wide right.
                 /// </summary>
-                WideRight = 0x0000000100000000ULL,
+                WideRight = AV_CH_WIDE_RIGHT,
 
                 /// <summary>
                 ///   Surround direct left.
                 /// </summary>
-                Surround_DIRECT_Left = 0x0000000200000000ULL,
+                SurroundDirectLeft = AV_CH_SURROUND_DIRECT_LEFT,
 
                 /// <summary>
                 ///   Surround direct right.
                 /// </summary>
-                Surround_DIRECT_Right = 0x0000000400000000ULL,
+                SurroundDirectRight = AV_CH_SURROUND_DIRECT_RIGHT,
 
                 /// <summary>
                 ///   Low-frequency speaker 2 (i.e. sub-woofer).
                 /// </summary>
-                LowFrequency_2 = 0x0000000800000000ULL,
+                LowFrequency2 = AV_CH_LOW_FREQUENCY_2,
 
                 /// <summary>
                 ///   One speaker will be used (<see cref="FrontCenter"/> speaker).
@@ -187,7 +187,7 @@ namespace Accord {
                 ///   Predefined stereo layout (<see cref="FrontLeft"/>, <see cref="FrontRight"/>)
                 ///   using also <see cref="BackCenter"/>.
                 /// </summary>
-                Layout2_1 = (Stereo | BackCenter),
+                Layout21 = (Stereo | BackCenter),
 
                 /// <summary>
                 ///   Predefined surround layout (<see cref="FrontLeft"/>, <see cref="FrontRight"/>,
@@ -216,7 +216,7 @@ namespace Accord {
                 /// <summary>
                 ///   Predefined stereo layout (using also <see cref="SideLeft"/> and <see cref="SideRight"/>).
                 /// </summary>
-                Layout2_2 = (Stereo | SideLeft | SideRight),
+                Layout22 = (Stereo | SideLeft | SideRight),
 
                 /// <summary>
                 ///   Predefined stereo layout (using also <see cref="SideLeft"/>, <see cref="SideRight"/>,
@@ -252,7 +252,7 @@ namespace Accord {
                 /// <summary>
                 ///   Predefined 6.0 layout with front speakers.
                 /// </summary>
-                Layout6Point0Front = (Layout2_2 | FrontLeftOfCenter | FrontRightOfCenter),
+                Layout6Point0Front = (Layout22 | FrontLeftOfCenter | FrontRightOfCenter),
 
                 /// <summary>
                 ///   Predefined 5.0 layout with left, right, and center back speakers.

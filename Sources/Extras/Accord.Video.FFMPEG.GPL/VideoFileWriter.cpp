@@ -515,7 +515,7 @@ namespace Accord {
                 }
 
 
-                void send_video_frame(OutputStream *ost, uint64_t* bitmapData, size_t stride)
+                void send_video_frame(OutputStream *ost, uint64_t* bitmapData, int stride)
                 {
                     AVCodecContext* c = ost->enc;
 
@@ -532,8 +532,8 @@ namespace Accord {
                             sws_flags, nullptr, nullptr, nullptr), "Could not initialize the grayscale conversion context");
                     }
 
-                    uint64_t* srcData[4] = { bitmapData, 0, 0, 0 };
-                    int srcLineSize[4] = { stride, 0, 0, 0 };
+                    uint64_t* srcData[4] = { bitmapData, 0 };
+                    int srcLineSize[4] = { stride, 0 };
 
                     sws_scale(ost->sws_ctx, (uint8_t**)srcData, srcLineSize, 0,
                         this->m_input_video_height, ost->frame->data, ost->frame->linesize);
@@ -571,7 +571,6 @@ namespace Accord {
                         av_opt_set_int(ost->swr_ctx, "out_sample_rate", c->sample_rate, 0);
                         av_opt_set_sample_fmt(ost->swr_ctx, "out_sample_fmt", c->sample_fmt, 0);
 
-
                         ost->tmp_frame = CHECK(alloc_audio_frame(a2f(this->m_input_audio_sample_format), c->channel_layout,
                             c->sample_rate, ost->frame->nb_samples), "Error allocating tmp audio frame");
                         av_opt_set_int(ost->swr_ctx, "in_channel_count", this->m_input_audio_channels, 0);
@@ -583,19 +582,19 @@ namespace Accord {
                     }
 
                     uint8_t* q = (uint8_t*)ost->tmp_frame->data[0];
-                    size_t remainingNumberOfSamplesPerChannel = length;
+                    int remainingNumberOfSamplesPerChannel = length;
                     size_t sampleSize = m_input_audio_sample_size;
 
                     while (remainingNumberOfSamplesPerChannel > 0)
                     {
                         // copy from the input signal to the tmp_frame
-                        size_t samplesToWrite = min(ost->tmp_frame->nb_samples, remainingNumberOfSamplesPerChannel);
+                        int samplesToWrite = min(ost->tmp_frame->nb_samples, remainingNumberOfSamplesPerChannel);
                         memcpy_s(q, ost->tmp_frame->nb_samples * sampleSize, current, samplesToWrite * sampleSize);
                         remainingNumberOfSamplesPerChannel -= samplesToWrite;
                         current += samplesToWrite * sampleSize;
 
                         if (remainingNumberOfSamplesPerChannel < 0)
-                            throw gcnew Exception();
+                            throw gcnew Exception("Number of samples was not a multiple of sampleSize.");
 
                         // convert samples from native format to destination codec format, using the resampler 
                         // compute destination number of samples 
@@ -725,6 +724,7 @@ namespace Accord {
                     throw gcnew IOException("A video file was not opened yet.");
 
                 if ((bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format32bppArgb) &&
+                    (bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format24bppRgb) &&
                     (bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format8bppIndexed))
                 {
                     throw gcnew ArgumentException("The provided bitmap must be 32 bpp color or 8 bpp grayscale image.");
@@ -876,7 +876,9 @@ namespace Accord {
 
             int VideoFileWriter::FrameSize::get()
             {
-                GET(data->audio_st.tmp_frame->nb_samples, data->m_input_audio_frame_size);
+                if (IsOpen && data->have_audio && data->audio_st.tmp_frame != nullptr)
+                    return data->audio_st.tmp_frame->nb_samples;
+                return data->m_input_audio_frame_size;
             }
 
             void VideoFileWriter::FrameSize::set(int value)
@@ -887,7 +889,9 @@ namespace Accord {
 
             FFMPEG::AVSampleFormat VideoFileWriter::SampleFormat::get()
             {
-                GET((FFMPEG::AVSampleFormat)data->audio_st.enc->sample_fmt, data->m_output_audio_sample_format);
+                if (IsOpen && data->have_audio)
+                    return (FFMPEG::AVSampleFormat)data->audio_st.enc->sample_fmt;
+                return data->m_output_audio_sample_format;
             }
 
             void VideoFileWriter::SampleFormat::set(FFMPEG::AVSampleFormat value)
@@ -911,7 +915,9 @@ namespace Accord {
 
             FFMPEG::AudioLayout VideoFileWriter::AudioLayout::get()
             {
-                GET((FFMPEG::AudioLayout)data->audio_st.enc->channel_layout, data->m_output_audio_channel_layout)
+                if (IsOpen && data->have_audio && data->audio_st.enc != nullptr)
+                    return (FFMPEG::AudioLayout)data->audio_st.enc->channel_layout;
+                return data->m_output_audio_channel_layout;
             }
 
             void VideoFileWriter::AudioLayout::set(FFMPEG::AudioLayout value)
@@ -922,8 +928,9 @@ namespace Accord {
 
             int VideoFileWriter::NumberOfChannels::get()
             {
-                GET(data->audio_st.enc->channels, 
-                    av_get_channel_layout_nb_channels((uint64_t)data->m_output_audio_channel_layout))
+                if (IsOpen && data->have_audio && data->audio_st.enc != nullptr)
+                    return data->audio_st.enc->channels;
+                return av_get_channel_layout_nb_channels((uint64_t)data->m_output_audio_channel_layout);
             }
 
 
@@ -943,7 +950,7 @@ namespace Accord {
 
             FFMPEG::AudioCodec VideoFileWriter::AudioCodec::get()
             {
-                if (IsOpen && data->have_audio)
+                if (IsOpen && data->have_audio && data->audio_st.enc != nullptr)
                     return (FFMPEG::AudioCodec)(int)data->audio_st.enc->codec->id;
                 return data->m_output_audio_codec;
             }
