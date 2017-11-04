@@ -129,6 +129,7 @@
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
+	  <AdditionalOptions>/ignore:4248%(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -196,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="PacketQueue.cpp" />
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="VersionInfo.cpp" />
     <ClCompile Include="VideoFileReader.cpp" />
@@ -206,7 +206,6 @@
   <ItemGroup>
     <ClInclude Include="AudioCodec.h" />
     <ClInclude Include="AudioLayouts.h" />
-    <ClInclude Include="PacketQueue.h" />
     <ClInclude Include="PixelFormats.h" />
     <ClInclude Include="SampleFormats.h" />
     <ClInclude Include="Stdafx.h" />
