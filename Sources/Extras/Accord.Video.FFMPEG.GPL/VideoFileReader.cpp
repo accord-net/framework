@@ -90,7 +90,6 @@ namespace Accord {
                 av_register_all();
             }
 
-#pragma managed(push, off)
             static AVFormatContext* open_file(const char* fileName)
             {
                 AVFormatContext* formatContext = avformat_alloc_context();
@@ -100,7 +99,6 @@ namespace Accord {
                     return nullptr;
                 return formatContext;
             }
-#pragma managed(pop)
 
             // Opens the specified video file
             void VideoFileReader::Open(String^ fileName)
@@ -388,7 +386,7 @@ namespace Accord {
                 return bitmap;
             }
 
-            // Decodes video frame into managed Bitmap
+            // Decodes audio frame into managed audio signal
             System::Collections::Generic::IList<byte>^ VideoFileReader::DecodeAudioFrame(System::Collections::Generic::IList<byte>^ audio)
             {
                 // convert audio frame to the 16-bit PCM signal
@@ -400,8 +398,9 @@ namespace Accord {
                     1
                 );
 
+                // TODO: Use swr to convert to the desired output audio format
                 for (size_t i = 0; i < data_size; i++)
-                    audio->Add((uint8_t)(data->AudioFrame->data[i]));
+                    audio->Add((byte)data->AudioFrame->data[i]);
 
                 return audio;
             }

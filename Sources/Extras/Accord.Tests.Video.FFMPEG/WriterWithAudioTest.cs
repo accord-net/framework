@@ -62,11 +62,11 @@ namespace Accord.Tests.Video
                 FrameRate = 24,
                 BitRate = 1200 * 1000,
                 VideoCodec = VideoCodec.H265,
-                AudioCodec = AudioCodec.AAC,
+                AudioCodec = AudioCodec.Aac,
                 AudioBitRate = 44100,
                 Channels = Channels.Stereo,
                 FrameSize = 44100,
-                PixelFormat = PixelFormat.FormatYUV420P
+                PixelFormat = AVPixelFormat.FormatYuv420P
             };
 
             // We can open for it writing:
@@ -134,7 +134,7 @@ namespace Accord.Tests.Video
             Assert.AreEqual(1200000, bitRate);
             Assert.AreEqual(VideoCodec.H265, videoCodec);
 
-            Assert.AreEqual(AudioCodec.AAC, audioCodec);
+            Assert.AreEqual(AudioCodec.Aac, audioCodec);
             Assert.AreEqual(44100, audioSampleRate);
             Assert.AreEqual(Channels.Stereo, audioChannels);
         }

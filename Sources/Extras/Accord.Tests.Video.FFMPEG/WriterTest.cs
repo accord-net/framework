@@ -69,7 +69,7 @@ namespace Accord.Tests.Video
                 Height = 600,
                 FrameRate = 24,
                 BitRate = 1200 * 1000,
-                VideoCodec = VideoCodec.MPEG4,
+                VideoCodec = VideoCodec.Mpeg4,
             };
 
             // We can open for it writing:
@@ -119,9 +119,9 @@ namespace Accord.Tests.Video
             Assert.AreEqual(600, height);
             Assert.AreEqual(24, frameRate);
             Assert.AreEqual(1200000, bitRate);
-            Assert.AreEqual(VideoCodec.MPEG4, videoCodec);
+            Assert.AreEqual(VideoCodec.Mpeg4, videoCodec);
 
-            Assert.AreEqual(AudioCodec.MP3, audioCodec);
+            Assert.AreEqual(AudioCodec.Mp3, audioCodec);
             Assert.AreEqual(44100, audioSampleRate);
             Assert.AreEqual(Channels.Stereo, audioChannels);
         }
@@ -168,7 +168,7 @@ namespace Accord.Tests.Video
         {
             var fileInput = new FileInfo(fireplace_mp4);
             var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.webm"));
-            reencode(fileInput, fileOutput, VideoCodec.VP8, expectedFrameRate: 14.985014985014985d);
+            reencode(fileInput, fileOutput, VideoCodec.Vp8, expectedFrameRate: 14.985014985014985d);
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace Accord.Tests.Video
         {
             var fileInput = new FileInfo(fireplace_mp4);
             var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output_webm.webm"));
-            reencode(fileInput, fileOutput, VideoCodec.VP9);
+            reencode(fileInput, fileOutput, VideoCodec.Vp9);
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace Accord.Tests.Video
         }
 
         private static void reencode(FileInfo fileInput, FileInfo fileOutput, VideoCodec outputCodec,
-            Accord.Video.FFMPEG.PixelFormat format = PixelFormat.FormatYUV420P, double expectedFrameRate = 2997 / 100.0)
+            AVPixelFormat format = AVPixelFormat.FormatYuv420P, double expectedFrameRate = 2997 / 100.0)
         {
             using (var videoFileReader = new Accord.Video.FFMPEG.VideoFileReader())
             {
@@ -219,7 +219,7 @@ namespace Accord.Tests.Video
                     videoFileWriter.Height = videoFileReader.Height;
                     videoFileWriter.FrameRate = videoFileReader.FrameRate;
                     videoFileWriter.VideoCodec = outputCodec;
-                    Assert.AreEqual(PixelFormat.FormatYUV420P, videoFileWriter.PixelFormat);
+                    Assert.AreEqual(AVPixelFormat.FormatYuv420P, videoFileWriter.PixelFormat);
                     videoFileWriter.PixelFormat = format;
 
                     videoFileWriter.Open(fileOutput.FullName);
@@ -260,7 +260,7 @@ namespace Accord.Tests.Video
             {
                 var videoWriter = new VideoFileWriter();
 
-                videoWriter.Open(path, width, height, framerate, VideoCodec.FFVHUFF, videoBitRate);
+                videoWriter.Open(path, width, height, framerate, VideoCodec.FfvHuff, videoBitRate);
 
                 Assert.AreEqual(width, videoWriter.Width);
                 Assert.AreEqual(height, videoWriter.Height);

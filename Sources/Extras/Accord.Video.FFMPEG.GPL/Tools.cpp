@@ -154,17 +154,31 @@ namespace Accord {
             {
                 switch (format)
                 {
-                case SampleFormat::Format16Bit:
+                case Accord::Audio::SampleFormat::Format16Bit:
                     return AV_SAMPLE_FMT_S16;
-                case SampleFormat::Format32Bit:
+                case Accord::Audio::SampleFormat::Format32Bit:
                     return AV_SAMPLE_FMT_S32;
-                case SampleFormat::Format32BitIeeeFloat:
+                case Accord::Audio::SampleFormat::Format32BitIeeeFloat:
                     return AV_SAMPLE_FMT_FLT;
                 }
 
-                throw gcnew ArgumentOutOfRangeException("format");
+                throw gcnew ArgumentOutOfRangeException("format", "Invalid audio format.");
             }
 
+            enum ::AVPixelFormat a2f(const System::Drawing::Imaging::PixelFormat& format)
+            {
+                switch (format)
+                {
+                case System::Drawing::Imaging::PixelFormat::Format8bppIndexed:
+                    return AV_PIX_FMT_GRAY8;
+                case System::Drawing::Imaging::PixelFormat::Format24bppRgb:
+                    return AV_PIX_FMT_BGR24;
+                case System::Drawing::Imaging::PixelFormat::Format32bppArgb:
+                    return AV_PIX_FMT_BGRA;
+                }
+
+                throw gcnew ArgumentOutOfRangeException("format", "Invalid image format.");
+            }
 
 
             static class _init
@@ -190,7 +204,7 @@ namespace Accord {
                                 "the Microsoft Visual C++ 2008 SP1 Redistributable Package to be installed on this computer. Please " +
                                 "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=5582");
                         }
-                    }
+            }
 #else
                     String^ system32Path = Environment::GetFolderPath(Environment::SpecialFolder::SystemX86);
                     String^ system64Path = Environment::GetFolderPath(Environment::SpecialFolder::System);
@@ -221,11 +235,11 @@ namespace Accord {
                         }
                     }
 #endif
-                }
-
-            } _initializer;
-
-
         }
+
+    } _initializer;
+
+
+}
     }
 }

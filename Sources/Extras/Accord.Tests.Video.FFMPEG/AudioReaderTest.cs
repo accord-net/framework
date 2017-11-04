@@ -77,6 +77,8 @@ namespace Accord.Tests.Video
 
                 Signal s = Signal.FromArray(audio.ToArray(), 44100, SampleFormat.Format32Bit);
 
+                s.Save("fireplace_from_h264.wav");
+
                 Assert.AreEqual(1, s.Channels);
                 Assert.AreEqual(1378340000, s.Duration.Ticks);
                 Assert.AreEqual(6078464, s.Length);

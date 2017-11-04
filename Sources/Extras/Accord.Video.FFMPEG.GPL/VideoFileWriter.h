@@ -5,6 +5,12 @@
 // Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
+// Copyright © AForge.NET, 2009-2011
+// contacts@aforgenet.com
+//
+// Copyright © MelvinGr, 2016-2017
+// https://github.com/MelvinGr
+//
 //    This program is free software; you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation; either version 2 of the License, or
@@ -34,6 +40,7 @@ using namespace Accord::Audio;
 #include "AudioCodec.h"
 #include "Channels.h"
 #include "PixelFormats.h"
+#include "SampleFormats.h"
 
 namespace Accord {
     namespace Video {
@@ -172,7 +179,13 @@ namespace Accord {
                 /// Gets or sets the pixel format for the current file.
                 /// </summary>
                 ///
-                property FFMPEG::PixelFormat PixelFormat { FFMPEG::PixelFormat get(); void set(FFMPEG::PixelFormat); }
+                property FFMPEG::AVPixelFormat PixelFormat { FFMPEG::AVPixelFormat get(); void set(FFMPEG::AVPixelFormat); }
+
+                /// <summary>
+                /// Gets or sets the audio sample format for the current file.
+                /// </summary>
+                ///
+                property FFMPEG::AVSampleFormat SampleFormat { FFMPEG::AVSampleFormat get(); void set(FFMPEG::AVSampleFormat); }
 
                 /// <summary>
                 /// Gets or sets the current audio channel layout for the current file.
@@ -328,7 +341,7 @@ namespace Accord {
                 /// 
                 void WriteVideoFrame(Bitmap^ frame)
                 {
-                    WriteVideoFrame(frame, TimeSpan::Zero, System::Drawing::Rectangle(0, 0, frame->Width, frame->Height));
+                    WriteVideoFrame(frame, TimeSpan::MinValue, System::Drawing::Rectangle(0, 0, frame->Width, frame->Height));
                 }
 
                 /// <summary>
@@ -347,7 +360,7 @@ namespace Accord {
                 /// 
                 void WriteVideoFrame(BitmapData^ frame)
                 {
-                    WriteVideoFrame(frame, TimeSpan::Zero);
+                    WriteVideoFrame(frame, TimeSpan::MinValue);
                 }
 
                 /// <summary>
@@ -367,7 +380,7 @@ namespace Accord {
                 /// 
                 void WriteVideoFrame(Bitmap^ frame, System::Drawing::Rectangle region)
                 {
-                    WriteVideoFrame(frame, TimeSpan::Zero, region);
+                    WriteVideoFrame(frame, TimeSpan::MinValue, region);
                 }
 
                 /// <summary>
@@ -375,7 +388,7 @@ namespace Accord {
                 /// </summary>
                 ///
                 /// <param name="frame">Bitmap to add as a new video frame.</param>
-                /// <param name="duration">How long the given frame should remain on screen.</param>
+                /// <param name="timestamp">Frame timestamp, total time since recording started.</param>
                 ///
                 /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
                 /// </remarks>
@@ -385,9 +398,9 @@ namespace Accord {
                 /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
                 /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
                 /// 
-                void WriteVideoFrame(Bitmap^ frame, TimeSpan duration)
+                void WriteVideoFrame(Bitmap^ frame, TimeSpan timestamp)
                 {
-                    WriteVideoFrame(frame, duration, System::Drawing::Rectangle(0, 0, frame->Width, frame->Height));
+                    WriteVideoFrame(frame, timestamp, System::Drawing::Rectangle(0, 0, frame->Width, frame->Height));
                 }
 
 
@@ -396,7 +409,7 @@ namespace Accord {
                 /// </summary>
                 ///
                 /// <param name="frame">Bitmap to add as a new video frame.</param>
-                /// <param name="duration">How long the given frame should remain on screen.</param>
+                /// <param name="timestamp">Frame timestamp, total time since recording started.</param>
                 /// <param name="region">The region of the bitmap that should be registered on video.</param>
                 ///
                 /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
@@ -407,14 +420,14 @@ namespace Accord {
                 /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
                 /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
                 /// 
-                void WriteVideoFrame(Bitmap^ frame, TimeSpan duration, System::Drawing::Rectangle region);
+                void WriteVideoFrame(Bitmap^ frame, TimeSpan timestamp, System::Drawing::Rectangle region);
 
                 /// <summary>
                 /// Write new video frame into currently opened video file.
                 /// </summary>
                 ///
                 /// <param name="frame">Bitmap to add as a new video frame.</param>
-                /// <param name="duration">How long the given frame should remain on screen.</param>
+                /// <param name="timestamp">Frame timestamp, total time since recording started.</param>
                 ///
                 /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
                 /// </remarks>
@@ -424,15 +437,27 @@ namespace Accord {
                 /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
                 /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
                 /// 
-                void WriteVideoFrame(BitmapData^ frame, TimeSpan duration);
+                void WriteVideoFrame(BitmapData^ frame, TimeSpan timestamp);
 
-
+                /// <summary>
+                /// Writes a new audio frame to the currently opened video file.
+                /// </summary>
+                /// 
+                /// <param name="signal">Signal to add as a new audio frame.</param>
+                ///
+                void WriteAudioFrame(Accord::Audio::Signal^ signal)
+                {
+                    WriteAudioFrame(signal, TimeSpan::MinValue);
+                }
 
                 /// <summary>
                 /// Writes a new audio frame to the currently opened video file.
                 /// </summary>
                 ///
-                void WriteAudioFrame(Accord::Audio::Signal^ signal);
+                /// <param name="signal">Signal to add as a new audio frame.</param>
+                /// <param name="timestamp">Frame timestamp, total time since recording started.</param>
+                ///
+                void WriteAudioFrame(Accord::Audio::Signal^ signal, TimeSpan timestamp);
 
                 /// <summary>
                 /// Flushes the current write buffer to disk.

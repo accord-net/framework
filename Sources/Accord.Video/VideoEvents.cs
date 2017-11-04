@@ -149,7 +149,9 @@ namespace Accord.Video
         /// <summary>
         /// Initializes a new instance of the <see cref="VideoSourceErrorEventArgs"/> class.
         /// </summary>
+        /// 
         /// <param name="description">Error description.</param>
+        /// 
         public VideoSourceErrorEventArgs(string description)
             : this(description, null)
         {
@@ -158,7 +160,9 @@ namespace Accord.Video
         /// <summary>
         /// Initializes a new instance of the <see cref="VideoSourceErrorEventArgs"/> class.
         /// </summary>
+        /// 
         /// <param name="exception">Error exception.</param>
+        /// 
         public VideoSourceErrorEventArgs(Exception exception)
             : this(exception.Message, exception)
         {
@@ -189,6 +193,7 @@ namespace Accord.Video
         /// <summary>
         /// Video source exception causing the error
         /// </summary>
+        /// 
         public Exception Exception
         {
             get { return _exception; }

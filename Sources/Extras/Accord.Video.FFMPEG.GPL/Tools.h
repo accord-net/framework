@@ -30,6 +30,7 @@ struct AVCodec;
 struct AVRational;
 struct AVCodecContext;
 enum AVSampleFormat : int;
+enum AVPixelFormat : int;
 
 using namespace System;
 
@@ -41,7 +42,7 @@ namespace Accord {
 
             unsigned long ptsToFrame(AVStream* stream, int64_t pts);
 
-            int check_sample_fmt(AVCodec* codec, enum AVSampleFormat& sample_fmt);
+            int check_sample_fmt(AVCodec* codec, enum ::AVSampleFormat& sample_fmt);
 
             int check_sample_rate(AVCodec* codec, int sampleRate);
 
@@ -66,7 +67,9 @@ namespace Accord {
 
             TimeSpan PTSToTimeSpan(uint64_t pts, AVStream* stream, AVCodecContext* codec);
 
-            enum AVSampleFormat a2f(const Accord::Audio::SampleFormat& format);
+            enum ::AVSampleFormat a2f(const Accord::Audio::SampleFormat& format);
+
+            enum ::AVPixelFormat a2f(const System::Drawing::Imaging::PixelFormat& format);
 
         }
     }
