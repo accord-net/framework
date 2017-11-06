@@ -190,7 +190,7 @@ namespace Accord.IO
 
                 buffer.Add(new[] { x, y });
 #if NET35
-            } while (line != null && String.IsNullOrEmpty(line.Trim()));
+            } while (!StringEx.IsNullOrWhiteSpace(line));
 #else
             } while (!String.IsNullOrWhiteSpace(line));
 #endif

@@ -23,6 +23,7 @@
 namespace Accord.DataSets
 {
     using Accord;
+    using Accord.Compat;
     using Accord.Imaging;
     using Accord.Math;
     using System;
@@ -220,6 +221,13 @@ namespace Accord.DataSets
             }
 
             Bitmap bmp;
+
+#if NET35
+            if (!StringEx.IsNullOrWhiteSpace(this.path))
+#else
+            if (!String.IsNullOrWhiteSpace(this.path))
+#endif
+                Directory.CreateDirectory(this.path);
 
             if (opencv.Contains(name))
             {

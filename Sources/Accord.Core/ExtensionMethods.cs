@@ -666,6 +666,7 @@ namespace Accord
         }
 #endif
 
+        // TODO: Move this method to a more appropriate location
         internal static WebClient NewWebClient()
         {
             var webClient = new WebClient();

@@ -236,7 +236,7 @@ namespace Accord.Math
         private static bool TryParse(string s, NumberStyles style, IFormatProvider provider, bool throwOnFailure, out Rational result)
         {
 #if NET35
-            if (string.IsNullOrEmpty(s.Trim()))
+            if (StringEx.IsNullOrWhiteSpace(s))
 #else
             if (string.IsNullOrWhiteSpace(s))
 #endif

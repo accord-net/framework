@@ -32,6 +32,7 @@ namespace Accord.DataSets
     using System.IO;
     using System.Linq;
     using System.Net;
+    using Accord.Compat;
 
     /// <summary>
     ///   Public-Domain test videos for video processing and vision applications.
@@ -142,7 +143,7 @@ namespace Accord.DataSets
             if (!File.Exists(downloadedFileName))
             {
 #if NET35
-                if (this.path == null || String.IsNullOrEmpty(this.path.Trim()))
+                if (!StringEx.IsNullOrWhiteSpace(this.path))
 #else
                 if (!String.IsNullOrWhiteSpace(this.path))
 #endif

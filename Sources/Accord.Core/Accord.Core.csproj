@@ -71,6 +71,7 @@
     <Compile Include="Compatibility\ManualResetEventSlim.cs" />
     <Compile Include="Compatibility\Stream.cs" />
     <Compile Include="Compatibility\EnvironmentEx.cs" />
+    <Compile Include="Compatibility\StringEx.cs" />
     <Compile Include="Compatibility\TypeExtensions.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Features\IFeatureDescriptor.cs" />

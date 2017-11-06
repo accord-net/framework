@@ -565,7 +565,7 @@ namespace Accord {
                     }*/
                 }
 
-                void send_audio_frame(OutputStream* ost, uint8_t* current, size_t length)
+                void send_audio_frame(OutputStream* ost, uint8_t* current, int length)
                 {
                     AVCodecContext* c = ost->enc;
 
