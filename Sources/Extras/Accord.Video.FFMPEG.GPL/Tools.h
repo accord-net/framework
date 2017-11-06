@@ -23,14 +23,14 @@
 #pragma once
 
 #include <string>
+#include "PixelFormats.h"
+#include "SampleFormats.h"
 
 
 struct AVStream;
 struct AVCodec;
 struct AVRational;
 struct AVCodecContext;
-enum AVSampleFormat : int;
-enum AVPixelFormat : int;
 
 using namespace System;
 
@@ -38,9 +38,9 @@ namespace Accord {
     namespace Video {
         namespace FFMPEG
         {
-            int64_t frameToPTS(AVStream* stream, int frame);
+            int64_t frameToPTS(AVStream* stream, int64_t frame);
 
-            unsigned long ptsToFrame(AVStream* stream, int64_t pts);
+            int64_t ptsToFrame(AVStream* stream, int64_t pts);
 
             int check_sample_fmt(AVCodec* codec, enum ::AVSampleFormat& sample_fmt);
 
@@ -67,10 +67,11 @@ namespace Accord {
 
             TimeSpan PTSToTimeSpan(uint64_t pts, AVStream* stream, AVCodecContext* codec);
 
-            enum ::AVSampleFormat a2f(const Accord::Audio::SampleFormat& format);
+            enum ::AVSampleFormat s2f(const Accord::Audio::SampleFormat& format);
 
-            enum ::AVPixelFormat a2f(const System::Drawing::Imaging::PixelFormat& format);
+            enum ::AVPixelFormat p2f(const System::Drawing::Imaging::PixelFormat& format);
 
+            void check_redistributable();
         }
     }
 }

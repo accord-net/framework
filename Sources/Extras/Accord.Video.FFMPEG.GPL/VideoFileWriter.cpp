@@ -27,8 +27,9 @@
 //
 
 #include "StdAfx.h"
-#include "VideoFileWriter.h"
+
 #include "Tools.h"
+#include "VideoFileWriter.h"
 #include "AudioLayouts.h"
 #include "PixelFormats.h"
 #include "SampleFormats.h"
@@ -36,16 +37,6 @@
 #include <string>
 #include <cassert>
 
-
-extern "C"
-{
-#include <libavutil/opt.h>
-#include <libavutil/mathematics.h>
-#include <libavutil/timestamp.h>
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-#include <libswresample/swresample.h>
-}
 
 
 using namespace System::IO;
@@ -153,12 +144,18 @@ namespace Accord {
 
                     have_video = false;
                     encode_video = false;
-                    video_st = { 0 };
                     sws_flags = SWS_BICUBIC;
 
                     have_audio = false;
                     encode_audio = false;
+
+#if NET35
+                    memset(&video_st, 0, sizeof(video_st));
+                    memset(&audio_st, 0, sizeof(audio_st));
+#else
+                    video_st = { 0 };
                     audio_st = { 0 };
+#endif
 
                     // Defaults
                     m_output_audio_codec = AudioCodec::Default;
@@ -207,7 +204,7 @@ namespace Accord {
                                     c->sample_fmt = (::AVSampleFormat)m_output_audio_sample_format;
                             }
                         }
-                        
+
                         c->sample_rate = m_input_audio_sample_rate;
                         if ((*codec)->supported_samplerates)
                         {
@@ -230,7 +227,12 @@ namespace Accord {
                         }
 
                         c->channels = av_get_channel_layout_nb_channels(c->channel_layout);
+#if NET35
+                        ost->st->time_base.num = 1;
+                        ost->st->time_base.den = c->sample_rate;
+#else
                         ost->st->time_base = { 1, c->sample_rate };
+#endif
                         break;
 
                     case AVMEDIA_TYPE_VIDEO:
@@ -246,7 +248,13 @@ namespace Accord {
                         // timebase should be 1/framerate and timestamp increments should be
                         // identical to 1.
                         //ost->st->time_base = { 1, STREAM_FRAME_RATE };
-                        ost->st->time_base = { m_output_video_frame_rate.Denominator, m_output_video_frame_rate.Numerator };
+#if NET35
+                        ost->st->time_base.num = m_output_video_frame_rate.Denominator;
+                        ost->st->time_base.den = m_output_video_frame_rate.Numerator;
+#else
+                        ost->st->time_base = { m_output_video_frame_rate.Denominator, 
+                                               m_output_video_frame_rate.Numerator   };
+#endif
                         c->time_base = ost->st->time_base;
 
                         c->gop_size = 12; // emit one intra frame every twelve frames at most
@@ -527,7 +535,7 @@ namespace Accord {
                     {
                         // prepare scaling context to convert grayscale image to video format
                         ost->sws_ctx = CHECK(sws_getContext(
-                            /*re-scale from:  */ this->m_input_video_width, this->m_input_video_height, a2f(this->m_input_video_pixel_format),
+                            /*re-scale from:  */ this->m_input_video_width, this->m_input_video_height, p2f(this->m_input_video_pixel_format),
                             /*to dimensions: */ c->width, c->height, c->pix_fmt,
                             sws_flags, nullptr, nullptr, nullptr), "Could not initialize the grayscale conversion context");
                     }
@@ -571,11 +579,11 @@ namespace Accord {
                         av_opt_set_int(ost->swr_ctx, "out_sample_rate", c->sample_rate, 0);
                         av_opt_set_sample_fmt(ost->swr_ctx, "out_sample_fmt", c->sample_fmt, 0);
 
-                        ost->tmp_frame = CHECK(alloc_audio_frame(a2f(this->m_input_audio_sample_format), c->channel_layout,
+                        ost->tmp_frame = CHECK(alloc_audio_frame(s2f(this->m_input_audio_sample_format), c->channel_layout,
                             c->sample_rate, ost->frame->nb_samples), "Error allocating tmp audio frame");
                         av_opt_set_int(ost->swr_ctx, "in_channel_count", this->m_input_audio_channels, 0);
                         av_opt_set_int(ost->swr_ctx, "in_sample_rate", this->m_input_audio_sample_rate, 0);
-                        av_opt_set_sample_fmt(ost->swr_ctx, "in_sample_fmt", a2f(this->m_input_audio_sample_format), 0);
+                        av_opt_set_sample_fmt(ost->swr_ctx, "in_sample_fmt", s2f(this->m_input_audio_sample_format), 0);
 
                         // initialize the resampling context
                         CHECK(swr_init(ost->swr_ctx), "Failed to initialize the resampling context");
@@ -598,9 +606,9 @@ namespace Accord {
 
                         // convert samples from native format to destination codec format, using the resampler 
                         // compute destination number of samples 
-                        int delay = swr_get_delay(ost->swr_ctx, c->sample_rate);
-                        int src_nb_samples = delay + ost->tmp_frame->nb_samples;
-                        int dst_nb_samples = av_rescale_rnd(src_nb_samples, c->sample_rate, c->sample_rate, AV_ROUND_UP);
+                        int64_t delay = swr_get_delay(ost->swr_ctx, c->sample_rate);
+                        int64_t src_nb_samples = delay + ost->tmp_frame->nb_samples;
+                        int64_t dst_nb_samples = av_rescale_rnd(src_nb_samples, c->sample_rate, c->sample_rate, AV_ROUND_UP);
 
                         assert(ost->frame->nb_samples == dst_nb_samples);
 
@@ -610,7 +618,7 @@ namespace Accord {
 
                         // convert to destination format
                         CHECK(swr_convert(ost->swr_ctx,
-                            /*convert to:*/ost->frame->data, dst_nb_samples,
+                            /*convert to:*/ost->frame->data, (int)dst_nb_samples,
                             /*from:*/(const uint8_t **)ost->tmp_frame->data, ost->tmp_frame->nb_samples), "Error converting audio frame");
 
                         //AVRational q = { 1, c->sample_rate };
@@ -633,6 +641,8 @@ namespace Accord {
             VideoFileWriter::VideoFileWriter()
                 : data(nullptr), disposed(false)
             {
+                check_redistributable();
+
                 this->data = new WriterPrivateData();
 
                 this->audioOptions = gcnew Dictionary<String^, String^>();
@@ -738,7 +748,7 @@ namespace Accord {
                     if (bitmapData->PixelFormat != data->m_input_video_pixel_format)
                         throw gcnew ArgumentException("The provided bitmap has a different pixel format than the previous bitmaps that have been fed to this stream.");
                 }
-                else 
+                else
                 {
                     data->m_input_video_pixel_format = bitmapData->PixelFormat;
                     data->m_input_video_width = bitmapData->Width;
@@ -771,7 +781,7 @@ namespace Accord {
                     if (signal->SampleRate != data->m_input_audio_sample_rate)
                         throw gcnew ArgumentException("Audio signal has a different sample rate than the previous frames that have been fed to this stream.");
                 }
-                else 
+                else
                 {
                     data->m_input_audio_sample_format = signal->SampleFormat;
                     data->m_input_audio_sample_size = signal->SampleSize; // size of sample in bytes, i.e. 1 for PCM 8-bit, 2 for 16-bit
@@ -852,7 +862,7 @@ namespace Accord {
 
             int VideoFileWriter::BitRate::get()
             {
-                GET(data->video_st.enc->bit_rate, data->m_output_video_bit_rate)
+                GET((int)data->video_st.enc->bit_rate, data->m_output_video_bit_rate)
             }
 
             void VideoFileWriter::BitRate::set(int value)
@@ -864,7 +874,7 @@ namespace Accord {
 
             int VideoFileWriter::AudioBitRate::get()
             {
-                GET(data->audio_st.enc->bit_rate, data->m_output_audio_bit_rate)
+                GET((int)data->audio_st.enc->bit_rate, data->m_output_audio_bit_rate)
             }
 
             void VideoFileWriter::AudioBitRate::set(int value)

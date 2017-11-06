@@ -122,14 +122,14 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;$(DefineConstants);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;$(DefineConstants);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
-	  <AdditionalOptions>/ignore:4248%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4248%(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

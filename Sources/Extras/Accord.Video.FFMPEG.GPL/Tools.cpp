@@ -25,15 +25,6 @@
 
 #include <string>
 
-extern "C"
-{
-#include "libavformat\avformat.h"
-#include "libavformat\avio.h"
-#include "libavcodec\avcodec.h"
-#include "libswscale\swscale.h"
-}
-
-
 using namespace System;
 using namespace System::IO;
 using namespace Accord::Audio;
@@ -44,22 +35,22 @@ namespace Accord {
     namespace Video {
         namespace FFMPEG
         {
-            int64_t frameToPTS(AVStream* stream, int frame)
+            int64_t frameToPTS(AVStream* stream, int64_t frame)
             {
                 return (int64_t(frame) * stream->r_frame_rate.den * stream->time_base.den)
                     / (int64_t(stream->r_frame_rate.num) * stream->time_base.num);
             }
 
-            unsigned long ptsToFrame(AVStream* stream, int64_t pts)
+            int64_t ptsToFrame(AVStream* stream, int64_t pts)
             {
                 return (int64_t(pts) * stream->time_base.num *  stream->codec->time_base.num) /
                     (int64_t(stream->time_base.den) * stream->codec->time_base.den);
             }
 
             /* check that a given sample format is supported by the encoder */
-            static int check_sample_fmt(AVCodec* codec, enum AVSampleFormat& sample_fmt)
+            static int check_sample_fmt(AVCodec* codec, enum ::AVSampleFormat& sample_fmt)
             {
-                const enum AVSampleFormat* p = codec->sample_fmts;
+                const enum ::AVSampleFormat* p = codec->sample_fmts;
                 while (*p != AV_SAMPLE_FMT_NONE)
                 {
                     if (*p == sample_fmt)
@@ -150,7 +141,7 @@ namespace Accord {
             }
 
 
-            enum AVSampleFormat a2f(const Accord::Audio::SampleFormat& format)
+            enum ::AVSampleFormat s2f(const Accord::Audio::SampleFormat& format)
             {
                 switch (format)
                 {
@@ -165,7 +156,7 @@ namespace Accord {
                 throw gcnew ArgumentOutOfRangeException("format", "Invalid audio format.");
             }
 
-            enum ::AVPixelFormat a2f(const System::Drawing::Imaging::PixelFormat& format)
+            enum ::AVPixelFormat p2f(const System::Drawing::Imaging::PixelFormat& format)
             {
                 switch (format)
                 {
@@ -181,65 +172,67 @@ namespace Accord {
             }
 
 
-            static class _init
+            void check_redistributable()
             {
-            public:
-                _init() {
+                static bool checked = false;
+
+                if (checked)
+                    return;
 #if NET35
-                    bool is64bits = Accord::Compat::EnvironmentEx::Is64BitProcess;
-                    String^ system32Path = Accord::Compat::EnvironmentEx::GetWindowsSystemDirectory32();
-                    // String^ system64Path = Accord::Compat::EnvironmentEx::GetWindowsSystemDirectory64();
+                bool is64bits = Accord::Compat::EnvironmentEx::Is64BitProcess;
+                DirectoryInfo^ windowPath = Directory::GetParent(Environment::GetFolderPath(Environment::SpecialFolder::System));
 
-                    if (is64bits)
-                    {
-                        throw gcnew InvalidOperationException("This application cannot be run in 64-bits.");
-                    }
-                    else
-                    {
-                        bool success = File::Exists(Path::Combine(system32Path, "msvcp90.dll"));
-
-                        if (!success)
-                        {
-                            throw gcnew InvalidOperationException("This application requires the x86 version of " +
-                                "the Microsoft Visual C++ 2008 SP1 Redistributable Package to be installed on this computer. Please " +
-                                "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=5582");
-                        }
-            }
-#else
-                    String^ system32Path = Environment::GetFolderPath(Environment::SpecialFolder::SystemX86);
-                    String^ system64Path = Environment::GetFolderPath(Environment::SpecialFolder::System);
-                    bool is64bits = Environment::Is64BitProcess;
-
-                    String^ msvcDllName = "msvcp140.dll";
-
-                    bool success = File::Exists(Path::Combine(system32Path, msvcDllName));
-
-                    if (is64bits)
-                    {
-                        success &= File::Exists(Path::Combine(system64Path, msvcDllName));
-                    }
+                if (is64bits)
+                {
+                    throw gcnew InvalidOperationException("This application cannot be run in 64-bits.");
+                }
+                else
+                {
+                    bool success = windowPath->GetDirectories("WinSxS\\x86_Microsoft.VC90.CRT*")->Length > 0;
 
                     if (!success)
                     {
-                        if (is64bits)
-                        {
-                            throw gcnew InvalidOperationException("This application requires both the x64 and x86 versions of " +
-                                "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
-                                "download and install them from https://www.microsoft.com/en-us/download/details.aspx?id=48145");
-                        }
-                        else
-                        {
-                            throw gcnew InvalidOperationException("This application requires the x86 version of " +
-                                "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
-                                "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=48145");
-                        }
+                        throw gcnew InvalidOperationException("This application requires the x86 version of " +
+                            "the Microsoft Visual C++ 2008 SP1 Redistributable Package to be installed on this computer. Please " +
+                            "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=5582");
                     }
+                }
+#else
+                String^ system32Path = Environment::GetFolderPath(Environment::SpecialFolder::SystemX86);
+                String^ system64Path = Environment::GetFolderPath(Environment::SpecialFolder::System);
+                bool is64bits = Environment::Is64BitProcess;
+
+                String^ msvcDllName = "msvcp140.dll";
+
+                bool success = File::Exists(Path::Combine(system32Path, msvcDllName));
+
+                if (is64bits)
+                {
+                    success &= File::Exists(Path::Combine(system64Path, msvcDllName));
+                }
+
+                if (!success)
+                {
+                    if (is64bits)
+                    {
+                        throw gcnew InvalidOperationException("This application requires both the x64 and x86 versions of " +
+                            "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
+                            "download and install them from https://www.microsoft.com/en-us/download/details.aspx?id=48145");
+                    }
+                    else
+                    {
+                        throw gcnew InvalidOperationException("This application requires the x86 version of " +
+                            "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
+                            "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=48145");
+                    }
+                }
 #endif
+
+                checked = true;
+            }
+
         }
 
-    } _initializer;
 
-
-}
     }
 }

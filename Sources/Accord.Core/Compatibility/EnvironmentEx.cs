@@ -68,7 +68,7 @@ namespace Accord.Compat
         /// <summary>
         ///   Gets wether the process (not the system) is running in 64-bits.
         /// </summary>
-        public static readonly bool Is64BitProcess = IntPtr.Size == 4;
+        public static readonly bool Is64BitProcess = IntPtr.Size == 8;
 
     }
 }

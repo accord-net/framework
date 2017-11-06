@@ -88,6 +88,8 @@ namespace Accord {
             VideoFileReader::VideoFileReader()
                 : data(nullptr), disposed(false)
             {
+                check_redistributable();
+
                 av_register_all();
             }
 
@@ -188,7 +190,7 @@ namespace Accord {
                     m_videoCodec = (FFMPEG::VideoCodec)data->VideoCodecContext->codec->id;
                     m_videoCodecName = gcnew String(data->VideoCodecContext->codec->name);
                     m_videoFramesCount = data->VideoStream->nb_frames;
-                    m_videoBitRate = data->VideoCodecContext->bit_rate;
+                    m_videoBitRate = (int)data->VideoCodecContext->bit_rate;
 
                     if (data->AudioStream != nullptr)
                     {
@@ -209,7 +211,7 @@ namespace Accord {
                         m_audioCodec = (FFMPEG::AudioCodec)data->AudioCodecContext->codec->id;
                         m_audioCodecName = gcnew String(data->AudioCodecContext->codec->name);
                         m_audioFramesCount = data->AudioStream->nb_frames;
-                        m_audioBitRate = data->AudioCodecContext->bit_rate;
+                        m_audioBitRate = (int)data->AudioCodecContext->bit_rate;
                     }
 
                     success = true;
