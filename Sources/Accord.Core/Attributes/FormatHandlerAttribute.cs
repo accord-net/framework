@@ -137,14 +137,27 @@ namespace Accord
 
                 foreach (Assembly parent in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    foreach (Type t in parent.GetTypes())
+                    try
                     {
-                        object[] attributes = t.GetCustomAttributes(attrType, true);
-
-                        if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                        foreach (Type t in parent.GetTypes())
                         {
-                            TAttribute[] at = attributes.Cast<TAttribute>().ToArray();
-                            handlerTypes.Add(Tuple.Create(t, at));
+                            object[] attributes = t.GetCustomAttributes(attrType, true);
+
+                            if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                            {
+                                TAttribute[] at = attributes.Cast<TAttribute>().ToArray();
+                                handlerTypes.Add(Tuple.Create(t, at));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex is System.Reflection.ReflectionTypeLoadException)
+                        {
+                            var typeLoadException = ex as ReflectionTypeLoadException;
+                            Exception[] loaderExceptions = typeLoadException.LoaderExceptions;
+                            foreach (var lex in loaderExceptions)
+                                throw lex;
                         }
                     }
                 }

@@ -345,11 +345,14 @@ namespace Accord.Math
             {
                 bool deep = array.Rank != result.Rank;
 
-                foreach (var iter in array.GetIndices(deep).Zip(result.GetIndices(deep), (a, b) => Tuple.Create(a, b)))
-                {
-                    object inputValue = array.GetValue(deep, iter.Item1);
+                IEnumerator<int[]> a = array.GetIndices(deep).GetEnumerator();
+                IEnumerator<int[]> b = result.GetIndices(deep).GetEnumerator();
+
+                while (a.MoveNext() && b.MoveNext())
+                { 
+                    object inputValue = array.GetValue(deep, a.Current);
                     object outputValue = convertValue(outputElementType, inputValue);
-                    result.SetValue(outputValue, iter.Item2);
+                    result.SetValue(outputValue, b.Current);
                 }
             }
         }

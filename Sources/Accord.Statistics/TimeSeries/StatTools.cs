@@ -29,6 +29,7 @@ namespace Accord.Statistics.TimeSeries
     using System;
     using System.Numerics;
     using Accord.Math.Transforms;
+    using Accord.Compat;
 
     /// <summary>
     ///   Static tools for time series analysis (e.g. <see cref="AutoCorrelationFunction(double[], int)">ACF</see>,

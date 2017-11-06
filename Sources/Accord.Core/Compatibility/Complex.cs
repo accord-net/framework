@@ -124,6 +124,17 @@ namespace Accord.Compat
         }
 
         /// <summary>
+        /// Complex conjugate of a complex number.
+        /// </summary>
+        /// 
+        /// <param name="complex">The complex number.</param>
+        /// 
+        public static Complex Conjugate(Complex complex)
+        {
+            return new Complex(complex.Real, -complex.Imaginary);
+        }
+
+        /// <summary>
         /// Adds two complex numbers.
         /// </summary>
         /// 

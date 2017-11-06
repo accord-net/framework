@@ -29,6 +29,7 @@
 
 namespace Accord.Video
 {
+    using Accord.Compat;
     using System;
     using System.Diagnostics;
     using System.Drawing;
@@ -361,7 +362,7 @@ namespace Accord.Video
             {
                 // Note: It's important to use 32-bpp ARGB to avoid problems with FFmpeg later
                 //var bmp = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-                var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb); 
+                var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
                 buffer[i] = new Context
                 {
                     original = bmp,
@@ -388,46 +389,60 @@ namespace Accord.Video
                 {
                     // Start capturing a new frame at the same
                     // time we send the previous one to listeners
+#if !NET35
                     Task.WaitAll(
+#if NET40
+                        Task.Factory.StartNew(() =>
+#else
                         Task.Run(() =>
+#endif
                         {
-                            // wait for a while ?
-                            if (frameInterval > 0)
-                            {
-                                // get download duration
-                                span = DateTime.Now.Subtract(start);
+#endif
+                    // wait for a while ?
+                    if (frameInterval > 0)
+                    {
+                        // get download duration
+                        span = DateTime.Now.Subtract(start);
 
-                                // miliseconds to sleep
-                                int msec = frameInterval - (int)span.TotalMilliseconds;
+                        // miliseconds to sleep
+                        int msec = frameInterval - (int)span.TotalMilliseconds;
 
-                                // if we should sleep, then sleep as long as needed
-                                if ((msec > 0) && (stopEvent.WaitOne(msec, false)))
-                                    return;
-                            }
+                        // if we should sleep, then sleep as long as needed
+                        if ((msec > 0) && (stopEvent.WaitOne(msec, false)))
+                            return;
+                    }
 
-                            // capture the screen
-                            captureContext.args.CaptureStarted = DateTime.Now;
-                            captureContext.graphics.CopyFromScreen(x, y, 0, 0, size, CopyPixelOperation.SourceCopy);
-                            captureContext.args.FrameSize = size;
-                            captureContext.args.CaptureFinished = DateTime.Now;
+                    // capture the screen
+                    captureContext.args.CaptureStarted = DateTime.Now;
+                    captureContext.graphics.CopyFromScreen(x, y, 0, 0, size, CopyPixelOperation.SourceCopy);
+                    captureContext.args.FrameSize = size;
+                    captureContext.args.CaptureFinished = DateTime.Now;
 
-                            // increment frames counter
-                            captureContext.args.FrameIndex = counter++;
-                            framesReceived++;
-                        }),
-
+                    // increment frames counter
+                    captureContext.args.FrameIndex = counter++;
+                    framesReceived++;
+#if !NET35
+                        }
+                    ),
+#if NET40
+                        Task.Factory.StartNew(() =>
+#else
                         Task.Run(() =>
+#endif
                         {
-                            // provide new image to clients
-                            if (displayContext != null)
-                            {
-                                // reset whatever listeners had done with the frame
-                                displayContext.args.Frame = displayContext.original;
+#endif
+                    // provide new image to clients
+                    if (displayContext != null)
+                    {
+                        // reset whatever listeners had done with the frame
+                        displayContext.args.Frame = displayContext.original;
 
-                                if (NewFrame != null)
-                                    NewFrame(this, displayContext.args);
-                            }
+                        if (NewFrame != null)
+                            NewFrame(this, displayContext.args);
+                    }
+#if !NET35
                         }));
+#endif
 
                     // Update buffer position
                     displayContext = buffer[bufferPos];
@@ -441,11 +456,12 @@ namespace Accord.Video
                 }
                 catch (Exception exception)
                 {
+#if !NET35
                     AggregateException ae = exception as AggregateException;
 
                     if (ae != null && ae.InnerExceptions.Count == 1)
                         exception = ae.InnerExceptions[0];
-
+#endif
                     // provide information to clients
                     if (VideoSourceError == null)
                         throw;

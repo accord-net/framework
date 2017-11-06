@@ -68,6 +68,7 @@
     <Compile Include="Compatibility\ConcurrentDictionary.cs" />
     <Compile Include="Compatibility\Dummy.cs" />
     <Compile Include="Compatibility\EnumerableEx.cs" />
+    <Compile Include="Compatibility\ManualResetEventSlim.cs" />
     <Compile Include="Compatibility\Stream.cs" />
     <Compile Include="Compatibility\EnvironmentEx.cs" />
     <Compile Include="Compatibility\TypeExtensions.cs" />

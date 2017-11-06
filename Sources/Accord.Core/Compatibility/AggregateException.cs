@@ -104,6 +104,11 @@ namespace Accord.Compat
         protected AggregateException(SerializationInfo info, StreamingContext context) :
             base(info, context) { }
 
+        /// <summary>
+        /// Gets the inner exceptions.
+        /// </summary>
+        /// 
+        public List<Exception> InnerExceptions { get { return exceptions; } }
     }
 }
 #endif
