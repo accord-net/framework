@@ -73,7 +73,7 @@ namespace Accord {
                 ///   MPEG-2. Preferred ID for MPEG-1/2 video decoding.
                 /// </summary>
                 Mpeg2 = AV_CODEC_ID_MPEG2VIDEO,
-                
+
                 /// <summary>
                 ///   MPEG-2 XVMC.
                 /// </summary>
@@ -103,47 +103,47 @@ namespace Accord {
                 ///   Motion JPEG (M-JPEG or MJPEG).
                 /// </summary>
                 Mjpeg = AV_CODEC_ID_MJPEG,
-                
+
                 /// <summary>
                 ///   QuickTime's MJPEG-B.
                 /// </summary>
                 MjpegB = AV_CODEC_ID_MJPEGB,
-                
+
                 /// <summary>
                 ///   Lossless JPEG.
                 /// </summary>
                 Ljpeg = AV_CODEC_ID_LJPEG,
-                
+
                 /// <summary>
                 ///   Sunplus SP5X codec.
                 /// </summary>
                 Sp5X = AV_CODEC_ID_SP5X,
-                
+
                 /// <summary>
                 ///   JPEG-LS lossless/near-lossless compression standard for continuous-tone images (ISO-14495-1/ITU-T.87).
                 /// </summary>
                 JpegLs = AV_CODEC_ID_JPEGLS,
-                
+
                 /// <summary>
                 ///   MPEG-4 file format version 2.
                 /// </summary>
                 Mpeg4 = AV_CODEC_ID_MPEG4,
-                
+
                 /// <summary>
                 ///   Raw video.
                 /// </summary>
                 Raw = AV_CODEC_ID_RAWVIDEO,
-                
+
                 /// <summary>
                 ///   Windows Media MPEG4 V1.
                 /// </summary>
                 MsMpeg4v1 = AV_CODEC_ID_MSMPEG4V1,
-                
+
                 /// <summary>
                 ///   Windows Media MPEG4 V2.
                 /// </summary>
                 MsMpeg4v2 = AV_CODEC_ID_MSMPEG4V2,
-                
+
                 /// <summary>
                 ///   Windows Media MPEG-4 V3.
                 /// </summary>
@@ -193,7 +193,7 @@ namespace Accord {
                 ///   Huffyuv lossless codec.
                 /// </summary>
                 HuffYuv = AV_CODEC_ID_HUFFYUV,
-                    
+
                 /// <summary>
                 ///   Creative YUV (CYUV).
                 /// </summary>
@@ -218,7 +218,7 @@ namespace Accord {
                 ///   Theora.
                 /// </summary>
                 Theora = AV_CODEC_ID_THEORA,
-                    
+
                 /// <summary>
                 ///   ASUS ASV1.
                 /// </summary>
@@ -228,37 +228,37 @@ namespace Accord {
                 ///   ASUS ASV2.
                 /// </summary>
                 Asv2 = AV_CODEC_ID_ASV2,
-                    
+
                 /// <summary>
                 ///   FF video codec 1, lossless intra-frame video codec.
                 /// </summary>
                 Ffv1 = AV_CODEC_ID_FFV1,
-                    
+
                 /// <summary>
                 ///   4X Technologies codec.
                 /// </summary>
                 FourXm = AV_CODEC_ID_4XM,
-                    
+
                 /// <summary>
                 ///   ATI VCR1.
                 /// </summary>
                 Vcr1 = AV_CODEC_ID_VCR1,
-                    
+
                 /// <summary>
                 ///   Cirrus Logic AccuPak.
                 /// </summary>
                 ClJr = AV_CODEC_ID_CLJR,
-                    
+
                 /// <summary>
                 ///   Sony PlayStation MDEC (Motion DECoder).
                 /// </summary>
                 Mdec = AV_CODEC_ID_MDEC,
-                    
+
                 /// <summary>
                 ///   RoQ.
                 /// </summary>
                 RoQ = AV_CODEC_ID_ROQ,
-                    
+
                 /// <summary>
                 ///   Interplay Video.
                 /// </summary>
@@ -273,12 +273,12 @@ namespace Accord {
                 ///   Wing Commander IV / Xxan
                 /// </summary>
                 XanWc4 = AV_CODEC_ID_XAN_WC4,
-                    
+
                 /// <summary>
                 ///   Apple Video (rpza) Codec.
                 /// </summary>
                 Rpza = AV_CODEC_ID_RPZA,
-                    
+
                 /// <summary>
                 ///   Cinepak codec.
                 /// </summary>
@@ -298,22 +298,22 @@ namespace Accord {
                 ///   Microsoft Video 1 (MS-CRAM).
                 /// </summary>
                 MsVideo1 = AV_CODEC_ID_MSVIDEO1,
-                    
+
                 /// <summary>
                 ///   id Cinematic codec
                 /// </summary>
                 IdCin = AV_CODEC_ID_IDCIN,
-                    
+
                 /// <summary>
                 ///   Planar RGB (8BPS) Codec.
                 /// </summary>
                 EightBps = AV_CODEC_ID_8BPS,
-                    
+
                 /// <summary>
                 ///   Apple Graphics (SMC) Codec.
                 /// </summary>
                 Smc = AV_CODEC_ID_SMC,
-                                        
+
                 /// <summary>
                 ///   FLI/FLC/FLX animation.
                 /// </summary>
@@ -328,42 +328,42 @@ namespace Accord {
                 ///   Sierra VMD video
                 /// </summary>
                 VmdVideo = AV_CODEC_ID_VMDVIDEO,
-                    
+
                 /// <summary>
                 ///   MSZH Lossless codec.
                 /// </summary>
                 Mszh = AV_CODEC_ID_MSZH,
-                    
+
                 /// <summary>
                 ///   Zlib Lossless codec.
                 /// </summary>
                 Zlib = AV_CODEC_ID_ZLIB,
-                    
+
                 /// <summary>
                 ///   Apple QuickTime RLE.
                 /// </summary>
                 QtRle = AV_CODEC_ID_QTRLE,
-                    
+
                 /// <summary>
                 ///   TechSmith Screen Capture Codec (TSCC).
                 /// </summary>
                 Tscc = AV_CODEC_ID_TSCC,
-                    
+
                 /// <summary>
                 ///   IBM UltiMotion (ULTI) Video Codec.
                 /// </summary>
                 Ulti = AV_CODEC_ID_ULTI,
-                    
+
                 /// <summary>
                 ///   QuickTime QDraw.
                 /// </summary>
                 QDraw = AV_CODEC_ID_QDRAW,
-                    
+
                 /// <summary>
                 /// Miro Video XL codec.
                 /// </summary>
                 ViXl = AV_CODEC_ID_VIXL,
-                    
+
                 /// <summary>
                 ///   Q-team QPEG.
                 /// </summary>
@@ -373,7 +373,7 @@ namespace Accord {
                 ///   PNG image format.
                 /// </summary>
                 Png = AV_CODEC_ID_PNG,
-                    
+
                 /// <summary>
                 ///   Portable PixelMap image.
                 /// </summary>
@@ -383,22 +383,22 @@ namespace Accord {
                 ///   Portable BitMap image.
                 /// </summary>
                 Pbm = AV_CODEC_ID_PBM,
-                    
+
                 /// <summary>
                 ///   Portable GrayMap image.
                 /// </summary>
                 Pgm = AV_CODEC_ID_PGM,
-                    
+
                 /// <summary>
                 ///   PGM with U and V components in YUV 4:2:0.
                 /// </summary>
                 PgmYuv = AV_CODEC_ID_PGMYUV,
-                    
+
                 /// <summary>
                 ///   Pulse-amplitude modulation (PAM).
                 /// </summary>
                 Pam = AV_CODEC_ID_PAM,
-                    
+
                 /// <summary>
                 ///   Huffyuv FFmpeg variant.
                 /// </summary>
@@ -426,17 +426,17 @@ namespace Accord {
                 /// Windows Media Video 9.
                 /// </summary>
                 Wmv3 = AV_CODEC_ID_WMV3,
-                    
+
                 /// <summary>
                 ///   LOCO-I codec.
                 /// </summary>
                 Loco = AV_CODEC_ID_LOCO,
-                    
+
                 /// <summary>
                 ///   Winnov WNV1.
                 /// </summary>
                 Wnv1 = AV_CODEC_ID_WNV1,
-                    
+
                 /// <summary>
                 ///   Autodesk Animator Codec (AASC).
                 /// </summary>
@@ -446,22 +446,22 @@ namespace Accord {
                 ///   Intel's Indeo Video 2.
                 /// </summary>
                 Indeo2 = AV_CODEC_ID_INDEO2,
-                    
+
                 /// <summary>
                 ///   Fraps codec.
                 /// </summary>
                 Fraps = AV_CODEC_ID_FRAPS,
-                    
+
                 /// <summary>
                 ///   TrueMotion 2 codec.
                 /// </summary>
                 TrueMotion2 = AV_CODEC_ID_TRUEMOTION2,
-                    
+
                 /// <summary>
                 ///   Windows Bitmap (BMP).
                 /// </summary>
                 Bmp = AV_CODEC_ID_BMP,
-                    
+
                 /// <summary>
                 ///    CamStudio Codec (CSCD) 
                 /// </summary>
@@ -471,12 +471,12 @@ namespace Accord {
                 ///   American Laser Games MM Video.
                 /// </summary>
                 MmVideo = AV_CODEC_ID_MMVIDEO,
-                    
+
                 /// <summary>
                 ///    Zip Motion Blocks Video (ZMBV).
                 /// </summary>
                 Zmbv = AV_CODEC_ID_ZMBV,
-                    
+
                 /// <summary>
                 ///   Audio Video Coding Standard (AVS).
                 /// </summary>
@@ -486,12 +486,12 @@ namespace Accord {
                 /// RAD Game Tools' Smacker video.
                 /// </summary>
                 SmackVideo = AV_CODEC_ID_SMACKVIDEO,
-                    
+
                 /// <summary>
                 ///   NuppelVideo/RTJPEG.
                 /// </summary>
                 Nuv = AV_CODEC_ID_NUV,
-                    
+
                 /// <summary>
                 ///   Karl Morton's video codec.
                 /// </summary>
@@ -501,7 +501,7 @@ namespace Accord {
                 ///   Flash Screen Video.
                 /// </summary>
                 FlashSV = AV_CODEC_ID_FLASHSV,
-                    
+
                 /// <summary>
                 ///   Chinese AVS video.
                 /// </summary>
@@ -511,12 +511,12 @@ namespace Accord {
                 ///   JPEG 2000 (JP2).
                 /// </summary>
                 Jpeg2000 = AV_CODEC_ID_JPEG2000,
-                    
+
                 /// <summary>
                 ///   VMware Movie Decoder VMnc Codec.
                 /// </summary>
                 Vmnc = AV_CODEC_ID_VMNC,
-                    
+
                 /// <summary>
                 ///   On2's TrueMotion VP5.
                 /// </summary>
@@ -531,7 +531,7 @@ namespace Accord {
                 ///   On2's TrueMotion VP6 (Flash 8).
                 /// </summary>
                 Vp6F = AV_CODEC_ID_VP6F,
-                    
+
                 /// <summary>
                 ///   Truevision TGA (Targa).
                 /// </summary>
@@ -546,37 +546,37 @@ namespace Accord {
                 ///   Tiertex Seq Video.
                 /// </summary>
                 TiertexSeqVideo = AV_CODEC_ID_TIERTEXSEQVIDEO,
-                    
+
                 /// <summary>
                 ///   Tagged Image File Format (TIFF).
                 /// </summary>
                 Tiff = AV_CODEC_ID_TIFF,
-                    
+
                 /// <summary>
                 ///   Graphics Interchange Format 89a (GIF).
                 /// </summary>
                 Gif = AV_CODEC_ID_GIF,
-                    
+
                 /// <summary>
                 ///   Runesoft GmbH's DXA format.
                 /// </summary>
                 Dxa = AV_CODEC_ID_DXA,
-                    
+
                 /// <summary>
                 /// Avid's Digital Nonlinear Extensible High Definition (DNxHD) codec (SMPTE VC-3).
                 /// </summary>
                 DnxHd = AV_CODEC_ID_DNXHD,
-                    
+
                 /// <summary>
                 ///   THP format.
                 /// </summary>
                 Thp = AV_CODEC_ID_THP,
-                    
+
                 /// <summary>
                 ///   Silicon Graphics Image.
                 /// </summary>
                 Sgi = AV_CODEC_ID_SGI,
-                    
+
                 /// <summary>
                 ///   Interplay C93.
                 /// </summary>
@@ -586,12 +586,12 @@ namespace Accord {
                 ///   Bethesda Softworks VID format.
                 /// </summary>
                 BethSoftVid = AV_CODEC_ID_BETHSOFTVID,
-                    
+
                 /// <summary>
                 ///   V.Flash PTX image.
                 /// </summary>
                 Ptx = AV_CODEC_ID_PTX,
-                    
+
                 /// <summary>
                 ///   Renderware TeXture Dictionary.
                 /// </summary>
@@ -601,17 +601,17 @@ namespace Accord {
                 ///   On2's TrueMotion VP6 (with alpha transparency).
                 /// </summary>
                 Vp6A = AV_CODEC_ID_VP6A,
-                    
+
                 /// <summary>
                 ///   AMV codec.
                 /// </summary>
                 Amv = AV_CODEC_ID_AMV,
-                    
+
                 /// <summary>
                 ///   Beam Software VB.
                 /// </summary>
                 Vb = AV_CODEC_ID_VB,
-                    
+
                 /// <summary>
                 ///   PC Paintbrush PCX image.
                 /// </summary>
@@ -631,32 +631,32 @@ namespace Accord {
                 ///   Intel's Indeo Video 5.
                 /// </summary>
                 Indeo5 = AV_CODEC_ID_INDEO5,
-                    
+
                 /// <summary>
                 ///   Mimic codec used by MSN Messenger for webcam conversations.
                 /// </summary>
                 Mimic = AV_CODEC_ID_MIMIC,
-                    
+
                 /// <summary>
                 ///   RL2 video.
                 /// </summary>
                 Rl2 = AV_CODEC_ID_RL2,
-                    
+
                 /// <summary>
                 ///   Escape 124.
                 /// </summary>
                 Escape124 = AV_CODEC_ID_ESCAPE124,
-                    
+
                 /// <summary>
                 ///   Raw Dirac format.
                 /// </summary>
                 Dirac = AV_CODEC_ID_DIRAC,
-                    
+
                 /// <summary>
                 ///   Brute Force and Ignorance.
                 /// </summary>
                 Bfi = AV_CODEC_ID_BFI,
-                    
+
                 /// <summary>
                 ///   Electronic Arts CMV video.
                 /// </summary>
@@ -666,12 +666,12 @@ namespace Accord {
                 ///   MotionPixels (MP codec, used in MovieCD).
                 /// </summary>
                 MotionPixels = AV_CODEC_ID_MOTIONPIXELS,
-                    
+
                 /// <summary>
                 ///   Electronic Arts TGV video.
                 /// </summary>
                 Tgv = AV_CODEC_ID_TGV,
-                    
+
                 /// <summary>
                 ///   Electronic Arts TGQ video.
                 /// </summary>
@@ -681,22 +681,22 @@ namespace Accord {
                 ///   Electronic Arts TQI video.
                 /// </summary>
                 Tqi = AV_CODEC_ID_TQI,
-                    
+
                 /// <summary>
                 ///   AURA AuraVision - Aura 1 Video Codec.
                 /// </summary>
                 Aura = AV_CODEC_ID_AURA,
-                    
+
                 /// <summary>
                 ///   AURA AuraVision - Aura 2 Video Codec.
                 /// </summary>
                 Aura2 = AV_CODEC_ID_AURA2,
-                    
+
                 /// <summary>
                 ///   Uncompressed 4:2:2 10-bit.
                 /// </summary>
                 V210X = AV_CODEC_ID_V210X,
-                    
+
                 /// <summary>
                 ///   8088flex TMV.
                 /// </summary>
@@ -706,17 +706,17 @@ namespace Accord {
                 ///   Uncompressed 4:2:2 10-bit.
                 /// </summary>
                 V210 = AV_CODEC_ID_V210,
-                    
+
                 /// <summary>
                 ///   Digital Picture Exchange (DPX).
                 /// </summary>
                 Dpx = AV_CODEC_ID_DPX,
-                    
+
                 /// <summary>
                 ///   Electronic Arts MAD.
                 /// </summary>
                 Mad = AV_CODEC_ID_MAD,
-                    
+
                 /// <summary>
                 ///   Forward Uncompressed.
                 /// </summary>
@@ -731,12 +731,12 @@ namespace Accord {
                 ///   CD Graphics video
                 /// </summary>
                 CdGraphics = AV_CODEC_ID_CDGRAPHICS,
-                    
+
                 /// <summary>
                 ///   R210 Quicktime Uncompressed RGB 10-bit.
                 /// </summary>
                 R210 = AV_CODEC_ID_R210,
-                    
+
                 /// <summary>
                 ///   Deluxe Paint Animation.
                 /// </summary>
@@ -756,17 +756,17 @@ namespace Accord {
                 ///   Interchange File Format (IFF)'s ByteRun1.
                 /// </summary>
                 IffByteRun1 = AV_CODEC_ID_IFF_BYTERUN1,
-                    
+
                 /// <summary>
                 ///   Kega Game Video.
                 /// </summary>
                 Kgv1 = AV_CODEC_ID_KGV1,
-                    
+
                 /// <summary>
                 ///   Psygnosis YOP Video.
                 /// </summary>
                 Yop = AV_CODEC_ID_YOP,
-                    
+
                 /// <summary>
                 ///   Google's VP8.
                 /// </summary>
@@ -776,7 +776,7 @@ namespace Accord {
                 ///   Pictor/PC Paint.
                 /// </summary>
                 Pictor = AV_CODEC_ID_PICTOR,
-                    
+
                 /// <summary>
                 ///   ASCII/ANSI art.
                 /// </summary>
@@ -791,12 +791,12 @@ namespace Accord {
                 ///   Multicolor charset for Commodore 64, extended with 5th color (colram)
                 /// </summary>
                 A64Multi5 = AV_CODEC_ID_A64_MULTI5,
-                    
+
                 /// <summary>
                 ///   AJA Kona 10-bit RGB Codec.
                 /// </summary>
                 R10K = AV_CODEC_ID_R10K,
-                    
+
                 /// <summary>
                 ///   Mobotix's MxPEG codec.
                 /// </summary>
@@ -811,12 +811,12 @@ namespace Accord {
                 ///   ProRes
                 /// </summary>
                 ProRes = AV_CODEC_ID_PRORES,
-                    
+
                 /// <summary>
                 ///   Bitmap Brothers JV.
                 /// </summary>
                 Jv = AV_CODEC_ID_JV,
-                    
+
                 /// <summary>
                 ///   Chronomaster DFA.
                 /// </summary>
@@ -826,7 +826,7 @@ namespace Accord {
                 ///   Windows Media Video 9 Image
                 /// </summary>
                 Wmv3Image = AV_CODEC_ID_WMV3IMAGE,
-                    
+
                 /// <summary>
                 ///   Windows Media Video 9 Image v2.
                 /// </summary>
@@ -836,37 +836,37 @@ namespace Accord {
                 ///   UT Video Codec Suite
                 /// </summary>
                 UtVideo = AV_CODEC_ID_UTVIDEO,
-                    
+
                 /// <summary>
                 ///   Discworld II BMV video.
                 /// </summary>
                 BmvVideo = AV_CODEC_ID_BMV_VIDEO,
-                    
+
                 /// <summary>
                 ///   VBLE Lossless Codec.
                 /// </summary>
                 Vble = AV_CODEC_ID_VBLE,
-                    
+
                 /// <summary>
                 ///    Dxtory.
                 /// </summary>
                 Dxtory = AV_CODEC_ID_DXTORY,
-                    
+
                 /// <summary>
                 ///    Uncompressed 4:4:4 10-bit.
                 /// </summary>
                 V410 = AV_CODEC_ID_V410,
-                    
+
                 /// <summary>
                 ///   XWD (X Window Dump) image.
                 /// </summary>
                 Xwd = AV_CODEC_ID_XWD,
-                    
+
                 /// <summary>
                 ///   Commodore CDXL video.
                 /// </summary>
                 Cdxl = AV_CODEC_ID_CDXL,
-                    
+
                 /// <summary>
                 ///   XBM (X BitMap) image.
                 /// </summary>
@@ -876,27 +876,27 @@ namespace Accord {
                 ///   ZeroCodec Lossless Video.
                 /// </summary>
                 ZeroCodec = AV_CODEC_ID_ZEROCODEC,
-                    
+
                 /// <summary>
                 ///   MS Screen 1.
                 /// </summary>
                 MsS1 = AV_CODEC_ID_MSS1,
-                    
+
                 /// <summary>
                 ///   MS ATC Screen.
                 /// </summary>
                 MsA1 = AV_CODEC_ID_MSA1,
-                    
+
                 /// <summary>
                 ///   TechSmith Screen Codec 2.
                 /// </summary>
                 Tscc2 = AV_CODEC_ID_TSCC2,
-                    
+
                 /// <summary>
                 ///   MS Expression Encoder Screen.
                 /// </summary>
                 Mts2 = AV_CODEC_ID_MTS2,
-                    
+
                 /// <summary>
                 ///   Canopus Lossless Codec.
                 /// </summary>
@@ -911,17 +911,17 @@ namespace Accord {
                 ///   Google's VP9.
                 /// </summary>
                 Vp9 = AV_CODEC_ID_VP9,
-                                    
+
                 /// <summary>
                 ///   Apple Intermediate Codec.
                 /// </summary>
                 Aic = AV_CODEC_ID_AIC,
-                    
+
                 /// <summary>
                 ///    Escape 130.
                 /// </summary>
                 Escape130 = AV_CODEC_ID_ESCAPE130,
-                    
+
                 /// <summary>
                 ///   Go2Meeting.
                 /// </summary>
@@ -947,27 +947,27 @@ namespace Accord {
                 ///   This is an alias for <see cref="Hevc"/>.
                 /// </summary>
                 H265 = Hevc,
-                    
+
                 /// <summary>
                 ///   Mirillis FIC.
                 /// </summary>
                 Fic = AV_CODEC_ID_FIC,
-                    
+
                 /// <summary>
                 ///   Alias/Wavefront PIX image.
                 /// </summary>
                 AliasPix = AV_CODEC_ID_ALIAS_PIX,
-                    
+
                 /// <summary>
                 ///   BRender PIX image.
                 /// </summary>
                 BrenderPIX = AV_CODEC_ID_BRENDER_PIX,
-                    
+
                 /// <summary>
                 ///   Amazing Studio Packed Animation File Video.
                 /// </summary>
                 PafVideo = AV_CODEC_ID_PAF_VIDEO,
-                    
+
                 /// <summary>
                 ///   OpenEXR image.
                 /// </summary>
@@ -977,32 +977,32 @@ namespace Accord {
                 /// FFmpeg VP7.
                 /// </summary>
                 Vp7 = AV_CODEC_ID_VP7,
-                    
+
                 /// <summary>
                 ///   LucasArts SANM/SMUSH video.
                 /// </summary>
                 Sanm = AV_CODEC_ID_SANM,
-                    
+
                 /// <summary>
                 ///   SGI RLE 8-bit.
                 /// </summary>
                 SgiRle = AV_CODEC_ID_SGIRLE,
-                    
+
                 /// <summary>
                 ///   Silicon Graphics Motion Video Compressor 1.
                 /// </summary>
                 Mvc1 = AV_CODEC_ID_MVC1,
-                    
+
                 /// <summary>
                 ///   Silicon Graphics Motion Video Compressor 2.
                 /// </summary>
                 Mvc2 = AV_CODEC_ID_MVC2,
-                    
+
                 /// <summary>
                 ///   Canopus HQX.
                 /// </summary>
                 Hqx = AV_CODEC_ID_HQX,
-                    
+
                 /// <summary>
                 ///   TDSC.
                 /// </summary>
@@ -1012,17 +1012,17 @@ namespace Accord {
                 ///   Canopus HQ/HQA decoder
                 /// </summary>
                 HqHqa = AV_CODEC_ID_HQ_HQA,
-                    
+
                 /// <summary>
                 ///   Vidvox Hap decoder.
                 /// </summary>
                 Hap = AV_CODEC_ID_HAP,
-                    
+
                 /// <summary>
                 ///   DirectDraw Surface image decoder.
                 /// </summary>
                 Dds = AV_CODEC_ID_DDS,
-                    
+
                 /// <summary>
                 ///   Resolume DXV.
                 /// </summary>
@@ -1032,121 +1032,206 @@ namespace Accord {
                 ///   Screenpresso SPV1.
                 /// </summary>
                 Screenpresso = AV_CODEC_ID_SCREENPRESSO,
-                    
+
                 /// <summary>
                 ///   innoHeim/Rsupport Screen Capture Codec.
                 /// </summary>
                 Rscc = AV_CODEC_ID_RSCC,
-                    
+
                 /// <summary>
                 ///   Uncompressed YUV 4:1:1 12-bit.
                 /// </summary>
                 Y41P = AV_CODEC_ID_Y41P,
-                    
+
                 /// <summary>
                 ///   Avid 1:1 10-bit RGB Packer.
                 /// </summary>
                 AvRp = AV_CODEC_ID_AVRP,
-                    
+
                 /// <summary>
                 ///   Uncompressed 4:2:2 10-bit.
                 /// </summary>
                 Zero12V = AV_CODEC_ID_012V,
-                    
+
                 /// <summary>
                 ///   Avid Meridien Uncompressed.
                 /// </summary>
                 AvUi = AV_CODEC_ID_AVUI,
-                    
+
                 /// <summary>
                 ///   Uncompressed packed MS 4:4:4:4.
                 /// </summary>
                 AYUV = AV_CODEC_ID_AYUV,
-                    
+
                 /// <summary>
                 ///   Pinnacle TARGA CineWave YUV16.
                 /// </summary>
                 TargaY216 = AV_CODEC_ID_TARGA_Y216,
-                    
+
                 /// <summary>
                 ///   Uncompressed packed 4:4:4.
                 /// </summary>
                 V308 = AV_CODEC_ID_V308,
-                    
+
                 /// <summary>
                 ///   Uncompressed packed QT 4:4:4:4.
                 /// </summary>
                 V408 = AV_CODEC_ID_V408,
-                    
+
                 /// <summary>
                 ///   Uncompressed packed 4:2:0.
                 /// </summary>
                 Yuv4 = AV_CODEC_ID_YUV4,
-                    
+
                 /// <summary>
                 ///   Avid AVI Codec.
                 /// </summary>
                 AvRn = AV_CODEC_ID_AVRN,
-                    
+
                 /// <summary>
                 ///   CPiA video format.
                 /// </summary>
                 CPiA = AV_CODEC_ID_CPIA,
-                    
+
                 /// <summary>
                 ///   X-face image.
                 /// </summary>
                 Xface = AV_CODEC_ID_XFACE,
-                    
+
                 /// <summary>
                 ///   Snow.
                 /// </summary>
                 Snow = AV_CODEC_ID_SNOW,
-                    
+
                 /// <summary>
                 ///   Sigmatel Motion Video.
                 /// </summary>
                 SmvJpeg = AV_CODEC_ID_SMVJPEG,
-                    
+
                 /// <summary>
                 ///   APNG (Animated Portable Network Graphics) image.
                 /// </summary>
                 Apng = AV_CODEC_ID_APNG,
-                    
+
                 /// <summary>
                 ///   Daala, upcoming sucessor to Theora.
                 /// </summary>
                 Daala = AV_CODEC_ID_DAALA,
-                    
+
                 /// <summary>
                 ///   Cineform HD.
                 /// </summary>
                 CfHD = AV_CODEC_ID_CFHD,
-                    
+
                 /// <summary>
                 ///   Duck TrueMotion 2.0 Real Time.
                 /// </summary>
                 TrueMotion2RT = AV_CODEC_ID_TRUEMOTION2RT,
-                    
+
                 /// <summary>
                 ///   Matrox Uncompressed SD.
                 /// </summary>
                 M101 = AV_CODEC_ID_M101,
-                    
+
                 /// <summary>
                 ///   MagicYUV Lossless Video Codec.
                 /// </summary>
                 MagicYuv = AV_CODEC_ID_MAGICYUV,
-                    
+
                 /// <summary>
                 ///   BitJazz's SheerVideo lossless codec.
                 /// </summary>
                 SheerVideo = AV_CODEC_ID_SHEERVIDEO,
-                    
+
                 /// <summary>
                 ///   YUY2 Lossless Codec.
                 /// </summary>
                 Ylc = AV_CODEC_ID_YLC,
+
+
+
+
+
+
+
+#pragma region backward compatibility
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Mpeg4"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Mpeg4 instead.")]
+                MPEG4 = Mpeg4,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Wmv1"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Wmv1 instead.")]
+                WMV1 = Wmv1,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Wmv2"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Wmv2 instead.")]
+                WMV2 = Wmv2,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="MsMpeg4v2"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.MsMpeg4v2 instead.")]
+                MSMPEG4v2 = MsMpeg4v2,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="MsMpeg4v3"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.MsMpeg4v3 instead.")]
+                MSMPEG4v3 = MsMpeg4v3,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Flv1"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Flv1 instead.")]
+                FLV1 = Flv1,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Mpeg2"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Mpeg2 instead.")]
+                MPEG2 = Mpeg2,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Ffv1"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Ffv1 instead.")]
+                FFV1 = Ffv1,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="FfvHuff"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.FfvHuff instead.")]
+                FFVHUFF = FfvHuff,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Vp8"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Vp8 instead.")]
+                VP8 = Vp8,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Vp9"/> instead.
+                /// </summary>
+                ///
+                [ObsoleteAttribute("Obsolete. Please use VideoCodec.Vp9 instead.")]
+                VP9 = Vp9,
+#pragma endregion
             };
 
         }

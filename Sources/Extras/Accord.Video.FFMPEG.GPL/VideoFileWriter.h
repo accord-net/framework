@@ -314,6 +314,31 @@ namespace Accord {
                 /// </summary>
                 ///
                 [Obsolete("Please set the video properties in this class and pass only the filename to this constructor.")]
+                void Open(String^ fileName, int width, int height, Rational frameRate,
+                    FFMPEG::VideoCodec codec, int bitRate,
+                    FFMPEG::AudioCodec audioCodec, int audioBitrate, int sampleRate, int channels)
+                {
+#pragma warning(push)
+#pragma warning(disable: 612)
+#pragma warning(disable: 618)
+#pragma warning(disable: 4947)
+                    FFMPEG::AudioLayout audioLayout;
+                    if (channels == 1)
+                        audioLayout = FFMPEG::AudioLayout::Mono;
+                    else if (channels == 2)
+                        audioLayout = FFMPEG::AudioLayout::Stereo;
+                    else
+                        throw gcnew VideoException("Unsupported number of channels.");
+
+                    Open(fileName, width, height, frameRate, codec, bitRate, 1024, audioLayout, sampleRate, audioCodec, audioBitrate);
+#pragma warning(pop)
+                }
+
+                /// <summary>
+                /// Obsolete. Please Please set the video properties in this class and pass only the filename to this constructor.
+                /// </summary>
+                ///
+                [Obsolete("Please set the video properties in this class and pass only the filename to this constructor.")]
                 void Open(String^ fileName,
                     int imageWidth, int imageHeight, Rational videoFrameRate, FFMPEG::VideoCodec videoCodec, int videoBitRate,
                     int audioFrameSize, FFMPEG::AudioLayout audioChannels, int audioSampleRate, FFMPEG::AudioCodec audioCodec, int audioBitRate)

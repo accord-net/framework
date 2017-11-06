@@ -259,7 +259,7 @@ namespace Accord {
                 /// FLAC (Free Lossless Audio Codec).
                 /// </summary>
                 Flac = AV_CODEC_ID_FLAC,
-                    
+
                 /// <summary>
                 /// MP3-ADU (Application Data Unit).
                 /// </summary>
@@ -374,17 +374,17 @@ namespace Accord {
                 ///   Musepack (MPC) v8.
                 /// </summary>
                 Musepack8 = AV_CODEC_ID_MUSEPACK8,
-                    
+
                 /// <summary>
                 ///   Speex Free Codec For Free Speech.
                 /// </summary>
                 Speex = AV_CODEC_ID_SPEEX,
-                    
+
                 /// <summary>
                 ///   Windows Media Audio Voice
                 /// </summary>
                 WmaVoice = AV_CODEC_ID_WMAVOICE,
-                    
+
                 /// <summary>
                 ///   Windows Media Audio Professional.
                 /// </summary>
@@ -394,42 +394,42 @@ namespace Accord {
                 ///   Windows Media Audio Lossless.
                 /// </summary>
                 WmaLossless = AV_CODEC_ID_WMALOSSLESS,
-                    
+
                 /// <summary>
                 ///   ATRAC3+ (Adaptive TRansform Acoustic Coding 3+).
                 /// </summary>
                 Atrac3P = AV_CODEC_ID_ATRAC3P,
-                    
+
                 /// <summary>
                 ///   Dolby Digital Plus (Enhanced AC-3).
                 /// </summary>
                 Eac3 = AV_CODEC_ID_EAC3,
-                    
+
                 /// <summary>
                 ///   RealNetworks' RealAudio sipr.
                 /// </summary>
                 Sipr = AV_CODEC_ID_SIPR,
-                    
+
                 /// <summary>
                 ///   MPEG-1 Audio Layer I.
                 /// </summary>
                 Mp1 = AV_CODEC_ID_MP1,
-                    
+
                 /// <summary>
                 ///   TwinVQ (transform-domain weighted interleave vector quantization).
                 /// </summary>
                 TwinVQ = AV_CODEC_ID_TWINVQ,
-                    
+
                 /// <summary>
                 ///   Dolby TrueHD lossless codec.
                 /// </summary>
                 TrueHD = AV_CODEC_ID_TRUEHD,
-                    
+
                 /// <summary>
                 ///   MPEG-4 Audio Lossless Coding (MPEG-4 ALS)
                 /// </summary>
                 Mp4Als = AV_CODEC_ID_MP4ALS,
-                    
+
                 /// <summary>
                 ///   Adaptive Transform Acoustic Coding.
                 /// </summary>
@@ -449,22 +449,22 @@ namespace Accord {
                 ///   AAC (Advanced Audio Coding) LATM (Low Overhead Audio Transport Multiplex).
                 /// </summary>
                 AacLatm = AV_CODEC_ID_AAC_LATM,
-                    
+
                 /// <summary>
                 ///   QDesign Music Codec.
                 /// </summary>
                 Qdmc = AV_CODEC_ID_QDMC,
-                    
+
                 /// <summary>
                 ///   Constrained Energy Lapped Transform (CELT).
                 /// </summary>
                 Celt = AV_CODEC_ID_CELT,
-                    
+
                 /// <summary>
                 ///   G.723.1 codec.
                 /// </summary>
                 G7231 = AV_CODEC_ID_G723_1,
-                    
+
                 /// <summary>
                 ///   G.729 codec.
                 /// </summary>
@@ -484,22 +484,22 @@ namespace Accord {
                 ///   BMV Audio.
                 /// </summary>
                 BmvAudio = AV_CODEC_ID_BMV_AUDIO,
-                    
+
                 /// <summary>
                 /// RealNetworks' Real Lossless Codec.
                 /// </summary>
                 Ralf = AV_CODEC_ID_RALF,
-                    
+
                 /// <summary>
                 ///   Indeo Audio Codec.
                 /// </summary>
                 Iac = AV_CODEC_ID_IAC,
-                    
+
                 /// <summary>
                 ///   Internet Low Bitrate Codec.
                 /// </summary>
                 Ilbc = AV_CODEC_ID_ILBC,
-                    
+
                 /// <summary>
                 ///   Opus lossy audio codec.
                 /// </summary>
@@ -509,7 +509,7 @@ namespace Accord {
                 ///   RFC 3389 comfort noise codec.
                 /// </summary>
                 ComfortNoise = AV_CODEC_ID_COMFORT_NOISE,
-                    
+
                 /// <summary>
                 ///   Tom's lossless Audio Kompressor.
                 /// </summary>
@@ -549,12 +549,12 @@ namespace Accord {
                 ///   Sonic lossless.
                 /// </summary>
                 SonicLossless = AV_CODEC_ID_SONIC_LS,
-                    
+
                 /// <summary>
                 ///   Enhanced Variable Rate Codec
                 /// </summary>
                 Evrc = AV_CODEC_ID_EVRC,
-                    
+
                 /// <summary>
                 ///   Selectable Mode Vocoder.
                 /// </summary>
@@ -605,6 +605,38 @@ namespace Accord {
                 /// </summary>
                 Dst = AV_CODEC_ID_DST,
 
+
+
+
+#pragma region backward compatibility
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Mp3" /> instead.
+                /// </summary>
+                ///
+                [Obsolete("Please use Mp3 instead.")]
+                MP3 = 0,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Aac" /> instead.
+                /// </summary>
+                ///
+                [Obsolete("Please use Aac instead.")]
+                AAC = 1,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Mp4Als" /> instead.
+                /// </summary>
+                ///
+                [Obsolete("Please use Mp4Als instead.")]
+                M4A = 2,
+
+                /// <summary>
+                ///   Obsolete. Please use <see cref="Mp4Als" /> instead.
+                /// </summary>
+                ///
+                [Obsolete("Please use Mp4Als instead.")]
+                MP4ALS = 2,
+#pragma endregion
             };
         }
     }
