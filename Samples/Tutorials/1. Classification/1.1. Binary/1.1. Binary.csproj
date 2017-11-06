@@ -103,6 +103,7 @@
     </Content>
     <Content Include="Resources\and-svm.png" />
     <Content Include="Resources\and.png" />
+    <Content Include="Resources\wcd-svm-cm.png" />
     <Content Include="Resources\xor-svm.png" />
     <Content Include="Resources\xor-svm2.png" />
     <Content Include="Resources\xor.png" />
