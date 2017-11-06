@@ -54,8 +54,8 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Features\BaseAudioFeatureExtractor.cs" />
-    <Compile Include="Features\IAudioFeatureExtractor.cs" />
+    <Compile Include="Features\Base\BaseAudioFeatureExtractor.cs" />
+    <Compile Include="Features\Base\IAudioFeatureExtractor.cs" />
     <Compile Include="Filters\AddFilter.cs" />
     <Compile Include="Filters\MonoFilter.cs" />
     <Compile Include="Formats\AudioEncoder.cs" />
@@ -94,9 +94,9 @@
     <Compile Include="Generators\ImpulseGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IAudioOutput.cs" />
-    <Compile Include="MelFrequencyCepstrumCoefficientDescriptor.cs" />
+    <Compile Include="Features\MelFrequencyCepstrumCoefficientDescriptor.cs" />
     <Compile Include="Metronome.cs" />
-    <Compile Include="MFCC.cs" />
+    <Compile Include="Features\MelFrequencyCepstrumCoefficient.cs" />
     <Compile Include="SampleConverter.cs">
     </Compile>
     <Compile Include="Signals\Signal.cs" />
