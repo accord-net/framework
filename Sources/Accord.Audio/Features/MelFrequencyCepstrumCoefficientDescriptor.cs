@@ -24,6 +24,7 @@ namespace Accord.Audio
 {
     using Accord.Math;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents a feature vector extracted using <see cref="MelFrequencyCepstrumCoefficient"/>.

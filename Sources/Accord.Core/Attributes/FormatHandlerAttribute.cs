@@ -116,25 +116,23 @@ namespace Accord
                 var handlerTypes = new List<Tuple<Type, TAttribute[]>>();
 
                 Type attrType = typeof(TAttribute);
-
+                Type baseType = typeof(TInterface);
 
 #if NETSTANDARD1_4
-                TypeInfo baseType = typeof(T).GetTypeInfo();
+                TypeInfo baseTypeInfo = typeof(TInterface).GetTypeInfo();
 
-                foreach (Type t in baseType.Assembly.ExportedTypes)
+                foreach (Type t in baseTypeInfo.Assembly.ExportedTypes)
                 {
                     TypeInfo ti = t.GetTypeInfo();
                     object[] attributes = ti.GetCustomAttributes(baseType, true).ToArray();
 
-                    if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(ti))
+                    if (attributes != null && attributes.Length > 0 && baseTypeInfo.IsAssignableFrom(ti))
                     {
                         TAttribute[] at = attributes.Cast<TAttribute>().ToArray();
                         handlerTypes.Add(Tuple.Create(t, at));
                     }
                 }
 #else
-                Type baseType = typeof(TInterface);
-
                 foreach (Assembly parent in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     try

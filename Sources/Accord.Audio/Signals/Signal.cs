@@ -470,7 +470,9 @@ namespace Accord.Audio
         public static Signal FromArray(Array signal, int length, int channels, int sampleRate,
             SampleFormat format = SampleFormat.Format32BitIeeeFloat)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             int bytes = length * Marshal.SizeOf(signal.GetInnerMostType());
+#pragma warning restore CS0618 // Type or member is obsolete
             int samples = length / channels;
 
             return new Signal(signal, channels, samples, sampleRate, format);
