@@ -32,6 +32,7 @@
 #include "VideoCodec.h"
 #include "SampleFormats.h"
 #include "PixelFormats.h"
+#include "VideoFileWriter.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -45,6 +46,7 @@ namespace Accord {
     namespace Video {
         namespace FFMPEG
         {
+            ref class VideoFileWriter;
             ref struct ReaderPrivateData;
 
             /// <summary>
@@ -62,7 +64,7 @@ namespace Accord {
             /// <example>
             /// <para>
             ///   After making sure FFMPEG's dlls are contained in the output folder of your application,
-            ///   you can use the following code to open a video file and read frames in order from it:
+            ///   you can use the following code to open a video file and read frames in order from it:</para>
             /// <code>
             /// // create instance of video reader
             /// VideoFileReader reader = new VideoFileReader();
@@ -71,10 +73,10 @@ namespace Accord {
             /// reader.Open("test.avi");
             /// 
             /// // check some of its attributes
-            /// Console.WriteLine( "width:  " + reader.Width );
-            /// Console.WriteLine( "height: " + reader.Height );
-            /// Console.WriteLine( "fps:    " + reader.FrameRate );
-            /// Console.WriteLine( "codec:  " + reader.CodecName );
+            /// Console.WriteLine("width:  " + reader.Width);
+            /// Console.WriteLine("height: " + reader.Height);
+            /// Console.WriteLine("fps:    " + reader.FrameRate);
+            /// Console.WriteLine("codec:  " + reader.CodecName);
             ///
             /// // read 100 video frames out of it
             /// for (int i = 0; i &lt; 100; i++)
@@ -101,7 +103,7 @@ namespace Accord {
             ///
             /// <para>
             ///   The next example shows how to feed the frames returned by the VideoFileReader into an object
-            ///   tracker, how to mark the tracked object positions using <see cref="RectanglesMarker"/>, and 
+            ///   tracker, how to mark the tracked object positions using RectanglesMarker, and 
             ///   save those frames as individual files to the disk.</para>
             ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\MatchingTrackerTest.cs" region="doc_track" />
             ///   <img src="..\images\video\matching_frame_223.png" />

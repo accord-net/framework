@@ -653,7 +653,7 @@ namespace Accord {
                 Dirac = AV_CODEC_ID_DIRAC,
                     
                 /// <summary>
-                ///   Brute Force & Ignorance.
+                ///   Brute Force and Ignorance.
                 /// </summary>
                 Bfi = AV_CODEC_ID_BFI,
                     

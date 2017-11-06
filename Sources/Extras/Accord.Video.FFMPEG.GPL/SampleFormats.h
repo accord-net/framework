@@ -47,61 +47,62 @@ namespace Accord {
                 None = AV_SAMPLE_FMT_NONE,
 
                 /// <summary>
-                ///  Unsigned 8 bits
+                ///  Unsigned 8 bits.
+                /// </summary>
                 Format8bitUnsigned = AV_SAMPLE_FMT_U8,
 
                 /// <summary>
-                ///  Signed 16 bits
+                ///  Signed 16 bits.
                 /// </summary>
                 Format16bitSigned = AV_SAMPLE_FMT_S16,
 
                 /// <summary>
-                ///  Signed 32 bits
+                ///  Signed 32 bits.
                 /// </summary>
                 Format32bitSigned = AV_SAMPLE_FMT_S32,
 
                 /// <summary>
-                ///  Signed 64 bits
+                ///  Signed 64 bits.
                 /// </summary>
                 Format64bitSigned = AV_SAMPLE_FMT_S64,
 
                 /// <summary>
-                ///  Float
+                ///  Float.
                 /// </summary>
                 Format32bitFloat = AV_SAMPLE_FMT_FLT,
 
                 /// <summary>
-                ///  Double
+                ///  Double.
                 /// </summary>
                 Format64bitDouble = AV_SAMPLE_FMT_DBL,
 
                 /// <summary>
-                ///  Unsigned 8 bits, planar
+                ///  Unsigned 8 bits, planar.
                 /// </summary>
                 Format8bitUnsignedPlanar = AV_SAMPLE_FMT_U8P,
 
                 /// <summary>
-                ///  Signed 16 bits, planar
+                ///  Signed 16 bits, planar.
                 /// </summary>
                 Format8bitSignedPlanar = AV_SAMPLE_FMT_S16P,
 
                 /// <summary>
-                ///  Signed 32 bits, planar
+                ///  Signed 32 bits, planar.
                 /// </summary>
                 Format32bitSignedPlanar = AV_SAMPLE_FMT_S32P,
 
                 /// <summary>
-                ///  Signed 64 bits, planar
+                ///  Signed 64 bits, planar.
                 /// </summary>
                 Format64bitSignedPlanar = AV_SAMPLE_FMT_S64P,
 
                 /// <summary>
-                ///  Float, planar
+                ///  Float, planar.
                 /// </summary>
                 Format32bitFloatPlanar = AV_SAMPLE_FMT_FLTP,
 
                 /// <summary>
-                ///  Double, planar
+                ///  Double, planar.
                 /// </summary>
                 Format64bitDoublePlanar = AV_SAMPLE_FMT_DBLP,
             };
