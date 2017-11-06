@@ -95,6 +95,7 @@ namespace Accord.Imaging
     /// <seealso cref="MoravecCornersDetector"/>
     /// <seealso cref="SusanCornersDetector"/>
     ///
+    [Serializable]
     public class HarrisCornersDetector : BaseCornersDetector
     {
         // Harris parameters

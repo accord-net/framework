@@ -30,6 +30,7 @@ namespace Accord.Imaging
     ///   Standard feature descriptor for <see cref="T:double[]" /> feature vectors.
     /// </summary>
     /// 
+    [Serializable]
     public class FeatureDescriptor : IFeatureDescriptor<double[]>
     {
         private double[] descriptor;

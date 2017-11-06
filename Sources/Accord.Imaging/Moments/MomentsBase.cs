@@ -30,6 +30,7 @@ namespace Accord.Imaging.Moments
     ///   Base class for image moments.
     /// </summary>
     /// 
+    [Serializable]
     public abstract class MomentsBase
     {
         /// <summary>

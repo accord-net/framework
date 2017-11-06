@@ -31,6 +31,7 @@ namespace Accord.Audio
     /// 
     /// <seealso cref="MelFrequencyCepstrumCoefficient"/>
     /// 
+    [Serializable]
     public struct MelFrequencyCepstrumCoefficientDescriptor : IFeatureDescriptor<double[]>
     {
         private int frame;

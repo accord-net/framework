@@ -58,6 +58,7 @@ namespace Accord.Imaging
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_lbp" />
     /// </example>
     /// 
+    [Serializable]
     public class HistogramsOfOrientedGradients : BaseFeatureExtractor<FeatureDescriptor>
     {
 

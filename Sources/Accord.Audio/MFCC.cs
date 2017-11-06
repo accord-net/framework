@@ -74,6 +74,7 @@ namespace Accord.Audio
     /// </summary>
     /// 
     [Obsolete("Please use MelFrequencyCepstrumCoefficient instead.")]
+    [Serializable]
     public class MFCC : MelFrequencyCepstrumCoefficient
     {
         /// <summary>
@@ -111,6 +112,7 @@ namespace Accord.Audio
     ///   Mel-Frequency Cepstral Coefficients.
     /// </summary>
     /// 
+    [Serializable]
     public class MelFrequencyCepstrumCoefficient : BaseAudioFeatureExtractor<MelFrequencyCepstrumCoefficientDescriptor>
     {
         private int m_nfilt;

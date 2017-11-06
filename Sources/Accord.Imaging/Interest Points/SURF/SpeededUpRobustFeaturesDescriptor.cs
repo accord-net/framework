@@ -36,6 +36,7 @@ namespace Accord.Imaging
     /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
     /// <seealso cref="SpeededUpRobustFeaturePoint"/>
     ///
+    [Serializable]
     public class SpeededUpRobustFeaturesDescriptor : ICloneable
     {
 

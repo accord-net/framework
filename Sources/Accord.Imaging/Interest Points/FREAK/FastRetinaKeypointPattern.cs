@@ -38,6 +38,7 @@ namespace Accord.Imaging
     using System;
     using System.Collections.Generic;
 
+    [Serializable]
     internal class FastRetinaKeypointPattern : ICloneable
     {
 
