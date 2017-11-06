@@ -73,13 +73,7 @@ namespace Accord.Statistics.TimeSeries
             for (int k = 0; k < newLength; k++)
             {
                 if (k < nTime)
-                {
                     Frf[k] = new Complex(vector[k] - VecMean, 0);
-                }
-                else
-                {
-                    Frf[k] = 0;
-                }
             }
 
             FourierTransform2.FFT(Frf, Accord.Math.FourierTransform.Direction.Forward);
@@ -97,14 +91,16 @@ namespace Accord.Statistics.TimeSeries
             FourierTransform2.FFT(iFTFTj, Accord.Math.FourierTransform.Direction.Backward);
 
             // calculate ACF, normalized against the first item
-            double[] acf = new double[nTime];
 
             double normalizer = 1.0;
             int newlag = nTime < nlag ? nTime : nlag;
 
-            for (int k = 0; k < newlag; k++)
+            double[] acf = new double[newlag];
+
+            for (int k = 0; k < acf.Length; k++)
             {
                 acf[k] = iFTFTj[k].Real / (nTime * normalizer);
+
                 if (k == 0)
                 {
                     normalizer = acf[0];

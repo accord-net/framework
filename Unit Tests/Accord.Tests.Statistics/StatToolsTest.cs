@@ -23,12 +23,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Statistics.TimeSeries
+namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.TimeSeries;
     using NUnit.Framework;
     using Accord.Statistics;
     using System;
+    using Accord.Math;
 
     [TestFixture]
     public class StatToolsTest
@@ -36,22 +37,32 @@ namespace Accord.Tests.Statistics.TimeSeries
         [Test]
         public void acfTest()
         {
-            int SeriesSize = 100;
-            double[] values = new double[SeriesSize];
-            for (int i = 0; i < SeriesSize; i++)
+            // expectedACF is ACF results from Python StatsModels ACF function applied to Sin(X) where X=0, 1, .., 99
+            /*
+             Python 3.5.2 |Anaconda 4.2.0 (64-bit)| (default, Jul  5 2016, 11:41:13) [MSC v.1900 64 bit (AMD64)] on win32
+             Type "help", "copyright", "credits" or "license" for more information.
+             >>> import statsmodels.api as sm
+             >>> from statsmodels.tsa.stattools import acf
+             >>> import numpy as np             
+             >>> x = np.sin(np.linspace(0, 99, 100))
+             >>> y = acf(x, nlags=9)
+             >>> print(y)
+             [ 1.          0.53515447 -0.4075514  -0.96025719 -0.62773328  0.2691908
+               0.90248604  0.70133678 -0.13356576 -0.82902385 -0.75534937]
+             >>>
+             */
+
+            double[] expectedACF = new double[] { 1.0, 0.53515447, -0.4075514, -0.96025719, -0.62773328, 0.2691908, 0.90248604, 0.70133678, -0.13356576, -0.82902385 };
+
+            int windowSize = expectedACF.Length;
+
+            double[] values = new double[100];
+            for (int i = 0; i < values.Length; i++)
                 values[i] = Math.Sin(i);
 
-            double[] expectedACF = new double[] 
-            {
-                1.0, 0.53515447, -0.4075514, -0.96025719, -0.62773328,
-                0.2691908, 0.90248604, 0.70133678, -0.13356576, -0.82902385
-            };
+            double[] computedACF = TimeSeriesTools.AutoCorrelationFunction(values, windowSize);
 
-            int windowSize = values.Length;
-
-            double[] computedACF = TimeSeriesTools.AutoCorrelationFunction(values, 10);
-
-            Assert.AreEqual(expectedACF, computedACF);
+            Assert.IsTrue(expectedACF.IsEqual(computedACF, 1e-6));
         }
     }
 }
