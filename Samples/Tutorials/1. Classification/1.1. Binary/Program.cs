@@ -197,7 +197,7 @@ namespace Tutorials.Classification.Binary
             // Create a quadratic kernel
             Quadratic quadratic = new Quadratic(constant: 1);
 
-            // Project the inptus into a higher dimensionality space
+            // Project the inputs into a higher dimensionality space
             double[][] expansion = quadratic.Transform(inputs);
 
             // Create the same learning algorithm in the expanded input space
@@ -209,10 +209,10 @@ namespace Tutorials.Classification.Binary
             };
 
             // Use the learning algorithm to Learn 
-            svm = teacher.Learn(inputs, outputs);
+            svm = teacher.Learn(expansion, outputs);
 
             // Compute the machine's answers for the learned inputs
-            answers = svm.Decide(quadratic.Transform(inputs));
+            answers = svm.Decide(expansion);
 
             // Convert to Int32 so we can plot:
             zeroOneAnswers = answers.ToZeroOne();
