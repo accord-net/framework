@@ -18,7 +18,8 @@ echo =========================================================
 
 if "%1"=="version" goto version
 if "%1"=="build"   goto build
-if "%1"=="archive" goto archive
+if "%1"=="archive-framework" goto archive-framework
+if "%1"=="archive-samples"   goto archive-samples
 if "%1"=="pack"    goto pack
 if "%1"=="push"    goto push
 if not "%1" == ""  goto error
@@ -41,14 +42,19 @@ echo.
 echo.
 
 
-:archive
+:archive-framework
 :: Build compressed archive
 cd Archiver
 cmd /c "package-framework.cmd"
 if %errorlevel% neq 0 exit /b %errorlevel%
+cd ..
+
+:archive-samples
+cd Archiver
 cmd /c "package-samples.cmd"
 if %errorlevel% neq 0 exit /b %errorlevel%
 cd ..
+
 echo.
 echo.
 
