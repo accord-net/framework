@@ -516,13 +516,13 @@ namespace Accord.Audio
             {
                 if (array.Length < NumberOfSamples)
                     throw new Exception("The provided array is not large enough to contain the signal.");
-                Buffer.BlockCopy(rawData, 0, array, 0, array.GetNumberOfBytes());
+                Buffer.BlockCopy(rawData, 0, array, 0, Math.Min(NumberOfBytes, array.GetNumberOfBytes()));
             }
 
             else if (format == Audio.SampleFormat.Format16Bit)
             {
                 short[] source = new short[NumberOfSamples];
-                Buffer.BlockCopy(rawData, 0, source, 0, source.GetNumberOfBytes());
+                Buffer.BlockCopy(rawData, 0, source, 0, Math.Min(NumberOfBytes, source.GetNumberOfBytes()));
                 SampleConverter.Convert(source, array);
             }
 
@@ -542,18 +542,18 @@ namespace Accord.Audio
             {
                 if (array.Length < NumberOfSamples)
                     throw new Exception("The provided array is not large enough to contain the signal.");
-                Buffer.BlockCopy(rawData, 0, array, 0, array.GetNumberOfBytes());
+                Buffer.BlockCopy(rawData, 0, array, 0, Math.Min(NumberOfBytes, array.GetNumberOfBytes()));
             }
             else if (format == Audio.SampleFormat.Format32BitIeeeFloat)
             {
                 float[] source = new float[NumberOfSamples];
-                Buffer.BlockCopy(rawData, 0, source, 0, source.GetNumberOfBytes());
+                Buffer.BlockCopy(rawData, 0, source, 0, Math.Min(NumberOfBytes, source.GetNumberOfBytes()));
                 SampleConverter.Convert(source, array);
             }
             else if (format == Audio.SampleFormat.Format16Bit)
             {
                 short[] source = new short[NumberOfSamples];
-                Buffer.BlockCopy(rawData, 0, source, 0, source.GetNumberOfBytes());
+                Buffer.BlockCopy(rawData, 0, source, 0, Math.Min(NumberOfBytes, source.GetNumberOfBytes()));
                 SampleConverter.Convert(source, array);
             }
             else

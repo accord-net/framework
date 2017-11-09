@@ -29,6 +29,7 @@ namespace Accord.Imaging.Filters
     using AForge;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using System.Linq;
 
     /// <summary>
     ///   Filter to mark (highlight) points in a image.
@@ -113,7 +114,7 @@ namespace Accord.Imaging.Filters
         ///   Initializes a new instance of the <see cref="PointsMarker"/> class.
         /// </summary>
         /// 
-        public PointsMarker(IList<IFeaturePoint> points)
+        public PointsMarker(IEnumerable<IFeaturePoint> points)
             : this(points, Color.White, 3)
         {
         }
@@ -123,7 +124,7 @@ namespace Accord.Imaging.Filters
         ///   Initializes a new instance of the <see cref="PointsMarker"/> class.
         /// </summary>
         /// 
-        public PointsMarker(IList<IFeaturePoint> points, Color markerColor)
+        public PointsMarker(IEnumerable<IFeaturePoint> points, Color markerColor)
             : this(points, markerColor, 3)
         {
         }
@@ -132,10 +133,9 @@ namespace Accord.Imaging.Filters
         ///   Initializes a new instance of the <see cref="PointsMarker"/> class.
         /// </summary>
         /// 
-        public PointsMarker(IList<IFeaturePoint> points, Color markerColor, int width)
+        public PointsMarker(IEnumerable<IFeaturePoint> points, Color markerColor, int width)
         {
-            var newPoints = points.Apply(x => new IntPoint((int)x.X, (int)x.Y));
-            markerColor = init(newPoints, markerColor, width);
+            markerColor = init(points.Select(x => new IntPoint((int)x.X, (int)x.Y)), markerColor, width);
         }
 
         /// <summary>

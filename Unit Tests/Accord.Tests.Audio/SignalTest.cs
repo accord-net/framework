@@ -87,6 +87,19 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(target.SampleRate, 8000);
         }
 
+        [Test]
+        public void CopyToFloatArray()
+        {
+            Signal target = Signal.FromArray(data, 8000);
+            float[] dest = new float[12];
+            target.CopyTo(dest);
+            Assert.AreEqual(data.Reshape(), dest);
+
+            float[] larger = new float[20];
+            target.CopyTo(larger);
+            Assert.AreEqual(Vector.Create(20, data.Reshape()), larger);
+        }
+
 
         [Test]
         public void GetSampleTest()
