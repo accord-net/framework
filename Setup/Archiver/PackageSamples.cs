@@ -29,13 +29,12 @@ namespace Accord.Setup.Archiver
             Console.WriteLine("Output directory : {0}", outputDir.FullName); 
             */
 
+            if (!outputDir.Exists)
+                outputDir.Create();
+
             FileInfo[] csprojs = samplesDir.GetFiles("*.csproj", SearchOption.AllDirectories);
             foreach (FileInfo csproj in csprojs)
                 packCsproj(samplesDir, csproj, outputDir);
-
-            FileInfo[] slns = samplesDir.GetFiles("*.sln", SearchOption.AllDirectories);
-            foreach (FileInfo sln in slns)
-                packSln(samplesDir, sln, outputDir);
         }
 
         static string createSolution(string rootDir, FileInfo csproj)
@@ -45,7 +44,7 @@ namespace Accord.Setup.Archiver
 
         static string createSolution(string projectName, string projectPath, string projectGuid)
         {
-            string[] solutionLines = 
+            string[] solutionLines =
             {
                 "Microsoft Visual Studio Solution File, Format Version 12.00",
                 "# Visual Studio 15",
@@ -148,7 +147,9 @@ namespace Accord.Setup.Archiver
 
                 /* move the binaries to a folder at the root of the sample */
                 if (file.Directory.FullName.Contains("bin\\x86\\Release"))
-                    expandedPath = path.Replace("bin\\x86\\Release", "Binaries");
+                    expandedPath = path.Replace("bin\\x86\\Release", "Binaries\\x86\\");
+                if (file.Directory.FullName.Contains("bin\\x64\\Release"))
+                    expandedPath = path.Replace("bin\\x64\\Release", "Binaries\\x64\\");
 
                 ZipArchiveEntry entry = zip.CreateEntry(expandedPath);
                 using (var entryStream = entry.Open())

@@ -36,6 +36,15 @@
     <StartupObject>Accord.Setup.Archiver.PackageSamples</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="..\build-all.cmd">
+      <Link>build-all.cmd</Link>
+    </None>
+    <None Include="..\clean-all.cmd">
+      <Link>clean-all.cmd</Link>
+    </None>
+    <None Include="..\run-tests.cmd">
+      <Link>run-tests.cmd</Link>
+    </None>
     <None Include="Archiver\package-framework.cmd" />
     <None Include="Archiver\package-samples.cmd" />
     <None Include="Archiver\PackageSamples.ps1" />
@@ -123,13 +132,6 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>-->
-  <Target Name="AfterBuild">
-    <!-- Load up the information from the assembly -->
-    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)$(AssemblyName).dll">
-      <Output TaskParameter="Assemblies" ItemName="OutputAssemblyInfo" />
-    </GetAssemblyIdentity>
-    <Message Text="Info: %(OutputAssemblyInfo.Version)" />
-  </Target>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
