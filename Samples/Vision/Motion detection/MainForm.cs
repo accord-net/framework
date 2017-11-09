@@ -220,13 +220,13 @@ namespace SampleApp
         }
 
         // New frame received by the player
-        private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
+        private void videoSourcePlayer_NewFrame(object sender, NewFrameEventArgs args)
         {
             lock (this)
             {
                 if (detector != null)
                 {
-                    float motionLevel = detector.ProcessFrame(image);
+                    float motionLevel = detector.ProcessFrame(args.Frame);
 
                     if (motionLevel > motionAlarmLevel)
                     {
@@ -253,7 +253,7 @@ namespace SampleApp
                     }
 
                     if (showMotionHistoryToolStripMenuItem.Checked)
-                        DrawMotionHistory(image);
+                        DrawMotionHistory(args.Frame);
                 }
             }
         }

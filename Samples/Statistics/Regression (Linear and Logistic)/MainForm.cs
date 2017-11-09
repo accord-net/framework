@@ -233,7 +233,7 @@ namespace Regression.Linear
 
             if (comboBox2.SelectedItem as string == "Logistic")
             {
-                output = lra.Regression.Score(input);
+                output = lra.Regression.Probability(input);
             }
             else
             {

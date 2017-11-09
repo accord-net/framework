@@ -171,26 +171,30 @@ namespace SampleApp
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.dataList);
             this.groupBox1.Controls.Add(this.loadButton);
-            this.groupBox1.Location = new System.Drawing.Point(16, 15);
+            this.groupBox1.Location = new System.Drawing.Point(21, 20);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(368, 482);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(491, 643);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data";
             // 
             // classesBox
             // 
-            this.classesBox.Location = new System.Drawing.Point(304, 434);
+            this.classesBox.Location = new System.Drawing.Point(405, 579);
+            this.classesBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.classesBox.Name = "classesBox";
             this.classesBox.ReadOnly = true;
-            this.classesBox.Size = new System.Drawing.Size(48, 26);
+            this.classesBox.Size = new System.Drawing.Size(63, 31);
             this.classesBox.TabIndex = 3;
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(224, 437);
+            this.label10.Location = new System.Drawing.Point(299, 583);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 18);
+            this.label10.Size = new System.Drawing.Size(107, 24);
             this.label10.TabIndex = 2;
             this.label10.Text = "Classes:";
             // 
@@ -199,18 +203,20 @@ namespace SampleApp
             this.dataList.FullRowSelect = true;
             this.dataList.GridLines = true;
             this.dataList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.dataList.Location = new System.Drawing.Point(16, 29);
+            this.dataList.Location = new System.Drawing.Point(21, 39);
+            this.dataList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataList.Name = "dataList";
-            this.dataList.Size = new System.Drawing.Size(336, 395);
+            this.dataList.Size = new System.Drawing.Size(447, 525);
             this.dataList.TabIndex = 0;
             this.dataList.UseCompatibleStateImageBehavior = false;
             this.dataList.View = System.Windows.Forms.View.Details;
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(16, 434);
+            this.loadButton.Location = new System.Drawing.Point(21, 579);
+            this.loadButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(120, 34);
+            this.loadButton.Size = new System.Drawing.Size(160, 45);
             this.loadButton.TabIndex = 1;
             this.loadButton.Text = "&Load";
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
@@ -243,170 +249,192 @@ namespace SampleApp
             this.groupBox2.Controls.Add(this.learningRateBox);
             this.groupBox2.Controls.Add(this.stopButton);
             this.groupBox2.Controls.Add(this.startButton);
-            this.groupBox2.Location = new System.Drawing.Point(400, 15);
+            this.groupBox2.Location = new System.Drawing.Point(533, 20);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(296, 482);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(395, 643);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Training";
             // 
             // currentErrorBox
             // 
-            this.currentErrorBox.Location = new System.Drawing.Point(200, 373);
+            this.currentErrorBox.Location = new System.Drawing.Point(267, 497);
+            this.currentErrorBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.currentErrorBox.Name = "currentErrorBox";
             this.currentErrorBox.ReadOnly = true;
-            this.currentErrorBox.Size = new System.Drawing.Size(80, 26);
+            this.currentErrorBox.Size = new System.Drawing.Size(105, 31);
             this.currentErrorBox.TabIndex = 20;
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(16, 376);
+            this.label11.Location = new System.Drawing.Point(21, 501);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(194, 20);
+            this.label11.Size = new System.Drawing.Size(259, 27);
             this.label11.TabIndex = 19;
             this.label11.Text = "Current average error:";
             // 
             // label9
             // 
             this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label9.Location = new System.Drawing.Point(16, 414);
+            this.label9.Location = new System.Drawing.Point(21, 552);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(264, 3);
+            this.label9.Size = new System.Drawing.Size(351, 3);
             this.label9.TabIndex = 18;
             // 
             // currentIterationBox
             // 
-            this.currentIterationBox.Location = new System.Drawing.Point(200, 336);
+            this.currentIterationBox.Location = new System.Drawing.Point(267, 448);
+            this.currentIterationBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.currentIterationBox.Name = "currentIterationBox";
             this.currentIterationBox.ReadOnly = true;
-            this.currentIterationBox.Size = new System.Drawing.Size(80, 26);
+            this.currentIterationBox.Size = new System.Drawing.Size(105, 31);
             this.currentIterationBox.TabIndex = 17;
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(16, 339);
+            this.label8.Location = new System.Drawing.Point(21, 452);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(157, 23);
+            this.label8.Size = new System.Drawing.Size(209, 31);
             this.label8.TabIndex = 16;
             this.label8.Text = "Current iteration:";
             // 
             // label7
             // 
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Location = new System.Drawing.Point(16, 322);
+            this.label7.Location = new System.Drawing.Point(21, 429);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(264, 2);
+            this.label7.Size = new System.Drawing.Size(351, 2);
             this.label7.TabIndex = 15;
             // 
             // errorLimitCheck
             // 
-            this.errorLimitCheck.Location = new System.Drawing.Point(16, 270);
+            this.errorLimitCheck.Location = new System.Drawing.Point(21, 360);
+            this.errorLimitCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.errorLimitCheck.Name = "errorLimitCheck";
-            this.errorLimitCheck.Size = new System.Drawing.Size(251, 44);
+            this.errorLimitCheck.Size = new System.Drawing.Size(335, 59);
             this.errorLimitCheck.TabIndex = 14;
             this.errorLimitCheck.Text = "Use error limit (checked) or iterations limit";
             // 
             // oneNeuronForTwoCheck
             // 
             this.oneNeuronForTwoCheck.Enabled = false;
-            this.oneNeuronForTwoCheck.Location = new System.Drawing.Point(16, 241);
+            this.oneNeuronForTwoCheck.Location = new System.Drawing.Point(21, 321);
+            this.oneNeuronForTwoCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.oneNeuronForTwoCheck.Name = "oneNeuronForTwoCheck";
-            this.oneNeuronForTwoCheck.Size = new System.Drawing.Size(269, 22);
+            this.oneNeuronForTwoCheck.Size = new System.Drawing.Size(359, 29);
             this.oneNeuronForTwoCheck.TabIndex = 13;
             this.oneNeuronForTwoCheck.Text = "Use 1 neuron for 2 classes";
             this.oneNeuronForTwoCheck.CheckedChanged += new System.EventHandler(this.oneNeuronForTwoCheck_CheckedChanged);
             // 
             // neuronsBox
             // 
-            this.neuronsBox.Location = new System.Drawing.Point(200, 197);
+            this.neuronsBox.Location = new System.Drawing.Point(267, 263);
+            this.neuronsBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.neuronsBox.Name = "neuronsBox";
             this.neuronsBox.ReadOnly = true;
-            this.neuronsBox.Size = new System.Drawing.Size(80, 26);
+            this.neuronsBox.Size = new System.Drawing.Size(105, 31);
             this.neuronsBox.TabIndex = 12;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(16, 200);
+            this.label6.Location = new System.Drawing.Point(21, 267);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(94, 18);
+            this.label6.Size = new System.Drawing.Size(125, 24);
             this.label6.TabIndex = 11;
             this.label6.Text = "Neurons:";
             // 
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(200, 168);
+            this.label5.Location = new System.Drawing.Point(267, 224);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 25);
+            this.label5.Size = new System.Drawing.Size(124, 33);
             this.label5.TabIndex = 10;
             this.label5.Text = "( 0 - inifinity )";
             // 
             // iterationsBox
             // 
-            this.iterationsBox.Location = new System.Drawing.Point(200, 139);
+            this.iterationsBox.Location = new System.Drawing.Point(267, 185);
+            this.iterationsBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iterationsBox.Name = "iterationsBox";
-            this.iterationsBox.Size = new System.Drawing.Size(80, 26);
+            this.iterationsBox.Size = new System.Drawing.Size(105, 31);
             this.iterationsBox.TabIndex = 9;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(16, 142);
+            this.label4.Location = new System.Drawing.Point(21, 189);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(144, 19);
+            this.label4.Size = new System.Drawing.Size(192, 25);
             this.label4.TabIndex = 8;
             this.label4.Text = "Iterations limit:";
             // 
             // errorLimitBox
             // 
-            this.errorLimitBox.Location = new System.Drawing.Point(200, 102);
+            this.errorLimitBox.Location = new System.Drawing.Point(267, 136);
+            this.errorLimitBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.errorLimitBox.Name = "errorLimitBox";
-            this.errorLimitBox.Size = new System.Drawing.Size(80, 26);
+            this.errorLimitBox.Size = new System.Drawing.Size(105, 31);
             this.errorLimitBox.TabIndex = 7;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(16, 105);
+            this.label3.Location = new System.Drawing.Point(21, 140);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(176, 22);
+            this.label3.Size = new System.Drawing.Size(235, 29);
             this.label3.TabIndex = 6;
             this.label3.Text = "Learning error limit:";
             // 
             // alphaBox
             // 
-            this.alphaBox.Location = new System.Drawing.Point(200, 66);
+            this.alphaBox.Location = new System.Drawing.Point(267, 88);
+            this.alphaBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.alphaBox.Name = "alphaBox";
-            this.alphaBox.Size = new System.Drawing.Size(80, 26);
+            this.alphaBox.Size = new System.Drawing.Size(105, 31);
             this.alphaBox.TabIndex = 5;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(16, 69);
+            this.label2.Location = new System.Drawing.Point(21, 92);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(192, 22);
+            this.label2.Size = new System.Drawing.Size(256, 29);
             this.label2.TabIndex = 4;
             this.label2.Text = "Sigmoid\'s alpha value:";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(16, 32);
+            this.label1.Location = new System.Drawing.Point(21, 43);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 24);
+            this.label1.Size = new System.Drawing.Size(160, 32);
             this.label1.TabIndex = 2;
             this.label1.Text = "Learning rate:";
             // 
             // learningRateBox
             // 
-            this.learningRateBox.Location = new System.Drawing.Point(200, 29);
+            this.learningRateBox.Location = new System.Drawing.Point(267, 39);
+            this.learningRateBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.learningRateBox.Name = "learningRateBox";
-            this.learningRateBox.Size = new System.Drawing.Size(80, 26);
+            this.learningRateBox.Size = new System.Drawing.Size(105, 31);
             this.learningRateBox.TabIndex = 3;
             // 
             // stopButton
             // 
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(160, 434);
+            this.stopButton.Location = new System.Drawing.Point(213, 579);
+            this.stopButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(120, 34);
+            this.stopButton.Size = new System.Drawing.Size(160, 45);
             this.stopButton.TabIndex = 6;
             this.stopButton.Text = "S&top";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
@@ -414,9 +442,10 @@ namespace SampleApp
             // startButton
             // 
             this.startButton.Enabled = false;
-            this.startButton.Location = new System.Drawing.Point(16, 434);
+            this.startButton.Location = new System.Drawing.Point(21, 579);
+            this.startButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(120, 34);
+            this.startButton.Size = new System.Drawing.Size(160, 45);
             this.startButton.TabIndex = 5;
             this.startButton.Text = "&Start";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
@@ -428,26 +457,30 @@ namespace SampleApp
             this.groupBox3.Controls.Add(this.weightsList);
             this.groupBox3.Controls.Add(this.errorChart);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Location = new System.Drawing.Point(712, 15);
+            this.groupBox3.Location = new System.Drawing.Point(949, 20);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(352, 482);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Size = new System.Drawing.Size(469, 643);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Solution";
             // 
             // saveFilesCheck
             // 
-            this.saveFilesCheck.Location = new System.Drawing.Point(16, 446);
+            this.saveFilesCheck.Location = new System.Drawing.Point(21, 595);
+            this.saveFilesCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.saveFilesCheck.Name = "saveFilesCheck";
-            this.saveFilesCheck.Size = new System.Drawing.Size(312, 22);
+            this.saveFilesCheck.Size = new System.Drawing.Size(416, 29);
             this.saveFilesCheck.TabIndex = 4;
             this.saveFilesCheck.Text = "Save weights and errors to files";
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(16, 248);
+            this.label13.Location = new System.Drawing.Point(21, 331);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(160, 18);
+            this.label13.Size = new System.Drawing.Size(213, 24);
             this.label13.TabIndex = 3;
             this.label13.Text = "Error\'s dynamics:";
             // 
@@ -460,9 +493,10 @@ namespace SampleApp
             this.weightsList.FullRowSelect = true;
             this.weightsList.GridLines = true;
             this.weightsList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.weightsList.Location = new System.Drawing.Point(16, 51);
+            this.weightsList.Location = new System.Drawing.Point(21, 68);
+            this.weightsList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.weightsList.Name = "weightsList";
-            this.weightsList.Size = new System.Drawing.Size(320, 190);
+            this.weightsList.Size = new System.Drawing.Size(425, 252);
             this.weightsList.TabIndex = 2;
             this.weightsList.UseCompatibleStateImageBehavior = false;
             this.weightsList.View = System.Windows.Forms.View.Details;
@@ -470,41 +504,47 @@ namespace SampleApp
             // columnHeader1
             // 
             this.columnHeader1.Text = "Neuron";
+            this.columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Weight";
+            this.columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Value";
+            this.columnHeader3.Width = 100;
             // 
             // errorChart
             // 
-            this.errorChart.Location = new System.Drawing.Point(16, 270);
+            this.errorChart.Location = new System.Drawing.Point(21, 360);
+            this.errorChart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.errorChart.Name = "errorChart";
-            this.errorChart.Size = new System.Drawing.Size(320, 161);
+            this.errorChart.Size = new System.Drawing.Size(427, 215);
             this.errorChart.TabIndex = 1;
             this.errorChart.Text = "chart1";
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(16, 29);
+            this.label12.Location = new System.Drawing.Point(21, 39);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(160, 22);
+            this.label12.Size = new System.Drawing.Size(213, 29);
             this.label12.TabIndex = 0;
             this.label12.Text = "Network weights:";
             // 
             // DeltaRuleForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1076, 512);
+            this.ClientSize = new System.Drawing.Size(1435, 683);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "DeltaRuleForm";
             this.Text = "Classifier using Delta Rule Learning";

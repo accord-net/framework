@@ -60,7 +60,7 @@ namespace SampleApp
             SpeededUpRobustFeaturesDetector surf =
                 new SpeededUpRobustFeaturesDetector(threshold, octaves, initial);
 
-            List<SpeededUpRobustFeaturePoint> points = surf.ProcessImage(lenna);
+            IEnumerable<SpeededUpRobustFeaturePoint> points = surf.Transform(lenna);
 
             // Create a new AForge's Corner Marker Filter
             FeaturesMarker features = new FeaturesMarker(points);

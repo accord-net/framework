@@ -255,7 +255,7 @@ namespace SampleApp
 
 
         // New frame received by the player
-        private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
+        private void videoSourcePlayer_NewFrame(object sender, NewFrameEventArgs args)
         {
             if (!detecting && !tracking)
                 return;
@@ -267,10 +267,10 @@ namespace SampleApp
                     detecting = false;
                     tracking = false;
 
-                    UnmanagedImage im = UnmanagedImage.FromManagedImage(image);
+                    UnmanagedImage im = UnmanagedImage.FromManagedImage(args.Frame);
 
-                    float xscale = image.Width / 160f;
-                    float yscale = image.Height / 120f;
+                    float xscale = im.Width / 160f;
+                    float yscale = im.Height / 120f;
 
                     ResizeNearestNeighbor resize = new ResizeNearestNeighbor(160, 120);
                     UnmanagedImage downsample = resize.Apply(im);
@@ -301,7 +301,7 @@ namespace SampleApp
                         marker = new RectanglesMarker(window);
                         marker.ApplyInPlace(im);
 
-                        image = im.ToManagedImage();
+                        args.Frame = im.ToManagedImage();
 
                         tracking = true;
                         //detecting = true;
@@ -313,7 +313,7 @@ namespace SampleApp
                 }
                 else if (tracking)
                 {
-                    UnmanagedImage im = UnmanagedImage.FromManagedImage(image);
+                    UnmanagedImage im = UnmanagedImage.FromManagedImage(args.Frame);
 
                     // Track the object
                     tracker.ProcessFrame(im);
@@ -359,12 +359,12 @@ namespace SampleApp
 
                     if (marker != null)
                         marker.ApplyInPlace(im);
-                    image = im.ToManagedImage();
+                    args.Frame = im.ToManagedImage();
                 }
                 else
                 {
                     if (marker != null)
-                        image = marker.Apply(image);
+                        args.Frame = marker.Apply(args.Frame);
                 }
 
             }

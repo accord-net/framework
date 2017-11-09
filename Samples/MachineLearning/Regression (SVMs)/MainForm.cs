@@ -156,7 +156,7 @@ namespace SampleApp
             // Get the ranges for each variable (X and Y)
             DoubleRange range = table.GetColumn(0).GetRange();
 
-            double[][] map = Vector.Interval(range, 0.05).ToJagged();
+            double[][] map = Vector.Range(range, stepSize: 0.05).ToJagged();
 
             // Classify each point in the Cartesian coordinate system
             double[][] surface = map.InsertColumn(svm.Score(map));

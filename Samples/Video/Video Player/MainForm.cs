@@ -165,10 +165,10 @@ namespace SampleApp
         }
 
         // New frame received by the player
-        private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
+        private void videoSourcePlayer_NewFrame(object sender, NewFrameEventArgs args)
         {
             DateTime now = DateTime.Now;
-            Graphics g = Graphics.FromImage(image);
+            Graphics g = Graphics.FromImage(args.Frame);
 
             // paint current time
             SolidBrush brush = new SolidBrush(Color.Red);

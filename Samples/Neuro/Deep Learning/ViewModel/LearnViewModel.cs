@@ -256,7 +256,7 @@ namespace SampleApp.ViewModel
 
                 // Create mini-batches to speed learning
                 int[] groups = Classes.Random(inputs.Length, batchCount);
-                double[][][] batches = inputs.Subgroups(groups);
+                double[][][] batches = inputs.Separate(groups);
 
                 // Gather learning data for the layer
                 double[][][] layerData = teacher.GetLayerInput(batches);

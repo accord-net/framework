@@ -309,7 +309,7 @@
             this.videoSourcePlayer1.TabIndex = 5;
             this.videoSourcePlayer1.Text = "videoSourcePlayer1";
             this.videoSourcePlayer1.VideoSource = null;
-            this.videoSourcePlayer1.NewFrame += new Accord.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer1_NewFrame);
+            this.videoSourcePlayer1.NewFrameReceived += new Accord.Video.NewFrameEventHandler(this.videoSourcePlayer1_NewFrame);
             // 
             // pbLeftArm
             // 

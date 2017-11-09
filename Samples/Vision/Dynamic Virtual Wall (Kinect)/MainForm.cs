@@ -195,14 +195,14 @@ namespace SampleApp
             faceForm.Show();
         }
 
-        private void videoSourcePlayer1_NewFrame(object sender, ref Bitmap image)
+        private void videoSourcePlayer1_NewFrame(object sender, NewFrameEventArgs args)
         {
             Invert inv = new Invert();
-            inv.ApplyInPlace(image);
+            inv.ApplyInPlace(args.Frame);
 
-            UnmanagedImage ui = UnmanagedImage.FromManagedImage(image);
+            UnmanagedImage ui = UnmanagedImage.FromManagedImage(args.Frame);
 
-            pictureBox1.Image = image;
+            pictureBox1.Image = args.Frame;
 
 
             if (controller.Tracker.TrackingObject == null)
@@ -242,7 +242,7 @@ namespace SampleApp
             bc.ProcessImage(mask8bit);
             var blobs = bc.GetObjectsInformation();
 
-            inv.ApplyInPlace(image);
+            inv.ApplyInPlace(args.Frame);
             Intersect intersect = new Intersect();
             intersect.UnmanagedOverlayImage = mask;
             mask = intersect.Apply(ui);
@@ -274,7 +274,7 @@ namespace SampleApp
             marker.MarkerColor = Color.White;
             marker.ApplyInPlace(mask8bit);
 
-            image = mask.ToManagedImage();
+            args.Frame = mask.ToManagedImage();
         }
 
         private void captureHand(UnmanagedImage mask, Rectangle rect, PictureBox pbArm, PictureBox pbHand)

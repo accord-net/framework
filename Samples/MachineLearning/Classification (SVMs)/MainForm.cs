@@ -169,9 +169,7 @@ namespace SampleApp
             DoubleRange[] ranges = table.GetRange(0);
 
             // Generate a Cartesian coordinate system
-            double[][] map = Matrix.Cartesian(
-                Vector.Interval(ranges[0], 0.05),
-                Vector.Interval(ranges[1], 0.05));
+            double[][] map = Matrix.Mesh(ranges[0], 200, ranges[1], 200);
 
             // Classify each point in the Cartesian coordinate system
             double[] result = svm.Decide(map).ToMinusOnePlusOne().ToDouble();
