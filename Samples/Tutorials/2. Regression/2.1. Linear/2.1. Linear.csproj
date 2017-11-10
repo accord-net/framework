@@ -8,12 +8,13 @@
     <ProjectGuid>{B71CC045-A002-480D-87E9-50240DE11BD3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>utorials.Regression.Linear</RootNamespace>
-    <AssemblyName>utorials.Regression.Linear</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>Tutorials.Regression.Linear</RootNamespace>
+    <AssemblyName>Tutorials.Regression.Linear</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
