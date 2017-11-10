@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Accord.Setup.Archiver
 {
@@ -11,7 +12,12 @@ namespace Accord.Setup.Archiver
 
         public static void Main(string[] args)
         {
-            Environment.CurrentDirectory = Path.GetFullPath("../bin/");
+            string binDir = Path.GetFullPath("../bin/");
+
+            if (!Directory.Exists(binDir))
+                Directory.CreateDirectory(binDir);
+
+            Environment.CurrentDirectory = binDir;
             var samplesDir = new DirectoryInfo("../../Samples/");
             var outputDir = new DirectoryInfo("samples");
 
@@ -22,12 +28,10 @@ namespace Accord.Setup.Archiver
             Console.WriteLine("This C# script file will use .NET's System.IO.Compression classes to ");
             Console.WriteLine("automatically build the compressed archives of the sample applications.");
             Console.WriteLine("");
-
-            /*
-            Console.WriteLine("Current directory: {0}", Environment.CurrentDirectory);
-            Console.WriteLine("Samples directory: {0}", samplesDir.FullName);
-            Console.WriteLine("Output directory : {0}", outputDir.FullName); 
-            */
+            Console.WriteLine(" - Current directory: {0}", Environment.CurrentDirectory);
+            Console.WriteLine(" - Samples directory: {0}", samplesDir.FullName);
+            Console.WriteLine(" - Output directory : {0}", outputDir.FullName);
+            Console.WriteLine("");
 
             if (!outputDir.Exists)
                 outputDir.Create();
@@ -35,6 +39,10 @@ namespace Accord.Setup.Archiver
             FileInfo[] csprojs = samplesDir.GetFiles("*.csproj", SearchOption.AllDirectories);
             foreach (FileInfo csproj in csprojs)
                 packCsproj(samplesDir, csproj, outputDir);
+
+            FileInfo[] slns = samplesDir.GetFiles("*.sln", SearchOption.AllDirectories);
+            foreach (FileInfo sln in slns)
+                packSln(samplesDir, sln, outputDir);
         }
 
         static string createSolution(string rootDir, FileInfo csproj)
@@ -145,11 +153,8 @@ namespace Accord.Setup.Archiver
                 string path = file.FullName.Replace(fullProjectPath + "\\", "");
                 string expandedPath = Path.Combine(relativeProjectPath, path);
 
-                /* move the binaries to a folder at the root of the sample */
-                if (file.Directory.FullName.Contains("bin\\x86\\Release"))
-                    expandedPath = path.Replace("bin\\x86\\Release", "Binaries\\x86\\");
-                if (file.Directory.FullName.Contains("bin\\x64\\Release"))
-                    expandedPath = path.Replace("bin\\x64\\Release", "Binaries\\x64\\");
+                expandedPath = GetRelativeBinPath(file, path, expandedPath, "bin\\x86\\Release", "Binaries\\x86\\");
+                expandedPath = GetRelativeBinPath(file, path, expandedPath, "bin\\x64\\Release", "Binaries\\x64\\");
 
                 ZipArchiveEntry entry = zip.CreateEntry(expandedPath);
                 using (var entryStream = entry.Open())
@@ -160,23 +165,41 @@ namespace Accord.Setup.Archiver
             }
         }
 
+        private static string GetRelativeBinPath(FileInfo file, string path, string expandedPath, string binPath, string outputPath)
+        {
+            /* move the binaries to a folder at the root of the sample */
+            if (file.Directory.FullName.Contains(binPath))
+            {
+                /* get the directory rooted from the solution file */
+                int pos = path.IndexOf(binPath) + binPath.Length;
+                string fileRelativeToBin = path.Remove(0, pos + 1);
+                expandedPath = Path.Combine(outputPath, fileRelativeToBin);
+            }
+
+            return expandedPath;
+        }
+
         private static bool skip(FileInfo file)
         {
-            if (file.Directory.FullName.Contains("bin\\x86\\Release"))
-                return false;
             if (file.Name.EndsWith(".pdb"))
                 return true;
-            if (file.Name.EndsWith(".xml"))
+            if (file.Name.EndsWith("GhostDoc.xml"))
                 return true;
             if (file.Name.EndsWith(".svn"))
+                return true;
+            if (file.Name.EndsWith(".git"))
+                return true;
+            if (file.Name.EndsWith(".user"))
+                return true;
+            if (file.Name.EndsWith(".gitignore"))
                 return true;
             if (file.Name.EndsWith(".suo"))
                 return true;
             if (file.Name.EndsWith(".user"))
                 return true;
-            if (file.Directory.FullName.Contains("\\obj\\"))
+            if (file.Directory.FullName.Contains(".vs"))
                 return true;
-            if (file.Directory.FullName.Contains("\\bin\\"))
+            if (file.Directory.FullName.Contains("\\obj\\"))
                 return true;
             return false;
         }
