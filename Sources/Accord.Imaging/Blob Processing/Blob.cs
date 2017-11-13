@@ -212,12 +212,14 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="source">Source blob to copy.</param>
+        /// <param name="copyImage">Set to true to copy the blob Image</param>
         /// 
-        /// <remarks><para>This copy constructor leaves <see cref="Image"/> property not initialized. The blob's
-        /// image may be extracted later using <see cref="BlobCounterBase.ExtractBlobsImage( Bitmap, Blob, bool )"/>
+        /// <remarks><para>This copy constructor leaves <see cref="Image"/> property not initialized unless 
+        /// <see param="copyImage"/> is set to true. The blob's image may be extracted later using 
+        /// <see cref="BlobCounterBase.ExtractBlobsImage( Bitmap, Blob, bool )"/>
         /// or <see cref="BlobCounterBase.ExtractBlobsImage( UnmanagedImage, Blob, bool )"/> method.</para></remarks>
         /// 
-        public Blob(Blob source)
+        public Blob(Blob source, bool copyImage = false)
         {
             // copy everything except image
             id = source.id;
@@ -227,6 +229,8 @@ namespace Accord.Imaging
             fullness = source.fullness;
             colorMean = source.colorMean;
             colorStdDev = source.colorStdDev;
+            if (copyImage)
+                image = source.image;
         }
     }
 }
