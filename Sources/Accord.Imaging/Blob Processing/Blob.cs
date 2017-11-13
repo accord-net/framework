@@ -82,7 +82,7 @@ namespace Accord.Imaging
         public UnmanagedImage Image
         {
             get { return image; }
-            internal set { image = value; }
+            set { image = value; }
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Accord.Imaging
         public bool OriginalSize
         {
             get { return originalSize; }
-            internal set { originalSize = value; }
+            set { originalSize = value; }
         }
 
         /// <summary>
@@ -111,6 +111,7 @@ namespace Accord.Imaging
         public Rectangle Rectangle
         {
             get { return rect; }
+            set { rect = value; }
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace Accord.Imaging
         public int ID
         {
             get { return id; }
-            internal set { id = value; }
+            set { id = value; }
         }
 
         /// <summary>
@@ -133,7 +134,7 @@ namespace Accord.Imaging
         public int Area
         {
             get { return area; }
-            internal set { area = value; }
+            set { area = value; }
         }
 
         /// <summary>
@@ -150,7 +151,7 @@ namespace Accord.Imaging
         public double Fullness
         {
             get { return fullness; }
-            internal set { fullness = value; }
+            set { fullness = value; }
         }
 
         /// <summary>
@@ -163,7 +164,7 @@ namespace Accord.Imaging
         public Accord.Point CenterOfGravity
         {
             get { return cog; }
-            internal set { cog = value; }
+            set { cog = value; }
         }
 
         /// <summary>
@@ -175,7 +176,7 @@ namespace Accord.Imaging
         public Color ColorMean
         {
             get { return colorMean; }
-            internal set { colorMean = value; }
+            set { colorMean = value; }
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace Accord.Imaging
         public Color ColorStdDev
         {
             get { return colorStdDev; }
-            internal set { colorStdDev = value; }
+            set { colorStdDev = value; }
         }
 
         /// <summary>
@@ -205,6 +206,23 @@ namespace Accord.Imaging
         {
             this.id = id;
             this.rect = rect;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Blob"/> class.
+        /// </summary>
+        /// 
+        /// <param name="id">Blob's ID in the original image.</param>
+        /// <param name="rect">Blob's rectangle in the original image.</param>
+        /// <param name="img">Blob's image</param>
+        /// 
+        /// <remarks><para>This constructor initializes the <see cref="Image"/> property.</para></remarks>
+        /// 
+        public Blob(int id, Rectangle rect, UnmanagedImage img)
+        {
+            this.id = id;
+            this.rect = rect;
+            this.image = img;
         }
 
         /// <summary>
