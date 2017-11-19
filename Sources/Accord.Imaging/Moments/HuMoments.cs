@@ -71,6 +71,7 @@ namespace Accord.Imaging.Moments
     /// <seealso cref="RawMoments"/>
     /// <seealso cref="CentralMoments"/>
     /// 
+    [Serializable]
     public class HuMoments : MomentsBase, IMoments
     {
 

@@ -38,6 +38,7 @@ using Accord.Imaging.Filters;
 using Accord.Math;
 using AForge;
 using Accord;
+using System.Collections.Generic;
 
 namespace SampleApp
 {
@@ -46,8 +47,8 @@ namespace SampleApp
         private Bitmap img1 = Properties.Resources.UFSCar_Lake1;
         private Bitmap img2 = Properties.Resources.UFSCar_Lake2;
 
-        private SpeededUpRobustFeaturePoint[] surfPoints1;
-        private SpeededUpRobustFeaturePoint[] surfPoints2;
+        private IEnumerable<SpeededUpRobustFeaturePoint> surfPoints1;
+        private IEnumerable<SpeededUpRobustFeaturePoint> surfPoints2;
 
         private IntPoint[] correlationPoints1;
         private IntPoint[] correlationPoints2;
@@ -70,8 +71,8 @@ namespace SampleApp
             // Step 1: Detect feature points using Surf Corners Detector
             SpeededUpRobustFeaturesDetector surf = new SpeededUpRobustFeaturesDetector();
 
-            surfPoints1 = surf.ProcessImage(img1).ToArray();
-            surfPoints2 = surf.ProcessImage(img2).ToArray();
+            surfPoints1 = surf.Transform(img1);
+            surfPoints2 = surf.Transform(img2);
 
             // Show the marked points in the original images
             Bitmap img1mark = new FeaturesMarker(surfPoints1).Apply(img1);

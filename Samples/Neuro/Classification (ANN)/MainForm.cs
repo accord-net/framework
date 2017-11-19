@@ -235,7 +235,7 @@ namespace SampleApp
             iteration = 1;
 
             var ranges = sourceMatrix.GetRange(0);
-            double[][] map = Matrix.Mesh(ranges[0], ranges[1], 0.05, 0.05);
+            double[][] map = Matrix.Mesh(ranges[0], 200, ranges[1], 200);
             var sw = Stopwatch.StartNew();
 
             // loop

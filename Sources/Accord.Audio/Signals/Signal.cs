@@ -22,6 +22,8 @@
 
 namespace Accord.Audio
 {
+    using Accord;
+    using Accord.Math;
     using System;
     using System.Runtime.InteropServices;
     using Accord.Compat;
@@ -133,7 +135,7 @@ namespace Accord.Audio
     ///
     public class Signal : IDisposable
     {
-        private byte[] rawData;
+        private Array rawData;
         private IntPtr ptrData;
         private GCHandle handle;
 
@@ -163,12 +165,12 @@ namespace Accord.Audio
         /// 
         public TimeSpan Duration
         {
-            get { return DurationOfSamples(length, sampleRate); }
+            get { return GetDurationOfSamples(length, sampleRate); }
         }
 
         /// <summary>
-        ///   Gets the number of samples in each channel of this signal,
-        ///   as known as the number of frames in the signal.
+        ///   Gets the number of samples in each channel of this signal, as known 
+        ///   as <see cref="NumberOfFrames">the number of frames in the signal</see>.
         /// </summary>
         /// 
         public int Length
@@ -177,10 +179,40 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Gets the total number of samples in this signal.
+        ///   Obsolete. Please use <see cref="NumberOfSamples"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfSamples instead.")]
         public int Samples
+        {
+            get { return NumberOfSamples; }
+        }
+
+        /// <summary>
+        /// Gets the size of the samples in this image, in bytes. For 
+        /// example, a 16-bit PCM signal would have sample size 2.
+        /// </summary>
+        /// 
+        public int SampleSize
+        {
+            get { return GetSampleSize(this.format) / 8; }
+        }
+
+        /// <summary>
+        ///   Gets the total number of audio samples in a single channel of this signal.
+        ///   This property returns exactly the same value as <see cref="Length"/>.
+        /// </summary>
+        /// 
+        public int NumberOfFrames
+        {
+            get { return length; }
+        }
+
+        /// <summary>
+        ///   Gets the total number of audio samples in this signal (NumberOfFrames * NumberOfChannels).
+        /// </summary>
+        /// 
+        public int NumberOfSamples
         {
             get { return length * channels; }
         }
@@ -195,22 +227,55 @@ namespace Accord.Audio
         }
 
         /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfChannels"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfChannels instead.")]
+        public int Channels
+        {
+            get { return NumberOfChannels; }
+        }
+
+        /// <summary>
         ///   Gets the number of channels of this signal.
         /// </summary>
         /// 
-        public int Channels
+        public int NumberOfChannels
         {
             get { return channels; }
         }
 
         /// <summary>
-        ///   Gets the raw binary data representing the signal.
+        ///   Obsolete. Please use <see cref="InnerData"/> instead.
         /// </summary>
         /// 
+        [Obsolete("Please use InnerData instead.")]
         public byte[] RawData
+        {
+            get { return ToByte(); }
+            protected set { throw new Exception(); }
+        }
+
+        /// <summary>
+        ///   Gets the raw binary data representing the signal. When copying
+        ///   data from this array, use <see cref="NumberOfBytes"/> to determine
+        ///   how many bytes to copy.
+        /// </summary>
+        /// 
+        public Array InnerData
         {
             get { return rawData; }
             protected set { rawData = value; }
+        }
+
+        /// <summary>
+        ///   Gets the number of bytes that this signal can hold. This is
+        ///   the number of bytes currently stored in <see cref="RawData"/>.
+        /// </summary>
+        /// 
+        public int NumberOfBytes
+        {
+            get { return rawData.GetNumberOfBytes(); }
         }
 
         /// <summary>
@@ -236,7 +301,7 @@ namespace Accord.Audio
         /// <param name="format">The sample format for the signal.</param>
         /// <param name="sampleRate">The sample date of the signal.</param>
         /// 
-        public Signal(byte[] data, int channels, int length, int sampleRate, SampleFormat format)
+        public Signal(Array data, int channels, int length, int sampleRate, SampleFormat format)
         {
             init(data, channels, length, sampleRate, format);
         }
@@ -258,7 +323,7 @@ namespace Accord.Audio
             init(data, channels, length, sampleRate, format);
         }
 
-        private void init(byte[] data, int channels, int length, int sampleRate, SampleFormat format)
+        private void init(Array data, int channels, int length, int sampleRate, SampleFormat format)
         {
             this.handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             this.ptrData = handle.AddrOfPinnedObject();
@@ -290,7 +355,7 @@ namespace Accord.Audio
                 {
                     // Iterate over all samples and compute energy
                     float* src = (float*)this.ptrData.ToPointer();
-                    for (int i = 0; i < this.Samples; i++, src++)
+                    for (int i = 0; i < this.NumberOfSamples; i++, src++)
                     {
                         v = (*src);
                         e += v * v;
@@ -300,7 +365,7 @@ namespace Accord.Audio
                 {
                     // Iterate over all samples and compute energy
                     Complex* src = (Complex*)this.Data.ToPointer();
-                    for (int i = 0; i < this.Samples; i++, src++)
+                    for (int i = 0; i < this.NumberOfSamples; i++, src++)
                     {
                         double m = (*src).Magnitude;
                         e += m * m;
@@ -323,24 +388,19 @@ namespace Accord.Audio
         ///   
         public float GetSample(int channel, int position)
         {
-            float sample;
-
             unsafe
             {
                 void* ptr = ptrData.ToPointer();
-                int pos = position * Channels + channel;
+                int pos = position * NumberOfChannels + channel;
 
                 switch (format)
                 {
                     case SampleFormat.Format32BitIeeeFloat:
-                        sample = ((float*)ptr)[pos];
-                        break;
-                    default:
-                        throw new NotSupportedException();
+                        return ((float*)ptr)[pos];
                 }
             }
 
-            return sample;
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -358,18 +418,17 @@ namespace Accord.Audio
             unsafe
             {
                 void* ptr = ptrData.ToPointer();
-                int pos = position * Channels + channel;
+                int pos = position * NumberOfChannels + channel;
 
                 switch (format)
                 {
                     case SampleFormat.Format32BitIeeeFloat:
                         ((float*)ptr)[pos] = value;
-                        break;
-
-                    default:
-                        throw new NotSupportedException();
+                        return;
                 }
             }
+
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -408,25 +467,43 @@ namespace Accord.Audio
         ///   Creates a new Signal from a float array.
         /// </summary>
         /// 
-        public static Signal FromArray(Array signal, int size, int channels, int sampleRate,
+        public static Signal FromArray(Array signal, int length, int channels, int sampleRate,
             SampleFormat format = SampleFormat.Format32BitIeeeFloat)
         {
-            int sampleSize = GetSampleSize(format) / 8;
+#pragma warning disable CS0618 // Type or member is obsolete
+            int bytes = length * Marshal.SizeOf(signal.GetInnerMostType());
+#pragma warning restore CS0618 // Type or member is obsolete
+            int samples = length / channels;
 
-            byte[] buffer = new byte[size * sampleSize];
-            Buffer.BlockCopy(signal, 0, buffer, 0, buffer.Length);
-            int samples = size / channels;
-
-            return new Signal(buffer, channels, samples, sampleRate, format);
+            return new Signal(signal, channels, samples, sampleRate, format);
         }
 
         /// <summary>
         ///   Copies this signal to a given array.
         /// </summary>
         /// 
-        public void CopyTo(Array array)
+        public virtual void CopyTo(byte[] array)
         {
-            Buffer.BlockCopy(rawData, 0, array, 0, array.Length);
+            if (format == SampleFormat.Format128BitComplex)
+            {
+                // Complex is not primitive, so we need to copy manually
+                unsafe
+                {
+                    fixed (byte* ptrArray = array)
+                    {
+                        byte* src = (byte*)Data;
+                        byte* dst = ptrArray;
+                        int bytes = NumberOfBytes;
+
+                        for (int i = 0; i < bytes; i++, src++, dst++)
+                            *dst = *src;
+                    }
+                }
+            }
+            else
+            {
+                Buffer.BlockCopy(rawData, 0, array, 0, array.Length);
+            }
         }
 
         /// <summary>
@@ -437,13 +514,15 @@ namespace Accord.Audio
         {
             if (format == Audio.SampleFormat.Format32BitIeeeFloat)
             {
-                Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
+                if (array.Length < NumberOfSamples)
+                    throw new Exception("The provided array is not large enough to contain the signal.");
+                Buffer.BlockCopy(rawData, 0, array, 0, Math.Min(NumberOfBytes, array.GetNumberOfBytes()));
             }
 
             else if (format == Audio.SampleFormat.Format16Bit)
             {
-                short[] source = new short[Samples];
-                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
+                short[] source = new short[NumberOfSamples];
+                Buffer.BlockCopy(rawData, 0, source, 0, Math.Min(NumberOfBytes, source.GetNumberOfBytes()));
                 SampleConverter.Convert(source, array);
             }
 
@@ -461,22 +540,22 @@ namespace Accord.Audio
         {
             if (format == Audio.SampleFormat.Format64BitIeeeFloat)
             {
-                Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
+                if (array.Length < NumberOfSamples)
+                    throw new Exception("The provided array is not large enough to contain the signal.");
+                Buffer.BlockCopy(rawData, 0, array, 0, Math.Min(NumberOfBytes, array.GetNumberOfBytes()));
             }
             else if (format == Audio.SampleFormat.Format32BitIeeeFloat)
             {
-                float[] source = new float[Samples];
-                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
-                for (int i = 0; i < source.Length; i++)
-                    array[i] = source[i];
+                float[] source = new float[NumberOfSamples];
+                Buffer.BlockCopy(rawData, 0, source, 0, Math.Min(NumberOfBytes, source.GetNumberOfBytes()));
+                SampleConverter.Convert(source, array);
             }
             else if (format == Audio.SampleFormat.Format16Bit)
             {
-                short[] source = new short[Samples];
-                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
+                short[] source = new short[NumberOfSamples];
+                Buffer.BlockCopy(rawData, 0, source, 0, Math.Min(NumberOfBytes, source.GetNumberOfBytes()));
                 SampleConverter.Convert(source, array);
             }
-
             else
             {
                 throw new InvalidOperationException();
@@ -491,7 +570,7 @@ namespace Accord.Audio
         /// 
         public float[] ToFloat()
         {
-            float[] array = new float[Samples];
+            float[] array = new float[NumberOfSamples];
             CopyTo(array);
             return array;
         }
@@ -504,7 +583,20 @@ namespace Accord.Audio
         /// 
         public double[] ToDouble()
         {
-            double[] array = new double[Samples];
+            double[] array = new double[NumberOfSamples];
+            CopyTo(array);
+            return array;
+        }
+
+        /// <summary>
+        ///   Converts this signal into a array of bytes.
+        /// </summary>
+        /// 
+        /// <returns>An array of bytes.</returns>
+        /// 
+        public byte[] ToByte()
+        {
+            byte[] array = new byte[NumberOfSamples];
             CopyTo(array);
             return array;
         }
@@ -516,16 +608,31 @@ namespace Accord.Audio
         ///   Gets the number of samples contained in a signal of given duration and sampling rate.
         /// </summary>
         /// 
-        public static int NumberOfSamples(long duration, int samplingRate)
+        /// <param name="duration">The duration of the signal.</param>
+        /// <param name="samplingRate">The sampling rate of the signal.</param>
+        /// 
+        public static int GetNumberOfSamples(TimeSpan duration, int samplingRate)
         {
-            return (int)((duration / 1000) * samplingRate);
+            return GetNumberOfSamples(duration.TotalMilliseconds, samplingRate);
+        }
+
+        /// <summary>
+        ///   Gets the number of samples contained in a signal of given duration and sampling rate.
+        /// </summary>
+        /// 
+        /// <param name="duration">The duration of the signal, in milliseconds.</param>
+        /// <param name="samplingRate">The sampling rate of the signal.</param>
+        /// 
+        public static int GetNumberOfSamples(double duration, int samplingRate)
+        {
+            return (int)((duration / 1000.0) * samplingRate);
         }
 
         /// <summary>
         ///   Gets the duration of each sample in a signal with the given number of samples and sampling rate.
         /// </summary>
         /// 
-        public static TimeSpan DurationOfSamples(long samples, int samplingRate)
+        public static TimeSpan GetDurationOfSamples(long samples, int samplingRate)
         {
             return TimeSpan.FromMilliseconds(samples / (double)samplingRate * 1000.0);
         }
@@ -624,6 +731,21 @@ namespace Accord.Audio
         {
             return AudioDecoder.DecodeFromFile(fileName);
         }
+
+
+        /// <summary>
+        ///   Loads a signal from a file, such as a ".wav" file.
+        /// </summary>
+        /// 
+        /// <param name="fileName">Name of the file to be read.</param>
+        /// 
+        /// <returns>The signal that has been read from the file.</returns>
+        /// 
+        public void Save(string fileName)
+        {
+            AudioEncoder.EncodeToFile(fileName, this);
+        }
+
 
         #endregion
 

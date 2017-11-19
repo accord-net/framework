@@ -69,6 +69,7 @@ namespace Accord.Imaging
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_lbp" />
     /// </example>
     /// 
+    [Serializable]
     public class LocalBinaryPattern : BaseFeatureExtractor<FeatureDescriptor>
     {
         const int numberOfBins = 256;

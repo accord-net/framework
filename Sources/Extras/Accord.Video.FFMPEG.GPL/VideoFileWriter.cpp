@@ -2,14 +2,14 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
 // Copyright © MelvinGr, 2016-2017
 // https://github.com/MelvinGr
-//
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -27,448 +27,670 @@
 //
 
 #include "StdAfx.h"
+
+#include "Tools.h"
 #include "VideoFileWriter.h"
+#include "AudioLayouts.h"
+#include "PixelFormats.h"
+#include "SampleFormats.h"
 
 #include <string>
+#include <cassert>
 
-#define MAX_AUDIO_PACKET_SIZE (128 * 1024)
 
-namespace libffmpeg
-{
-    extern "C"
-    {
-#include "libavformat\avformat.h"
-#include "libavformat\avio.h"
-#include "libavcodec\avcodec.h"
-#include "libswscale\swscale.h"
-    }
-}
+
+using namespace System::IO;
 
 namespace Accord {
     namespace Video {
         namespace FFMPEG
         {
-#pragma region Private methods
-            // A structure to encapsulate all FFMPEG related private variable
-            ref struct WriterPrivateData
+
+#pragma region Native code
+
+            static void log_packet(const AVFormatContext* fmt_ctx, const AVPacket* pkt)
             {
-            public:
-                libffmpeg::AVFormatContext*		FormatContext;
-                libffmpeg::AVStream*			VideoStream;
-                libffmpeg::AVFrame*				VideoFrame;
-                libffmpeg::SwsContext*			ConvertContext;
-                libffmpeg::SwsContext*			ConvertContextGrayscale;
+                AVRational* time_base = &fmt_ctx->streams[pkt->stream_index]->time_base;
+                Console::WriteLine("pts:{0:e}\tpts_time:{1:e}\tdts:{2:e}\tdts_time:{3:e}\tduration:{4:e}\tduration_time:{5:e}\tstream_index:{6}",
+                    pkt->pts, str(pkt->pts, time_base),
+                    pkt->dts, str(pkt->dts, time_base),
+                    pkt->duration, str(pkt->duration, time_base),
+                    pkt->stream_index);
+            }
 
-                // audio support
-                libffmpeg::AVStream*			AudioStream;
-                uint8_t*						AudioEncodeBuffer;
-                char* AudioBuffer;
-                int	AudioEncodeBufferSize;
-                int	AudioInputSampleSize;
-                int AudioBufferSizeCurrent;
-                int AudioBufferSize;
-                int SampleRate;
-                int BitRate;
-                int Channels;
-                // end audio support
+            static int write_frame(AVFormatContext* fmt_ctx, const AVRational* time_base, AVStream* st, AVPacket* pkt)
+            {
+                // rescale output packet timestamp values from codec to stream timebase
+                av_packet_rescale_ts(pkt, *time_base, st->time_base);
+                pkt->stream_index = st->index;
 
-                uint8_t*	VideoOutputBuffer;
-                int VideoOutputBufferSize;
+                // Write the compressed frame to the media file.
+                log_packet(fmt_ctx, pkt);
+                return av_interleaved_write_frame(fmt_ctx, pkt);
+            }
+
+            struct OutputStream
+            {
+                AVStream* st;
+                AVCodecContext* enc;
+
+                // pts of the next frame that will be generated
+                int64_t next_pts;
+                //int samples_count;
+
+                AVFrame* frame;
+                AVFrame* tmp_frame;
+
+                struct SwsContext* sws_ctx;
+                struct SwrContext* swr_ctx;
+            };
+
+            // A structure to encapsulate all FFMPEG related private variable
+            struct WriterPrivateData
+            {
+                AVFormatContext* oc;
+                AVOutputFormat* fmt;
+
+                // Variables controlled by FFmpeg:
+                AVCodec*         video_codec;
+                bool             have_video;
+                bool             encode_video;
+                OutputStream     video_st;
+                int              sws_flags;
+
+                AVCodec*         audio_codec;
+                bool             have_audio;
+                bool             encode_audio;
+                OutputStream     audio_st;
+
+
+                // Settings from Accord.NET
+                // Audio ouput settings
+                AudioCodec                            m_output_audio_codec;
+                int                                   m_output_audio_bit_rate;
+                AudioLayout                           m_output_audio_channel_layout;
+                AVSampleFormat   m_output_audio_sample_format;
+
+                // Audio input settings
+                bool                                  m_input_audio_initialized;
+                int                                   m_input_audio_sample_rate;
+                int                                   m_input_audio_channels;
+                int                                   m_input_audio_frame_size;
+                int                                   m_input_audio_sample_size;
+                Accord::Audio::SampleFormat           m_input_audio_sample_format;
+
+                // Video output settings
+                VideoCodec                            m_output_video_codec;
+                int                                   m_output_video_bit_rate;
+                int                                   m_output_video_width;
+                int                                   m_output_video_height;
+                Rational                              m_output_video_frame_rate;
+                AVPixelFormat    m_output_video_pixel_format;
+
+                // Video input settings
+                bool                                  m_input_video_initialized;
+                int                                   m_input_video_width;
+                int                                   m_input_video_height;
+                System::Drawing::Imaging::PixelFormat m_input_video_pixel_format;
 
 
                 WriterPrivateData()
                 {
-                    FormatContext = nullptr;
-                    VideoStream = nullptr;
-                    VideoFrame = nullptr;
-                    ConvertContext = nullptr;
-                    ConvertContextGrayscale = nullptr;
-                    VideoOutputBuffer = nullptr;
+                    oc = nullptr;
+                    fmt = nullptr;
 
-                    // audio support
-                    AudioStream = nullptr;
-                    AudioEncodeBuffer = nullptr;
-                    AudioEncodeBufferSize = 0;
-                    AudioInputSampleSize = 0;
+                    audio_codec = nullptr;
+                    video_codec = nullptr;
 
-                    AudioBufferSize = 1024 * 1024 * 16;
-                    AudioBuffer = new char[AudioBufferSize];
-                    AudioBufferSizeCurrent = 0;
-                    // end audio support
-                }
-            };
+                    have_video = false;
+                    encode_video = false;
+                    sws_flags = SWS_BICUBIC;
 
-            // Writes video frame to opened video file
-            void write_video_frame(WriterPrivateData^ data)
-            {
-                libffmpeg::AVCodecContext* codecContext = data->VideoStream->codec;
-                if (data->FormatContext->oformat->flags & AVFMT_RAWPICTURE)
-                {
-                    Console::WriteLine("Raw picture must be written");
-                    return;
-                }
+                    have_audio = false;
+                    encode_audio = false;
 
-                libffmpeg::AVPacket packet;
-                libffmpeg::av_init_packet(&packet);
-                packet.data = nullptr;
-                packet.size = 0;
+#if NET35
+                    memset(&video_st, 0, sizeof(video_st));
+                    memset(&audio_st, 0, sizeof(audio_st));
+#else
+                    video_st = { 0 };
+                    audio_st = { 0 };
+#endif
 
-                // encode the image
-                int got_packet;
-                if (libffmpeg::avcodec_encode_video2(codecContext, &packet, data->VideoFrame, &got_packet) < 0)
-                    throw gcnew VideoException("Error while encoding video frame");
+                    // Defaults
+                    m_output_audio_codec = AudioCodec::Default;
+                    m_output_audio_bit_rate = 64000;
+                    m_output_audio_channel_layout = AudioLayout::Stereo;
+                    m_output_audio_sample_format = AVSampleFormat::Format64bitDoublePlanar;
+                    m_input_audio_sample_rate = 44100;
+                    m_input_audio_frame_size = 10000;
+                    m_input_audio_initialized = false;
 
-                if (!got_packet)
-                    return; // image was buffered
-
-                if (packet.pts != AV_NOPTS_VALUE)
-                    packet.pts = libffmpeg::av_rescale_q(packet.pts, codecContext->time_base, data->VideoStream->time_base);
-                if (packet.dts != AV_NOPTS_VALUE)
-                    packet.dts = libffmpeg::av_rescale_q(packet.dts, codecContext->time_base, data->VideoStream->time_base);
-
-                if (codecContext->coded_frame->key_frame)
-                    packet.flags |= AV_PKT_FLAG_KEY;
-
-                packet.stream_index = data->VideoStream->index;
-                Console::WriteLine("Stream: {0} PTS: {1} -> {1} bytes", packet.stream_index, packet.pts, packet.size);
-
-                // write the compressed frame to the media file
-                if (libffmpeg::av_interleaved_write_frame(data->FormatContext, &packet) != 0)
-                    throw gcnew VideoException("Error while writing video frame.");
-            }
-
-            // Allocate picture of the specified format and size
-            static libffmpeg::AVFrame* alloc_picture(enum libffmpeg::AVPixelFormat pix_fmt, int width, int height)
-            {
-                libffmpeg::AVFrame* picture = libffmpeg::av_frame_alloc();
-                if (!picture)
-                    return nullptr;
-
-                int size = libffmpeg::avpicture_get_size(pix_fmt, width, height);
-                void* picture_buf = libffmpeg::av_malloc(size);
-                if (!picture_buf)
-                {
-                    libffmpeg::av_free(picture);
-                    return nullptr;
+                    m_output_video_codec = VideoCodec::Default;
+                    m_output_video_bit_rate = 400000;
+                    m_output_video_width = 352;
+                    m_output_video_height = 288;
+                    m_output_video_frame_rate = Rational(25, 1);
+                    m_output_video_pixel_format = AVPixelFormat::FormatYuv420P;
+                    m_input_video_initialized = false;
                 }
 
-                libffmpeg::avpicture_fill((libffmpeg::AVPicture *) picture, (uint8_t *)picture_buf,
-                    pix_fmt, width, height);
-                return picture;
-            }
 
-            // Create new video stream and configure it
-            void add_video_stream(WriterPrivateData^ data, int width, int height, Rational frameRate,
-                int bitRate, libffmpeg::AVCodecID codecId, libffmpeg::AVPixelFormat pixelFormat)
-            {
-                libffmpeg::AVCodec *codec = libffmpeg::avcodec_find_encoder(codecId);
-                libffmpeg::AVCodecContext* codecContex;
 
-                // create new stream
-                data->VideoStream = libffmpeg::avformat_new_stream(data->FormatContext, codec);
-                if (!data->VideoStream)
-                    throw gcnew VideoException("Failed creating new video stream.");
-
-                codecContex = data->VideoStream->codec;
-                codecContex->codec_id = codecId;
-                codecContex->codec_type = libffmpeg::AVMEDIA_TYPE_VIDEO;
-
-                // put sample parameters
-                codecContex->bit_rate = bitRate;
-                codecContex->width = width;
-                codecContex->height = height;
-
-                // time base: this is the fundamental unit of time (in seconds) in terms
-                // of which frame timestamps are represented. for fixed-fps content,
-                // timebase should be 1/framerate and timestamp increments should be
-                // identically 1.
-                codecContex->time_base.num = frameRate.Denominator;
-                codecContex->time_base.den = frameRate.Numerator;
-
-                //codecContex->framerate = { frameRate.Denominator, frameRate.Numerator };
-                //codecContex->ticks_per_frame = 1;
-                //data->VideoStream->time_base = codecContex->time_base;
-
-                codecContex->gop_size = 12; // emit one intra frame every twelve frames at most
-                codecContex->pix_fmt = pixelFormat;
-
-                if (codecContex->codec_id == libffmpeg::AV_CODEC_ID_MPEG1VIDEO)
+                // Add an output stream. 
+                void add_stream(OutputStream *ost, AVFormatContext* oc, AVCodec** codec, enum AVCodecID codec_id)
                 {
-                    // Needed to avoid using macroblocks in which some coeffs overflow.
-                    // This does not happen with normal video, it just happens here as
-                    // the motion of the chroma plane does not match the luma plane.
-                    codecContex->mb_decision = 2;
-                }
+                    // find the encoder
+                    *codec = CHECK(avcodec_find_encoder(codec_id), "Could not find encoder " + str(avcodec_get_name(codec_id)));
 
-                if (codecContex->codec_id == libffmpeg::AV_CODEC_ID_H264 ||
-                    codecContex->codec_id == libffmpeg::AV_CODEC_ID_H265)
-                {
-                    data->VideoStream->need_parsing = libffmpeg::AVSTREAM_PARSE_FULL_ONCE;
+                    ost->st = CHECK(avformat_new_stream(oc, nullptr), "Could not allocate stream");
 
-                    codecContex->coder_type = FF_CODER_TYPE_AC;
-                    codecContex->profile = FF_PROFILE_H264_BASELINE;
-                    //codecContex->crf = 25;
-                    codecContex->me_method = 7;
-                    codecContex->me_subpel_quality = 4;
-                    codecContex->delay = 0;
-                    codecContex->max_b_frames = 0;
-                    codecContex->refs = 3;
-                    /*
-                    codecContex->flags            |= CODEC_FLAG_LOOP_FILTER;
-                    codecContex->flags2           |= CODEC_FLAG2_WPRED | CODEC_FLAG2_8X8DCT;
+                    ost->st->id = oc->nb_streams - 1;
+                    AVCodecContext* c = CHECK(avcodec_alloc_context3(*codec), "Could not alloc an encoding context");
+                    ost->enc = c;
 
-                    codecContex->scenechange_threshold = 0;
-                    codecContex->gop_size          = 250;
-                    codecContex->max_b_frames      = 0;
-                    codecContex->max_qdiff         = 4;
-                    codecContex->me_method         = 10;
-                    codecContex->me_range          = 16;
-                    codecContex->me_cmp            = 1;
-                    codecContex->me_subpel_quality = 6;
-                    codecContex->qmin              = 0;
-                    codecContex->qmax              = 69;
-                    codecContex->qcompress         = 0.6f;
-                    codecContex->keyint_min        = 25;
-                    codecContex->trellis           = 0;
-                    codecContex->level             = 13;
-                    codecContex->refs              = 16;
-                    codecContex->weighted_p_pred   = 2;
-                    codecContex->b_frame_strategy  = 1;
-                    */
-                    codecContex->color_range = libffmpeg::AVCOL_RANGE_JPEG;
-                }
-
-                if (codecContex->codec_id == libffmpeg::AV_CODEC_ID_THEORA)
-                    codecContex->color_range = libffmpeg::AVCOL_RANGE_JPEG;
-
-                // some formats want stream headers to be separate
-                if (data->FormatContext->oformat->flags & AVFMT_GLOBALHEADER)
-                    codecContex->flags |= CODEC_FLAG_GLOBAL_HEADER;
-            }
-
-            // Open video codec and prepare out buffer and picture
-            void open_video(WriterPrivateData^ data)
-            {
-                libffmpeg::AVCodecContext* codecContext = data->VideoStream->codec;
-                libffmpeg::AVCodec* codec = avcodec_find_encoder(codecContext->codec_id);
-
-                if (!codec)
-                    throw gcnew VideoException("Cannot find video codec.");
-
-                // open the codec 
-                if (avcodec_open2(codecContext, codec, nullptr) < 0)
-                    throw gcnew VideoException("Cannot open video codec.");
-
-                data->VideoOutputBuffer = nullptr;
-                if (!(data->FormatContext->oformat->flags & AVFMT_RAWPICTURE))
-                {
-                    // allocate output buffer, more than enough even for raw video
-                    data->VideoOutputBufferSize = 6 * codecContext->width * codecContext->height;
-                    data->VideoOutputBuffer = (uint8_t*)libffmpeg::av_malloc(data->VideoOutputBufferSize);
-                }
-
-                // allocate the encoded raw picture
-                data->VideoFrame = alloc_picture(codecContext->pix_fmt, codecContext->width, codecContext->height);
-                data->VideoFrame->width = codecContext->width;
-                data->VideoFrame->height = codecContext->height;
-                data->VideoFrame->format = codecContext->pix_fmt;
-
-                if (!data->VideoFrame)
-                    throw gcnew VideoException("Cannot allocate video picture.");
-
-                // prepare scaling context to convert RGB image to video format
-                data->ConvertContext = libffmpeg::sws_getContext(codecContext->width, codecContext->height,
-                    libffmpeg::AV_PIX_FMT_BGR24,
-                    codecContext->width, codecContext->height, codecContext->pix_fmt,
-                    SWS_BICUBIC, nullptr, nullptr, nullptr);
-
-                // prepare scaling context to convert grayscale image to video format
-                data->ConvertContextGrayscale = libffmpeg::sws_getContext(codecContext->width, codecContext->height,
-                    libffmpeg::AV_PIX_FMT_GRAY8,
-                    codecContext->width, codecContext->height, codecContext->pix_fmt,
-                    SWS_BICUBIC, nullptr, nullptr, nullptr);
-
-                if ((data->ConvertContext == nullptr) || (data->ConvertContextGrayscale == nullptr))
-                    throw gcnew VideoException("Cannot initialize frames conversion context.");
-            }
-
-            void add_audio_stream(WriterPrivateData^ data, libffmpeg::AVCodecID codec_id)
-            {
-                libffmpeg::AVCodecContext* codecContext;
-
-                data->AudioStream = libffmpeg::avformat_new_stream(data->FormatContext, nullptr);
-                data->AudioStream->id = 1;
-
-                if (!data->AudioStream)
-                    throw gcnew VideoException("Failed creating new audio stream.");
-
-                // Codec.
-                codecContext = data->AudioStream->codec;
-                codecContext->codec_id = codec_id;
-                codecContext->codec_type = libffmpeg::AVMEDIA_TYPE_AUDIO;
-
-                // Set format
-                codecContext->bit_rate = data->BitRate;
-                codecContext->sample_rate = data->SampleRate;
-                codecContext->channels = data->Channels;
-                codecContext->sample_fmt = libffmpeg::AV_SAMPLE_FMT_S16;
-
-                codecContext->time_base.num = 1;
-                codecContext->time_base.den = codecContext->sample_rate;
-
-                data->AudioStream->time_base = codecContext->time_base;
-                data->AudioEncodeBufferSize = 4 * MAX_AUDIO_PACKET_SIZE;
-
-                if (data->AudioEncodeBuffer == nullptr)
-                    data->AudioEncodeBuffer = (uint8_t*)libffmpeg::av_malloc(data->AudioEncodeBufferSize);
-
-                // Some formats want stream headers to be separate.
-                if (data->FormatContext->oformat->flags & AVFMT_GLOBALHEADER)
-                    codecContext->flags |= CODEC_FLAG_GLOBAL_HEADER;
-            }
-
-            void open_audio(WriterPrivateData^ data)
-            {
-                libffmpeg::AVCodecContext* codecContext = data->AudioStream->codec;
-                libffmpeg::AVCodec* codec = avcodec_find_encoder(codecContext->codec_id);
-
-                if (!codec)
-                    throw gcnew VideoException("Cannot find audio codec.");
-
-                // Open it.
-                if (libffmpeg::avcodec_open2(codecContext, codec, nullptr) < 0)
-                    throw gcnew VideoException("Cannot open audio codec.");
-
-                if (codecContext->frame_size <= 1)
-                {
-                    // Ugly hack for PCM codecs (will be removed ASAP with new PCM
-                    // support to compute the input frame size in samples. 
-                    data->AudioInputSampleSize = data->AudioEncodeBufferSize / codecContext->channels;
-                    switch (codecContext->codec_id)
+                    switch ((*codec)->type)
                     {
-                    case libffmpeg::AV_CODEC_ID_PCM_S16LE:
-                    case libffmpeg::AV_CODEC_ID_PCM_S16BE:
-                    case libffmpeg::AV_CODEC_ID_PCM_U16LE:
-                    case libffmpeg::AV_CODEC_ID_PCM_U16BE:
-                        data->AudioInputSampleSize >>= 1;
+                    case AVMEDIA_TYPE_AUDIO:
+                        c->bit_rate = m_output_audio_bit_rate;
+
+                        c->sample_fmt = (::AVSampleFormat)m_output_audio_sample_format;
+                        if ((*codec)->sample_fmts)
+                        {
+                            c->sample_fmt = (*codec)->sample_fmts[0];
+                            for (int i = 0; (*codec)->sample_fmts[i]; i++)
+                            {
+                                if ((*codec)->sample_fmts[i] == (::AVSampleFormat)m_output_audio_sample_format)
+                                    c->sample_fmt = (::AVSampleFormat)m_output_audio_sample_format;
+                            }
+                        }
+
+                        c->sample_rate = m_input_audio_sample_rate;
+                        if ((*codec)->supported_samplerates)
+                        {
+                            c->sample_rate = (*codec)->supported_samplerates[0];
+                            for (int i = 0; (*codec)->supported_samplerates[i]; i++)
+                            {
+                                if ((*codec)->supported_samplerates[i] == m_input_audio_sample_rate)
+                                    c->sample_rate = m_input_audio_sample_rate;
+                            }
+                        }
+
+                        c->channel_layout = (uint64_t)m_output_audio_channel_layout;
+                        if ((*codec)->channel_layouts)
+                        {
+                            c->channel_layout = (*codec)->channel_layouts[0];
+                            for (int i = 0; (*codec)->channel_layouts[i]; i++) {
+                                if ((*codec)->channel_layouts[i] == (uint64_t)m_output_audio_channel_layout)
+                                    c->channel_layout = (uint64_t)m_output_audio_channel_layout;
+                            }
+                        }
+
+                        c->channels = av_get_channel_layout_nb_channels(c->channel_layout);
+#if NET35
+                        ost->st->time_base.num = 1;
+                        ost->st->time_base.den = c->sample_rate;
+#else
+                        ost->st->time_base = { 1, c->sample_rate };
+#endif
                         break;
+
+                    case AVMEDIA_TYPE_VIDEO:
+                        c->codec_id = codec_id;
+
+                        c->bit_rate = m_output_video_bit_rate; // 400000;
+                        // Resolution must be a multiple of two.
+                        c->width = m_output_video_width;       // 352;
+                        c->height = m_output_video_height;     // 288;
+
+                        // timebase: This is the fundamental unit of time (in seconds) in terms
+                        // of which frame timestamps are represented. For fixed-fps content,
+                        // timebase should be 1/framerate and timestamp increments should be
+                        // identical to 1.
+                        //ost->st->time_base = { 1, STREAM_FRAME_RATE };
+#if NET35
+                        ost->st->time_base.num = m_output_video_frame_rate.Denominator;
+                        ost->st->time_base.den = m_output_video_frame_rate.Numerator;
+#else
+                        ost->st->time_base = { m_output_video_frame_rate.Denominator, 
+                                               m_output_video_frame_rate.Numerator   };
+#endif
+                        c->time_base = ost->st->time_base;
+
+                        c->gop_size = 12; // emit one intra frame every twelve frames at most
+                        c->pix_fmt = (::AVPixelFormat)m_output_video_pixel_format;
+                        if (c->codec_id == AV_CODEC_ID_MPEG2VIDEO)
+                        {
+                            // just for testing, we also add B frames
+                            c->max_b_frames = 2;
+                        }
+                        if (c->codec_id == AV_CODEC_ID_MPEG1VIDEO)
+                        {
+                            // Needed to avoid using macroblocks in which some coeffs overflow.
+                            // This does not happen with normal video, it just happens here as
+                            // the motion of the chroma plane does not match the luma plane.
+                            c->mb_decision = 2;
+                        }
+                        break;
+
                     default:
                         break;
                     }
-                    codecContext->frame_size = data->AudioInputSampleSize;
+
+                    // Some formats want stream headers to be separate.
+                    if (oc->oformat->flags & AVFMT_GLOBALHEADER)
+                        c->flags |= CODEC_FLAG_GLOBAL_HEADER;
                 }
-                else
+
+                static AVFrame* alloc_audio_frame(enum ::AVSampleFormat sample_fmt, uint64_t channel_layout, int sample_rate, int nb_samples)
                 {
-                    data->AudioInputSampleSize = codecContext->frame_size;
+                    AVFrame* frame = CHECK(av_frame_alloc(), "Error allocating audio frame");
+
+                    frame->format = sample_fmt;
+                    frame->channel_layout = channel_layout;
+                    frame->sample_rate = sample_rate;
+                    frame->nb_samples = nb_samples;
+
+                    if (nb_samples)
+                        CHECK(av_frame_get_buffer(frame, 0), "Error allocating audio buffer");
+
+                    return frame;
                 }
-            }
+
+                static AVFrame* alloc_picture(enum ::AVPixelFormat pix_fmt, int width, int height)
+                {
+                    AVFrame* picture = CHECK(av_frame_alloc(), "Error allocating picture");
+
+                    picture->format = pix_fmt;
+                    picture->width = width;
+                    picture->height = height;
+
+                    // allocate the buffers for the frame data
+                    CHECK(av_frame_get_buffer(picture, 32), "Could not allocate frame data.");
+
+                    return picture;
+                }
+
+
+                void open_audio(AVFormatContext* oc, AVCodec* codec, OutputStream* ost, AVDictionary* opt_arg)
+                {
+                    AVCodecContext* c = ost->enc;
+                    AVDictionary* opt = nullptr;
+
+                    // open it
+                    av_dict_copy(&opt, opt_arg, 0);
+                    CHECK(avcodec_open2(c, codec, &opt), "Could not open audio codec");
+
+                    int nb_samples;
+                    if (c->codec->capabilities & AV_CODEC_CAP_VARIABLE_FRAME_SIZE)
+                        nb_samples = m_input_audio_frame_size; // 10000;
+                    else
+                        nb_samples = c->frame_size;
+
+                    ost->frame = CHECK(alloc_audio_frame(c->sample_fmt, c->channel_layout, c->sample_rate, nb_samples), "Error allocating audio frame");
+
+                    // copy the stream parameters to the muxer
+                    CHECK(avcodec_parameters_from_context(ost->st->codecpar, c), "Could not copy the stream parameters");
+                }
+
+                static void open_video(AVFormatContext *oc, AVCodec *codec, OutputStream* ost, AVDictionary* opt_arg)
+                {
+                    AVCodecContext* c = ost->enc;
+                    AVDictionary* opt = nullptr;
+
+                    av_dict_copy(&opt, opt_arg, 0);
+
+                    // open the codec 
+                    int ret = avcodec_open2(c, codec, &opt);
+                    av_dict_free(&opt);
+                    CHECK(ret, "Could not open video codec. The most likely reason for this problem is that the current pixel format is not supported by the codec. Try "
+                        "to run your application with a console window open to identify what is the error message produced by FFMPEG. If the error is indeed an error "
+                        "about the pixel format, try to pass 'Accord.Video.FFMPEG.PixelFormat.FormatYUV420P' to the PixelFormat property of this class.");
+
+                    // allocate and init a re-usable frame
+                    ost->frame = CHECK(alloc_picture(c->pix_fmt, c->width, c->height), "Could not allocate video frame");
+
+                    // copy the stream parameters to the muxer
+                    CHECK(avcodec_parameters_from_context(ost->st->codecpar, c), "Could not copy the stream parameters");
+                }
+
+
+                /// <summary>
+                /// encode one video frame and send it to the muxer.
+                /// return 1 when encoding is finished, 0 otherwise.
+                /// </summary>
+
+                static int write_video_frame(AVFormatContext *oc, OutputStream *ost, AVFrame* frame)
+                {
+                    int got_packet = 0;
+                    AVPacket pkt = { 0 };
+
+                    AVCodecContext* c = ost->enc;
+
+                    av_init_packet(&pkt);
+
+                    // encode the image
+                    CHECK(avcodec_encode_video2(c, &pkt, frame, &got_packet), "Error encoding video frame");
+
+                    if (got_packet)
+                    {
+                        pkt.duration = ost->next_pts - frame->pts;
+                        pkt.pts += ost->next_pts - 1;
+                        CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing video frame");
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                /// <summary>
+                /// encode one audio frame and send it to the muxer.
+                /// return 1 when encoding is finished, 0 otherwise.
+                /// </summary>
+
+                static int write_audio_frame(AVFormatContext *oc, OutputStream *ost, AVFrame* frame)
+                {
+                    int got_packet = 0;
+                    AVPacket pkt = { 0 }; // data and size must be 0;
+
+                    AVCodecContext* c = ost->enc;
+
+                    av_init_packet(&pkt);
+
+                    // encode the signal
+                    CHECK(avcodec_encode_audio2(c, &pkt, frame, &got_packet), "Error encoding audio frame");
+
+                    if (got_packet)
+                    {
+                        pkt.duration = ost->next_pts - frame->pts;
+                        pkt.pts += ost->next_pts - 1;
+                        CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing audio frame");
+                        return true;
+                    }
+
+                    return false;
+                }
+
+
+                static void close_stream(AVFormatContext *oc, OutputStream *ost)
+                {
+                    avcodec_free_context(&ost->enc);
+                    av_frame_free(&ost->frame);
+                    av_frame_free(&ost->tmp_frame);
+                    sws_freeContext(ost->sws_ctx);
+                    swr_free(&ost->swr_ctx);
+                }
+
+
+                void mux(AVFormatContext* oc, AVFrame* frame)
+                {
+                    while (encode_video || encode_audio)
+                    {
+                        // select the stream to encode
+                        if (encode_video && (!encode_audio || av_compare_ts(video_st.next_pts, video_st.enc->time_base, audio_st.next_pts, audio_st.enc->time_base) <= 0))
+                        {
+                            encode_video = !write_video_frame(oc, &video_st, frame);
+                        }
+                        else
+                        {
+                            encode_audio = !write_audio_frame(oc, &audio_st, frame);
+                        }
+                    }
+                }
+
+                void close()
+                {
+                    // Write the trailer, if any. The trailer must be written before you
+                    // close the CodecContexts open when you wrote the header; otherwise
+                    // av_write_trailer() may try to use memory that was freed on
+                    // av_codec_close(). 
+                    av_write_trailer(oc);
+
+                    // Close each codec.
+                    if (have_video)
+                        close_stream(oc, &video_st);
+
+                    if (have_audio)
+                        close_stream(oc, &audio_st);
+
+                    if (!(fmt->flags & AVFMT_NOFILE))
+                        avio_closep(&oc->pb);
+
+                    // free the stream 
+                    avformat_free_context(oc);
+                    this->oc = nullptr;
+                }
+
+                void init(const char* filename, const char* formatName, AVDictionary* audioOptions, AVDictionary* videoOptions)
+                {
+                    if (oc != nullptr)
+                        throw gcnew VideoException("Video is already open.");
+
+                    this->oc = nullptr;
+                    this->m_input_video_initialized = false;
+                    this->m_input_audio_initialized = false;
+
+                    // allocate the output media context
+                    avformat_alloc_output_context2(&oc, NULL, formatName, filename);
+
+                    if (!oc)
+                    {
+                        Console::WriteLine("Could not deduce output format from file extension: using MPEG.");
+                        avformat_alloc_output_context2(&oc, NULL, "mpeg", filename);
+                    }
+
+                    if (!oc)
+                        throw gcnew VideoException("Could not open output container.");
+
+                    this->fmt = oc->oformat;
+                    if (m_output_video_codec != VideoCodec::Default)
+                        fmt->video_codec = (AVCodecID)m_output_video_codec;
+                    if (m_output_audio_codec != AudioCodec::Default)
+                        fmt->audio_codec = (AVCodecID)m_output_audio_codec;
+
+                    // Add the audio and video streams using the default 
+                    // format codecs and initialize the codecs.
+                    if (fmt->video_codec != AV_CODEC_ID_NONE)
+                    {
+                        add_stream(&video_st, oc, &video_codec, fmt->video_codec);
+                        have_video = true;
+                        encode_video = false;
+                    }
+                    if (fmt->audio_codec != AV_CODEC_ID_NONE)
+                    {
+                        add_stream(&audio_st, oc, &audio_codec, fmt->audio_codec);
+                        have_audio = true;
+                        encode_audio = false;
+                    }
+
+                    // Now that all the parameters are set, we can open the audio and
+                    // video codecs and allocate the necessary encode buffers.
+                    if (have_video)
+                        open_video(oc, video_codec, &video_st, videoOptions);
+
+                    if (have_audio)
+                        open_audio(oc, audio_codec, &audio_st, audioOptions);
+
+                    // open the output file, if needed 
+                    if (!(fmt->flags & AVFMT_NOFILE))
+                        CHECK(avio_open(&oc->pb, filename, AVIO_FLAG_WRITE), "Could not open " + str(filename));
+
+                    // Write the stream header, if any. 
+                    CHECK(avformat_write_header(oc, NULL), "Error occurred when opening output file");
+
+                    // Show information about the streams
+                    av_dump_format(oc, 0, filename, 1);
+                }
+
+
+                void send_video_frame(OutputStream *ost, uint64_t* bitmapData, int stride)
+                {
+                    AVCodecContext* c = ost->enc;
+
+                    // when we pass a frame to the encoder, it may keep a reference to it
+                    // internally; make sure we do not overwrite it here 
+                    CHECK(av_frame_make_writable(ost->frame), "Error making video frame writable");
+
+                    if (!ost->sws_ctx)
+                    {
+                        // prepare scaling context to convert grayscale image to video format
+                        ost->sws_ctx = CHECK(sws_getContext(
+                            /*re-scale from:  */ this->m_input_video_width, this->m_input_video_height, p2f(this->m_input_video_pixel_format),
+                            /*to dimensions: */ c->width, c->height, c->pix_fmt,
+                            sws_flags, nullptr, nullptr, nullptr), "Could not initialize the grayscale conversion context");
+                    }
+
+                    uint64_t* srcData[4] = { bitmapData, 0 };
+                    int srcLineSize[4] = { stride, 0 };
+
+                    sws_scale(ost->sws_ctx, (uint8_t**)srcData, srcLineSize, 0,
+                        this->m_input_video_height, ost->frame->data, ost->frame->linesize);
+
+                    ost->frame->pts = ost->next_pts;
+                    ost->next_pts = ost->next_pts + 1;
+
+                    encode_video = true;
+                    mux(oc, ost->frame);
+
+                    /*
+                    uint64_t target_pts = ost->next_pts + duration;
+
+                    while (ost->next_pts < target_pts)
+                    {
+                        ost->frame->pts = ost->next_pts;
+                        ost->next_pts = ost->next_pts + 1;
+
+                        encode_video = true;
+                        mux(oc, ost->frame);
+                    }*/
+                }
+
+                void send_audio_frame(OutputStream* ost, uint8_t* current, int length)
+                {
+                    AVCodecContext* c = ost->enc;
+
+                    if (!ost->swr_ctx)
+                    {
+                        // create resampler context
+                        ost->swr_ctx = CHECK(swr_alloc(), "Could not allocate resampler context");
+
+                        // set options
+                        av_opt_set_int(ost->swr_ctx, "out_channel_count", c->channels, 0);
+                        av_opt_set_int(ost->swr_ctx, "out_sample_rate", c->sample_rate, 0);
+                        av_opt_set_sample_fmt(ost->swr_ctx, "out_sample_fmt", c->sample_fmt, 0);
+
+                        ost->tmp_frame = CHECK(alloc_audio_frame(s2f(this->m_input_audio_sample_format), c->channel_layout,
+                            c->sample_rate, ost->frame->nb_samples), "Error allocating tmp audio frame");
+                        av_opt_set_int(ost->swr_ctx, "in_channel_count", this->m_input_audio_channels, 0);
+                        av_opt_set_int(ost->swr_ctx, "in_sample_rate", this->m_input_audio_sample_rate, 0);
+                        av_opt_set_sample_fmt(ost->swr_ctx, "in_sample_fmt", s2f(this->m_input_audio_sample_format), 0);
+
+                        // initialize the resampling context
+                        CHECK(swr_init(ost->swr_ctx), "Failed to initialize the resampling context");
+                    }
+
+                    uint8_t* q = (uint8_t*)ost->tmp_frame->data[0];
+                    int remainingNumberOfSamplesPerChannel = length;
+                    size_t sampleSize = m_input_audio_sample_size;
+
+                    while (remainingNumberOfSamplesPerChannel > 0)
+                    {
+                        // copy from the input signal to the tmp_frame
+                        int samplesToWrite = min(ost->tmp_frame->nb_samples, remainingNumberOfSamplesPerChannel);
+                        memcpy_s(q, ost->tmp_frame->nb_samples * sampleSize, current, samplesToWrite * sampleSize);
+                        remainingNumberOfSamplesPerChannel -= samplesToWrite;
+                        current += samplesToWrite * sampleSize;
+
+                        if (remainingNumberOfSamplesPerChannel < 0)
+                            throw gcnew Exception("Number of samples was not a multiple of sampleSize.");
+
+                        // convert samples from native format to destination codec format, using the resampler 
+                        // compute destination number of samples 
+                        int64_t delay = swr_get_delay(ost->swr_ctx, c->sample_rate);
+                        int64_t src_nb_samples = delay + ost->tmp_frame->nb_samples;
+                        int64_t dst_nb_samples = av_rescale_rnd(src_nb_samples, c->sample_rate, c->sample_rate, AV_ROUND_UP);
+
+                        assert(ost->frame->nb_samples == dst_nb_samples);
+
+                        // when we pass a frame to the encoder, it may keep a reference to it internally;
+                        // make sure we do not overwrite it here
+                        CHECK(av_frame_make_writable(ost->frame), "Error while making audio frame writable");
+
+                        // convert to destination format
+                        CHECK(swr_convert(ost->swr_ctx,
+                            /*convert to:*/ost->frame->data, (int)dst_nb_samples,
+                            /*from:*/(const uint8_t **)ost->tmp_frame->data, ost->tmp_frame->nb_samples), "Error converting audio frame");
+
+                        //AVRational q = { 1, c->sample_rate };
+                        //ost->frame->pts = av_rescale_q(ost->samples_count, q, c->time_base);
+                        //ost->samples_count += dst_nb_samples;
+
+                        ost->frame->pts = ost->next_pts;
+                        ost->next_pts = ost->next_pts + ost->frame->nb_samples;
+
+                        encode_audio = true;
+                        mux(oc, ost->frame);
+                    }
+                }
+            };
+
 #pragma endregion
+
 
             // Class constructor
             VideoFileWriter::VideoFileWriter()
                 : data(nullptr), disposed(false)
             {
-                libffmpeg::av_register_all();
+                check_redistributable();
+
+                this->data = new WriterPrivateData();
+
+                this->audioOptions = gcnew Dictionary<String^, String^>();
+                this->videoOptions = gcnew Dictionary<String^, String^>();
+
+                // Initialize libavcodec, and register all codecs and formats.
+                av_register_all();
+                //#if DEBUG
+                av_log_set_level(AV_LOG_VERBOSE);
+                //#endif
             }
 
             // Creates a video file with the specified name and properties
-            void VideoFileWriter::Open(String^ fileName, int width, int height, Rational frameRate,
-                VideoCodec codec, int bitRate,
-                AudioCodec audioCodec, int audioBitRate, int sampleRate, int channels)
+            void VideoFileWriter::Open(String^ fileName, String^ format)
             {
-                CheckIfDisposed();
+                if (IsOpen)
+                    throw gcnew VideoException("Video is already open.");
 
-                // close previous file if any open
-                Close();
-
-                data = gcnew WriterPrivateData();
                 bool success = false;
 
-                // check width and height
-                if (((width & 1) != 0) || ((height & 1) != 0))
-                    throw gcnew ArgumentException("Video file resolution must be a multiple of two.");
+                AVDictionary* audioOptions = nullptr;
+                AVDictionary* videoOptions = nullptr;
 
-                // check video codec
-                if (((int)codec < -1) || ((int)codec >= CODECS_COUNT))
-                    throw gcnew ArgumentException("Invalid video codec is specified.");
+                char key[2048];
+                char value[2048];
+                char nativeFileName[2048];
+                char nativeFormatName[2048];
 
-                m_width = width;
-                m_height = height;
-                m_codec = codec;
-                m_frameRate = frameRate;
-                m_bitRate = bitRate;
-                m_framesCount = 0;
+                for each(KeyValuePair<String^, String^>^ kvp in this->audioOptions)
+                    av_dict_set(&audioOptions, str2native(kvp->Key, key), str2native(kvp->Value, value), 0);
 
-                // audio support
-                m_audiocodec = audioCodec;
-                // audio support
+                for each(KeyValuePair<String^, String^>^ kvp in this->videoOptions)
+                    av_dict_set(&videoOptions, str2native(kvp->Key, key), str2native(kvp->Value, value), 0);
 
                 try
                 {
-                    // convert specified managed String to unmanaged string
-                    IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni(fileName);
-                    wchar_t* nativeFileNameUnicode = (wchar_t*)ptr.ToPointer();
-                    int utf8StringSize = WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, NULL, 0, NULL, NULL);
-                    char* nativeFileName = new char[utf8StringSize];
-                    WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, nativeFileName, utf8StringSize, NULL, NULL);
+                    // convert specified managed String to C-style string
+                    data->init(
+                        str2native(fileName, nativeFileName),
+                        str2native(format, nativeFormatName),
+                        audioOptions,
+                        videoOptions);
 
-                    // guess about destination file format from its file name
-                    libffmpeg::AVOutputFormat* outputFormat = libffmpeg::av_guess_format(nullptr,
-                        nativeFileName, nullptr);
+                    if (data->have_video)
+                        Console::WriteLine("VideoStream->time_base: {0}/{1}", data->video_st.st->time_base.num, data->video_st.st->time_base.den);
+                    if (data->have_audio)
+                        Console::WriteLine("AudioStream->time_base: {0}/{1}", data->audio_st.st->time_base.num, data->audio_st.st->time_base.den);
 
-                    if (!outputFormat)
-                    {
-                        // guess about destination file format from its short name
-                        outputFormat = libffmpeg::av_guess_format("matroska", nullptr, nullptr);
-
-                        if (!outputFormat)
-                            throw gcnew VideoException("Cannot find suitable output format.");
-                    }
-
-                    // prepare format context
-                    data->FormatContext = libffmpeg::avformat_alloc_context();
-                    if (!data->FormatContext)
-                        throw gcnew VideoException("Cannot allocate format context.");
-
-                    data->FormatContext->oformat = outputFormat;
-
-                    // add video stream using the specified video codec
-                    add_video_stream(data, width, height, frameRate, bitRate,
-                        (codec == VideoCodec::Default)
-                        ? outputFormat->video_codec : (libffmpeg::AVCodecID) video_codecs[(int)codec],
-                        (codec == VideoCodec::Default)
-                        ? libffmpeg::AV_PIX_FMT_YUV420P : (libffmpeg::AVPixelFormat) pixel_formats[(int)codec]);
-
-                    // add audio stream using the specified audio codec
-                    if (audioCodec != AudioCodec::None)
-                    {
-                        data->SampleRate = sampleRate;
-                        data->BitRate = audioBitRate;
-                        data->Channels = channels;
-                        add_audio_stream(data, (libffmpeg::AVCodecID) audio_codecs[(int)audioCodec]);
-                    }
-
-                    open_video(data);
-
-                    // audio support
-                    if (audioCodec != AudioCodec::None)
-                        open_audio(data);
-                    // end audio support
-
-                    // open output file
-                    if (!(outputFormat->flags & AVFMT_NOFILE))
-                    {
-                        int err = libffmpeg::avio_open(&data->FormatContext->pb, nativeFileName, AVIO_FLAG_WRITE);
-                        
-                        if (err < 0)
-                        {
-                            System::String^ msg = GetErrorMessage(err, fileName);
-                            throw gcnew System::IO::IOException("Cannot open the video file. Error code: " + err +
-                                ". Message: " + msg + " when trying to access: " + fileName);
-                        }
-                    }
-
-                    libffmpeg::avformat_write_header(data->FormatContext, nullptr);
                     success = true;
                 }
                 finally
@@ -478,235 +700,291 @@ namespace Accord {
                 }
             }
 
-            System::String^ VideoFileWriter::GetErrorMessage(int err, System::String ^ fileName)
-            {
-                char buff[AV_ERROR_MAX_STRING_SIZE];
-                libffmpeg::av_make_error_string(&buff[0], AV_ERROR_MAX_STRING_SIZE, err);
-                System::String^ msg = System::Runtime::InteropServices::Marshal::PtrToStringAnsi((IntPtr)&buff[0]);
-                return msg;
-            }
+
 
             // Close current video file
             void VideoFileWriter::Close()
             {
-                if (data == nullptr)
-                    return;
-
-                Flush();
-
-                if (data->FormatContext)
-                {
-                    if (data->FormatContext->pb != nullptr)
-                        libffmpeg::av_write_trailer(data->FormatContext);
-
-                    if (data->VideoStream)
-                        libffmpeg::avcodec_close(data->VideoStream->codec);
-
-                    // audio support
-                    if (data->AudioStream)
-                        libffmpeg::avcodec_close(data->AudioStream->codec);
-                    // end audio support
-
-                    if (data->VideoFrame)
-                    {
-                        libffmpeg::av_free(data->VideoFrame->data[0]);
-                        libffmpeg::av_free(data->VideoFrame);
-                    }
-
-                    if (data->VideoOutputBuffer)
-                        libffmpeg::av_free(data->VideoOutputBuffer);
-
-                    // audio support
-                    if (data->AudioEncodeBuffer)
-                        libffmpeg::av_free(data->AudioEncodeBuffer);
-
-                    if (data->AudioBuffer)
-                    {
-                        delete[] data->AudioBuffer;
-                        data->AudioBuffer = nullptr;
-                    }
-                    // end audio support
-
-                    if (data->FormatContext->pb != nullptr)
-                        libffmpeg::avio_close(data->FormatContext->pb);
-
-                    libffmpeg::avformat_free_context(data->FormatContext);
-                }
-
-                if (data->ConvertContext != nullptr)
-                    libffmpeg::sws_freeContext(data->ConvertContext);
-
-                if (data->ConvertContextGrayscale != nullptr)
-                    libffmpeg::sws_freeContext(data->ConvertContextGrayscale);
-
-                data = nullptr;
-                m_width = 0;
-                m_height = 0;
+                if (this->IsOpen)
+                    data->close();
             }
 
-            // Flushes delayed frames to disk
             void VideoFileWriter::Flush()
             {
-                // This function goes by the data->VideoOutputBuffer extracting
-                // and saving to disk one frame at time, using mostly the same
-                // code which can be found on write_video_frame.
-                if (data == nullptr)
-                    return;
-
-                int got_packet;
-                libffmpeg::AVCodecContext* codecContext = data->VideoStream->codec;
-
-                while (true) // while there are still delayed frames
-                {
-                    libffmpeg::AVPacket packet;
-                    libffmpeg::av_init_packet(&packet);
-                    packet.data = nullptr;
-                    packet.size = 0;
-
-                    // encode the image
-                    if (libffmpeg::avcodec_encode_video2(codecContext, &packet, nullptr, &got_packet) < 0)
-                        throw gcnew VideoException("Error while encoding (flush)video frame");
-
-                    if (!got_packet)
-                        break; // there are no more frames to be written
-
-                    // TODO: consider refactoring with write_video_frame?
-                    if (packet.pts != AV_NOPTS_VALUE)
-                        packet.pts = libffmpeg::av_rescale_q(packet.pts, codecContext->time_base, data->VideoStream->time_base);
-                    if (packet.dts != AV_NOPTS_VALUE)
-                        packet.dts = libffmpeg::av_rescale_q(packet.dts, codecContext->time_base, data->VideoStream->time_base);
-
-                    if (codecContext->coded_frame->key_frame)
-                        packet.flags |= AV_PKT_FLAG_KEY;
-
-                    packet.stream_index = data->VideoStream->index;
-
-                    // write the compressed frame to the media file
-                    if (libffmpeg::av_interleaved_write_frame(data->FormatContext, &packet) != 0)
-                        throw gcnew VideoException("Error while writing video frame.");
-                }
-
-                libffmpeg::avcodec_flush_buffers(data->VideoStream->codec);
+                // nothing to do
             }
 
             // Writes new video frame to the opened video file
-            void VideoFileWriter::WriteVideoFrame(Bitmap^ frame, unsigned long frameIndex)
+            void VideoFileWriter::WriteVideoFrame(Bitmap^ frame, TimeSpan duration, System::Drawing::Rectangle region)
             {
                 // lock the bitmap
-                BitmapData^ bitmapData = frame->LockBits(System::Drawing::Rectangle(0, 0, m_width, m_height),
-                    ImageLockMode::ReadOnly,
-                    (frame->PixelFormat == PixelFormat::Format8bppIndexed) ?
-                    PixelFormat::Format8bppIndexed : PixelFormat::Format24bppRgb);
+                BitmapData^ bitmapData = frame->LockBits(region,
+                    ImageLockMode::ReadOnly, frame->PixelFormat);
 
-                WriteVideoFrame(bitmapData, frameIndex);
+                WriteVideoFrame(bitmapData, duration);
 
                 frame->UnlockBits(bitmapData);
             }
 
+
             // Writes new video frame to the opened video file
-            void VideoFileWriter::WriteVideoFrame(BitmapData^ bitmapData, unsigned long frameIndex)
+            void VideoFileWriter::WriteVideoFrame(BitmapData^ bitmapData, TimeSpan timestamp)
             {
-                CheckIfDisposed();
+                if (!IsOpen)
+                    throw gcnew IOException("A video file was not opened yet.");
 
-                if (data == nullptr)
-                    throw gcnew System::IO::IOException("A video file was not opened yet.");
-
-                if ((bitmapData->PixelFormat != PixelFormat::Format24bppRgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format32bppArgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format32bppPArgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format32bppRgb) &&
-                    (bitmapData->PixelFormat != PixelFormat::Format8bppIndexed))
+                if ((bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format32bppArgb) &&
+                    (bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format24bppRgb) &&
+                    (bitmapData->PixelFormat != System::Drawing::Imaging::PixelFormat::Format8bppIndexed))
                 {
-                    throw gcnew ArgumentException("The provided bitmap must be 24 or 32 bpp color image or 8 bpp grayscale image.");
+                    throw gcnew ArgumentException("The provided bitmap must be 32 bpp color or 8 bpp grayscale image.");
                 }
 
-                if ((bitmapData->Width != m_width) || (bitmapData->Height != m_height))
-                    throw gcnew ArgumentException("Bitmap size must be of the same as video size, which was specified on opening video file.");
-               
-
-                uint8_t* srcData[4] = { static_cast<uint8_t*>(static_cast<void*>(bitmapData->Scan0)), nullptr, nullptr, nullptr };
-                int srcLinesize[4] = { bitmapData->Stride, 0, 0, 0 };
-
-                // convert source image to the format of the video file
-                if (bitmapData->PixelFormat == PixelFormat::Format8bppIndexed)
+                if (data->m_input_video_initialized)
                 {
-                    libffmpeg::sws_scale(data->ConvertContextGrayscale, srcData, srcLinesize, 0,
-                        m_height, data->VideoFrame->data, data->VideoFrame->linesize);
+                    if (bitmapData->Height != data->m_input_video_height || bitmapData->Width != data->m_input_video_width)
+                        throw gcnew ArgumentException("The provided bitmap has different dimensions than the previous bitmaps that have been fed to this stream.");
+
+                    if (bitmapData->PixelFormat != data->m_input_video_pixel_format)
+                        throw gcnew ArgumentException("The provided bitmap has a different pixel format than the previous bitmaps that have been fed to this stream.");
                 }
                 else
                 {
-                    libffmpeg::sws_scale(data->ConvertContext, srcData, srcLinesize, 0, m_height,
-                        data->VideoFrame->data, data->VideoFrame->linesize);
+                    data->m_input_video_pixel_format = bitmapData->PixelFormat;
+                    data->m_input_video_width = bitmapData->Width;
+                    data->m_input_video_height = bitmapData->Height;
+                    data->m_input_video_initialized = true;
                 }
 
-                data->VideoFrame->pts = frameIndex;
+                if (timestamp >= TimeSpan::Zero)
+                    data->video_st.next_pts = TimeSpanToPTS(timestamp, data->video_st.st, data->video_st.enc);
 
-                // write the converted frame to the video file
-                write_video_frame(data);
-
-                m_framesCount++;
+                data->send_video_frame(&data->video_st, (uint64_t*)bitmapData->Scan0.ToPointer(), bitmapData->Stride);
             }
 
-            /*
-            // Writes new video frame to the opened video file
-            void VideoFileWriter::WriteAudioFrame( array<System::uint8_t> ^buffer )
-            {
-            WriteAudioFrame( buffer, TimeSpan::MinValue );
-            }
-            */
 
             // Writes new video frame to the opened video file
-            void VideoFileWriter::WriteAudioFrame(array<System::Byte> ^buffer/*, TimeSpan timestamp*/)
+            void VideoFileWriter::WriteAudioFrame(Accord::Audio::Signal^ signal, TimeSpan timestamp)
             {
-                CheckIfDisposed();
-                if (data == nullptr)
-                    throw gcnew System::IO::IOException("A video file was not opened yet.");
+                if (!IsOpen)
+                    throw gcnew IOException("A video file was not opened yet.");
 
-                // Add sound
-                pin_ptr<unsigned char> bufPin = &buffer[0];
-                AddAudioSamples(data, bufPin, buffer->Length/*, timestamp*/);
-            }
+                if ((signal->Length % data->m_input_audio_frame_size) != 0)
+                    throw gcnew ArgumentException("Audio frame size must a multiple of the frame size, which was specified on opening video file.");
 
-            void VideoFileWriter::AddAudioSamples(WriterPrivateData^ data, uint8_t* soundBuffer,
-                int soundBufferSize/*, TimeSpan timestamp*/)
-            {
-                if (!data->AudioStream)
-                    return;
-
-                libffmpeg::AVCodecContext* codecContext = data->AudioStream->codec;
-                memcpy(data->AudioBuffer + data->AudioBufferSizeCurrent, soundBuffer, soundBufferSize);
-                data->AudioBufferSizeCurrent += soundBufferSize;
-
-                uint8_t* pSoundBuffer = (uint8_t *)data->AudioBuffer;
-                int nCurrentSize = data->AudioBufferSizeCurrent;
-
-                // Size of packet in bytes.
-                int packSizeInSize = (2 * data->AudioInputSampleSize) * data->Channels;
-                while (nCurrentSize >= packSizeInSize)
+                if (data->m_input_audio_initialized)
                 {
-                    libffmpeg::AVPacket pkt;
-                    libffmpeg::av_init_packet(&pkt);
-
-                    pkt.size = libffmpeg::avcodec_encode_audio2(codecContext,
-                        (libffmpeg::AVPacket*)data->AudioEncodeBuffer,
-                        (libffmpeg::AVFrame*)data->AudioEncodeBufferSize, (int*)pSoundBuffer);
-
-                    pkt.flags |= AV_PKT_FLAG_KEY;
-                    pkt.stream_index = data->AudioStream->index;
-                    pkt.data = data->AudioEncodeBuffer;
-
-                    // Write the compressed frame in the media file.
-                    if (libffmpeg::av_interleaved_write_frame(data->FormatContext, &pkt) != 0)
-                        break;
-
-                    libffmpeg::av_free_packet(&pkt);
-                    nCurrentSize -= packSizeInSize;
-                    pSoundBuffer += packSizeInSize;
+                    if (signal->SampleFormat != data->m_input_audio_sample_format)
+                        throw gcnew ArgumentException("Audio signal has a different sample format than the previous frames that have been fed to this stream.");
+                    if (signal->NumberOfChannels != data->m_input_audio_channels)
+                        throw gcnew ArgumentException("Audio signal has a different sample format than the previous frames that have been fed to this stream.");
+                    if (signal->SampleRate != data->m_input_audio_sample_rate)
+                        throw gcnew ArgumentException("Audio signal has a different sample rate than the previous frames that have been fed to this stream.");
+                }
+                else
+                {
+                    data->m_input_audio_sample_format = signal->SampleFormat;
+                    data->m_input_audio_sample_size = signal->SampleSize; // size of sample in bytes, i.e. 1 for PCM 8-bit, 2 for 16-bit
+                    data->m_input_audio_sample_rate = signal->SampleRate;
+                    data->m_input_audio_channels = signal->NumberOfChannels;
+                    data->m_input_audio_initialized = true;
                 }
 
-                // save excess
-                memcpy(data->AudioBuffer, data->AudioBuffer + data->AudioBufferSizeCurrent - nCurrentSize, nCurrentSize);
-                data->AudioBufferSizeCurrent = nCurrentSize;
+                if (timestamp >= TimeSpan::Zero)
+                    data->audio_st.next_pts = TimeSpanToPTS(timestamp, data->audio_st.st, data->audio_st.enc);
+
+                data->send_audio_frame(&data->audio_st, (uint8_t*)signal->Data.ToPointer(), signal->Length);
+            }
+
+
+            TimeSpan VideoFileWriter::Duration::get()
+            {
+                if (IsOpen)
+                    return PTSToTimeSpan(data->video_st.frame->pts, data->video_st.st, data->video_st.enc);
+                return TimeSpan::Zero;
+            }
+
+
+#define GET(a,b) if (IsOpen) return a; else return b;
+#define SET(a) if (IsOpen) throw gcnew ArgumentException("Cannot change video properties while the video is open."); else a = value;
+
+            int VideoFileWriter::Width::get()
+            {
+                GET(data->video_st.frame->width, data->m_output_video_width);
+            }
+
+            void VideoFileWriter::Width::set(int value)
+            {
+                if ((value & 1) != 0)
+                    throw gcnew ArgumentException("Video file resolution must be a multiple of two.");
+                SET(data->m_output_video_width)
+            }
+
+            int VideoFileWriter::Height::get()
+            {
+                GET(data->video_st.frame->height, data->m_output_video_height);
+            }
+
+            void VideoFileWriter::Height::set(int value)
+            {
+                if ((value & 1) != 0)
+                    throw gcnew ArgumentException("Video file resolution must be a multiple of two.");
+                SET(data->m_output_video_height)
+            }
+
+
+
+            Rational VideoFileWriter::FrameRate::get()
+            {
+                GET(Rational(data->video_st.enc->time_base.den, data->video_st.enc->time_base.num), data->m_output_video_frame_rate)
+            }
+
+            void VideoFileWriter::FrameRate::set(Rational value)
+            {
+                SET(data->m_output_video_frame_rate)
+            }
+
+
+
+            int VideoFileWriter::SampleRate::get()
+            {
+                if (IsOpen && data->have_audio)
+                    return data->audio_st.enc->sample_rate;
+                return data->m_input_audio_sample_rate;
+            }
+
+            void VideoFileWriter::SampleRate::set(int value)
+            {
+                SET(data->m_input_audio_sample_rate)
+            }
+
+
+
+            int VideoFileWriter::BitRate::get()
+            {
+                GET((int)data->video_st.enc->bit_rate, data->m_output_video_bit_rate)
+            }
+
+            void VideoFileWriter::BitRate::set(int value)
+            {
+                SET(data->m_output_video_bit_rate)
+            }
+
+
+
+            int VideoFileWriter::AudioBitRate::get()
+            {
+                GET((int)data->audio_st.enc->bit_rate, data->m_output_audio_bit_rate)
+            }
+
+            void VideoFileWriter::AudioBitRate::set(int value)
+            {
+                SET(data->m_output_audio_bit_rate)
+            }
+
+
+
+            int VideoFileWriter::FrameSize::get()
+            {
+                if (IsOpen && data->have_audio && data->audio_st.tmp_frame != nullptr)
+                    return data->audio_st.tmp_frame->nb_samples;
+                return data->m_input_audio_frame_size;
+            }
+
+            void VideoFileWriter::FrameSize::set(int value)
+            {
+                SET(data->m_input_audio_frame_size)
+            }
+
+
+            FFMPEG::AVSampleFormat VideoFileWriter::SampleFormat::get()
+            {
+                if (IsOpen && data->have_audio)
+                    return (FFMPEG::AVSampleFormat)data->audio_st.enc->sample_fmt;
+                return data->m_output_audio_sample_format;
+            }
+
+            void VideoFileWriter::SampleFormat::set(FFMPEG::AVSampleFormat value)
+            {
+                SET(data->m_output_audio_sample_format)
+            }
+
+
+
+            FFMPEG::AVPixelFormat VideoFileWriter::PixelFormat::get()
+            {
+                GET((FFMPEG::AVPixelFormat)data->video_st.enc->pix_fmt, data->m_output_video_pixel_format);
+            }
+
+            void VideoFileWriter::PixelFormat::set(FFMPEG::AVPixelFormat value)
+            {
+                SET(data->m_output_video_pixel_format)
+            }
+
+
+
+            FFMPEG::AudioLayout VideoFileWriter::AudioLayout::get()
+            {
+                if (IsOpen && data->have_audio && data->audio_st.enc != nullptr)
+                    return (FFMPEG::AudioLayout)data->audio_st.enc->channel_layout;
+                return data->m_output_audio_channel_layout;
+            }
+
+            void VideoFileWriter::AudioLayout::set(FFMPEG::AudioLayout value)
+            {
+                SET(data->m_output_audio_channel_layout)
+            }
+
+
+            int VideoFileWriter::NumberOfChannels::get()
+            {
+                if (IsOpen && data->have_audio && data->audio_st.enc != nullptr)
+                    return data->audio_st.enc->channels;
+                return av_get_channel_layout_nb_channels((uint64_t)data->m_output_audio_channel_layout);
+            }
+
+
+            FFMPEG::VideoCodec VideoFileWriter::VideoCodec::get()
+            {
+                if (IsOpen && data->have_video)
+                    return (FFMPEG::VideoCodec)(int)data->video_st.enc->codec->id;
+                return data->m_output_video_codec;
+            }
+
+            void VideoFileWriter::VideoCodec::set(FFMPEG::VideoCodec value)
+            {
+                SET(data->m_output_video_codec)
+            }
+
+
+
+            FFMPEG::AudioCodec VideoFileWriter::AudioCodec::get()
+            {
+                if (IsOpen && data->have_audio && data->audio_st.enc != nullptr)
+                    return (FFMPEG::AudioCodec)(int)data->audio_st.enc->codec->id;
+                return data->m_output_audio_codec;
+            }
+
+            void VideoFileWriter::AudioCodec::set(FFMPEG::AudioCodec value)
+            {
+                SET(data->m_output_audio_codec)
+            }
+
+
+
+            bool VideoFileWriter::IsOpen::get()
+            {
+                return (data->oc != nullptr);
+            }
+
+
+            VideoFileWriter::!VideoFileWriter()
+            {
+                Close();
+
+                if (data != nullptr)
+                    delete data;
+                data = nullptr;
             }
         }
     }

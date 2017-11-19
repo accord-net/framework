@@ -29,10 +29,13 @@
 
 namespace Accord.Video
 {
+    using Accord.Compat;
     using System;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Screen capture video source.
@@ -156,7 +159,12 @@ namespace Accord.Video
         public int FrameInterval
         {
             get { return frameInterval; }
-            set { frameInterval = Math.Max( 0, value ); }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value");
+                frameInterval = value;
+            }
         }
 
         /// <summary>
@@ -199,14 +207,14 @@ namespace Accord.Video
         {
             get
             {
-                if ( thread != null )
+                if (thread != null)
                 {
                     // check thread status
-                    if ( thread.Join( 0 ) == false )
+                    if (thread.Join(0) == false)
                         return true;
 
                     // the thread is not running, free resources
-                    Free( );
+                    Free();
                 }
                 return false;
             }
@@ -218,7 +226,7 @@ namespace Accord.Video
         /// 
         /// <param name="region">Screen's rectangle to capture (the rectangle may cover multiple displays).</param>
         /// 
-        public ScreenCaptureStream( Rectangle region )
+        public ScreenCaptureStream(Rectangle region)
         {
             this.region = region;
         }
@@ -230,7 +238,7 @@ namespace Accord.Video
         /// <param name="region">Screen's rectangle to capture (the rectangle may cover multiple displays).</param>
         /// <param name="frameInterval">Time interval between making screen shots, ms.</param>
         /// 
-        public ScreenCaptureStream( Rectangle region, int frameInterval )
+        public ScreenCaptureStream(Rectangle region, int frameInterval)
         {
             this.region = region;
             this.FrameInterval = frameInterval;
@@ -246,19 +254,19 @@ namespace Accord.Video
         /// 
         /// <exception cref="ArgumentException">Video source is not specified.</exception>
         /// 
-        public void Start( )
+        public void Start()
         {
-            if ( !IsRunning )
+            if (!IsRunning)
             {
                 framesReceived = 0;
 
                 // create events
-                stopEvent = new ManualResetEvent( false );
+                stopEvent = new ManualResetEvent(false);
 
                 // create and start new thread
-                thread = new Thread( new ThreadStart( WorkerThread ) );
+                thread = new Thread(new ThreadStart(WorkerThread));
                 thread.Name = Source; // mainly for debugging
-                thread.Start( );
+                thread.Start();
             }
         }
 
@@ -269,13 +277,13 @@ namespace Accord.Video
         /// <remarks>Signals video source to stop its background thread, stop to
         /// provide new frames and free resources.</remarks>
         /// 
-        public void SignalToStop( )
+        public void SignalToStop()
         {
             // stop thread
-            if ( thread != null )
+            if (thread != null)
             {
                 // signal to stop
-                stopEvent.Set( );
+                stopEvent.Set();
             }
         }
 
@@ -286,14 +294,14 @@ namespace Accord.Video
         /// <remarks>Waits for source stopping after it was signalled to stop using
         /// <see cref="SignalToStop"/> method.</remarks>
         /// 
-        public void WaitForStop( )
+        public void WaitForStop()
         {
-            if ( thread != null )
+            if (thread != null)
             {
                 // wait for thread stop
-                thread.Join( );
+                thread.Join();
 
-                Free( );
+                Free();
             }
         }
 
@@ -309,13 +317,13 @@ namespace Accord.Video
         /// <see cref="WaitForStop">waiting</see> for background thread's completion.</note></para>
         /// </remarks>
         /// 
-        public void Stop( )
+        public void Stop()
         {
-            if ( this.IsRunning )
+            if (this.IsRunning)
             {
-                stopEvent.Set( );
-                thread.Abort( );
-                WaitForStop( );
+                stopEvent.Set();
+                thread.Abort();
+                WaitForStop();
             }
         }
 
@@ -323,17 +331,24 @@ namespace Accord.Video
         /// Free resource.
         /// </summary>
         /// 
-        private void Free( )
+        private void Free()
         {
             thread = null;
 
             // release events
-            stopEvent.Close( );
+            stopEvent.Close();
             stopEvent = null;
         }
 
+        private class Context
+        {
+            public Bitmap original;
+            public Graphics graphics;
+            public NewFrameEventArgs args;
+        }
+
         // Worker thread
-        private void WorkerThread( )
+        private void WorkerThread()
         {
             int width = region.Width;
             int height = region.Height;
@@ -341,74 +356,136 @@ namespace Accord.Video
             int y = region.Location.Y;
             Size size = region.Size;
 
-            Bitmap bitmap = new Bitmap( width, height, PixelFormat.Format32bppArgb );
-            Graphics graphics = Graphics.FromImage( bitmap );
+            // Create 10 frames (which we will keep overwriting and reusing)
+            Context[] buffer = new Context[10];
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                // Note: It's important to use 32-bpp ARGB to avoid problems with FFmpeg later
+                //var bmp = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+                buffer[i] = new Context
+                {
+                    original = bmp,
+                    graphics = Graphics.FromImage(bmp),
+                    args = new NewFrameEventArgs(bmp)
+                };
+            }
 
             // download start time and duration
             DateTime start;
             TimeSpan span;
+            int counter = 0;
+            int bufferPos = 0;
 
-            while ( !stopEvent.WaitOne( 0, false ) )
+            Context captureContext = buffer[bufferPos];
+            Context displayContext = null;
+
+            while (!stopEvent.WaitOne(0, false))
             {
-                // set dowbload start time
+                // set download start time
                 start = DateTime.Now;
 
                 try
                 {
-                    // capture the screen
-                    graphics.CopyFromScreen( x, y, 0, 0, size, CopyPixelOperation.SourceCopy );
-
-                    // increment frames counter
-                    framesReceived++;
-
-                    // provide new image to clients
-                    if ( NewFrame != null )
-                    {
-                        // notify client
-                        NewFrame( this, new NewFrameEventArgs( bitmap ) );
-                    }
-
+                    // Start capturing a new frame at the same
+                    // time we send the previous one to listeners
+#if !NET35
+                    Task.WaitAll(
+#if NET40
+                        Task.Factory.StartNew(() =>
+#else
+                        Task.Run(() =>
+#endif
+                        {
+#endif
                     // wait for a while ?
-                    if ( frameInterval > 0 )
+                    if (frameInterval > 0)
                     {
                         // get download duration
-                        span = DateTime.Now.Subtract( start );
+                        span = DateTime.Now.Subtract(start);
 
                         // miliseconds to sleep
-                        int msec = frameInterval - (int) span.TotalMilliseconds;
+                        int msec = frameInterval - (int)span.TotalMilliseconds;
 
-                        if ( ( msec > 0 ) && ( stopEvent.WaitOne( msec, false ) ) )
-                            break;
+                        // if we should sleep, then sleep as long as needed
+                        if ((msec > 0) && (stopEvent.WaitOne(msec, false)))
+                            return;
                     }
+
+                    // capture the screen
+                    captureContext.args.CaptureStarted = DateTime.Now;
+                    captureContext.graphics.CopyFromScreen(x, y, 0, 0, size, CopyPixelOperation.SourceCopy);
+                    captureContext.args.FrameSize = size;
+                    captureContext.args.CaptureFinished = DateTime.Now;
+
+                    // increment frames counter
+                    captureContext.args.FrameIndex = counter++;
+                    framesReceived++;
+#if !NET35
+                        }
+                    ),
+#if NET40
+                        Task.Factory.StartNew(() =>
+#else
+                        Task.Run(() =>
+#endif
+                        {
+#endif
+                    // provide new image to clients
+                    if (displayContext != null)
+                    {
+                        // reset whatever listeners had done with the frame
+                        displayContext.args.Frame = displayContext.original;
+
+                        if (NewFrame != null)
+                            NewFrame(this, displayContext.args);
+                    }
+#if !NET35
+                        }));
+#endif
+
+                    // Update buffer position
+                    displayContext = buffer[bufferPos];
+                    bufferPos = (bufferPos + 1) % buffer.Length;
+                    captureContext = buffer[bufferPos];
+                    Debug.Assert(displayContext != captureContext);
                 }
-                catch ( ThreadAbortException )
+                catch (ThreadAbortException)
                 {
                     break;
                 }
-                catch ( Exception exception )
+                catch (Exception exception)
                 {
+#if !NET35
+                    AggregateException ae = exception as AggregateException;
+
+                    if (ae != null && ae.InnerExceptions.Count == 1)
+                        exception = ae.InnerExceptions[0];
+#endif
                     // provide information to clients
-                    if ( VideoSourceError != null )
-                    {
-                        VideoSourceError( this, new VideoSourceErrorEventArgs( exception.Message ) );
-                    }
+                    if (VideoSourceError == null)
+                        throw;
+
+                    VideoSourceError(this, new VideoSourceErrorEventArgs(exception));
+
                     // wait for a while before the next try
-                    Thread.Sleep( 250 );
+                    Thread.Sleep(250);
                 }
 
                 // need to stop ?
-                if ( stopEvent.WaitOne( 0, false ) )
+                if (stopEvent.WaitOne(0, false))
                     break;
             }
 
             // release resources
-            graphics.Dispose( );
-            bitmap.Dispose( );
-
-            if ( PlayingFinished != null )
+            foreach (var c in buffer)
             {
-                PlayingFinished( this, ReasonToFinishPlaying.StoppedByUser );
+                c.graphics.Dispose();
+                c.args.Frame.Dispose();
             }
+
+            if (PlayingFinished != null)
+                PlayingFinished(this, ReasonToFinishPlaying.StoppedByUser);
         }
     }
 }

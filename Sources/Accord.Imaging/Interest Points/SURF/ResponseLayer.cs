@@ -47,6 +47,7 @@ namespace Accord.Imaging
     ///   the original image unchanged and varies only the filter size.</para>
     /// </remarks>
     /// 
+    [Serializable]
     internal class ResponseLayerCollection : IEnumerable<ResponseLayer[]>
     {
         private int width;

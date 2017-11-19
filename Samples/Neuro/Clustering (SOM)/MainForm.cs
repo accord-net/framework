@@ -16,6 +16,7 @@ using System.Data;
 using System.Threading;
 
 using Accord;
+using Accord.Imaging;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Statistics.Distributions.Univariate;
@@ -40,6 +41,7 @@ namespace SampleApp
         private System.Windows.Forms.Button randomizeButton;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox currentIterationBox;
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -117,18 +119,21 @@ namespace SampleApp
             // 
             this.groupBox1.Controls.Add(this.randomizeButton);
             this.groupBox1.Controls.Add(this.mapPanel);
-            this.groupBox1.Location = new System.Drawing.Point(16, 15);
+            this.groupBox1.Location = new System.Drawing.Point(21, 20);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(355, 387);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(473, 516);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Map";
             // 
             // randomizeButton
             // 
-            this.randomizeButton.Location = new System.Drawing.Point(16, 336);
+            this.randomizeButton.Location = new System.Drawing.Point(21, 448);
+            this.randomizeButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.randomizeButton.Name = "randomizeButton";
-            this.randomizeButton.Size = new System.Drawing.Size(120, 34);
+            this.randomizeButton.Size = new System.Drawing.Size(160, 45);
             this.randomizeButton.TabIndex = 1;
             this.randomizeButton.Text = "&Randomize";
             this.randomizeButton.Click += new System.EventHandler(this.randomizeButton_Click);
@@ -136,9 +141,10 @@ namespace SampleApp
             // mapPanel
             // 
             this.mapPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mapPanel.Location = new System.Drawing.Point(16, 29);
+            this.mapPanel.Location = new System.Drawing.Point(21, 39);
+            this.mapPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mapPanel.Name = "mapPanel";
-            this.mapPanel.Size = new System.Drawing.Size(323, 295);
+            this.mapPanel.Size = new System.Drawing.Size(430, 393);
             this.mapPanel.TabIndex = 0;
             this.mapPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.mapPanel_Paint);
             // 
@@ -155,44 +161,50 @@ namespace SampleApp
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.iterationsBox);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(384, 15);
+            this.groupBox2.Location = new System.Drawing.Point(512, 20);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(304, 387);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(405, 516);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Neural Network";
             // 
             // currentIterationBox
             // 
-            this.currentIterationBox.Location = new System.Drawing.Point(176, 175);
+            this.currentIterationBox.Location = new System.Drawing.Point(235, 233);
+            this.currentIterationBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.currentIterationBox.Name = "currentIterationBox";
             this.currentIterationBox.ReadOnly = true;
-            this.currentIterationBox.Size = new System.Drawing.Size(112, 26);
+            this.currentIterationBox.Size = new System.Drawing.Size(148, 31);
             this.currentIterationBox.TabIndex = 10;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(16, 178);
+            this.label5.Location = new System.Drawing.Point(21, 237);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(160, 24);
+            this.label5.Size = new System.Drawing.Size(213, 32);
             this.label5.TabIndex = 9;
             this.label5.Text = "Current iteration:";
             // 
             // stopButton
             // 
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(168, 336);
+            this.stopButton.Location = new System.Drawing.Point(224, 448);
+            this.stopButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(120, 34);
+            this.stopButton.Size = new System.Drawing.Size(160, 45);
             this.stopButton.TabIndex = 8;
             this.stopButton.Text = "S&top";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(32, 336);
+            this.startButton.Location = new System.Drawing.Point(43, 448);
+            this.startButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(120, 34);
+            this.startButton.Size = new System.Drawing.Size(160, 45);
             this.startButton.TabIndex = 7;
             this.startButton.Text = "&Start";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
@@ -200,64 +212,72 @@ namespace SampleApp
             // label4
             // 
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(16, 146);
+            this.label4.Location = new System.Drawing.Point(21, 195);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(272, 3);
+            this.label4.Size = new System.Drawing.Size(362, 3);
             this.label4.TabIndex = 6;
             // 
             // radiusBox
             // 
-            this.radiusBox.Location = new System.Drawing.Point(176, 102);
+            this.radiusBox.Location = new System.Drawing.Point(235, 136);
+            this.radiusBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radiusBox.Name = "radiusBox";
-            this.radiusBox.Size = new System.Drawing.Size(112, 26);
+            this.radiusBox.Size = new System.Drawing.Size(148, 31);
             this.radiusBox.TabIndex = 5;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(16, 105);
+            this.label3.Location = new System.Drawing.Point(21, 140);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(160, 24);
+            this.label3.Size = new System.Drawing.Size(213, 32);
             this.label3.TabIndex = 4;
             this.label3.Text = "Initial radius:";
             // 
             // rateBox
             // 
-            this.rateBox.Location = new System.Drawing.Point(176, 66);
+            this.rateBox.Location = new System.Drawing.Point(235, 88);
+            this.rateBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rateBox.Name = "rateBox";
-            this.rateBox.Size = new System.Drawing.Size(112, 26);
+            this.rateBox.Size = new System.Drawing.Size(148, 31);
             this.rateBox.TabIndex = 3;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(16, 69);
+            this.label2.Location = new System.Drawing.Point(21, 92);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 23);
+            this.label2.Size = new System.Drawing.Size(213, 31);
             this.label2.TabIndex = 2;
             this.label2.Text = "Initial learning rate:";
             // 
             // iterationsBox
             // 
-            this.iterationsBox.Location = new System.Drawing.Point(176, 29);
+            this.iterationsBox.Location = new System.Drawing.Point(235, 39);
+            this.iterationsBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.iterationsBox.Name = "iterationsBox";
-            this.iterationsBox.Size = new System.Drawing.Size(112, 26);
+            this.iterationsBox.Size = new System.Drawing.Size(148, 31);
             this.iterationsBox.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(16, 32);
+            this.label1.Location = new System.Drawing.Point(21, 43);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 24);
+            this.label1.Size = new System.Drawing.Size(128, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Iteraions:";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(698, 416);
+            this.ClientSize = new System.Drawing.Size(931, 555);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Color Clustering using Kohonen SOM";
@@ -336,8 +356,7 @@ namespace SampleApp
             Monitor.Enter(this);
 
             // lock bitmap
-            BitmapData mapData = mapBitmap.LockBits(new Rectangle(0, 0, 200, 200),
-                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData mapData = mapBitmap.LockBits(ImageLockMode.ReadWrite);
 
             int stride = mapData.Stride;
             int offset = stride - 200 * 3;
@@ -391,8 +410,11 @@ namespace SampleApp
             // lock
             Monitor.Enter(this);
 
-            // drat image
-            g.DrawImage(mapBitmap, 0, 0, 200, 200);
+            // draw image
+            g.DrawImage(image: mapBitmap, 
+                destRect: new Rectangle(0, 0, mapPanel.Width, mapPanel.Height),
+                srcRect: new Rectangle(new System.Drawing.Point(0, 0), mapBitmap.Size), 
+                srcUnit: GraphicsUnit.Pixel);
 
             // unlock
             Monitor.Exit(this);

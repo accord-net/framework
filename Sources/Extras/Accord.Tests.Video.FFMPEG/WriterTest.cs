@@ -51,6 +51,85 @@ namespace Accord.Tests.Video
         }
 
         [Test]
+        public void write_video_new_api()
+        {
+            string basePath = TestContext.CurrentContext.TestDirectory;
+
+            #region doc_new_api
+
+            // Let's say we would like to save file using a .avi media 
+            // container and a MPEG4 (DivX/XVid) codec, saving it into:
+            string outputPath = Path.Combine(basePath, "output_video.avi");
+
+            // First, we create a new VideoFileWriter:
+            var videoWriter = new VideoFileWriter()
+            {
+                // Our video will have the following characteristics:
+                Width = 800,
+                Height = 600,
+                FrameRate = 24,
+                BitRate = 1200 * 1000,
+                VideoCodec = VideoCodec.Mpeg4,
+            };
+
+            // We can open for it writing:
+            videoWriter.Open(outputPath);
+
+            // At this point, we can check the console of our application for useful 
+            // information regarding the media streams created by FFMPEG. We can also
+            // check those properties using the class itself, specially for properties
+            // that we didn't set beforehand but that have been filled by FFMPEG:
+
+            int width = videoWriter.Width;
+            int height = videoWriter.Height;
+            int frameRate = videoWriter.FrameRate.Numerator;
+            int bitRate = videoWriter.BitRate;
+            VideoCodec videoCodec = videoWriter.VideoCodec;
+
+            // We haven't set those properties, but FFMPEG has filled them for us:
+            AudioCodec audioCodec = videoWriter.AudioCodec;
+            int audioSampleRate = videoWriter.SampleRate;
+            AudioLayout audioLayout = videoWriter.AudioLayout;
+            int audioChannels = videoWriter.NumberOfChannels;
+
+            // Now, let's say we would like to save dummy images of changing color
+            var m2i = new MatrixToImage();
+            Bitmap frame;
+
+            for (byte i = 0; i < 255; i++)
+            {
+                // Create bitmap matrix from a matrix of RGB values:
+                byte[,] matrix = Matrix.Create(height, width, i);
+                m2i.Convert(matrix, out frame);
+
+                // Write the frame to the stream. We can optionally specify
+                // the moment that this frame should remain in the stream:
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
+            }
+
+            // We can get how long our written video is:
+            TimeSpan duration = videoWriter.Duration;
+
+            // Close the stream
+            videoWriter.Close();
+            videoWriter.Dispose();
+            #endregion
+
+            Assert.AreEqual(2540000000, duration.Ticks);
+
+            Assert.AreEqual(800, width);
+            Assert.AreEqual(600, height);
+            Assert.AreEqual(24, frameRate);
+            Assert.AreEqual(1200000, bitRate);
+            Assert.AreEqual(VideoCodec.Mpeg4, videoCodec);
+
+            Assert.IsTrue(AudioCodec.Default == audioCodec || AudioCodec.Mp3 == audioCodec);
+            Assert.AreEqual(44100, audioSampleRate);
+            Assert.AreEqual(audioLayout, audioLayout);
+            Assert.AreEqual(2, audioChannels);
+        }
+
+        [Test]
         public void write_video_test()
         {
             var videoWriter = new VideoFileWriter();
@@ -92,16 +171,15 @@ namespace Accord.Tests.Video
         {
             var fileInput = new FileInfo(fireplace_mp4);
             var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.webm"));
-            reencode(fileInput, fileOutput, VideoCodec.VP8);
+            reencode(fileInput, fileOutput, VideoCodec.Vp8, expectedFrameRate: 14.985014985014985d);
         }
 
         [Test]
-        [Category("Slow")]
         public void reencode_vp9()
         {
             var fileInput = new FileInfo(fireplace_mp4);
             var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output_webm.webm"));
-            reencode(fileInput, fileOutput, VideoCodec.VP9);
+            reencode(fileInput, fileOutput, VideoCodec.Vp9);
         }
 
         [Test]
@@ -109,14 +187,6 @@ namespace Accord.Tests.Video
         {
             var fileInput = new FileInfo(fireplace_mp4);
             var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output_ogg.ogg"));
-            reencode(fileInput, fileOutput, VideoCodec.Theora);
-        }
-
-        [Test]
-        public void reencode_ogm()
-        {
-            var fileInput = new FileInfo(fireplace_mp4);
-            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output_ogm.ogm"));
             reencode(fileInput, fileOutput, VideoCodec.Theora);
         }
 
@@ -136,7 +206,8 @@ namespace Accord.Tests.Video
             reencode(fileInput, fileOutput, VideoCodec.H264);
         }
 
-        private static void reencode(FileInfo fileInput, FileInfo fileOutput, VideoCodec outputCodec)
+        private static void reencode(FileInfo fileInput, FileInfo fileOutput, VideoCodec outputCodec,
+            AVPixelFormat format = AVPixelFormat.FormatYuv420P, double expectedFrameRate = 2997 / 100.0)
         {
             using (var videoFileReader = new Accord.Video.FFMPEG.VideoFileReader())
             {
@@ -147,20 +218,22 @@ namespace Accord.Tests.Video
                     Assert.AreEqual(2997, videoFileReader.FrameRate.Numerator);
                     Assert.AreEqual(100, videoFileReader.FrameRate.Denominator);
 
-                    videoFileWriter.Open
-                    (
-                        fileOutput.FullName,
-                        videoFileReader.Width,
-                        videoFileReader.Height,
-                        videoFileReader.FrameRate,
-                        outputCodec
-                    );
+                    videoFileWriter.Width = videoFileReader.Width;
+                    videoFileWriter.Height = videoFileReader.Height;
+                    videoFileWriter.FrameRate = videoFileReader.FrameRate;
+                    videoFileWriter.VideoCodec = outputCodec;
+                    Assert.AreEqual(AVPixelFormat.FormatYuv420P, videoFileWriter.PixelFormat);
+                    videoFileWriter.PixelFormat = format;
+
+                    videoFileWriter.Open(fileOutput.FullName);
 
                     do
                     {
                         using (var bitmap = videoFileReader.ReadVideoFrame())
                         {
-                            if (bitmap == null) { break; }
+                            if (bitmap == null)
+                                break;
+
                             videoFileWriter.WriteVideoFrame(bitmap);
                         }
                     }
@@ -176,7 +249,7 @@ namespace Accord.Tests.Video
             {
                 videoFileReader.Open(fileOutput.FullName);
 
-                Assert.AreEqual(2997 / 100.0, videoFileReader.FrameRate.Value, 0.01);
+                Assert.AreEqual(expectedFrameRate, videoFileReader.FrameRate.Value, 0.01);
             }
         }
 
@@ -190,7 +263,7 @@ namespace Accord.Tests.Video
             {
                 var videoWriter = new VideoFileWriter();
 
-                videoWriter.Open(path, width, height, framerate, VideoCodec.FFVHUFF, videoBitRate);
+                videoWriter.Open(path, width, height, framerate, VideoCodec.FfvHuff, videoBitRate);
 
                 Assert.AreEqual(width, videoWriter.Width);
                 Assert.AreEqual(height, videoWriter.Height);

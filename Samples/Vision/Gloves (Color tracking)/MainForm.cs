@@ -237,7 +237,7 @@ namespace SampleApp
 
 
         // New frame received by the player
-        private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
+        private void videoSourcePlayer_NewFrame(object sender, NewFrameEventArgs args)
         {
             lock (this)
             {
@@ -245,10 +245,9 @@ namespace SampleApp
                     return;
 
                 if (form != null && !form.IsDisposed)
-                    form.Image = image;
+                    form.Image = args.Frame;
 
-                BitmapData data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
-                    ImageLockMode.ReadWrite, image.PixelFormat);
+                BitmapData data = args.Frame.LockBits(ImageLockMode.ReadWrite);
 
                 UnmanagedImage img = new UnmanagedImage(data);
 
@@ -304,7 +303,7 @@ namespace SampleApp
                     }
                 }
 
-                image.UnlockBits(data);
+                args.Frame.UnlockBits(data);
             }
         }
 

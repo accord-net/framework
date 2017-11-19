@@ -36,7 +36,7 @@ namespace Accord.Audio.Formats
     /// </summary>
     /// 
     /// <remarks><para>The class represent a help class, which simplifies decoding of audio
-    /// files finding appropriate image decoder automatically (using list of registered
+    /// files finding appropriate audio decoder automatically (using list of registered
     /// audio decoders). Instead of using required audio decoder directly, users may use this
     /// class, which will find required decoder by file's extension.</para>
     /// 
@@ -84,7 +84,7 @@ namespace Accord.Audio.Formats
         {
             string fileExtension = FormatDecoderAttribute.GetNormalizedExtension(fileName);
 
-            IAudioDecoder decoder = FormatDecoderAttribute.GetDecoder(fileExtension, decoderTypes, decoders.Value);
+            IAudioDecoder decoder = FormatDecoderAttribute.GetDecoders(fileExtension, decoderTypes, decoders.Value);
 
             if (decoder != null)
             {
@@ -99,14 +99,15 @@ namespace Accord.Audio.Formats
 
                     decoder.Close();
 
-                    frameInfo = new FrameInfo(signal.Channels, signal.SampleRate, Signal.GetSampleSize(signal.SampleFormat), 0, signal.Length);
+                    frameInfo = new FrameInfo(signal.NumberOfChannels, signal.SampleRate, Signal.GetSampleSize(signal.SampleFormat), 0, signal.Length);
 
                     return signal;
                 }
             }
 
             throw new ArgumentException(String.Format("No suitable decoder has been found for the file format {0}. If ", fileExtension) +
-                "you are trying to decode .wav files, please add a reference to Accord.Audio.DirectSouond.", "fileName");
+                "you are trying to decode .wav files, please add a reference to Accord.Audio.DirectSound. You might need to instantiate" +
+                "at least one type from this assembly to make sure it has been loaded in the AppDomain of your applicatoin.", "fileName");
         }
 
     }

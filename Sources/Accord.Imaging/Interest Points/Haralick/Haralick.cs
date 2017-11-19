@@ -125,6 +125,7 @@ namespace Accord.Imaging
     /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
     /// <seealso cref="HarrisCornersDetector"/>
     /// 
+    [Serializable]
     public class Haralick : BaseFeatureExtractor<FeatureDescriptor>
     {
         int cellSize = 0;  // size of the cell, in number of pixels

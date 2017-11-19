@@ -5,6 +5,12 @@
     <RootNamespace>Accord.Tests.Video</RootNamespace>
     <AssemblyName>Accord.Tests.Video</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Platform)' == 'Win32' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -49,6 +55,46 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(Configuration)' == 'net35'">
+      <ItemGroup>
+        <Reference Include="SharpDX">
+          <HintPath>..\..\..\Externals\SharpDX\v263\net20\SharpDX.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="SharpDX.DirectSound">
+          <HintPath>..\..\..\Externals\SharpDX\v263\net20\SharpDX.DirectSound.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="'$(Configuration)' == 'net40'">
+      <ItemGroup>
+        <Reference Include="SharpDX">
+          <HintPath>..\..\..\Externals\SharpDX\v263\net40\SharpDX.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="SharpDX.DirectSound">
+          <HintPath>..\..\..\Externals\SharpDX\v263\net40\SharpDX.DirectSound.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="SharpDX">
+          <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="SharpDX.DirectSound">
+          <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -68,6 +114,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="AudioReaderTest.cs" />
+    <Compile Include="WriterWithAudioTest.cs" />
     <Compile Include="WriterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -79,6 +127,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
+      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
+      <Name>Accord.Audio.DirectSound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Audio\Accord.Audio.csproj">
+      <Project>{e7b65f08-82f1-438f-847a-2aac2bec9ac0}</Project>
+      <Name>Accord.Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
@@ -94,6 +150,10 @@
     <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
       <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

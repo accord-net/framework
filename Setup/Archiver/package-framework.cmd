@@ -46,7 +46,7 @@ set ignore=-x*.tmp -x*\.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.s
 %rar% %opts%    %output% "..\..\Release notes.txt"
 %rar% %opts%    %output% "..\..\Version.txt"
 %rar% %opts%    %output% "..\..\Docs\*.chm"        
-%rar% %opts% -r %output% "..\..\Release\mono"            %ignore%
+::%rar% %opts% -r %output% "..\..\Release\mono"            %ignore%
 %rar% %opts% -r %output% "..\..\Release\net35"           %ignore%
 %rar% %opts% -r %output% "..\..\Release\net40"           %ignore%
 %rar% %opts% -r %output% "..\..\Release\net45"           %ignore%

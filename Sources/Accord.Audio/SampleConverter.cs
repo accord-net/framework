@@ -680,6 +680,50 @@ namespace Accord.Audio
         }
         #endregion
 
+        #region From Single (float) to Double (double)
+        /// <summary>
+        ///   Converts a matrix of signed 32-bit integer samples
+        ///   into a matrix of 32-bit floating point samples.
+        /// </summary>
+        /// 
+        /// <param name="from">The original sample.</param>
+        /// <param name="to">The resulting sample.</param>
+        /// 
+        public static void Convert(float[][] from, double[][] to)
+        {
+            for (int i = 0; i < from.Length; i++)
+                for (int j = 0; j < from[i].Length; j++)
+                    to[i][j] = (double)from[i][j];
+        }
+
+        /// <summary>
+        ///   Converts a array of signed 32-bit integer samples
+        ///   into a array of 32-bit floating point samples.
+        /// </summary>
+        /// 
+        /// <param name="from">The original sample.</param>
+        /// <param name="to">The resulting sample.</param>
+        /// 
+        public static void Convert(float[] from, double[] to)
+        {
+            for (int i = 0; i < from.Length; i++)
+                to[i] = (double)from[i];
+        }
+
+        /// <summary>
+        ///   Converts a signed 32-bit integer sample
+        ///   into a 32-bit floating point sample.
+        /// </summary>
+        /// 
+        /// <param name="from">The original sample.</param>
+        /// <param name="to">The resulting sample.</param>
+        /// 
+        public static void Convert(float from, out double to)
+        {
+            to = (double)from;
+        }
+        #endregion
+
         #endregion
 
     }

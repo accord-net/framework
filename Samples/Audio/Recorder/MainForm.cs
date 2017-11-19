@@ -121,12 +121,12 @@ namespace SampleApp
 
             // Configure the track bar so the cursor
             // can show the proper current position
-            if (trackBar1.Value < decoder.Frames)
+            if (trackBar1.Value < decoder.NumberOfFrames)
                 decoder.Seek(trackBar1.Value);
-            trackBar1.Maximum = decoder.Samples;
+            trackBar1.Maximum = decoder.NumberOfSamples;
 
             // Here we can create the output audio device that will be playing the recording
-            output = new AudioOutputDevice(this.Handle, decoder.SampleRate, decoder.Channels);
+            output = new AudioOutputDevice(this.Handle, decoder.SampleRate, decoder.NumberOfChannels);
 
             // Wire up some events
             output.FramePlayingStarted += output_FramePlayingStarted;
@@ -198,7 +198,7 @@ namespace SampleApp
 
             // Update counters
             duration += eventArgs.Signal.Duration;
-            samples += eventArgs.Signal.Samples;
+            samples += eventArgs.Signal.NumberOfSamples;
             frames += eventArgs.Signal.Length;
         }
 
@@ -213,7 +213,7 @@ namespace SampleApp
         {
             updateTrackbar(e.FrameIndex);
 
-            if (e.FrameIndex + e.Count < decoder.Frames)
+            if (e.FrameIndex + e.Count < decoder.NumberOfFrames)
             {
                 int previous = decoder.Position;
                 decoder.Seek(e.FrameIndex);

@@ -19,6 +19,8 @@ using Accord.Video.FFMPEG;
 using System.Drawing.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Imaging;
+using Accord.Audio.Generators;
+using Accord.Audio;
 
 namespace Accord.Perf.MachineLearning
 {
@@ -41,7 +43,9 @@ namespace Accord.Perf.MachineLearning
             //TestSMO();
             //TestMeanShift();
             //TestEmpty();
-            TestHaar();
+            //TestHaar();
+            //TestFFMPEG();
+            TestFFMPEG2();
         }
 
         private static void TestSparseKernelSVM()
@@ -446,6 +450,116 @@ namespace Accord.Perf.MachineLearning
             Console.WriteLine(sw.Elapsed);
 
             video.Close();
+        }
+
+        static void TestFFMPEG()
+        {
+            var videoWriter = new VideoFileWriter();
+
+            int width = 800;
+            int height = 600;
+            int framerate = 24;
+            string path = Path.GetFullPath("output.webm");
+            int videoBitRate = 1200 * 1000;
+
+            int audioFrameSize = 44100;
+            int audioBitRate = 128000;
+            int audioSampleRate = 44100;
+            AudioLayout audioChannels = AudioLayout.Mono;
+
+
+            videoWriter.Width = width;
+            videoWriter.Height = height;
+            videoWriter.FrameRate = framerate;
+            videoWriter.VideoCodec = VideoCodec.Vp8;
+            videoWriter.BitRate = videoBitRate;
+            videoWriter.PixelFormat = AVPixelFormat.FormatYuv420P;
+            videoWriter.Open(path);
+
+            //, audioFrameSize, audioChannels, audioSampleRate, AudioCodec.Vorbis, audioBitRate);
+
+            var a = new Accord.DirectSound.AudioDeviceCollection(DirectSound.AudioDeviceCategory.Capture);
+
+            // Generate 1 second of audio
+            SineGenerator gen = new SineGenerator()
+            {
+                SamplingRate = audioSampleRate,
+                Channels = 1,
+                Format = SampleFormat.Format16Bit,
+                Frequency = 10,
+                Amplitude = 1000.9f,
+            };
+
+            Signal s = gen.Generate(TimeSpan.FromSeconds(255));
+            //s.Save("test.wav");
+
+            var m2i = new MatrixToImage();
+            Bitmap frame;
+
+            for (byte i = 0; i < 255; i++)
+            {
+                byte[,] matrix = Matrix.Create(height, width, i);
+                m2i.Convert(matrix, out frame);
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(1));
+
+                //// Generate 1 second of audio
+                //s = gen.Generate(TimeSpan.FromSeconds(1));
+                //videoWriter.WriteAudioFrame(s);
+            }
+
+            videoWriter.Close();
+        }
+
+        static void TestFFMPEG2()
+        {
+            string outputPath = Path.GetFullPath("output.avi");
+
+            // First, we create a new VideoFileWriter:
+            var videoWriter = new VideoFileWriter()
+            {
+                // Our video will have the following characteristics:
+                Width = 800,
+                Height = 600,
+                FrameRate = 24,
+                BitRate = 1200 * 1000,
+                VideoCodec = VideoCodec.Mpeg4,
+                //PixelFormat = Accord.Video.FFMPEG.PixelFormat.FormatYUV420P
+            };
+
+            // We can open for it writing:
+            videoWriter.Open(outputPath);
+
+            // At this point, we can check the console of our application for useful 
+            // information regarding our media streams created by FFMPEG. We can also
+            // check those properties using the class itself, specially for properties
+            // that we didn't set beforehand but that have been filled by FFMPEG:
+
+            int width = videoWriter.Width;
+            int height = videoWriter.Height;
+            int frameRate = videoWriter.FrameRate.Numerator;
+            int bitRate = videoWriter.BitRate;
+            VideoCodec videoCodec = videoWriter.VideoCodec;
+
+            // We haven't set those properties, but FFMPEG has filled them for us:
+            AudioCodec audioCodec = videoWriter.AudioCodec;
+            int audioSampleRate = videoWriter.SampleRate;
+            AudioLayout audioChannels = videoWriter.AudioLayout;
+            int numberOfChannels = videoWriter.NumberOfChannels;
+
+            // Now, let's say we would like to save dummy images of changing color
+            var m2i = new MatrixToImage();
+            Bitmap frame;
+
+            for (byte i = 0; i < 255; i++)
+            {
+                // Create bitmap matrix from a matrix of RGB values:
+                byte[,] matrix = Matrix.Create(height, width, i);
+                m2i.Convert(matrix, out frame);
+
+                // Write the frame to the stream. We can optionally specify
+                // the duration that this frame should remain in the stream:
+                videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
+            }
         }
     }
 }

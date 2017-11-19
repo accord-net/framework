@@ -1718,7 +1718,21 @@ namespace Accord.Imaging
             }
         }
 
-
+        /// <summary>
+        /// Determines whether the specified image is disposed.
+        /// </summary>
+        /// 
+        public static bool IsDisposed(this Bitmap image)
+        {
+            try
+            {
+                return image.Width == 0 || image.Height == 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
 
         internal static void CheckGrayscale(Bitmap input)

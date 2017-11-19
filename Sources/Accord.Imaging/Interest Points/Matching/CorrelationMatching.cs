@@ -85,6 +85,7 @@ namespace Accord.Imaging
     ///   </list></para>
     /// </remarks>
     ///
+    [Serializable]
     public class CorrelationMatching
     {
 

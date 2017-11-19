@@ -122,6 +122,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net35|x86'">
     <OutputPath>bin\x86\net35\</OutputPath>
@@ -193,6 +194,12 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\Externals\SharpZipLib\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectSound">
+      <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -212,9 +219,19 @@
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Sources\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
+      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
+      <Name>Accord.Audio.DirectSound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Sources\Accord.Audio\Accord.Audio.csproj">
+      <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
+      <Name>Accord.Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
       <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
       <Name>Accord.Controls.Imaging</Name>

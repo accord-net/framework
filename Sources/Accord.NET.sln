@@ -1282,9 +1282,7 @@ Global
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|Win32.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Debug|x64.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Docs|Any CPU.ActiveCfg = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Docs|Win32.ActiveCfg = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Docs|Win32.Build.0 = Debug|Any CPU
@@ -1294,35 +1292,20 @@ Global
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.mono|Win32.ActiveCfg = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.mono|x64.ActiveCfg = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net35|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net35|Any CPU.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net35|Win32.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net35|Win32.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net35|x64.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net35|x64.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net40|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net40|Any CPU.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net40|Win32.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net40|Win32.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net40|x64.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net40|x64.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net45|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net45|Any CPU.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net45|Win32.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net45|Win32.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net45|x64.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net45|x64.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net46|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net46|Any CPU.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net46|Win32.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net46|Win32.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net46|x64.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net46|x64.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net462|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net462|Any CPU.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net462|Win32.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net462|Win32.Build.0 = Debug|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net462|x64.ActiveCfg = Debug|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.net462|x64.Build.0 = Debug|Any CPU
 		{4ED2AB06-991F-44FF-AC01-53394B222AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4ED2AB06-991F-44FF-AC01-53394B222AF7}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{4ED2AB06-991F-44FF-AC01-53394B222AF7}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -2660,8 +2643,8 @@ Global
 		{D501DE22-0988-4954-BF9E-D3816DF20A13}.net462|x64.Build.0 = net462|Any CPU
 		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|Win32.Build.0 = Debug|Any CPU
+		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|Win32.ActiveCfg = Debug|x86
+		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|Win32.Build.0 = Debug|x86
 		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|x64.ActiveCfg = Debug|x64
 		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Debug|x64.Build.0 = Debug|x64
 		{1D82508D-DE4D-4696-AE0F-163A52B11278}.Docs|Any CPU.ActiveCfg = net462|Any CPU
@@ -2859,6 +2842,21 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF2DC4B0-8B4C-4742-A09C-458BBF0447A0}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi

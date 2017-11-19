@@ -358,8 +358,8 @@ namespace Liblinear
 
             return NS.Tuple.Create(result.Item1, result.Item2, new LibSvmModel()
             {
-                Dimension = prob.Dimensions,
-                Classes = 2,
+                NumberOfInputs = prob.Dimensions,
+                NumberOfClasses = 2,
                 Labels = new[] { +1, -1 },
                 Solver = parameters.Solver,
                 Weights = w,

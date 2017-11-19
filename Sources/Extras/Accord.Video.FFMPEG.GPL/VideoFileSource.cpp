@@ -29,6 +29,7 @@
 #include "StdAfx.h"
 #include "VideoFileSource.h"
 #include "VideoFileReader.h"
+#include "Tools.h"
 
 namespace Accord {
     namespace Video {
@@ -36,6 +37,8 @@ namespace Accord {
         {
             VideoFileSource::VideoFileSource(String^ fileName)
             {
+                check_redistributable();
+
                 m_fileName = fileName;
                 m_workerThread = nullptr;
                 m_needToStop = nullptr;

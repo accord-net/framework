@@ -39,6 +39,8 @@ using Accord.Math;
 using AForge;
 using Accord.Math.Distances;
 using Accord;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SampleApp
 {
@@ -47,8 +49,8 @@ namespace SampleApp
         private Bitmap img1 = SampleApp.Properties.Resources.UFSCar_Lake1;
         private Bitmap img2 = SampleApp.Properties.Resources.UFSCar_Lake2;
 
-        private FastRetinaKeypoint[] keyPoints1;
-        private FastRetinaKeypoint[] keyPoints2;
+        private IEnumerable<FastRetinaKeypoint> keyPoints1;
+        private IEnumerable<FastRetinaKeypoint> keyPoints2;
 
         private IntPoint[] correlationPoints1;
         private IntPoint[] correlationPoints2;
@@ -71,12 +73,13 @@ namespace SampleApp
             // Step 1: Detect feature points using FREAK Features Detector
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
 
-            keyPoints1 = freak.ProcessImage(img1).ToArray();
-            keyPoints2 = freak.ProcessImage(img2).ToArray();
+            keyPoints1 = freak.Transform(img1);
+            keyPoints2 = freak.Transform(img2);
 
             // Show the marked points in the original images
-            Bitmap img1mark = new PointsMarker(keyPoints1).Apply(img1);
-            Bitmap img2mark = new PointsMarker(keyPoints2).Apply(img2);
+            // TODO: The following construct can be simplified
+            Bitmap img1mark = new PointsMarker(keyPoints1.Select(x => (IFeaturePoint)x).ToList()).Apply(img1);
+            Bitmap img2mark = new PointsMarker(keyPoints2.Select(x => (IFeaturePoint)x).ToList()).Apply(img2);
 
             // Concatenate the two images together in a single image (just to show on screen)
             Concatenate concatenate = new Concatenate(img1mark);
@@ -94,7 +97,7 @@ namespace SampleApp
             // Step 2: Match feature points using a k-NN
             var matcher = new KNearestNeighborMatching<byte[]>(5, new Hamming());
             IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
-            
+
             // Get the two sets of points
             correlationPoints1 = matches[0];
             correlationPoints2 = matches[1];

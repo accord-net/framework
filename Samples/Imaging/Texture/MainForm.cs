@@ -24,34 +24,34 @@ namespace SampleApp
     {
         ITextureGenerator textureGenerator = null;
 
-        public MainForm( )
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
             // show first texture
             texturesCombo.SelectedIndex = 0;
         }
 
         // Texture changed
-        private void texturesCombo_SelectedIndexChanged( object sender, EventArgs e )
+        private void texturesCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             // create texture generator
-            switch ( texturesCombo.SelectedIndex )
+            switch (texturesCombo.SelectedIndex)
             {
                 case 0:     // clouds
-                    textureGenerator = new CloudsTexture( );
+                    textureGenerator = new CloudsTexture();
                     break;
                 case 1:     // marble
-                    textureGenerator = new MarbleTexture( );
+                    textureGenerator = new MarbleTexture(5, 10);
                     break;
                 case 2:     // wood
-                    textureGenerator = new WoodTexture( 7 );
+                    textureGenerator = new WoodTexture(7);
                     break;
                 case 3:     // labyrinth
-                    textureGenerator = new LabyrinthTexture( );
+                    textureGenerator = new LabyrinthTexture();
                     break;
                 case 4:     // textile
-                    textureGenerator = new TextileTexture( );
+                    textureGenerator = new TextileTexture();
                     break;
                 default:
                     textureGenerator = null;
@@ -59,14 +59,14 @@ namespace SampleApp
             }
 
             // show texture
-            ShowTexture( );
+            ShowTexture();
         }
 
         // Generate and show texture
-        private void ShowTexture( )
+        private void ShowTexture()
         {
             // check generator
-            if ( textureGenerator == null )
+            if (textureGenerator == null)
             {
                 pictureBox.Image = null;
                 return;
@@ -76,22 +76,21 @@ namespace SampleApp
             int height = pictureBox.ClientRectangle.Height;
 
             // generate texture
-            float[,] texture = textureGenerator.Generate( width, height );
+            float[,] texture = textureGenerator.Generate(width, height);
 
             // create bitmap from the texture
-            Bitmap image = TextureTools.ToBitmap( texture );
+            Bitmap image = texture.ToBitmap();
 
             // show image
             pictureBox.Image = image;
         }
 
         // Regenerate texture
-        private void regenerateButton_Click( object sender, EventArgs e )
+        private void regenerateButton_Click(object sender, EventArgs e)
         {
-            if ( textureGenerator != null )
+            if (textureGenerator != null)
             {
-                textureGenerator.Reset( );
-                ShowTexture( );
+                ShowTexture();
             }
         }
     }

@@ -132,7 +132,7 @@ namespace Accord.DataSets
 #if NET35
             foreach (string line in File.ReadAllLines(uncompressedFileName))
             {
-                if (line == null || String.IsNullOrEmpty(line.Trim()))
+                if (StringEx.IsNullOrWhiteSpace(line))
                 {
 #else
             foreach (string line in File.ReadLines(uncompressedFileName))

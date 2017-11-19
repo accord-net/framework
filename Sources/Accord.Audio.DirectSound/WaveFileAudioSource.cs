@@ -29,6 +29,7 @@ namespace Accord.DirectSound
     using System.IO;
     using System.Threading;
     using Accord.Compat;
+    using System.Data;
 
     /// <summary>
     ///   Read audio samples from a Wave file.
@@ -92,9 +93,8 @@ namespace Accord.DirectSound
         private WaveDecoder decoder;
         private string fileName;
 
-        private Thread thread = null;
-        private ManualResetEvent stopEvent = null;
-
+        private bool shouldStop;
+        private Thread thread;
 
         /// <summary>
         ///   Event raised when a new frame has arrived.
@@ -134,13 +134,34 @@ namespace Accord.DirectSound
         }
 
         /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfChannels"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfChannels instead.")]
+        public int Channels
+        {
+            get { return NumberOfChannels; }
+            set { throw new ReadOnlyException(); }
+        }
+
+        /// <summary>
         ///   Gets the number of audio channels in the wave file.
         /// </summary>
         /// 
-        public int Channels
+        public int NumberOfChannels
         {
-            get { return decoder.Channels; }
-            set { }
+            get { return decoder.NumberOfChannels; }
+            set { throw new ReadOnlyException(); }
+        }
+
+        /// <summary>
+        ///   Gets the sampling rate for this source.
+        /// </summary>
+        /// 
+        public int SampleRate
+        {
+            get { return decoder.SampleRate; }
+            set { throw new ReadOnlyException(); }
         }
 
         /// <summary>
@@ -194,9 +215,6 @@ namespace Accord.DirectSound
                     // check thread status
                     if (thread.Join(0) == false)
                         return true;
-
-                    // the thread is not running, free resources
-                    Free();
                 }
                 return false;
             }
@@ -220,9 +238,6 @@ namespace Accord.DirectSound
                 framesReceived = 0;
                 bytesReceived = 0;
 
-                // create events
-                stopEvent = new ManualResetEvent(true);
-
                 // create and start new thread
                 thread = new Thread(new ThreadStart(WorkerThread));
                 thread.Name = fileName; // mainly for debugging
@@ -240,7 +255,7 @@ namespace Accord.DirectSound
             if (thread != null)
             {
                 // signal to stop
-                stopEvent.Set();
+                shouldStop = true;
             }
         }
 
@@ -254,8 +269,7 @@ namespace Accord.DirectSound
             {
                 // wait for thread stop
                 thread.Join();
-
-                Free();
+                thread = null;
             }
         }
 
@@ -267,7 +281,7 @@ namespace Accord.DirectSound
         {
             if (this.IsRunning)
             {
-                thread.Abort();
+                SignalToStop();
                 WaitForStop();
             }
         }
@@ -298,64 +312,46 @@ namespace Accord.DirectSound
 
 
         /// <summary>
-        ///   Free resource.
-        /// </summary>
-        ///
-        private void Free()
-        {
-            thread = null;
-
-            // release events
-            stopEvent.Close();
-            stopEvent = null;
-        }
-
-        /// <summary>
         ///   Worker thread.
         /// </summary>
         /// 
         private void WorkerThread()
         {
+            this.shouldStop = false;
+
             SoundStream waveStream = null;
 
             try
             {
-                waveStream = (stream != null)
-                    ? new SoundStream(stream)
-                    : new SoundStream(File.OpenRead(fileName));
+                waveStream = (stream != null) ? 
+                    new SoundStream(stream) : new SoundStream(File.OpenRead(fileName));
 
                 // Open the Wave stream
                 decoder.Open(waveStream);
 
-                while (stopEvent.WaitOne(0, false))
+                Signal signal = null;
+                while (!this.shouldStop)
                 {
-                    // get next frame
-                    Signal s = decoder.Decode(frameSize);
-                    framesReceived += s.Length;
-                    bytesReceived += decoder.Bytes;
+                    // get next frame, overwriting the previous
+                    signal = decoder.Decode(frameSize, signal);
+                    framesReceived += signal.NumberOfFrames;
+                    bytesReceived += decoder.NumberOfBytesRead;
 
                     if (NewFrame != null)
-                        NewFrame(this, new NewFrameEventArgs(s));
+                        NewFrame(this, new NewFrameEventArgs(signal));
 
                     // check current position
                     if (waveStream.Position >= waveStream.Length)
-                        break;
-
-                    // sleeping ...
-                    Thread.Sleep(100);
+                        this.shouldStop = true;
                 }
             }
             catch (Exception exception)
             {
                 // provide information to clients
-                if (AudioSourceError != null)
-                {
-                    AudioSourceError(this, new AudioSourceErrorEventArgs(exception.Message));
-                }
-                else
-                {
+                if (AudioSourceError == null)
                     throw;
-                }
+
+                AudioSourceError(this, new AudioSourceErrorEventArgs(exception));
             }
 
             if (waveStream != null)
@@ -386,17 +382,6 @@ namespace Accord.DirectSound
             this.decoder.Seek(frameIndex);
         }
 
-        /// <summary>
-        ///   Gets the sampling rate for this source.
-        /// </summary>
-        /// 
-        public int SampleRate
-        {
-            get { return decoder.SampleRate; }
-            set { throw new NotSupportedException(); }
-        }
-
-
 
         #region IDisposable members
         /// <summary>
@@ -422,10 +407,10 @@ namespace Accord.DirectSound
             if (disposing)
             {
                 // free managed resources
-                if (stopEvent != null)
+                if (thread != null)
                 {
-                    stopEvent.Close();
-                    stopEvent = null;
+                    thread.Abort();
+                    thread = null;
                 }
             }
         }

@@ -66,6 +66,7 @@ namespace Accord.Imaging
     /// <seealso cref="FastRetinaKeypoint"/>
     /// <seealso cref="FastRetinaKeypointDetector"/>
     ///
+    [Serializable]
     public class FastRetinaKeypointDescriptor : ICloneable
     {
         private FastRetinaKeypointPattern pattern;

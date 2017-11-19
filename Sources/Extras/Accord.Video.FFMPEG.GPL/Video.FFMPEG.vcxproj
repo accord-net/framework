@@ -41,7 +41,7 @@
       <Configuration>net46</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-	<ProjectConfiguration Include="net462|Win32">
+    <ProjectConfiguration Include="net462|Win32">
       <Configuration>net462</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
@@ -69,33 +69,33 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	<PlatformToolset>v140</PlatformToolset>
-	<DefineConstants>DEBUG</DefineConstants>
+    <PlatformToolset>v140</PlatformToolset>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net35'" Label="Configuration">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<PlatformToolset>v90</PlatformToolset>
-	<DefineConstants>NET35</DefineConstants>
+    <PlatformToolset>v90</PlatformToolset>
+    <DefineConstants>NET35</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net40'" Label="Configuration">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<PlatformToolset>v140</PlatformToolset>
-	<DefineConstants>NET40</DefineConstants>
+    <PlatformToolset>v140</PlatformToolset>
+    <DefineConstants>NET40</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net45'" Label="Configuration">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	<PlatformToolset>v140</PlatformToolset>
-	<DefineConstants>NET45</DefineConstants>
+    <PlatformToolset>v140</PlatformToolset>
+    <DefineConstants>NET45</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net46'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	<PlatformToolset>v140</PlatformToolset>
-	<DefineConstants>NET46</DefineConstants>
+    <PlatformToolset>v140</PlatformToolset>
+    <DefineConstants>NET46</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net462'" Label="Configuration">
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-	<PlatformToolset>v140</PlatformToolset>
-	<DefineConstants>NET462</DefineConstants>
+    <PlatformToolset>v140</PlatformToolset>
+    <DefineConstants>NET462</DefineConstants>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -122,13 +122,14 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;$(DefineConstants);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;$(DefineConstants);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
+      <AdditionalOptions>/ignore:4248%(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -160,17 +161,18 @@
       <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
-  
   <ItemDefinitionGroup Condition="'$(Configuration)'=='net35'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\msinttypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
-  
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <ClCompile>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
@@ -190,27 +192,41 @@
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
     </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="AudioCodec.cpp" />
+    <ClCompile Include="Tools.cpp" />
     <ClCompile Include="VersionInfo.cpp" />
-    <ClCompile Include="VideoCodec.cpp" />
     <ClCompile Include="VideoFileReader.cpp" />
     <ClCompile Include="VideoFileSource.cpp" />
     <ClCompile Include="VideoFileWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioCodec.h" />
+    <ClInclude Include="AudioLayouts.h" />
+    <ClInclude Include="PixelFormats.h" />
+    <ClInclude Include="SampleFormats.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="Tools.h" />
     <ClInclude Include="VideoCodec.h" />
     <ClInclude Include="VideoFileReader.h" />
     <ClInclude Include="VideoFileSource.h" />
     <ClInclude Include="VideoFileWriter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Audio\Accord.Audio.csproj">
+      <Project>{e7b65f08-82f1-438f-847a-2aac2bec9ac0}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
+      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Video\Accord.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>

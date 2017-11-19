@@ -46,6 +46,7 @@ namespace Accord.Imaging
     ///   on the example section for <c>BagOfVisualWords{T}</c>.
     /// </example>
     /// 
+    [Serializable]
     public class CornerFeaturesDetector : BaseSparseFeatureExtractor<CornerFeaturePoint>
     {
 

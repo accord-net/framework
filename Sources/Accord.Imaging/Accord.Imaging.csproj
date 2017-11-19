@@ -317,12 +317,12 @@
     <Compile Include="Interest Points\CornerFeaturesDetector.cs" />
     <Compile Include="Interest Points\Base\IImageFeatureExtractor.cs" />
     <Compile Include="Moments\HuMoments.cs" />
-    <Compile Include="Moments\MomentsBase.cs" />
+    <Compile Include="Moments\Base\MomentsBase.cs" />
     <Compile Include="Interest Points\Matching\CorrelationMatching.cs" />
     <Compile Include="Filters\CombineChannel.cs" />
     <Compile Include="Filters\Rectification.cs" />
     <Compile Include="Moments\CentralMoments.cs" />
-    <Compile Include="Moments\IMoments.cs" />
+    <Compile Include="Moments\Base\IMoments.cs" />
     <Compile Include="Moments\RawMoments.cs" />
     <Compile Include="Interest Points\FastCornersDetector.cs" />
     <Compile Include="Filters\FeaturesMarker.cs" />

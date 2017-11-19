@@ -75,10 +75,16 @@ namespace Accord.Audio
         int DesiredFrameSize { get; set; }
 
         /// <summary>
+        ///   Obsolete. Please use NumberOfChannels instead.
+        /// </summary>
+        [Obsolete("Please use NumberOfChannels instead.")]
+        int Channels { get; set; }
+
+        /// <summary>
         ///   Gets the number of audio channels in the source.
         /// </summary>
         /// 
-        int Channels { get; set; }
+        int NumberOfChannels { get; set; }
 
         /// <summary>
         ///   Seeks a frame.

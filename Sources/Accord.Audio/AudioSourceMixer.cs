@@ -26,6 +26,8 @@ namespace Accord.Audio
     using System.Threading;
     using System.Collections.Generic;
     using Accord.Compat;
+    using System.Linq;
+    using System.Data;
 
     /// <summary>
     ///   Software mixer for <see cref="IAudioSource">audio sources</see>.
@@ -43,8 +45,9 @@ namespace Accord.Audio
         private bool needToStop;
 
         private Signal[] signals;
-        private IAudioSource[] Sources;
-        private AutoResetEvent[] stopEvents;
+        private IAudioSource[] sources;
+        private ManualResetEventSlim[] inputReady;
+        private ManualResetEventSlim outputReady;
 
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace Accord.Audio
         /// 
         public AudioSourceMixer(IEnumerable<IAudioSource> sources)
         {
-            this.Sources = new List<IAudioSource>(sources).ToArray();
+            this.sources = sources.ToArray();
         }
 
         /// <summary>
@@ -90,7 +93,7 @@ namespace Accord.Audio
         /// 
         public AudioSourceMixer(params IAudioSource[] sources)
         {
-            this.Sources = sources;
+            this.sources = sources;
         }
 
 
@@ -103,6 +106,16 @@ namespace Accord.Audio
             get { return "Software Audio Mixer"; }
             set { }
         }
+
+        /// <summary>
+        ///   Gets the audio sources being mixed.
+        /// </summary>
+        /// 
+        public IAudioSource[] Sources
+        {
+            get { return sources; }
+        }
+
 
         /// <summary>
         ///   Amount of samples to be read on each frame.
@@ -126,20 +139,32 @@ namespace Accord.Audio
         /// <summary>
         ///   Gets the sample rate for the source.
         /// </summary>
+        /// 
         public int SampleRate
         {
             get { return sampleRate; }
-            set { }
+            set { throw new ReadOnlyException(); }
+        }
+
+        /// <summary>
+        /// Obsolete. Please use <see cref="NumberOfChannels"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfChannels instead.")]
+        public int Channels
+        {
+            get { return channels; }
+            set { throw new ReadOnlyException(); }
         }
 
         /// <summary>
         ///   Gets the number of audio channels in the source.
         /// </summary>
         /// 
-        public int Channels
+        public int NumberOfChannels
         {
             get { return channels; }
-            set { }
+            set { throw new ReadOnlyException(); }
         }
 
         /// <summary>
@@ -226,51 +251,51 @@ namespace Accord.Audio
         /// 
         public void Start()
         {
-            if (thread == null)
+            if (thread != null)
+                throw new InvalidOperationException("Thread is already running.");
+
+            // check source
+            for (int i = 0; i < sources.Length; i++)
             {
-                // check source
-                for (int i = 0; i < Sources.Length; i++)
-                {
-                    IAudioSource source = Sources[i];
+                IAudioSource source = sources[i];
 
-                    if (source == null)
-                        throw new ArgumentException("Audio source is not specified");
+                if (source == null)
+                    throw new ArgumentException("Audio source is not specified");
 
-                    source.UserData = i;
+                source.UserData = i;
 
-                    source.NewFrame += source_NewFrame;
-                    channels = Math.Max(channels, source.Channels);
-                    if (sampleRate == 0)
-                        sampleRate = source.SampleRate;
-                    else if (source.SampleRate != sampleRate)
-                        throw new InvalidSignalPropertiesException(
-                            "The sample rates of all audio sources must match");
+                source.NewFrame += source_NewFrame;
+                channels = Math.Max(channels, source.NumberOfChannels);
+                if (sampleRate == 0)
+                    sampleRate = source.SampleRate;
+                else if (source.SampleRate != sampleRate)
+                    throw new InvalidSignalPropertiesException(
+                        "The sample rates of all audio sources must match");
 
-                    if (frameSize == 0)
-                        frameSize = source.DesiredFrameSize;
-                    else if (source.DesiredFrameSize != frameSize)
-                        throw new InvalidSignalPropertiesException(
-                            "The sample rates of all audio sources must match");
-                }
-
-                if (channels > 2)
-                    throw new ArgumentException("Only a maximum of 2 channels is supported.");
-
-                framesReceived = 0;
-                bytesReceived = 0;
-
-                // create events
-                signals = new Signal[Sources.Length];
-                stopEvents = new AutoResetEvent[Sources.Length];
-                for (int i = 0; i < stopEvents.Length; i++)
-                    stopEvents[i] = new AutoResetEvent(false);
-
-
-                // create and start new thread
-                thread = new Thread(WorkerThread);
-                thread.Name = "Software Audio Mixer";
-                thread.Start();
+                if (frameSize == 0)
+                    frameSize = source.DesiredFrameSize;
+                else if (source.DesiredFrameSize != frameSize)
+                    throw new InvalidSignalPropertiesException(
+                        "The sample rates of all audio sources must match");
             }
+
+            if (channels > 2)
+                throw new ArgumentException("Only a maximum of 2 channels is supported.");
+
+            framesReceived = 0;
+            bytesReceived = 0;
+
+            // create events
+            signals = new Signal[sources.Length];
+            inputReady = new ManualResetEventSlim[sources.Length];
+            for (int i = 0; i < inputReady.Length; i++)
+                inputReady[i] = new ManualResetEventSlim(false);
+            outputReady = new ManualResetEventSlim(false);
+
+            // create and start new thread
+            thread = new Thread(WorkerThread);
+            thread.Name = "Software Audio Mixer";
+            thread.Start();
         }
 
         /// <summary>
@@ -287,6 +312,10 @@ namespace Accord.Audio
             {
                 // signal to stop
                 needToStop = true;
+
+                // unblock all wait operations
+                for (int i = 0; i < inputReady.Length; i++)
+                    inputReady[i].Set();
             }
         }
 
@@ -323,10 +352,7 @@ namespace Accord.Audio
         {
             if (this.IsRunning)
             {
-                needToStop = true;
-#if !NETSTANDARD1_4
-                thread.Abort();
-#endif
+                SignalToStop();
                 WaitForStop();
             }
         }
@@ -342,69 +368,65 @@ namespace Accord.Audio
                 needToStop = false;
 
                 // Rearm the auto reset events
-                for (int i = 0; i < stopEvents.Length; i++)
-                    stopEvents[i].Reset();
+                for (int i = 0; i < inputReady.Length; i++)
+                    inputReady[i].Reset();
 
+                short[] buffer = new short[frameSize * channels];
+                Signal signal = Signal.FromArray(buffer, channels, sampleRate, SampleFormat.Format16Bit);
 
-                if (Sources.Length == 1)
+                // Multiple sources
+                while (!needToStop)
                 {
-                    // Single audio source
-                    while (!needToStop)
-                    {
-                        stopEvents[0].WaitOne();
-                        Signal signal = signals[0];
-                        OnNewFrame(signal);
-                    }
-                }
-                else
-                {
-                    // Multiple sources
-                    while (!needToStop)
-                    {
-                        short[] dst = new short[frameSize * channels];
-
-                        for (int i = 0; i < signals.Length; i++)
-                        {
-                            stopEvents[i].WaitOne();
-                            Signal signal = signals[i];
-
-                            short* src = (short*)signal.Data.ToPointer();
-
-                            if (signal.Channels < channels)
-                            {
-                                for (int j = 0; j < frameSize; j += 2, src++)
-                                {
-                                    dst[j] = mix(dst[j], *src);
-                                    dst[j + 1] = mix(dst[j + 1], *src);
-                                }
-                            }
-                            else
-                            {
-                                for (int j = 0; j < dst.Length; j++, src++)
-                                {
-                                    dst[j] = mix(dst[j], *src);
-                                }
-                            }
-                        }
-
-                        OnNewFrame(dst);
-                    }
+                    mix(buffer, signal);
                 }
             }
             catch (Exception ex)
             {
-                if (!needToStop)
-                {
-                    if (AudioSourceError != null)
-                        AudioSourceError(this, new AudioSourceErrorEventArgs(ex.Message));
-                    else throw;
-                }
+                if (AudioSourceError != null)
+                    AudioSourceError(this, new AudioSourceErrorEventArgs(ex.Message));
+                else throw;
             }
             finally
             {
-                for (int i = 0; i < Sources.Length; i++)
-                    Sources[i].SignalToStop();
+
             }
+        }
+
+        private unsafe void mix(short[] dst, Signal s)
+        {
+            for (int i = 0; i < signals.Length; i++)
+            {
+                inputReady[i].Wait();
+                inputReady[i].Reset();
+                outputReady.Reset();
+
+                if (needToStop)
+                    return;
+
+                Signal inputSignal = signals[i];
+
+                short* src = (short*)inputSignal.Data.ToPointer();
+
+                if (inputSignal.NumberOfChannels < channels)
+                {
+                    for (int j = 0; j < frameSize; j += 2, src++)
+                    {
+                        dst[j] = mix(dst[j], *src);
+                        dst[j + 1] = mix(dst[j + 1], *src);
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < dst.Length; j++, src++)
+                    {
+                        dst[j] = mix(dst[j], *src);
+                    }
+                }
+            }
+
+            outputReady.Set();
+
+            OnNewFrame(new NewFrameEventArgs(s));
         }
 
         unsafe private static short mix(short a, short b)
@@ -432,44 +454,46 @@ namespace Accord.Audio
 
         private void source_NewFrame(object sender, NewFrameEventArgs e)
         {
-            IAudioSource source = sender as IAudioSource;
-            int index = (int)source.UserData;
-            signals[index] = e.Signal;
-            stopEvents[index].Set();
+            if (needToStop)
+                return;
+
+            if (sources.Length == 1)
+            {
+                // Just relay the frame down to listeners
+                OnNewFrame(e);
+            }
+            else
+            {
+                // Wait until we've read one frame from each source,
+                // signal the mixer that the frame is ready, then wait
+                // until the mixer has received and processed all frames
+                // and signalled that the output is ready
+                var source = sender as IAudioSource;
+                int index = (int)source.UserData;
+
+                signals[index] = e.Signal;
+
+                inputReady[index].Set();
+                outputReady.Wait();
+            }
         }
+
 
         /// <summary>
         ///   Notifies client about new block of frames.
         /// </summary>
         /// 
-        /// <param name="frame">New frame's audio.</param>
-        /// 
-        protected void OnNewFrame(Array frame)
+        protected void OnNewFrame(NewFrameEventArgs args)
         {
             framesReceived++;
 
             if (NewFrame != null)
-                NewFrame(this, new NewFrameEventArgs(Signal.FromArray(frame,
-                    channels, sampleRate, SampleFormat.Format16Bit)));
-        }
-
-        /// <summary>
-        ///   Notifies client about new block of frames.
-        /// </summary>
-        /// 
-        /// <param name="frame">New frame's audio.</param>
-        /// 
-        protected void OnNewFrame(Signal frame)
-        {
-            framesReceived++;
-
-            if (NewFrame != null)
-                NewFrame(this, new NewFrameEventArgs(frame));
+                NewFrame(this, args);
         }
 
 
 
-#region IDisposable members
+        #region IDisposable members
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations before the
         ///   <see cref="AudioSourceMixer"/> is reclaimed by garbage collection.
@@ -504,22 +528,23 @@ namespace Accord.Audio
             if (disposing)
             {
                 // free managed resources
-                if (stopEvents != null)
+                if (inputReady != null)
                 {
-                    for (int i = 0; i < stopEvents.Length; i++)
+                    for (int i = 0; i < inputReady.Length; i++)
                     {
-                        if (stopEvents[i] != null)
-                        {
-#if !NETSTANDARD1_4
-                            stopEvents[i].Close();
-#endif
-                            stopEvents[i] = null;
-                        }
+                        inputReady[i].Dispose();
+                        inputReady[i] = null;
                     }
                 }
+
+                if (outputReady != null)
+                    outputReady.Dispose();
             }
+
+            outputReady = null;
+            inputReady = null;
         }
-#endregion
+        #endregion
 
     }
 }

@@ -23,6 +23,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System;
+
 namespace Accord.Imaging
 {
 
@@ -30,6 +32,7 @@ namespace Accord.Imaging
     ///   Standard feature descriptor for <see cref="T:double[]" /> feature vectors.
     /// </summary>
     /// 
+    [Serializable]
     public class FeatureDescriptor : IFeatureDescriptor<double[]>
     {
         private double[] descriptor;
@@ -175,6 +178,7 @@ namespace Accord.Imaging
     /// 
     /// <typeparam name="T">The type of feature vector, such as <see cref="T:double[]"/>.</typeparam>
     /// 
+    [Serializable]
     public struct FeatureDescriptor<T> : IFeatureDescriptor<T>
     {
         private T descriptor;
