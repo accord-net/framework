@@ -733,29 +733,65 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
         /// <param name="source">The random number generator to use as a source of randomness. 
-        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+		///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+		/// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as Robust boolean parameter.</param>.         
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[][] Generate(int samples, double[][] result, Random source)
+        public double[][] Generate(int samples, double[][] result, Random source, NormalOptions options)
         {
-            if (chol == null)
+            if (chol == null & (options.Robust == false | options == null))
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
-
-            double[,] A = chol.LeftTriangularFactor;
-            double[] z = new double[Dimension];
-            double[] u = Mean;
-
-            for (int i = 0; i < samples; i++)
+            else
             {
-                NormalDistribution.Random(Dimension, result: z, source: source);
-                Matrix.Dot(A, z, result: result[i]);
-                Elementwise.Add(result[i], u, result: result[i]);
-            }
+                if (options.Robust)
+                {
+                    for (int i = 0; i < Dimension; i++)
+                    {
+                        svd.Diagonal[i] = Math.Sqrt(svd.Diagonal[i]);
+                    }
+                    double[,] V = svd.RightSingularVectors.Transpose();
+                    double[,] A = new double[Dimension, Dimension];
+                    for (int i = 0; i < Dimension; i++)
+                    {
+                        for (int j = 0; j < Dimension; j++)
+                        {
+                            A[i, j] = svd.Diagonal[i] * V[i, j];
+                        }
+                    }
 
-            return result;
+                    double[] z = new double[Dimension];
+                    double[] u = Mean;
+                    for (int i = 0; i < samples; i++)
+                    {
+                        NormalDistribution.Random(Dimension, result: z, source: source);
+                        Matrix.Dot(z, A, result:result[i]);
+                        Elementwise.Add(result[i], u, result: result[i]);
+                    }
+
+                    return result;
+
+                }
+                else
+                {
+                    double[,] A = chol.LeftTriangularFactor;
+                    double[] z = new double[Dimension];
+                    double[] u = Mean;
+
+                    for (int i = 0; i < samples; i++)
+                    {
+                        NormalDistribution.Random(Dimension, result: z, source: source);
+                        Matrix.Dot(A, z, result: result[i]);
+                        Elementwise.Add(result[i], u, result: result[i]);
+                    }
+
+                    return result;
+                }
+            }
         }
 
+ 
         /// <summary>
         ///   Creates a new univariate Normal distribution.
         /// </summary>

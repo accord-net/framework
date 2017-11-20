@@ -614,6 +614,34 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, cov[1][0], 1e-2);
             Assert.AreEqual(5, cov[1][1], 2e-2);
         }
+        [Test]
+        public void RobustGenerateTest()
+        {
+            NormalOptions options = new NormalOptions() { Robust = true };
+
+            Accord.Math.Tools.SetupGenerator(0);
+
+            var normal = new MultivariateNormalDistribution(
+                new double[] { 2, 6, 5 },
+                new double[,] { { 2, 1, 0 }, { 1, 5, 0 }, { 0, 0, 0} });
+
+            double[][] sample = normal.Generate(1000000);
+
+            double[] mean = sample.Mean(dimension: 0);
+            double[][] cov = sample.Covariance(dimension: 0);
+
+            Assert.AreEqual(2, mean[0], 1e-2);
+            Assert.AreEqual(6, mean[1], 1e-2);
+            Assert.AreEqual(5, mean[2], 1e-2);
+
+            Assert.AreEqual(2, cov[0][0], 1e-2);
+            Assert.AreEqual(1, cov[0][1], 1e-2);
+            Assert.AreEqual(0, cov[0][2], 1e-2);
+            Assert.AreEqual(1, cov[1][0], 1e-2);
+            Assert.AreEqual(5, cov[1][1], 2e-2);
+            Assert.AreEqual(0, cov[1][2], 1e-2);
+            Assert.AreEqual(0, cov[2][2], 1e-2);
+        }
 
         [Test]
         public void GenerateTest2()
