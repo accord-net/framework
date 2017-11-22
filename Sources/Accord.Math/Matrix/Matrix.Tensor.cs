@@ -170,7 +170,7 @@ namespace Accord.Math
             Array r = Array.CreateInstance(type, lengths);
 
             for (int i = 0; i < indices.Length; i++)
-                Set(r, dimension: 0, index: i, value: Get(source, dimension: 0, index: i));
+                Set(r, dimension: dimension, index: i, value: Get(source, dimension: dimension, index: indices[i]));
 
             return r;
         }
@@ -199,11 +199,18 @@ namespace Accord.Math
         /// 
         public static Array Get(this Array source, int dimension, int start, int end)
         {
+            if (dimension != 0)
+            {
+                throw new NotImplementedException("Retrieving dimensions higher than zero has not been implemented" +
+                    " yet. Please open a new issue at the issue tracker if you need such functionality.");
+            }
+
             int[] length = source.GetLength();
             length = length.RemoveAt(dimension);
             int rows = end - start;
             if (length.Length == 0)
-                length = new int[] { rows };
+                length = new int[] { rows
+    };
 
             Type type = source.GetInnerMostType();
             Array r = Array.CreateInstance(type, length);
@@ -240,6 +247,12 @@ namespace Accord.Math
         /// 
         public static void Set(this Array destination, int dimension, int start, int end, Array value)
         {
+            if (dimension != 0)
+            {
+                throw new NotImplementedException("Retrieving dimensions higher than zero has not been implemented" +
+                    " yet. Please open a new issue at the issue tracker if you need such functionality.");
+            }
+
             Type type = destination.GetInnerMostType();
             int rowSize = destination.Length / destination.GetLength(0);
             int length = end - start;

@@ -1528,13 +1528,37 @@ namespace Accord.Math
 
 
         #region Rounding and discretization
+        // TODO: Rewrite using T4 templates for float and double
+
+        /// <summary>
+        ///   Rounds a double-precision floating-point matrix to a specified number of fractional digits.
+        /// </summary>
+        /// 
+        public static float[,] Round(this float[,] matrix, int decimals = 0)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            float[,] result = new float[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    result[i, j] = (float)System.Math.Round(matrix[i, j], decimals);
+
+            return result;
+        }
+
         /// <summary>
         ///   Rounds a double-precision floating-point matrix to a specified number of fractional digits.
         /// </summary>
         /// 
         public static double[,] Round(this double[,] matrix, int decimals = 0)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -1555,7 +1579,8 @@ namespace Accord.Math
         /// 
         public static double[,] Floor(this double[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -1575,7 +1600,8 @@ namespace Accord.Math
         /// </summary>
         public static double[,] Ceiling(this double[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -1594,11 +1620,26 @@ namespace Accord.Math
         /// </summary>
         public static double[] Round(double[] vector, int decimals = 0)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
+            if (vector == null)
+                throw new ArgumentNullException("vector");
 
             double[] result = new double[vector.Length];
             for (int i = 0; i < result.Length; i++)
                 result[i] = Math.Round(vector[i], decimals);
+            return result;
+        }
+
+        /// <summary>
+        ///   Rounds a double-precision floating-point number array to a specified number of fractional digits.
+        /// </summary>
+        public static float[] Round(float[] vector, int decimals = 0)
+        {
+            if (vector == null)
+                throw new ArgumentNullException("vector");
+
+            float[] result = new float[vector.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = (float)Math.Round(vector[i], decimals);
             return result;
         }
 
@@ -1608,7 +1649,8 @@ namespace Accord.Math
         /// </summary>
         public static double[] Floor(double[] vector)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
+            if (vector == null)
+                throw new ArgumentNullException("vector");
 
             double[] result = new double[vector.Length];
             for (int i = 0; i < result.Length; i++)
@@ -1622,7 +1664,8 @@ namespace Accord.Math
         /// </summary>
         public static double[] Ceiling(double[] vector)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
+            if (vector == null)
+                throw new ArgumentNullException("vector");
 
             double[] result = new double[vector.Length];
             for (int i = 0; i < result.Length; i++)

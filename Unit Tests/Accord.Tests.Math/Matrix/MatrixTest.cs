@@ -284,6 +284,18 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void IntervalTest_float()
+        {
+            float from = -1;
+            float to = 1;
+            float stepSize = 0.2f;
+            float[] expected = { -1.0f, -0.8f, -0.6f, -0.4f, -0.2f, 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+            float[] actual = Matrix.Interval(from, to, stepSize);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, Matrix.Round(actual, 15)));
+        }
+
+        [Test]
         public void IntervalTestInverse()
         {
             double from = 1;
