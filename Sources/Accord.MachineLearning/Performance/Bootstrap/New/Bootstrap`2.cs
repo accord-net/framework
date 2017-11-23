@@ -71,7 +71,7 @@ namespace Accord.MachineLearning.Performance
         {
             this.Loss = (expected, actual, r) =>
             {
-                return new GeneralConfusionMatrix(r.Model.NumberOfClasses, expected, actual).Accuracy;
+                return new GeneralConfusionMatrix(r.Model.NumberOfClasses, expected, actual).Error;
             };
         }
 

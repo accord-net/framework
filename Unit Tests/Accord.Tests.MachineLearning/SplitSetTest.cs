@@ -33,6 +33,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Analysis;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning.Performance;
+    using Accord.DataSets;
 
     [TestFixture]
     public class SplitSetTest
@@ -46,7 +47,7 @@ namespace Accord.Tests.MachineLearning
             Accord.Math.Random.Generator.Seed = 0;
 
             // This is a sample code on how to use Train-Val validation (split-set)
-            // to assess the performance of Support Vector Machines.
+            // to assess the performance of binary linear Support Vector Machines.
 
             // Consider the example binary data. We will be trying to learn a XOR 
             // problem and see how well does SVMs perform on this data.
@@ -76,7 +77,7 @@ namespace Accord.Tests.MachineLearning
             };
 
 
-            // Create a new Cross-validation algorithm passing the data set size and the number of folds
+            // Create a new Split-Set validation algorithm passing the learning algorithm to be used
             var splitset = new SplitSetValidation<SupportVectorMachine<Linear, double[]>, double[]>()
             {
                 Learner = (s) => new SequentialMinimalOptimization<Linear, double[]>()
@@ -84,11 +85,13 @@ namespace Accord.Tests.MachineLearning
                     Complexity = 1000
                 },
 
+                // Optionally, we can specify a metric function to measure performance
                 Loss = (expected, actual, p) => new ZeroOneLoss(expected).Loss(actual),
 
                 Stratify = false,
             };
 
+            // If desired, we can also control paralellism using
             splitset.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Compute the cross-validation
@@ -118,6 +121,67 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(16, result.NumberOfSamples);
             Assert.AreEqual(8, result.AverageNumberOfSamples);
+        }
+
+        [Test]
+        public void learn_test_multiclass()
+        {
+            #region doc_learn_multiclass
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // This is a sample code on how to use Train-Val validation (split-set)
+            // to assess the performance of multi-class Support Vector Machines.
+
+            // Let's try to learn a SVM model for the famous Fisher's Iris dataset:
+            var iris = new Iris();
+            double[][] inputs = iris.Instances;
+            int[] classes = iris.ClassLabels;
+
+            // Create a new Split-Set validation algorithm passing the learning algorithm to be used
+            var splitset = new SplitSetValidation<MulticlassSupportVectorMachine<Gaussian, double[]>, double[]>()
+            {
+                // In this example, we will be learning one-vs-one multi-class machines
+                Learner = (s) => new MulticlassSupportVectorLearning<Gaussian, double[]>()
+                {
+                    Learner = (m) => new SequentialMinimalOptimization<Gaussian, double[]>()
+                },
+
+                // Optionally, set the proportion of the dataset that
+                // should be used for validation (the default is 20%):
+                ValidationSetProportion = 0.2 // this is the default
+            };
+
+            // If desired, we can also control paralellism using
+            splitset.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Compute the cross-validation
+            var result = splitset.Learn(inputs, classes);
+
+            // Finally, access the measured performance.
+            double trainingErrors = result.Training.Value; // should be 0.016666666666666718 (+/- var. 0)
+            double validationErrors = result.Validation.Value; // should be 0.033333333333333326 (+/- var. 0)
+            #endregion
+
+            Assert.AreEqual(0.2, splitset.ValidationSetProportion, 1e-10);
+
+            Assert.AreEqual(0.2, splitset.ValidationSetProportion, 1e-6);
+            Assert.AreEqual(0.8, splitset.TrainingSetProportion, 1e-6);
+
+            Assert.AreEqual(0.016666666666666718, result.Training.Value, 1e-10);
+            Assert.AreEqual(0.033333333333333326, result.Validation.Value, 1e-10);
+
+            Assert.AreEqual(0, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0, result.Validation.Variance, 1e-10);
+
+            Assert.AreEqual(0, result.Training.StandardDeviation, 1e-10);
+            Assert.AreEqual(0, result.Validation.StandardDeviation, 1e-10);
+
+            Assert.AreEqual(0.8, result.Training.Proportion);
+            Assert.AreEqual(0.2, result.Validation.Proportion);
+
+            Assert.AreEqual(150, result.NumberOfSamples);
+            Assert.AreEqual(75, result.AverageNumberOfSamples);
         }
 
         [Test]
