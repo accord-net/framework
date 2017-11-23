@@ -291,8 +291,8 @@ namespace Accord.Tests.Math
             float stepSize = 0.2f;
             float[] expected = { -1.0f, -0.8f, -0.6f, -0.4f, -0.2f, 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
             float[] actual = Matrix.Interval(from, to, stepSize);
-
-            Assert.IsTrue(Matrix.IsEqual(expected, Matrix.Round(actual, 15)));
+            float[] round = Matrix.Round(actual, 3);
+            Assert.IsTrue(Matrix.IsEqual(expected, round));
         }
 
         [Test]
