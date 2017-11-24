@@ -180,7 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="framework.ico" />
-    <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Accord.3.8.2-alpha\build\Accord.targets" Condition="Exists('..\..\packages\Accord.3.8.2-alpha\build\Accord.targets')" />

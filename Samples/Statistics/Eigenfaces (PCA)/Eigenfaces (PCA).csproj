@@ -225,7 +225,6 @@
     <Content Include="Hands\C\S59.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="License-LGPL.txt" />
     <None Include="Resources\run.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -149,7 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="framework.ico" />
-    <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.dll.config">
