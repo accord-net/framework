@@ -29,6 +29,7 @@
 
 namespace Accord.Video
 {
+    using Accord.Imaging;
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -417,9 +418,7 @@ namespace Accord.Video
                 }
 
                 if (NewFrame != null)
-                {
                     NewFrame(this, new NewFrameEventArgs(lastVideoFrame));
-                }
 
                 lastVideoFrame.Dispose();
                 lastVideoFrame = null;
@@ -436,9 +435,7 @@ namespace Accord.Video
         private static Bitmap CloneImage(Bitmap source)
         {
             // lock source bitmap data
-            BitmapData sourceData = source.LockBits(
-                new Rectangle(0, 0, source.Width, source.Height),
-                ImageLockMode.ReadOnly, source.PixelFormat);
+            BitmapData sourceData = source.LockBits(ImageLockMode.ReadOnly);
 
             // create new image
             Bitmap destination = CloneImage(sourceData);
@@ -456,13 +453,9 @@ namespace Accord.Video
                 ColorPalette srcPalette = source.Palette;
                 ColorPalette dstPalette = destination.Palette;
 
-                int n = srcPalette.Entries.Length;
-
                 // copy pallete
-                for (int i = 0; i < n; i++)
-                {
+                for (int i = 0; i < srcPalette.Entries.Length; i++)
                     dstPalette.Entries[i] = srcPalette.Entries[i];
-                }
 
                 destination.Palette = dstPalette;
             }
@@ -480,9 +473,7 @@ namespace Accord.Video
             Bitmap destination = new Bitmap(width, height, sourceData.PixelFormat);
 
             // lock destination bitmap data
-            BitmapData destinationData = destination.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, destination.PixelFormat);
+            BitmapData destinationData = destination.LockBits(ImageLockMode.ReadWrite);
 
             Accord.SystemTools.CopyUnmanagedMemory(destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
 

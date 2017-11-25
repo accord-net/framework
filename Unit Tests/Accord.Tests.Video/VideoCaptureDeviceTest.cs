@@ -115,7 +115,26 @@ namespace Accord.Tests.Video
             // process the frame (you can do anything with it, such as running an
             // image processing filter, saving it to disk, showing on screen, etc)
         }
-        #endregion\
+        #endregion
 
+        [Test, Ignore("This test needs a webcam to run.")]
+        public void dispose_test()
+        {
+            var videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            var videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+            videoSource.NewFrame += new NewFrameEventHandler(video_NewFrame);
+
+            videoSource.Start();
+
+            Assert.IsFalse(videoSource.IsDisposed);
+            Assert.IsTrue(videoSource.IsRunning);
+
+            videoSource.Dispose();
+
+            Assert.IsTrue(videoSource.IsDisposed);
+            Assert.IsFalse(videoSource.IsRunning);
+
+            Assert.Throws<ObjectDisposedException>(() => videoSource.Start());
+        }
     }
 }

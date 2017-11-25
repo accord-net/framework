@@ -540,6 +540,11 @@ namespace Accord.Controls
                     // (as manipulated by the user above)
                     newFrame = eventArgs.Frame;
                 }
+                else
+                {
+                    // Get the original frame
+                    newFrame = eventArgs.Frame;
+                }
 
                 // now update current frame of the control
                 if (Visible)
