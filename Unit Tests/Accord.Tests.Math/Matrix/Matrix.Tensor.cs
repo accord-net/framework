@@ -314,5 +314,28 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected, r);
             }
         }
+
+        [Test]
+        public void create_as()
+        {
+            double[,] a =
+            {
+                {1, 2, 3 },
+                {3, 4, 5 }
+            };
+
+            Array actual = Jagged.CreateAs(a, typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+
+            actual = Jagged.CreateAs(a.ToJagged(), typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+
+            actual = Matrix.CreateAs(a, typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+
+            actual = Matrix.CreateAs(a.ToJagged(), typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+        }
+
     }
 }

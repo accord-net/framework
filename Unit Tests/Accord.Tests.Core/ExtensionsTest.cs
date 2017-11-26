@@ -37,5 +37,19 @@ namespace Accord.Tests
             Assert.IsTrue(10.IsGreaterThan(9));
             Assert.IsTrue((-1).IsGreaterThanOrEqual(-2));
         }
+
+        [Test]
+        public void MakeArrayType_test()
+        {
+            var t = typeof(double);
+            var r = t.MakeArrayType(rank: 3, jagged: true);
+            Assert.AreEqual(typeof(double[][][]), r);
+
+            r = t.MakeArrayType(rank: 1, jagged: true);
+            Assert.AreEqual(typeof(double[]), r);
+
+            r = t.MakeArrayType(rank: 0, jagged: true);
+            Assert.AreEqual(typeof(double), r);
+        }
     }
 }

@@ -199,34 +199,26 @@ namespace Accord.Math
 #endif
         public static Array Create(Type elementType, int[] shape, object value)
         {
-            int s = shape[0];
+            return create(elementType, shape, 0, value);
+        }
 
-            if (shape.Length == 1)
+        private static Array create(Type elementType, int[] shape, int dimension, object value)
+        {
+            Type arrayType = elementType.MakeArrayType(shape.Length - dimension - 1, jagged: true);
+            Array array = Array.CreateInstance(arrayType, shape[dimension]);
+            
+            if (dimension < shape.Length - 1)
             {
-                return Array.CreateInstance(elementType, s);
+                for (int i = 0; i < array.Length; i++)
+                    array.SetValue(create(elementType, shape, dimension + 1, value), i);
             }
             else
             {
-                int[] rest = shape.Get(1, 0);
-
-                if (s == 0)
-                {
-                    Array dummy = Matrix.Create(elementType, rest, value);
-                    Array container = Array.CreateInstance(dummy.GetType(), 0);
-                    return container;
-                }
-                else
-                {
-                    Array first = Jagged.Create(elementType, rest, value);
-                    Array container = Array.CreateInstance(first.GetType(), s);
-
-                    container.SetValue(first, 0);
-                    for (int i = 1; i < container.Length; i++)
-                        container.SetValue(Create(elementType, rest, value), i);
-
-                    return container;
-                }
+                for (int i = 0; i < array.Length; i++)
+                    array.SetValue(value, i);
             }
+
+            return array;
         }
 
         /// <summary>
@@ -260,7 +252,7 @@ namespace Accord.Math
 #endif
         public static Array Zeros(Type elementType, params int[] shape)
         {
-            return Create(elementType, shape, 0);
+            return Create(elementType, shape, elementType.GetDefaultValue());
         }
 
         /// <summary>
@@ -692,8 +684,20 @@ namespace Accord.Math
             return result;
         }
 
+        /// <summary>
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Array CreateAs(Array matrix, Type type)
+        {
+            int[] outputShape = Matrix.GetShape(matrix, type);
 
-
+            // multidimensional or jagged -> jagged
+            return Jagged.Create(elementType: type.GetInnerMostType(), shape: outputShape, value: type.GetDefaultValue());
+        }
 
         /// <summary>
         ///   Creates a new multidimensional matrix with the same shape as another matrix.

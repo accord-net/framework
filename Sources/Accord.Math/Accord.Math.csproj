@@ -137,6 +137,7 @@
     <Compile Include="IO\NumPy\NpzFormat.Writer.cs" />
     <Compile Include="IO\NumPy\NpyFormat.Writer.cs" />
     <Compile Include="IO\NumPy\NpyFormat.Reader.cs" />
+    <Compile Include="Matrix\Jagged.Conversions.cs" />
     <Compile Include="Matrix\Jagged.Product.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
