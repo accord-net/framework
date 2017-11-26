@@ -151,68 +151,43 @@ namespace Accord.Neuro
 
 #if !NO_BINARY_SERIALIZATION
         /// <summary>
-        /// Save network to specified file.
+        /// Obsolete. Please use <see cref="Accord.IO.Serializer.Save{T}(T, string)"/> instead.
         /// </summary>
         /// 
-        /// <param name="fileName">File name to save network into.</param>
-        /// 
-        /// <remarks><para>The neural network is saved using .NET serialization (binary formatter is used).</para></remarks>
-        /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save(network, fileName) instead.")]
         public void Save(string fileName)
         {
-            FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
-            Save(stream);
-            stream.Close();
+            Accord.IO.Serializer.Save(this, fileName);
         }
 
         /// <summary>
-        /// Save network to specified file.
+        /// Obsolete. Please use <see cref="Accord.IO.Serializer.Save{T}(T, Stream, IO.SerializerCompression)"/> instead.
         /// </summary>
         /// 
-        /// <param name="stream">Stream to save network into.</param>
-        /// 
-        /// <remarks><para>The neural network is saved using .NET serialization (binary formatter is used).</para></remarks>
-        /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save(network, stream) instead.")]
         public void Save(Stream stream)
         {
-            IFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, this);
+            Accord.IO.Serializer.Save(this, stream);
         }
 
         /// <summary>
-        /// Load network from specified file.
+        /// Obsolete. Please use <see cref="Accord.IO.Serializer.Load{T}(string)"/> instead.
         /// </summary>
         /// 
-        /// <param name="fileName">File name to load network from.</param>
-        /// 
-        /// <returns>Returns instance of <see cref="Network"/> class with all properties initialized from file.</returns>
-        /// 
-        /// <remarks><para>Neural network is loaded from file using .NET serialization (binary formater is used).</para></remarks>
-        /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load<Network>(fileName) instead.")]
         public static Network Load(string fileName)
         {
-            FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            Network network = Load(stream);
-            stream.Close();
-
-            return network;
+            return Accord.IO.Serializer.Load<Network>(fileName);
         }
 
         /// <summary>
-        /// Load network from specified file.
+        /// Obsolete. Please use <see cref="Accord.IO.Serializer.Load{T}(Stream, IO.SerializerCompression)"/> instead.
         /// </summary>
         /// 
-        /// <param name="stream">Stream to load network from.</param>
-        /// 
-        /// <returns>Returns instance of <see cref="Network"/> class with all properties initialized from file.</returns>
-        /// 
-        /// <remarks><para>Neural network is loaded from file using .NET serialization (binary formater is used).</para></remarks>
-        /// 
+        [Obsolete("Please use Accord.IO.Serializer.Load<Network>(stream) instead.")]
         public static Network Load(Stream stream)
         {
-            IFormatter formatter = new BinaryFormatter();
-            Network network = (Network)formatter.Deserialize(stream);
-            return network;
+            return Accord.IO.Serializer.Load<Network>(stream);
         }
 #endif
     }
