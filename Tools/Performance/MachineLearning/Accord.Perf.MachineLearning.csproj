@@ -272,6 +272,10 @@
       <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj">
+      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
+      <Name>Accord.Video.DirectShow</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Sources\Accord.Video\Accord.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
       <Name>Accord.Video</Name>
