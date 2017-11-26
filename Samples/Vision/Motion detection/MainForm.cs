@@ -99,9 +99,9 @@ namespace SampleApp
 
             form.Description = "Enter URL of an updating JPEG from a web camera:";
             form.URLs = new string[]
-				{
-					"http://195.243.185.195/axis-cgi/jpg/image.cgi?camera=1"
-				};
+            {
+                "http://195.243.185.195/axis-cgi/jpg/image.cgi?camera=1"
+            };
 
             if (form.ShowDialog(this) == DialogResult.OK)
             {
@@ -120,10 +120,10 @@ namespace SampleApp
 
             form.Description = "Enter URL of an MJPEG video stream:";
             form.URLs = new string[]
-				{
-					"http://195.243.185.195/axis-cgi/mjpg/video.cgi?camera=3",
-					"http://195.243.185.195/axis-cgi/mjpg/video.cgi?camera=4",
-				};
+                {
+                    "http://webcam.st-malo.com/axis-cgi/mjpg/video.cgi?resolution=352x288",
+                    "http://88.53.197.250/axis-cgi/mjpg/video.cgi?resolution=320x240",
+                };
 
             if (form.ShowDialog(this) == DialogResult.OK)
             {

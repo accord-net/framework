@@ -43,9 +43,7 @@ namespace SampleApp
             {
                 // add all devices to combo
                 foreach (FilterInfo device in videoDevices)
-                {
                     devicesCombo.Items.Add(device.Name);
-                }
             }
             else
             {
@@ -81,7 +79,7 @@ namespace SampleApp
             {
                 videoDevice = new VideoCaptureDevice(videoDevices[devicesCombo.SelectedIndex].MonikerString);
                 videoDevice.VideoSourceError += VideoDevice_VideoSourceError;
-                //EnumeratedSupportedFrameSizes(videoDevice);
+                EnumeratedSupportedFrameSizes(videoDevice);
             }
         }
 
@@ -138,19 +136,19 @@ namespace SampleApp
         {
             if (videoDevice != null)
             {
-                //if ((videoCapabilities != null) && (videoCapabilities.Length != 0))
-                //{
-                //   // videoDevice.VideoResolution = videoCapabilities[videoResolutionsCombo.SelectedIndex];
-                //}
+                if ((videoCapabilities != null) && (videoCapabilities.Length != 0))
+                {
+                    // videoDevice.VideoResolution = videoCapabilities[videoResolutionsCombo.SelectedIndex];
+                }
 
-                //if ((snapshotCapabilities != null) && (snapshotCapabilities.Length != 0))
-                //{
-                //    videoDevice.ProvideSnapshots = true;
-                //    videoDevice.SnapshotResolution = snapshotCapabilities[snapshotResolutionsCombo.SelectedIndex];
-                //    videoDevice.SnapshotFrame += new NewFrameEventHandler(videoDevice_SnapshotFrame);
-                //}
+                if ((snapshotCapabilities != null) && (snapshotCapabilities.Length != 0))
+                {
+                    videoDevice.ProvideSnapshots = true;
+                    videoDevice.SnapshotResolution = snapshotCapabilities[snapshotResolutionsCombo.SelectedIndex];
+                    videoDevice.SnapshotFrame += new NewFrameEventHandler(videoDevice_SnapshotFrame);
+                }
 
-                //EnableConnectionControls(false);
+                EnableConnectionControls(false);
 
                 videoSourcePlayer.VideoSource = videoDevice;
                 videoSourcePlayer.Start();
@@ -171,12 +169,11 @@ namespace SampleApp
                 // stop video device
                 videoSourcePlayer.SignalToStop();
                 videoSourcePlayer.WaitForStop();
+                videoSourcePlayer.Stop();
                 videoSourcePlayer.VideoSource = null;
 
                 if (videoDevice.ProvideSnapshots)
-                {
                     videoDevice.SnapshotFrame -= new NewFrameEventHandler(videoDevice_SnapshotFrame);
-                }
 
                 EnableConnectionControls(true);
             }
