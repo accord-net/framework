@@ -183,9 +183,6 @@ namespace Accord.MachineLearning
 #endif
         private int[] getNearestIndices(TInput input, out double[] distances)
         {
-            if (!this.distanceCache.IsValueCreated)
-                this.distanceCache.Value = new double[Inputs.Length];
-
             double[] d = this.distanceCache.Value;
 
             if (this.parallelOptions.MaxDegreeOfParallelism == 1)
@@ -253,7 +250,7 @@ namespace Accord.MachineLearning
             this.NumberOfInputs = GetNumberOfInputs(x);
             this.NumberOfOutputs = y.DistinctCount();
             this.NumberOfClasses = this.NumberOfOutputs;
-            this.distanceCache = new ThreadLocal<double[]>();
+            this.distanceCache = new ThreadLocal<double[]>(() => new double[Inputs.Length]);
 
             return this;
         }
@@ -284,7 +281,7 @@ namespace Accord.MachineLearning
         [OnDeserialized]
         private void SetValuesOnDeserialized(StreamingContext context)
         {
-            this.distanceCache = new ThreadLocal<double[]>();
+            this.distanceCache = new ThreadLocal<double[]>(() => new double[Inputs.Length]);
             this.parallelOptions = new ParallelOptions();
         }
 
