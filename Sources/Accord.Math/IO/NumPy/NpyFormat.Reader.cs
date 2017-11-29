@@ -476,13 +476,25 @@ IList, ICollection, IEnumerable
             if (typeCode == "b1")
                 return typeof(bool);
             if (typeCode == "i1")
-                return typeof(Byte);
+                return typeof(SByte);
             if (typeCode == "i2")
                 return typeof(Int16);
             if (typeCode == "i4")
                 return typeof(Int32);
             if (typeCode == "i8")
                 return typeof(Int64);
+            if (typeCode == "u1")
+                return typeof(Byte);
+            if (typeCode == "u2")
+                return typeof(UInt16);
+            if (typeCode == "u4")
+                return typeof(UInt32);
+            if (typeCode == "u8")
+                return typeof(UInt64);
+            if (typeCode == "f4")
+                return typeof(Single);
+            if (typeCode == "f8")
+                return typeof(Double);
             if (typeCode.StartsWith("S"))
                 return typeof(String);
 
