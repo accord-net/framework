@@ -1374,7 +1374,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 0.731683025073335, 0.269111911681433, 0.267282768976239 },
                 new double[] { 0.269942360762677, 0.730449799736373, 0.26844600300527 },
                 new double[] { 0.269566785660751, 0.268333512318449, 0.732717231023761 }
-            };;
+            };
 
             {
                 var teacher = new MultilabelSupportVectorLearning<Gaussian>()
@@ -1501,7 +1501,7 @@ namespace Accord.Tests.MachineLearning
                 compare(test, machine, new double[][][] { e, f, h });
             }
         }
-        
+
         [Test]
         public void multiclass_probabilities()
         {
@@ -1700,5 +1700,41 @@ namespace Accord.Tests.MachineLearning
                 "There are no samples for class label {0}. Please make sure that class " +
                 "labels are contiguous and there is at least one training sample for each label.", 1);
         }
+
+
+        //[Test]
+        //public void gh1047()
+        //{
+        //    // https://github.com/accord-net/framework/issues/1047#issuecomment-347990636
+
+        //    double[][] x =
+        //    {
+        //        new double[] { 0.843946446600023, 0.590640737266467, 1.72137487731282, 1.57051220248599, 1.25787722046271},
+        //        new double[] { 1.81795538387932, 1.1752993916574, 1.29604299866202, 1.14395278624226, 0.83041877565398},
+        //        new double[] { 1.1867488818406, 1.41648938821298, 1.51987516068968, 1.30632678757385, 0.937799655212449},
+        //        new double[] { 0.128888856980189, 1.27483840502442, 1.4553025510829, 1.29415393321166, 0.918761675903281},
+        //        new double[] { 0.751579994633229, 1.72183855559824, 1.96500963073231, 0.969601765667682, 0.674641485676571} 
+        //    };
+
+        //    int[] y =
+        //    {
+        //        4,
+        //        0,
+        //        1,
+        //        2,
+        //        3
+        //    };
+
+        //    var teacher = new MulticlassSupportVectorLearning<Linear>()
+        //    {
+        //        // using LIBLINEAR's L2-loss SVC dual for each SVM
+        //        Learner = (p) => new LinearDualCoordinateDescent()
+        //        {
+        //            Loss = Loss.L2
+        //        }
+        //    };
+
+        //    teacher.Learn(x, y);
+        //}
     }
 }
