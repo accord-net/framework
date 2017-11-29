@@ -221,20 +221,23 @@ namespace Accord.MachineLearning
             int[] classes = y as int[];
             if (classes != null)
             {
-                int[] counts = Vector.Histogram(classes);
-                for (int i = 0; i < counts.Length; i++)
-                {
-                    if (counts[i] < 1)
-                        throw new ArgumentException("There are no samples for class label {0}. Please make sure that class labels are contiguous and there is at least one training sample for each label.".Format(i));
-                }
-
                 if (!allowNegativeClasses)
                 {
                     for (int i = 0; i < classes.Length; i++)
                     {
                         if (classes[i] < 0)
-                            throw new ArgumentException("This learning algorithm does not support negative class labels. The class label passed for class {0} is {1}.".Format(i, classes[i]));
+                            throw new ArgumentException("This learning algorithm does not support negative class labels." +
+                                " The class label passed for instance {0} is {1}.".Format(i, classes[i]) + 
+                                " If you are want to perform binary classification, please consider converting the" +
+                                " labels to zero-one values with the Accord.Statistics.Classes.ToZeroOne() method first.");
                     }
+                }
+
+                int[] counts = Vector.Histogram(classes);
+                for (int i = 0; i < counts.Length; i++)
+                {
+                    if (counts[i] < 1)
+                        throw new ArgumentException("There are no samples for class label {0}. Please make sure that class labels are contiguous and there is at least one training sample for each label.".Format(i));
                 }
             }
             else
