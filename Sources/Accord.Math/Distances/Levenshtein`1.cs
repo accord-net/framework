@@ -54,6 +54,7 @@ namespace Accord.Math.Distances
     /// 
     /// <typeparam name="T">The type of elements in the string. Default is char.</typeparam>
     /// 
+    [Serializable]
     public struct Levenshtein<T> : IMetric<T[]>, ICloneable
     {
         /// <summary>

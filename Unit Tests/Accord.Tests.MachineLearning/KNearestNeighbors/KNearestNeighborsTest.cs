@@ -460,6 +460,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_string()
         {
+            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+
             #region doc_learn_text
             // The k-Nearest Neighbors algorithm can be used with
             // any kind of data. In this example, we will see how
@@ -509,6 +511,27 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error);
             Assert.AreEqual(1, acc);
             Assert.AreEqual(1, kappa);
+
+#if !NO_BINARY_SERIALIZATION
+            knn.Save(Path.Combine(basePath, "string_knn.bin"));
+
+            var loaded_knn = Serializer.Load<KNearestNeighbors<string>>(Path.Combine(basePath, "string_knn.bin"));
+
+            Assert.AreEqual(1, loaded_knn.Decide("Chars"));
+            cm = ConfusionMatrix.Estimate(loaded_knn, inputs, outputs);
+            Assert.AreEqual(0, cm.Error);
+            Assert.AreEqual(1, cm.Accuracy);
+            Assert.AreEqual(1, cm.Kappa);
+
+            Assert.AreEqual(knn.ClassCount, loaded_knn.ClassCount);
+            Assert.AreEqual(knn.Distance, loaded_knn.Distance);
+            Assert.AreEqual(knn.K, loaded_knn.K);
+            Assert.AreEqual(knn.NumberOfClasses, loaded_knn.NumberOfClasses);
+            Assert.AreEqual(knn.NumberOfInputs, loaded_knn.NumberOfInputs);
+            Assert.AreEqual(knn.NumberOfOutputs, loaded_knn.NumberOfOutputs);
+            Assert.AreEqual(knn.Outputs, loaded_knn.Outputs);
+            Assert.AreEqual(knn.Token, loaded_knn.Token);
+#endif
         }
 
         [Test]

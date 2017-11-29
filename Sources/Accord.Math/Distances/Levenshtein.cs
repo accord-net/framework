@@ -54,6 +54,7 @@ namespace Accord.Math.Distances
     /// 
     /// <seealso cref="Levenshtein{T}"/>
     /// 
+    [Serializable]
     public struct Levenshtein : IMetric<string>, ICloneable
     {
         /// <summary>
