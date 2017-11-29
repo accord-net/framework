@@ -33,11 +33,11 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
     <DefineConstants>TRACE;NET462</DefineConstants>
-	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -74,6 +74,7 @@
     <Compile Include="Text\Stemmers\StemmerBase.cs" />
     <Compile Include="Text\Stemmers\Languages\SwedishStemmer.generated.cs" />
     <Compile Include="Text\Stemmers\Languages\TurkishStemmer.generated.cs" />
+    <Compile Include="Text\ExtensionMethods.cs" />
     <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>

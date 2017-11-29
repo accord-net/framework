@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.MachineLearning
+namespace Accord.Text
 {
     using Accord.Math.Random;
     using System;
@@ -31,26 +31,33 @@ namespace Accord.MachineLearning
     ///   Set of machine learning tools.
     /// </summary>
     /// 
-    public static class Tools
+    public static partial class ExtensionMethods
     {
         /// <summary>
-        ///   Obsolete. Please use <see cref="Accord.Text.ExtensionMethods.Tokenize(string)"/> instead.
+        ///   Splits the given text into individual atomic words, 
+        ///   irrespective of punctuation and other marks.
         /// </summary>
         /// 
-        [Obsolete("please use Accord.Text.ExtensionMethods.Tokenize(x) instead.")]
-        public static string[][] Tokenize(string[] x)
+        public static string[][] Tokenize(this string[] x)
         {
-            return Accord.Text.ExtensionMethods.Tokenize(x);
+            var r = new string[x.Length][];
+            for (int i = 0; i < x.Length; i++)
+                r[i] = Tokenize(x[i]);
+            return r;
         }
 
         /// <summary>
-        ///   Obsolete. Please use <see cref="Accord.Text.ExtensionMethods.Tokenize(string)"/> instead.
+        ///   Splits the given text into individual atomic words, 
+        ///   irrespective of punctuation and other marks.
         /// </summary>
         /// 
-        [Obsolete("please use Accord.Text.ExtensionMethods.Tokenize(x) instead.")]
-        public static string[] Tokenize(string x)
+        public static string[] Tokenize(this string x)
         {
-            return Accord.Text.ExtensionMethods.Tokenize(x);
+            string s = Regex.Replace(x, @"[^\w]", " ");
+            string[] words = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < words.Length; i++)
+                words[i] = words[i].ToLowerInvariant();
+            return words;
         }
     }
 }
