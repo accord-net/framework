@@ -112,6 +112,10 @@ namespace Accord.Audio
     ///   Mel-Frequency Cepstral Coefficients.
     /// </summary>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Audio\MFCCTests.cs" region="doc_example1" />
+    /// </example>
+    /// 
     [Serializable]
     public class MelFrequencyCepstrumCoefficient : BaseAudioFeatureExtractor<MelFrequencyCepstrumCoefficientDescriptor>
     {

@@ -31,6 +31,7 @@ namespace Accord.Tests.Audio
     using Accord.DataSets;
     using System.Linq;
     using System;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class MFCCTests
@@ -45,23 +46,81 @@ namespace Accord.Tests.Audio
         public void sample_test()
         {
             string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+            string pathWhereTheDatasetShouldBeStored = Path.Combine(basePath, "mfcc");
 
-            FreeSpokenDigitsDataset fsdd = new FreeSpokenDigitsDataset(Path.Combine(basePath, "mfcc"));
-            var mfcc = new MelFrequencyCepstrumCoefficient();
+            #region doc_example1
+            // Let's say we would like to analyse an audio sample. To give an example that
+            // could be reproduced by anyone without having to give a specific sound file
+            // that would need to have been downloaded by every user trying to run this example,
+            // we will use obtain an example from the Free Spoken Digits Dataset instead:
+            var fsdd = new FreeSpokenDigitsDataset(path: pathWhereTheDatasetShouldBeStored);
 
+            // Let's obtain one of the audio signals:
             Signal a = fsdd.GetSignal(0, "jackson", 10);
-            Assert.AreEqual(1, a.NumberOfChannels);
-            Assert.AreEqual(5451, a.NumberOfFrames);
-            Assert.AreEqual(5451, a.NumberOfSamples);
-            Assert.AreEqual(SampleFormat.Format32BitIeeeFloat, a.SampleFormat);
-            Assert.AreEqual(8000, a.SampleRate);
-            Assert.AreEqual(5451, a.Samples);
-            Assert.AreEqual(4, a.SampleSize);
-            Assert.AreEqual(21804, a.NumberOfBytes);
-            Assert.AreEqual(a.SampleSize * a.NumberOfFrames * a.NumberOfChannels, a.NumberOfBytes);
-            MelFrequencyCepstrumCoefficientDescriptor[] ra = mfcc.Transform(a).ToArray();
-            Assert.AreEqual(35, ra.Length);
-            Assert.IsTrue(new double[] { 10.570020645259348d, 1.3484344242338475d, 0.4861056552885234d, -0.79287993818868352d, -0.64182784362935996d, -0.28079835895392041d, -0.46378109632237779d, 0.072039410871952647d, -0.43971730320461733d, 0.48891921252102533d, -0.22502241185050212d, 0.12478713268421229d, -0.13373400147110801d }.IsEqual(ra[0].Descriptor, 1e-8));
+
+            // Note: if you would like to load a signal from the 
+            // disk, you could use the following method directly:
+            // Signal a = Signal.FromFile(fileName);
+
+            // First we could extract some characteristics from the audio signal, just 
+            // for informative purposes. We don't actually need to register them just 
+            // to compute the MFCC, so please skip those checks if you would like!
+            int numberOfChannels = a.NumberOfChannels;  // should be: 1
+            int numberOfFrames = a.NumberOfFrames;      // should be: 5451
+            int numberOfSamples = a.NumberOfSamples;    // should be: 5451
+            SampleFormat format = a.SampleFormat;       // should be: Format32BitIeeeFloat
+            int sampleRate = a.SampleRate;              // should be: 8000 (8khz)
+            int samples = a.Samples;                    // should be: 5451
+            int sampleSize = a.SampleSize;              // should be: 4
+            int numberOfBytes = a.NumberOfBytes;        // should be: 21804
+
+            // Now, let's say we would like to compute its MFCC:
+            var extractor = new MelFrequencyCepstrumCoefficient(
+                filterCount: 40,            // Note: all values are optional, you can 
+                cepstrumCount: 13,          // specify only the ones you'd like and leave
+                lowerFrequency: 133.3333,   // all others at their defaults
+                upperFrequency: 6855.4976,
+                alpha: 0.97,
+                samplingRate: 16000,
+                frameRate: 100,
+                windowLength: 0.0256,
+                numberOfBins: 512);
+
+            // We can call the transform method of the MFCC extractor class:
+            IEnumerable < MelFrequencyCepstrumCoefficientDescriptor> mfcc = extractor.Transform(a);
+
+            // or we could also transform them to a matrix directly with:
+            double[][] actual = mfcc.Select(x => x.Descriptor).ToArray();
+
+            // This matrix would contain X different MFCC values (due the length of the signal)
+            int numberOfMFCCs = actual.Length; // should be 35 (depends on the MFCC window)
+
+            // Each of those MFCC values would have length 13;
+            int descriptorLength = actual[0].Length; // 13 (depends on the MFCC Ceptrtum's count)
+
+            // An example of an MFCC vector would have been:
+            double[] row = actual[0]; // should have been: (see vector written below)
+
+            double[] expected = new double[]
+            {
+                10.570020645259348d, 1.3484344242338475d, 0.4861056552885234d,
+                -0.79287993818868352d, -0.64182784362935996d, -0.28079835895392041d,
+                -0.46378109632237779d, 0.072039410871952647d, -0.43971730320461733d,
+                0.48891921252102533d, -0.22502241185050212d, 0.12478713268421229d, -0.13373400147110801d
+            };
+            #endregion
+
+            Assert.AreEqual(1, numberOfChannels);
+            Assert.AreEqual(5451, numberOfFrames);
+            Assert.AreEqual(5451, numberOfSamples);
+            Assert.AreEqual(SampleFormat.Format32BitIeeeFloat, format);
+            Assert.AreEqual(8000, sampleRate);
+            Assert.AreEqual(5451, samples);
+            Assert.AreEqual(4, sampleSize);
+            Assert.AreEqual(21804, numberOfBytes);
+            Assert.AreEqual(sampleSize * numberOfFrames * numberOfChannels, numberOfBytes);
+            Assert.AreEqual(35, numberOfMFCCs);
+            Assert.IsTrue(expected.IsEqual(row, 1e-8));
 
             Signal b = fsdd.GetSignal(0, "nicolas", 10);
             Assert.AreEqual(2, b.NumberOfChannels);
@@ -73,7 +132,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(4, b.SampleSize);
             Assert.AreEqual(30040, b.NumberOfBytes);
             Assert.AreEqual(b.SampleSize * b.NumberOfFrames * b.NumberOfChannels, b.NumberOfBytes);
-            MelFrequencyCepstrumCoefficientDescriptor[] rb = mfcc.Transform(b).ToArray();
+            MelFrequencyCepstrumCoefficientDescriptor[] rb = extractor.Transform(b).ToArray();
             Assert.AreEqual(24, rb.Length);
             Assert.IsTrue(new[] { 10.6434445230168, -0.222107787197107, 0.316067614396639, -0.212769536249701, -0.107755264262885, -0.292732772820073, -0.00445205345925395, 0.024397440969199, 0.0213769364471326, -0.0882765552657509, -0.177682484734242, -0.1013307739251, -0.099014915302743 }.IsEqual(rb[0].Descriptor, 1e-8));
 
@@ -87,7 +146,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(4, c.SampleSize);
             Assert.AreEqual(17108, c.NumberOfBytes);
             Assert.AreEqual(b.SampleSize * c.NumberOfFrames * c.NumberOfChannels, c.NumberOfBytes);
-            MelFrequencyCepstrumCoefficientDescriptor[] rc = mfcc.Transform(c).ToArray();
+            MelFrequencyCepstrumCoefficientDescriptor[] rc = extractor.Transform(c).ToArray();
             Assert.AreEqual(27, rc.Length);
             Assert.IsTrue(new[] { 7.24614406589037, -1.16796769512142, -0.134374026111248, -0.192703972718674, 0.112752647291759, -0.118712048308068, -0.0603752892245708, -0.0275002195634854, -0.0830858413953528, -0.0838965948140795, -0.15293502718595, 0.0107796827068413, -0.0491283773795346 }.IsEqual(rc[0].Descriptor, 1e-8));
         }
