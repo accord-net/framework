@@ -940,6 +940,10 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
+        /// 
         public static double[][] ToJagged(this DataTable table)
         {
             return ToJagged<double>(table);
@@ -948,6 +952,10 @@ namespace Accord.Math
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static double[][] ToJagged(this DataTable table, IFormatProvider provider)
         {
@@ -958,6 +966,10 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
+        /// 
         public static double[][] ToJagged(this DataTable table, out string[] columnNames)
         {
             return ToJagged<double>(table, out columnNames);
@@ -966,6 +978,10 @@ namespace Accord.Math
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static double[][] ToJagged(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
@@ -976,14 +992,22 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
+        /// 
         public static double[][] ToJagged(this DataTable table, params string[] columnNames)
         {
             return ToJagged<double>(table, columnNames);
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table)
         {
@@ -992,8 +1016,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, IFormatProvider provider)
         {
@@ -1002,8 +1030,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, out string[] columnNames)
         {
@@ -1028,8 +1060,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
@@ -1051,8 +1087,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, params string[] columnNames)
         {

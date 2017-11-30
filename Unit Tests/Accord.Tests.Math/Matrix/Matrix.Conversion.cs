@@ -55,6 +55,88 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void TableToJaggedTest()
+        {
+            #region doc_table_tojagged
+            // Create a sample data table with two columns
+            DataTable table = new DataTable("My DataTable");
+            table.Columns.Add("x");
+            table.Columns.Add("y");
+
+            // Add some values to it
+            table.Rows.Add(0.3, 0.1);
+            table.Rows.Add(4.2, 1.4);
+            table.Rows.Add(7.3, 8.7);
+
+            // Convert to a jagged array
+            double[][] a = table.ToJagged();
+            // result will be
+            // double[][] a =
+            // {
+            //     new[] { 0.3, 0.1 },
+            //     new[] { 4.2, 1.4 },
+            //     new[] { 7.3, 8.7 },
+            // };
+
+            // Convert only some of the columns
+            double[][] b = table.ToJagged("x");
+            // result will be
+            // double[][] b =
+            // {
+            //     new[] { 0.3 },
+            //     new[] { 4.2 },
+            //     new[] { 7.3 },
+            // };
+
+            // Extract column names together with values
+            string[] names;
+            double[][] c = table.ToJagged(out names);
+            // result will be
+            // string[] names = { "x", "y" };
+            // double[][] c =
+            // {
+            //     new[] { 0.3, 0.1 },
+            //     new[] { 4.2, 1.4 },
+            //     new[] { 7.3, 8.7 },
+            // };
+
+            // Convert to a particular format
+            float[][] d = table.ToJagged<float>();
+            // result will be
+            // string[] names = { "x", "y" };
+            // float[][] c =
+            // {
+            //     new[] { 0.3, 0.1 },
+            //     new[] { 4.2, 1.4 },
+            //     new[] { 7.3, 8.7 },
+            // };
+
+            // Convert some columns to a particular format
+            decimal[][] e = table.ToJagged<decimal>("y");
+            // result will be
+            // decimal[][] e =
+            // {
+            //     new[] { 0.1 },
+            //     new[] { 1.4 },
+            //     new[] { 8.7 },
+            // };
+            #endregion
+
+            double[][] ea =
+            {
+                new[] { 0.3, 0.1 },
+                new[] { 4.2, 1.4 },
+                new[] { 7.3, 8.7 },
+            };
+
+            Assert.AreEqual(ea, a);
+            Assert.AreEqual(ea.GetColumn(0).ToJagged(), b);
+            Assert.AreEqual(ea, c);
+            Assert.AreEqual(ea.ToSingle(), d);
+            Assert.AreEqual(ea.GetColumn(1).ToDecimal().ToJagged(), e);
+        }
+
+        [Test]
         public void ToTableTest2()
         {
             double[][] matrix =
