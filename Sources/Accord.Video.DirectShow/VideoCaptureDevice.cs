@@ -39,7 +39,6 @@ namespace Accord.Video.DirectShow
     using Accord.Video;
     using Accord.Video.DirectShow.Internals;
     using Accord.Imaging;
-    using System.Threading.Tasks;
     using System.ComponentModel;
 
     /// <summary>
@@ -1301,7 +1300,9 @@ namespace Accord.Video.DirectShow
                 release(ref captureGraphObject);
                 release(ref crossbarObject);
 
+#if !NET35
                 Marshal.CleanupUnusedObjectsInCurrentContext();
+#endif
             }
 
             if (PlayingFinished != null)
