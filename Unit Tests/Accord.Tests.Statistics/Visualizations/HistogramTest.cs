@@ -22,7 +22,6 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Controls;
     using Accord.Statistics.Visualizations;
     using NUnit.Framework;
 
