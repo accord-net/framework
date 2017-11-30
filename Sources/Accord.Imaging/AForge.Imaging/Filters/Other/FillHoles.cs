@@ -101,7 +101,12 @@ namespace Accord.Imaging.Filters
         public int MaxHoleWidth
         {
             get { return maxHoleWidth; }
-            set { maxHoleWidth = Math.Max(value, 0); }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Value must be positive.");
+                maxHoleWidth = value;
+            }
         }
 
         /// <summary>
@@ -116,7 +121,12 @@ namespace Accord.Imaging.Filters
         public int MaxHoleHeight
         {
             get { return maxHoleHeight; }
-            set { maxHoleHeight = Math.Max(value, 0); }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Value must be positive.");
+                maxHoleHeight = value;
+            }
         }
 
         /// <summary>
@@ -146,13 +156,16 @@ namespace Accord.Imaging.Filters
             int width = image.Width;
             int height = image.Height;
 
+            BlobCounter blobCounter = new BlobCounter();
+
             // 1 - invert the source image
             Invert invertFilter = new Invert();
-            UnmanagedImage invertedImage = invertFilter.Apply(image);
+            using (UnmanagedImage invertedImage = invertFilter.Apply(image))
+            {
+                // 2 - use blob counter to find holes (they are white objects now on the inverted image)
+                blobCounter.ProcessImage(invertedImage);
+            }
 
-            // 2 - use blob counter to find holes (they are white objects now on the inverted image)
-            BlobCounter blobCounter = new BlobCounter();
-            blobCounter.ProcessImage(invertedImage);
             Blob[] blobs = blobCounter.GetObjectsInformation();
 
             // 3 - check all blobs and determine which should be filtered
