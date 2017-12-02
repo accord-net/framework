@@ -1577,6 +1577,7 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1608,8 +1609,19 @@ namespace Accord.Imaging
         }
         #endregion
 
-
-
+        /// <summary>
+        /// Creates unmanaged image from the specified managed image.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">Source managed image.</param>
+        /// 
+        /// <returns>Returns new unmanaged image, which is a copy of source managed image.</returns>
+        /// 
+        /// <remarks><para>The method creates an exact copy of specified managed image, but allocated
+        /// in unmanaged memory.</para></remarks>
+        /// 
+        /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of source image.</exception>
+        /// 
         public static UnmanagedImage ToUnmanagedImage(this Bitmap bitmap)
         {
             return UnmanagedImage.FromManagedImage(bitmap);

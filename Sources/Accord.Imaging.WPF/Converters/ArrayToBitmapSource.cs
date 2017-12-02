@@ -37,12 +37,6 @@ namespace Accord.Imaging.Converters
     ///   or color WPF images. Color images should be represented as an
     ///   array of pixel values for the final image. The actual dimensions
     ///   of the image should be specified in the class constructor.</para>
-    ///   
-    /// <para>
-    ///   When this class is converting from <see cref="T:byte[]"/> or
-    ///   <see cref="T:System.Drawing.Color[]"/>, the values of the <see cref="Max"/>
-    ///   and <see cref="Min"/> properties are ignored and no scaling operation
-    ///   is performed.</para>
     /// </remarks>
     /// 
     /// <example>

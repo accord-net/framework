@@ -675,21 +675,7 @@ namespace Accord.Imaging
             return FromUnmanagedData(imageData.Scan0, imageData.Width, imageData.Height, imageData.Stride, pixelFormat);
         }
 
-        /// <summary>
-        /// Create unmanaged image from the specified managed image.
-        /// </summary>
-        /// 
-        /// <param name="imageData">Source locked image data.</param>
-        /// 
-        /// <returns>Returns new unmanaged image, which is a copy of source managed image.</returns>
-        /// 
-        /// <remarks><para>The method creates an exact copy of specified managed image, but allocated
-        /// in unmanaged memory. This means that managed image may be unlocked right after call to this
-        /// method.</para></remarks>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of source image.</exception>
-        /// 
-        public static UnmanagedImage FromUnmanagedData(IntPtr imageData, int width, int height, int stride, PixelFormat pixelFormat)
+        private static UnmanagedImage FromUnmanagedData(IntPtr imageData, int width, int height, int stride, PixelFormat pixelFormat)
         {
             // allocate memory for the image
             IntPtr dstImageData = Marshal.AllocHGlobal(stride * height);

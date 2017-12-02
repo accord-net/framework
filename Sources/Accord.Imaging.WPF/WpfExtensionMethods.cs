@@ -67,7 +67,7 @@ namespace Accord.Imaging
         #region ToBitmapSource
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
@@ -85,7 +85,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
@@ -103,7 +103,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
@@ -121,7 +121,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
@@ -139,7 +139,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
@@ -161,11 +161,14 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="width">The width of the image to be created.</param>
+        /// <param name="height">The height of the image to be created.</param>
+        /// 
         /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
         /// 
         /// <seealso cref="MatrixToBitmapSource"/>
@@ -179,11 +182,14 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="width">The width of the image to be created.</param>
+        /// <param name="height">The height of the image to be created.</param>
+        /// 
         /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
         /// 
         /// <seealso cref="MatrixToBitmapSource"/>
@@ -197,11 +203,14 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="width">The width of the image to be created.</param>
+        /// <param name="height">The height of the image to be created.</param>
+        /// 
         /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
         /// 
         /// <seealso cref="MatrixToBitmapSource"/>
@@ -217,11 +226,14 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="width">The width of the image to be created.</param>
+        /// <param name="height">The height of the image to be created.</param>
+        /// 
         /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
         /// 
         /// <seealso cref="MatrixToBitmapSource"/>
@@ -235,11 +247,14 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="width">The width of the image to be created.</param>
+        /// <param name="height">The height of the image to be created.</param>
+        /// 
         /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
         /// 
         /// <seealso cref="MatrixToBitmapSource"/>
@@ -253,11 +268,14 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
-        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        ///   For more options, please use the <see cref="MatrixToBitmapSource"/> class.
         /// </summary>
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="width">The width of the image to be created.</param>
+        /// <param name="height">The height of the image to be created.</param>
+        /// 
         /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
         /// 
         /// <seealso cref="MatrixToBitmapSource"/>
@@ -357,6 +375,12 @@ namespace Accord.Imaging
 
 
 
+        /// <summary>
+        ///   Converts a System.Drawing.Bitmap into a WPF's BitmapSource image.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">The bitmap to be converted.</param>
+        /// 
         public static BitmapSource ToBitmapSource(this Bitmap bitmap)
         {
             var format = bitmap.PixelFormat.ToWPF();
@@ -371,6 +395,12 @@ namespace Accord.Imaging
             return bitmapSource;
         }
 
+        /// <summary>
+        /// Check if specified palette is grayscale.
+        /// </summary>
+        /// 
+        /// <param name="palette">Palette to check.</param>
+        /// 
         public static bool IsGrayscale(this BitmapPalette palette)
         {
             int colors = palette.Colors.Count;
@@ -390,6 +420,12 @@ namespace Accord.Imaging
             return true;
         }
 
+        /// <summary>
+        /// Check if specified image is grayscale.
+        /// </summary>
+        /// 
+        /// <param name="bitmapSource">Bitmap source to check.</param>
+        /// 
         public static bool IsGrayscale(this BitmapSource bitmapSource)
         {
             if (bitmapSource.Format == PixelFormats.Gray16 ||
@@ -418,6 +454,13 @@ namespace Accord.Imaging
             return false;
         }
 
+
+        /// <summary>
+        ///   Converts a WPF's BitmapSource into a System.Drawing.Bitmap image.
+        /// </summary>
+        /// 
+        /// <param name="bitmapSource">The bitmap source to be converted.</param>
+        /// 
         public static Bitmap ToBitmap(this BitmapSource bitmapSource)
         {
             var format = bitmapSource.Format.ToImaging();
@@ -445,12 +488,29 @@ namespace Accord.Imaging
             return bmp;
         }
 
+        /// <summary>
+        /// Creates unmanaged image from the specified managed image.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">Source managed image.</param>
+        /// 
+        /// <returns>Returns new unmanaged image, which is a copy of source managed image.</returns>
+        /// 
+        /// <remarks><para>The method creates an exact copy of specified managed image, but allocated
+        /// in unmanaged memory.</para></remarks>
+        /// 
+        /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of source image.</exception>
+        /// 
         public static UnmanagedImage ToUnmanagedImage(this BitmapSource bitmap)
         {
             var format = bitmap.Format;
             return bitmap.ToBitmap().ToUnmanagedImage();
         }
 
+        /// <summary>
+        ///   Converts the given System.Drawing.Imaging.PixelFormat to its WPF (System.Windows.Media) equivalent.
+        /// </summary>
+        /// 
         public static System.Windows.Media.PixelFormat ToWPF(this System.Drawing.Imaging.PixelFormat pixelFormat)
         {
             switch (pixelFormat)
@@ -506,6 +566,10 @@ namespace Accord.Imaging
             throw new NotImplementedException(String.Format("Conversion from pixel format {0} is not supported yet, please open a new ticket in Accord.NET's issue tracker.", pixelFormat));
         }
 
+        /// <summary>
+        ///   Converts the given (System.Windows.Media.PixelFormat to its WPF (System.Drawing.Imaging) equivalent.
+        /// </summary>
+        /// 
         public static System.Drawing.Imaging.PixelFormat ToImaging(this System.Windows.Media.PixelFormat pixelFormat)
         {
             if (pixelFormat == PixelFormats.Indexed8)
@@ -525,23 +589,47 @@ namespace Accord.Imaging
             throw new NotImplementedException(String.Format("Conversion from pixel format {0} is not supported yet, please open a new ticket in Accord.NET's issue tracker.", pixelFormat));
         }
 
-
+        /// <summary>
+        /// Apply filter to an image.
+        /// </summary>
+        /// 
+        /// <param name="filter">The image filter.</param>
+        /// <param name="image">Source image to apply filter to.</param>
+        /// 
+        /// <returns>Returns filter's result obtained by applying the filter to
+        /// the source image.</returns>
+        /// 
+        /// <remarks>The method keeps the source image unchanged and returns
+        /// the result of image processing filter as new image.</remarks> 
+        ///
         public static BitmapSource Apply(this IFilter filter, BitmapSource image)
         {
             return filter.Apply(image.ToBitmap()).ToBitmapSource();
         }
 
+        /// <summary>
+        ///   Gets the stride (number of bytes that define a row) of the given image.
+        /// </summary>
+        /// 
         public static int GetStride(this BitmapSource image)
         {
-            int bytesPerPixel = image.GetPixelSize();
+            int bytesPerPixel = image.GetPixelFormatSize();
             return image.PixelWidth * bytesPerPixel;
         }
 
+        /// <summary>
+        ///   Gets the number of channels in a given image.
+        /// </summary>
+        /// 
         public static int GetNumberOfChannels(this BitmapSource bitmapSource)
         {
             return bitmapSource.Format.GetNumberOfChannels();
         }
 
+        /// <summary>
+        ///   Gets the number of channels in a given pixel format.
+        /// </summary>
+        /// 
         public static int GetNumberOfChannels(this System.Windows.Media.PixelFormat pixelFormat)
         {
             if (pixelFormat == PixelFormats.Indexed8)
@@ -568,11 +656,19 @@ namespace Accord.Imaging
             throw new NotImplementedException(String.Format("Retrieving the number of channels in pixel format {0} is not supported yet, please open a new ticket in Accord.NET's issue tracker.", pixelFormat));
         }
 
-        public static int GetPixelSize(this BitmapSource image)
+        /// <summary>
+        ///    Returns the color depth, in number of bits per pixel, of the specified pixel format.
+        /// </summary>
+        /// 
+        public static int GetPixelFormatSize(this BitmapSource image)
         {
             return image.Format.BitsPerPixel / 8;
         }
 
+        /// <summary>
+        ///    Copies the bitmap pixel data to the given array.
+        /// </summary>
+        /// 
         public static void CopyPixels(this BitmapSource image, Array buffer)
         {
             int stride = image.GetStride();

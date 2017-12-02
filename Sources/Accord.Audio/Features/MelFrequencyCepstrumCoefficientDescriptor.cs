@@ -83,7 +83,7 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="MelFrequencyCepstrumCoefficientDescriptor"/> to <see cref="System.Double[]"/>.
+        /// Performs an implicit conversion from <see cref="MelFrequencyCepstrumCoefficientDescriptor"/> to <see cref="T:System.Double[]"/>.
         /// </summary>
         /// <param name="desc">The desc.</param>
         /// <returns>The result of the conversion.</returns>

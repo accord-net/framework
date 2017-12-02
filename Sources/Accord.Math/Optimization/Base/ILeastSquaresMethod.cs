@@ -70,7 +70,7 @@ namespace Accord.Math.Optimization
     ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LevenbergMarquardtTest.cs" region="doc_minimize"/>
     /// </example>
     /// 
-    /// <seealso cref="GassNewton"/>
+    /// <seealso cref="GaussNewton"/>
     /// <seealso cref="LevenbergMarquardt"/>
     /// 
     public interface ILeastSquaresMethod
