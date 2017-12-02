@@ -55,6 +55,8 @@ namespace Accord.Imaging
     using System.Windows;
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
+    using System.Runtime.InteropServices;
+    using Accord.Math;
 
     /// <summary>
     ///   Extension methods for WPF-format images (BitmapSource).
@@ -150,6 +152,120 @@ namespace Accord.Imaging
         {
             BitmapSource bitmap;
             new MatrixToBitmapSource().Convert(pixels, out bitmap);
+            return bitmap;
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
+        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        /// </summary>
+        /// 
+        /// <param name="pixels">A matrix containing the grayscale pixel
+        /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToBitmapSource"/>
+        /// 
+        public static BitmapSource ToBitmapSource(this byte[][] pixels, int width, int height)
+        {
+            BitmapSource bitmap;
+            new ArrayToBitmapSource(width, height).Convert(pixels, out bitmap);
+            return bitmap;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
+        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        /// </summary>
+        /// 
+        /// <param name="pixels">A matrix containing the grayscale pixel
+        /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToBitmapSource"/>
+        /// 
+        public static BitmapSource ToBitmapSource(this double[][] pixels, int width, int height)
+        {
+            BitmapSource bitmap;
+            new ArrayToBitmapSource(width, height).Convert(pixels, out bitmap);
+            return bitmap;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
+        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        /// </summary>
+        /// 
+        /// <param name="pixels">A matrix containing the grayscale pixel
+        /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToBitmapSource"/>
+        /// 
+        public static BitmapSource ToBitmapSource(this float[][] pixels, int width, int height)
+        {
+            BitmapSource bitmap;
+            new ArrayToBitmapSource(width, height).Convert(pixels, out bitmap);
+            return bitmap;
+        }
+
+
+
+        /// <summary>
+        ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
+        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        /// </summary>
+        /// 
+        /// <param name="pixels">A matrix containing the grayscale pixel
+        /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToBitmapSource"/>
+        /// 
+        public static BitmapSource ToBitmapSource(this byte[] pixels, int width, int height)
+        {
+            BitmapSource bitmap;
+            new ArrayToBitmapSource(width, height).Convert(pixels, out bitmap);
+            return bitmap;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
+        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        /// </summary>
+        /// 
+        /// <param name="pixels">A matrix containing the grayscale pixel
+        /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToBitmapSource"/>
+        /// 
+        public static BitmapSource ToBitmapSource(this double[] pixels, int width, int height)
+        {
+            BitmapSource bitmap;
+            new ArrayToBitmapSource(width, height).Convert(pixels, out bitmap);
+            return bitmap;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a matrix of pixel values into a <see cref="BitmapSource"/>.
+        ///   For more options, please use the <see cref="MatrixToBitmapSouorce"/> class.
+        /// </summary>
+        /// 
+        /// <param name="pixels">A matrix containing the grayscale pixel
+        /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <returns>A <see cref="BitmapSource"/> of the same width and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToBitmapSource"/>
+        /// 
+        public static BitmapSource ToBitmapSource(this float[] pixels, int width, int height)
+        {
+            BitmapSource bitmap;
+            new ArrayToBitmapSource(width, height).Convert(pixels, out bitmap);
             return bitmap;
         }
         #endregion
@@ -255,11 +371,72 @@ namespace Accord.Imaging
             return bitmapSource;
         }
 
+        public static bool IsGrayscale(this BitmapPalette palette)
+        {
+            int colors = palette.Colors.Count;
+            for (int i = 0; i < palette.Colors.Count; i++)
+            {
+                System.Windows.Media.Color c = palette.Colors[i];
+
+                int expectedGray = i % 256;
+
+                if ((c.R != c.B) || (c.R != c.G))
+                    return false;
+
+                if (c.G != expectedGray)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool IsGrayscale(this BitmapSource bitmapSource)
+        {
+            if (bitmapSource.Format == PixelFormats.Gray16 ||
+                bitmapSource.Format == PixelFormats.Gray2 ||
+                bitmapSource.Format == PixelFormats.Gray32Float ||
+                bitmapSource.Format == PixelFormats.Gray4 ||
+                bitmapSource.Format == PixelFormats.Gray8)
+                return true;
+            if (bitmapSource.Format == PixelFormats.Indexed1 ||
+                bitmapSource.Format == PixelFormats.Indexed2 ||
+                bitmapSource.Format == PixelFormats.Indexed4 ||
+                bitmapSource.Format == PixelFormats.Indexed8)
+            {
+                if (bitmapSource.Palette == BitmapPalettes.BlackAndWhite ||
+                    bitmapSource.Palette == BitmapPalettes.BlackAndWhiteTransparent ||
+                    bitmapSource.Palette == BitmapPalettes.Gray16 ||
+                    bitmapSource.Palette == BitmapPalettes.Gray16Transparent ||
+                    bitmapSource.Palette == BitmapPalettes.Gray256 ||
+                    bitmapSource.Palette == BitmapPalettes.Gray256Transparent ||
+                    bitmapSource.Palette == BitmapPalettes.Gray4 ||
+                    bitmapSource.Palette == BitmapPalettes.Gray4Transparent)
+                    return true;
+                if (bitmapSource.Palette.IsGrayscale())
+                    return true;
+            }
+            return false;
+        }
+
         public static Bitmap ToBitmap(this BitmapSource bitmapSource)
         {
             var format = bitmapSource.Format.ToImaging();
 
-            Bitmap bmp = new Bitmap(bitmapSource.PixelWidth, bitmapSource.PixelHeight, format);
+            int width = bitmapSource.PixelWidth;
+            int height = bitmapSource.PixelHeight;
+
+            Bitmap bmp;
+            if (bitmapSource.IsGrayscale())
+            {
+                if (bitmapSource.Format != PixelFormats.Gray8)
+                    return new FormatConvertedBitmap(bitmapSource, PixelFormats.Gray8, BitmapPalettes.Gray256, 1.0).ToBitmap();
+
+                bmp = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
+            }
+            else
+            {
+                bmp = new Bitmap(width, height, format);
+            }
 
             BitmapData data = bmp.LockBits(ImageLockMode.WriteOnly);
 
@@ -270,6 +447,7 @@ namespace Accord.Imaging
 
         public static UnmanagedImage ToUnmanagedImage(this BitmapSource bitmap)
         {
+            var format = bitmap.Format;
             return bitmap.ToBitmap().ToUnmanagedImage();
         }
 
@@ -330,6 +508,8 @@ namespace Accord.Imaging
 
         public static System.Drawing.Imaging.PixelFormat ToImaging(this System.Windows.Media.PixelFormat pixelFormat)
         {
+            if (pixelFormat == PixelFormats.Indexed8)
+                return System.Drawing.Imaging.PixelFormat.Format8bppIndexed;
             if (pixelFormat == PixelFormats.Gray8)
                 return System.Drawing.Imaging.PixelFormat.Format8bppIndexed;
             if (pixelFormat == PixelFormats.Bgr24)
@@ -339,6 +519,9 @@ namespace Accord.Imaging
             if (pixelFormat == PixelFormats.Bgra32)
                 return System.Drawing.Imaging.PixelFormat.Format32bppArgb;
 
+            if (pixelFormat == PixelFormats.Gray32Float)
+                return System.Drawing.Imaging.PixelFormat.Extended;
+
             throw new NotImplementedException(String.Format("Conversion from pixel format {0} is not supported yet, please open a new ticket in Accord.NET's issue tracker.", pixelFormat));
         }
 
@@ -346,6 +529,63 @@ namespace Accord.Imaging
         public static BitmapSource Apply(this IFilter filter, BitmapSource image)
         {
             return filter.Apply(image.ToBitmap()).ToBitmapSource();
+        }
+
+        public static int GetStride(this BitmapSource image)
+        {
+            int bytesPerPixel = image.GetPixelSize();
+            return image.PixelWidth * bytesPerPixel;
+        }
+
+        public static int GetNumberOfChannels(this BitmapSource bitmapSource)
+        {
+            return bitmapSource.Format.GetNumberOfChannels();
+        }
+
+        public static int GetNumberOfChannels(this System.Windows.Media.PixelFormat pixelFormat)
+        {
+            if (pixelFormat == PixelFormats.Indexed8)
+                return 1;
+            if (pixelFormat == PixelFormats.Bgr24)
+                return 3;
+            if (pixelFormat == PixelFormats.Bgr32)
+                return 4;
+            if (pixelFormat == PixelFormats.Bgra32)
+                return 4;
+            if (pixelFormat == PixelFormats.BlackWhite)
+                return 1;
+            if (pixelFormat == PixelFormats.Gray32Float)
+                return 1;
+            if (pixelFormat == PixelFormats.Pbgra32)
+                return 4;
+            if (pixelFormat == PixelFormats.Prgba128Float)
+                return 4;
+            if (pixelFormat == PixelFormats.Rgb128Float)
+                return 3;
+            if (pixelFormat == PixelFormats.Rgba128Float)
+                return 4;
+
+            throw new NotImplementedException(String.Format("Retrieving the number of channels in pixel format {0} is not supported yet, please open a new ticket in Accord.NET's issue tracker.", pixelFormat));
+        }
+
+        public static int GetPixelSize(this BitmapSource image)
+        {
+            return image.Format.BitsPerPixel / 8;
+        }
+
+        public static void CopyPixels(this BitmapSource image, Array buffer)
+        {
+            int stride = image.GetStride();
+            int numberOfBytes = buffer.GetNumberOfBytes();
+
+            Int32Rect r = new Int32Rect(0, 0, image.PixelWidth, image.PixelHeight);
+
+            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            IntPtr ptr = handle.AddrOfPinnedObject();
+
+            image.CopyPixels(r, buffer: ptr, bufferSize: numberOfBytes, stride: stride);
+
+            handle.Free();
         }
     }
 }

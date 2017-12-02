@@ -180,12 +180,9 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(BitmapSource input, out float[,] output)
         {
-            int width = input.PixelWidth;
-            int height = input.PixelHeight;
-
-            var c = new FormatConvertedBitmap(input, PixelFormats.Rgba128Float, null, 1.0);
-            output = new float[width, height];
-            c.CopyPixels(output, width, 0);
+            float[,,] f;
+            Convert(input, out f);
+            output = f.GetPlane(Channel); 
         }
 
         /// <summary>
@@ -216,7 +213,7 @@ namespace Accord.Imaging.Converters
 
             var c = new FormatConvertedBitmap(input, PixelFormats.Gray8, null, 1.0);
             output = new byte[width, height];
-            c.CopyPixels(output, width, 0);
+            c.CopyPixels(output);
         }
 
         /// <summary>
@@ -270,12 +267,12 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(BitmapSource input, out float[,,] output)
         {
-            int width = input.PixelWidth;
-            int height = input.PixelHeight;
-
             var c = new FormatConvertedBitmap(input, PixelFormats.Rgba128Float, null, 1.0);
+            int width = c.PixelWidth;
+            int height = c.PixelHeight;
+            int stride = c.GetStride();
             output = new float[width, height, 4];
-            c.CopyPixels(output, width, 0);
+            c.CopyPixels(output);
         }
 
         /// <summary>
@@ -306,7 +303,7 @@ namespace Accord.Imaging.Converters
 
             var c = new FormatConvertedBitmap(input, PixelFormats.Bgra32, null, 1.0);
             output = new byte[width, height, 4];
-            c.CopyPixels(output, width, 0);
+            c.CopyPixels(output);
         }
 
         /// <summary>
@@ -322,7 +319,6 @@ namespace Accord.Imaging.Converters
             Convert(input, out f);
             output = f.ToJagged();
         }
-
 
     }
 }

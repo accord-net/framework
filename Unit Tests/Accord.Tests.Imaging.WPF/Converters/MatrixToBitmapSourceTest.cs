@@ -32,6 +32,7 @@ namespace Accord.Tests.Imaging
     using System.Windows.Media.Imaging;
     using System.IO;
     using System;
+    using System.Windows.Media;
 #if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
@@ -125,9 +126,14 @@ namespace Accord.Tests.Imaging
             // Declare a bitmap source and store the pixels on it
             BitmapSource image; conv.Convert(pixels, out image);
 
-            Assert.AreEqual(320, image.Height);
-            Assert.AreEqual(320, image.Width);
-            Assert.AreEqual(320, image.Format);
+            var conv2 = new MatrixToImage();
+            Bitmap image2; conv2.Convert(pixels, out image2);
+
+            Assert.AreEqual(pixels, image.ToMatrix(0));
+            Assert.AreEqual(pixels, image2.ToMatrix(0));
+
+            Assert.AreEqual(PixelFormats.Gray32Float, image.Format);
+            Assert.AreEqual(System.Drawing.Imaging.PixelFormat.Format8bppIndexed, image2.PixelFormat);
         }
 
     }

@@ -33,7 +33,7 @@ namespace Accord.Tests.Imaging
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 
-    using Color = System.Windows.Media.Color;
+    using Color = System.Drawing.Color;
     using System.Windows.Media;
 
     [TestFixture]
@@ -109,9 +109,19 @@ namespace Accord.Tests.Imaging
             // Declare a bitmap source and store the pixels on it
             BitmapSource image; conv.Convert(pixels, out image);
 
-            Assert.AreEqual(320, image.Height);
-            Assert.AreEqual(320, image.Width);
-            Assert.AreEqual(320, image.Format);
+            double[,] expected =
+            {
+                 { 0, 0, 0, 0 },
+                 { 0, 1, 1, 0 },
+                 { 0, 1, 1, 0 },
+                 { 0, 0, 0, 0 },
+            };
+
+            double[,] result = image.ToMatrix(0);
+
+            Assert.AreEqual(expected, result);
+
+            Assert.AreEqual(PixelFormats.Gray32Float, image.Format);
         }
 
         [Test]
@@ -135,9 +145,10 @@ namespace Accord.Tests.Imaging
             // Declare an image and store the pixels on it
             BitmapSource image; conv.Convert(pixels, out image);
 
-            Assert.AreEqual(320, image.Height);
-            Assert.AreEqual(320, image.Width);
-            Assert.AreEqual(320, image.Format);
+            var conv2 = new ArrayToImage(width: 4, height: 4);
+            Bitmap expected; conv2.Convert(pixels, out expected);
+
+            Assert.AreEqual(expected.ToMatrix(0), image.ToMatrix(0));
         }
 
         [Test]
@@ -149,9 +160,9 @@ namespace Accord.Tests.Imaging
 
             System.Windows.Media.Color[] pixels = 
             {
-                 Colors.Black, Colors.Black,       Colors.Black,  Colors.Black, 
+                 Colors.Red,   Colors.Lime,        Colors.Blue,   Colors.Black, 
                  Colors.Black, Colors.Transparent, Colors.Red,    Colors.Black, 
-                 Colors.Black, Colors.Green,       Colors.Blue,   Colors.Black, 
+                 Colors.Black, Colors.Lime,        Colors.Blue,   Colors.Black, 
                  Colors.Black, Colors.Black,       Colors.Black,  Colors.Black, 
             };
 
@@ -161,9 +172,23 @@ namespace Accord.Tests.Imaging
             // Declare an image and store the pixels on it
             BitmapSource image; conv.Convert(pixels, out image);
 
-            Assert.AreEqual(320, image.Height);
-            Assert.AreEqual(320, image.Width);
-            Assert.AreEqual(320, image.Format);
+
+
+            System.Drawing.Color[] pixels2 =
+            {
+                 Color.Red,   Color.Lime,        Color.Blue,  Color.Black,
+                 Color.Black, Color.Transparent, Color.Red,    Color.Black,
+                 Color.Black, Color.Lime,        Color.Blue,   Color.Black,
+                 Color.Black, Color.Black,       Color.Black,  Color.Black,
+            };
+
+            ArrayToImage conv2 = new ArrayToImage(width: 4, height: 4);
+
+            Bitmap image2; conv2.Convert(pixels2, out image2);
+
+            var actual = image.ToMatrix();
+            var expected = image2.ToMatrix();
+            Assert.AreEqual(expected, actual);
         }
 
     }

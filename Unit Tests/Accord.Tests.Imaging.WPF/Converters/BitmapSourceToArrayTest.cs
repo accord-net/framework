@@ -31,6 +31,7 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using Accord.Tests.Imaging.Properties;
     using System.Windows.Media.Imaging;
+    using System.Windows.Media;
 #if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
@@ -42,7 +43,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ConvertTest3()
         {
-            double[] pixels = 
+            double[] pixels =
             {
                  0, 0, 0, 0,
                  0, 1, 1, 0,
@@ -53,25 +54,70 @@ namespace Accord.Tests.Imaging
             var conv1 = new ArrayToBitmapSource(width: 4, height: 4);
             BitmapSource image; conv1.Convert(pixels, out image);
 
-            // Create the converter to convert the image to an
-            //   array containing only values between 0 and 1 
             var conv = new BitmapSourceToArray();
 
-            // Convert the image and store it in the array
             double[] array; conv.Convert(image, out array);
+
+            var conv2 = new ArrayToImage(width: 4, height: 4);
+            Bitmap image2; conv2.Convert(pixels, out image2);
 
             Assert.AreEqual(0, array.Min());
             Assert.AreEqual(1, array.Max());
-            Assert.AreEqual(16 * 16, array.Length);
+            Assert.AreEqual(16, array.Length);
+            var expected = image2.ToVector(0);
+
+            Assert.AreEqual(array, expected);
         }
+
+        [Test]
+        public void ConvertTest5()
+        {
+            double[] input =
+            {
+                0, 0.1,   0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.42, 0.42, 0.42, 0.42, 0.42, // 0
+                0.11, 0.12,   0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, // 1
+            };
+
+            BitmapSource image = input.ToBitmapSource(2, 16);
+
+            double[,] actual = image.ToMatrix(0);
+            double[,] expected = input.Reshape(2, 16);
+
+            Assert.IsTrue(expected.IsEqual(actual, 1e-6));
+        }
+
+        [Test]
+        public void ConvertTest6()
+        {
+            var target = new BitmapSourceToArray();
+
+            double[] input =
+            {
+                0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.42, 0.42, 0.42, 0.42, 0.42, // 0
+                0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, // 1
+            };
+
+            BitmapSource image = input.ToBitmapSource(2, 16);
+            Assert.AreEqual(PixelFormats.Gray32Float, image.Format);
+
+            Assert.AreEqual(1, image.GetNumberOfChannels());
+
+            double[] output;
+            target.Channel = RGB.R;
+            target.Convert(image, out output);
+
+            for (int i = 0; i < input.Length; i++)
+                Assert.AreEqual(input[i], output[i], 1e-5);
+        }
+
 
         [Test]
         public void ConvertTest4()
         {
-
             var target = new BitmapSourceToArray();
-            BitmapSource image = TestTools.GetImage("image3.bmp");
-            Assert.AreEqual(PixelFormat.Format32bppArgb.ToWPF(), image.Format);
+            BitmapSource image = Accord.Imaging.Image.Clone(Resources.image3).ToBitmapSource();
+            Assert.AreEqual(System.Drawing.Imaging.PixelFormat.Format32bppArgb.ToWPF(), image.Format);
+            Assert.AreEqual(4, image.GetNumberOfChannels());
 
             {
                 double[] output;
@@ -79,7 +125,7 @@ namespace Accord.Tests.Imaging
                 {
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 0
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 1
-                      0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 2 
+                      0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 2 
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 3
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 4
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 5
@@ -90,16 +136,20 @@ namespace Accord.Tests.Imaging
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 10
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 11
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 12
-                      0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 13
+                      0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 13
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 14
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 15
                 };
 
-                target.Channel = RGB.R;
+                target.Channel = 0;
                 target.Convert(image, out output);
 
+                double a = output[34];
+                double e = outputExpected[34];
+                Assert.AreEqual(e, a);
+
                 for (int i = 0; i < outputExpected.Length; i++)
-                        Assert.AreEqual(outputExpected[i], output[i]);
+                    Assert.AreEqual(outputExpected[i], output[i]);
             }
 
             {
@@ -108,7 +158,7 @@ namespace Accord.Tests.Imaging
                 {
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 0
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 1
-                      0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0 , // 2 
+                      0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 , // 2 
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 3
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 4
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 5
@@ -119,12 +169,12 @@ namespace Accord.Tests.Imaging
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 10
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 11
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 12
-                      0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 13
+                      0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 13
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 14
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 15
                 };
 
-                target.Channel = RGB.G;
+                target.Channel = 1;
                 target.Convert(image, out output);
 
                 for (int i = 0; i < outputExpected.Length; i++)
@@ -149,16 +199,16 @@ namespace Accord.Tests.Imaging
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 10
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 11
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 12
-                      0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0 , // 13
+                      0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 , // 13
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 14
                       0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 , // 15
                 };
 
-                target.Channel = RGB.B;
+                target.Channel = 2;
                 target.Convert(image, out output);
 
                 for (int i = 0; i < outputExpected.Length; i++)
-                        Assert.AreEqual(outputExpected[i], output[i]);
+                    Assert.AreEqual(outputExpected[i], output[i]);
             }
         }
 

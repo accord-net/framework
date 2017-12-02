@@ -1570,6 +1570,46 @@ namespace Accord.Imaging
 
 
 
+        #region ToVector
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[] ToVector(this Bitmap bitmap, int channel)
+        {
+            double[] vector;
+            new ImageToArray() { Channel = channel }.Convert(bitmap, out vector);
+            return vector;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][] ToVector(this Bitmap bitmap)
+        {
+            double[][] vector;
+            new ImageToArray().Convert(bitmap, out vector);
+            return vector;
+        }
+        #endregion
+
+
+
         public static UnmanagedImage ToUnmanagedImage(this Bitmap bitmap)
         {
             return UnmanagedImage.FromManagedImage(bitmap);

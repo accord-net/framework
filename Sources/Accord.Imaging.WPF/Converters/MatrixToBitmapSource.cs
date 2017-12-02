@@ -25,6 +25,8 @@ namespace Accord.Imaging.Converters
     using Accord.Imaging;
     using Accord.Math;
     using System;
+    using System.Runtime.InteropServices;
+    using System.Windows;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
 
@@ -239,7 +241,17 @@ namespace Accord.Imaging.Converters
         {
             int width = input.GetLength(0);
             int height = input.GetLength(1);
-            return BitmapSource.Create(width, height, DpiX, DpiY, format, palette, input, width);
+
+            GCHandle handle = GCHandle.Alloc(input, GCHandleType.Pinned);
+            IntPtr buffer = handle.AddrOfPinnedObject();
+            int bufferSize = input.GetNumberOfBytes();
+            int stride = bufferSize / height;
+
+            BitmapSource bmp = BitmapSource.Create(width, height, DpiX, DpiY, format, palette, buffer, bufferSize, stride);
+
+            handle.Free();
+
+            return bmp;
         }
     }
 }

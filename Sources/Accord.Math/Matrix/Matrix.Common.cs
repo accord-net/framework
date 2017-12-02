@@ -775,6 +775,48 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the number of rows in a multidimensional matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of rows must be computed.</param>
+        /// 
+        /// <returns>The number of rows in the matrix.</returns>
+        /// 
+        public static int Rows<T>(this T[,,] matrix)
+        {
+            return matrix.GetLength(0);
+        }
+
+        /// <summary>
+        ///   Gets the number of columns in a multidimensional matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of columns must be computed.</param>
+        /// 
+        /// <returns>The number of columns in the matrix.</returns>
+        /// 
+        public static int Columns<T>(this T[,,] matrix)
+        {
+            return matrix.GetLength(1);
+        }
+
+        /// <summary>
+        ///   Gets the number of columns in a multidimensional matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of columns must be computed.</param>
+        /// 
+        /// <returns>The number of columns in the matrix.</returns>
+        /// 
+        public static int Depth<T>(this T[,,] matrix)
+        {
+            return matrix.GetLength(2);
+        }
+
+        /// <summary>
         ///   Returns true if a vector of real-valued observations
         ///   is ordered in ascending or descending order.
         /// </summary>

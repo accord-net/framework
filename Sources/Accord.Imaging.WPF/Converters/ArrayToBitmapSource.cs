@@ -280,7 +280,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Color[] input, out BitmapSource output)
         {
-            Int32[] buffer = new Int32[input.Length];
+            var buffer = new Int32[input.Length];
 
             unsafe
             {
@@ -293,21 +293,22 @@ namespace Accord.Imaging.Converters
                     {
                         for (int x = 0; x < Width; x++, src++, dst += 4)
                         {
-                            dst[RGB.A] = input[src].A;
-                            dst[RGB.R] = input[src].R;
-                            dst[RGB.G] = input[src].G;
-                            dst[RGB.B] = input[src].B;
+                            dst[0] = input[src].R;
+                            dst[1] = input[src].G;
+                            dst[2] = input[src].B;
+                            dst[3] = input[src].A;
                         }
                     }
                 }
             }
 
-            output = create(input.ToMatrix(), PixelFormats.Bgra32, null);
+            output = create(buffer, PixelFormats.Bgra32, null);
         }
 
         private BitmapSource create(Array input, System.Windows.Media.PixelFormat format, BitmapPalette palette)
         {
-            return BitmapSource.Create(Width, Height, DpiX, DpiY, format, palette, input, Width);
+            int stride = input.GetNumberOfBytes() / Height;
+            return BitmapSource.Create(Width, Height, DpiX, DpiY, format, palette, input, stride);
         }
     }
 }

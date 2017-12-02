@@ -85,6 +85,27 @@ namespace Accord.Math
         ///   Gets a column vector from a matrix.
         /// </summary>
         /// 
+        public static T[,] GetPlane<T>(this T[,,] m, int index, T[,] result = null)
+        {
+            int rows = m.Rows();
+            int cols = m.Columns();
+            int depth = m.Depth();
+
+            if (result == null)
+                result = new T[rows, cols];
+
+            index = Matrix.index(index, depth);
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    result[i, j] = m[i, j, index];
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets a column vector from a matrix.
+        /// </summary>
+        /// 
         public static T[] GetColumn<T>(this T[,] m, int index, T[] result = null)
         {
             if (result == null)
@@ -181,7 +202,7 @@ namespace Accord.Math
         ///   Gets a row vector from a matrix.
         /// </summary>
         /// 
-        public static T[][] GetRows<T>(this T[][] m, params  int[] index)
+        public static T[][] GetRows<T>(this T[][] m, params int[] index)
         {
             return GetRows(m, index, null);
         }

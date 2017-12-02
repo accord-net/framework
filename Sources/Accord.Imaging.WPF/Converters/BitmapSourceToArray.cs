@@ -133,12 +133,11 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(BitmapSource input, out float[][] output)
         {
-            int width = input.PixelWidth;
-            int height = input.PixelHeight;
-
             var c = new FormatConvertedBitmap(input, PixelFormats.Rgba128Float, null, 1.0);
+            int width = c.PixelWidth;
+            int height = c.PixelHeight;
             var buffer = new float[width * height, 4];
-            c.CopyPixels(buffer, width, 0);
+            c.CopyPixels(buffer);
             output = buffer.ToJagged();
         }
 
@@ -152,12 +151,13 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(BitmapSource input, out float[] output)
         {
-            int width = input.PixelWidth;
-            int height = input.PixelHeight;
-
-            var c = new FormatConvertedBitmap(input, PixelFormats.Gray32Float, null, 1.0);
-            output = new float[width * height];
-            c.CopyPixels(output, width, 0);
+            var c = new FormatConvertedBitmap(input, PixelFormats.Rgba128Float, null, 1.0);
+            int width = c.PixelWidth;
+            int height = c.PixelHeight;
+            int stride = c.GetStride();
+            float[,] f = new float[width * height, 4];
+            c.CopyPixels(f);
+            output = f.GetColumn(Channel);
         }
 
         /// <summary>
@@ -169,12 +169,12 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(BitmapSource input, out byte[] output)
         {
-            int width = input.PixelWidth;
-            int height = input.PixelHeight;
-
             var c = new FormatConvertedBitmap(input, PixelFormats.Gray8, null, 1.0);
+            int width = c.PixelWidth;
+            int height = c.PixelHeight;
+            int stride = c.GetStride();
             output = new byte[width * height];
-            c.CopyPixels(output, width, 0);
+            c.CopyPixels(output, stride, 0);
         }
 
         /// <summary>
@@ -188,10 +188,11 @@ namespace Accord.Imaging.Converters
         {
             int width = input.PixelWidth;
             int height = input.PixelHeight;
+            int stride = input.GetStride();
 
             var c = new FormatConvertedBitmap(input, PixelFormats.Bgr32, null, 1.0);
             var buffer = new byte[width * height, 4];
-            c.CopyPixels(buffer, width, 0);
+            c.CopyPixels(buffer, stride, 0);
             output = buffer.ToJagged();
         }
 
