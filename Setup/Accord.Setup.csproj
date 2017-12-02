@@ -66,6 +66,7 @@
     <None Include="NuGet\Accord.Controls.Imaging.nuspec" />
     <None Include="NuGet\Accord.Controls.nuspec" />
     <None Include="NuGet\Accord.Controls.Vision.nuspec" />
+    <None Include="NuGet\Accord.Imaging.WPF.nuspec" />
     <None Include="NuGet\Accord.Imaging.Noncommercial.nuspec" />
     <None Include="NuGet\Accord.Imaging.nuspec" />
     <None Include="NuGet\Accord.IO.nuspec" />

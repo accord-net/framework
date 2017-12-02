@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Imaging</id>
+    <version>$version$</version>
+    <title>Accord.Imaging</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Convert to and from System.Drawing.Bitmap and System.Windows.Media (WPF) BitmapSource images. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Image converts for WPF and WinForms (System.Windows.Forms).</summary>
+    <tags>accord.net aforge.net framework converters bmp bitmap bitmapsource winforms</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Statistics"      version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Imaging.WPF.dll" target="lib\net35\Accord.Imaging.WPF.dll" />
+    <file src="..\..\Release\net35\Accord.Imaging.WPF.xml" target="lib\net35\Accord.Imaging.WPF.xml" />
+    
+    <file src="..\..\Release\net40\Accord.Imaging.WPF.dll" target="lib\net40\Accord.Imaging.WPF.dll" />
+    <file src="..\..\Release\net40\Accord.Imaging.WPF.xml" target="lib\net40\Accord.Imaging.WPF.xml" />
+    
+    <file src="..\..\Release\net45\Accord.Imaging.WPF.dll" target="lib\net45\Accord.Imaging.WPF.dll" />
+    <file src="..\..\Release\net45\Accord.Imaging.WPF.xml" target="lib\net45\Accord.Imaging.WPF.xml" />
+    
+    <file src="..\..\Release\net46\Accord.Imaging.WPF.dll" target="lib\net46\Accord.Imaging.WPF.dll" />
+    <file src="..\..\Release\net46\Accord.Imaging.WPF.xml" target="lib\net46\Accord.Imaging.WPF.xml" />
+    
+    <file src="..\..\Release\net462\Accord.Imaging.WPF.dll" target="lib\net462\Accord.Imaging.WPF.dll" />
+    <file src="..\..\Release\net462\Accord.Imaging.WPF.xml" target="lib\net462\Accord.Imaging.WPF.xml" />
+  </files>
+</package>
