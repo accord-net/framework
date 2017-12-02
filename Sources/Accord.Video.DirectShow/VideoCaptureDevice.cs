@@ -1300,7 +1300,7 @@ namespace Accord.Video.DirectShow
                 release(ref captureGraphObject);
                 release(ref crossbarObject);
 
-#if !NET35
+#if !NET35 && !MONO
                 Marshal.CleanupUnusedObjectsInCurrentContext();
 #endif
             }
