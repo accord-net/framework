@@ -327,7 +327,7 @@ namespace Accord.Tests.Statistics
             double a = regression.Coefficients[2];
             double b = regression.Coefficients[3];
 
-            Assert.AreEqual(10345587.465428978, error);
+            Assert.AreEqual(10345587.465428978, error, 1e-6);
 
             Assert.AreEqual(5.3161961121998953, m, 1e-3);
             Assert.AreEqual(-12.792301015831979, s, 1e-3);

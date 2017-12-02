@@ -55,7 +55,7 @@ namespace Accord.Tests.Imaging
                 return false;
 
             // Rotate and re-test
-            var rotate = new RotateNearestNeighbor(90, false);
+            var rotate = new RotateNearestNeighbor(90, keepSize: false);
             input = rotate.Apply(input);
             output = rotate.Apply(output);
 

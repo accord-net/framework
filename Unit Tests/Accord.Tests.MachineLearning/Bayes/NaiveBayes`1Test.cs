@@ -673,6 +673,7 @@ namespace Accord.Tests.MachineLearning
 #endif
 
         [Test]
+        [Category("Office")]
         public void gh1056()
         {
             string basePath = NUnit.Framework.TestContext.CurrentContext.WorkDirectory;
