@@ -161,6 +161,31 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a multidimensional array into a jagged array.
+        /// </summary>
+        /// 
+        public static T[][][] ToJagged<T>(this T[,,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            int depth = matrix.GetLength(2);
+
+            var array = new T[rows][][];
+            for (int i = 0; i < rows; i++)
+            {
+                var row = array[i] = new T[cols][];
+                for (int j = 0; j < row.Length; j++)
+                {
+                    var plane = row[j] = new T[depth];
+                    for (int k = 0; k < plane.Length; k++)
+                        plane[k] = matrix[i, j, k];
+                }
+            }
+
+            return array;
+        }
+
+        /// <summary>
         ///   Obsolete.
         /// </summary>
         /// 
@@ -509,7 +534,7 @@ namespace Accord.Math
         ///   
         public static void SetValue(this Array array, object value, bool deep, int[] indices)
         {
-            if (deep && array.IsJagged()) 
+            if (deep && array.IsJagged())
             {
                 Array current = array.GetValue(indices[0]) as Array;
                 int[] last = indices.Get(1, 0);

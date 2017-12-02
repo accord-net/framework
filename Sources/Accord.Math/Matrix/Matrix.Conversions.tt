@@ -145,6 +145,18 @@ namespace Accord.Math
             return To<#=b_name#>(value, Matrix.CreateAs<<#=a_type#>, <#=b_type#>>(value));
         }
 
+		/// <summary>
+        ///   Converts a <#=a_desc#> to a <#=b_desc#>.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=b_type#>[,,] To<#=b_name#>(this <#=a_type#>[,,] value)
+        {
+            return To<#=b_name#>(value, Matrix.CreateAs<<#=a_type#>, <#=b_type#>>(value));
+        }
+
         /// <summary>
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
@@ -213,9 +225,52 @@ namespace Accord.Math
 			else
 			{
 		#>
-			for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+			int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = <#=begin#>value[i, j]<#=end#>;
+		<#
+			}
+		#>
+
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional <#=a_desc#> array to a multidimensional <#=b_desc#> array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=b_type#>[,,] To<#=b_name#>(this <#=a_type#>[,,] value, <#=b_type#>[,,] result)
+        {
+		<#
+			if (a_blittable && b_blittable)
+			{
+		#>
+			unsafe
+			{
+				fixed (<#=a_type#>* src = value)
+				fixed (<#=b_type#>* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = <#=begin#>src[i]<#=end#>;
+				}
+			}
+		<#
+			}
+			else
+			{
+		#>
+			int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = <#=begin#>value[i, j, k]<#=end#>;
 		<#
 			}
 		#>

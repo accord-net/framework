@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.Imaging.WPF</AssemblyName>
+    <RootNamespace>Accord.Imaging</RootNamespace>
+    <TargetFrameworks>netstandard2.0<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Statistics\Accord.Statistics (NETStandard).csproj" />
+  </ItemGroup>
+
+
+</Project>

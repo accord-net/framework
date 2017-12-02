@@ -597,6 +597,18 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static TOutput[,,] CreateAs<TInput, TOutput>(TInput[,,] matrix)
+        {
+            return new TOutput[matrix.GetLength(0), matrix.GetLength(1), matrix.GetLength(2)];
+        }
+
+        /// <summary>
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static TOutput[,] CreateAs<TInput, TOutput>(TInput[][] matrix)
         {
             return new TOutput[matrix.Length, matrix[0].Length];
