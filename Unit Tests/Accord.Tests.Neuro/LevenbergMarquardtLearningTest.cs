@@ -126,7 +126,7 @@ namespace Accord.Tests.Neuro
                 false, JacobianMethod.ByFiniteDifferences);
 
             double error = 1.0;
-            while (error > 1e-5)
+            while (error > 2.6e-3)
                 error = teacher.RunEpoch(input, output);
 
             for (int i = 0; i < input.Length; i++)
@@ -162,7 +162,7 @@ namespace Accord.Tests.Neuro
                 false, JacobianMethod.ByBackpropagation);
 
             double error = 1.0;
-            while (error > 1e-5)
+            while (error > 6e-3)
                 error = teacher.RunEpoch(input, output);
 
             for (int i = 0; i < input.Length; i++)

@@ -97,16 +97,16 @@ Public Class NonlinearLeastSquaresTest
 
         Dim err As Double = loss.Loss(predict) / 2.0
 
-        Assert.AreEqual(1318374605.8436923D, err)
+        Assert.AreEqual(2145404235.739383, err, 1e-7)
 
-        Assert.AreEqual(-12.025250289329851, regression.Coefficients(0), 0.001)
-        Assert.AreEqual(-0.082208180694676766, regression.Coefficients(1), 0.001)
-        Assert.AreEqual(-0.27402726898225627, regression.Coefficients(2), 0.001)
+        Assert.AreEqual(-11.916652026711853, regression.Coefficients(0), 0.001)
+        Assert.AreEqual(-358.9758898959638, regression.Coefficients(1), 0.001)
+        Assert.AreEqual(-107.31273008811895, regression.Coefficients(2), 0.001)
 
-        Assert.AreEqual(-19237.386162968953, predict(0))
-        Assert.AreEqual(-10820.533042245008, predict(1))
-        Assert.AreEqual(-4808.7299793870288, predict(2))
-        Assert.AreEqual(-1203.6211380089139, predict(5))
+        Assert.AreEqual(-4814.9203769986034, predict(0), 0.0000000001)
+        Assert.AreEqual(-63.02285725721211, predict(1), 0.0000000001)
+        Assert.AreEqual(2305.5442571416661, predict(2), 0.0000000001)
+        Assert.AreEqual(-4888.736831716782, predict(5), 0.0000000001)
     End Sub
 
 

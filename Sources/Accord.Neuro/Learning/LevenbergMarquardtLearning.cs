@@ -212,7 +212,7 @@ namespace Accord.Neuro.Learning
     {
 
         private const double lambdaMax = 1e25;
-
+        private double eps = 1e-12;
 
         // network to teach
         private ActivationNetwork network;
@@ -366,6 +366,17 @@ namespace Accord.Neuro.Learning
         }
 
         /// <summary>
+        ///   Gets or sets a small epsilon value to be added to the
+        ///   diagonal of the Hessian matrix. Default is 1e-12.
+        /// </summary>
+        /// 
+        public double Epsilon
+        {
+            get { return eps; }
+            set { eps = value; }
+        }
+
+        /// <summary>
         ///   Gets the approximate Hessian matrix of second derivatives 
         ///   generated in the last algorithm iteration. The Hessian is 
         ///   stored in the upper triangular part of this matrix. See 
@@ -420,7 +431,8 @@ namespace Accord.Neuro.Learning
         /// <param name="network">Network to teach.</param>
         /// 
         public LevenbergMarquardtLearning(ActivationNetwork network) :
-            this(network, false, JacobianMethod.ByBackpropagation) { }
+            this(network, false, JacobianMethod.ByBackpropagation)
+        { }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="LevenbergMarquardtLearning"/> class.
@@ -639,7 +651,7 @@ namespace Accord.Neuro.Learning
             // diagonal will be destroyed in the decomposition, so it can
             // still be updated on every iteration by restoring this copy.
             for (int i = 0; i < hessian.Length; i++)
-                diagonal[i] = hessian[i][i];
+                diagonal[i] = hessian[i][i] + (float)eps;
 
             // Create the initial weights vector
             sumOfSquaredWeights = saveNetworkToArray();
@@ -661,7 +673,7 @@ namespace Accord.Neuro.Learning
 
                 // Update diagonal (Levenberg-Marquardt)
                 for (int i = 0; i < diagonal.Length; i++)
-                    hessian[i][i] = (float)(diagonal[i] + 2 * lambda + 2 * alpha);
+                    hessian[i][i] = (float)(diagonal[i] * (1 + lambda) + 2 * alpha);
 
                 // Decompose to solve the linear system. The Cholesky decomposition
                 // is done in place, occupying the Hessian's lower-triangular part.
