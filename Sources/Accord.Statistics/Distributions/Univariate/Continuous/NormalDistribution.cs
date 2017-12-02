@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Normal (Gaussian) distribution.
@@ -586,6 +587,12 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (options != null)
             {
+                if (options.Robust)
+                {
+                    initialize(mu, Math.Sqrt(var), var);
+                    return;
+                }
+
                 // Parse optional estimation options
                 double regularization = options.Regularization;
 

@@ -248,7 +248,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSequentialMinimalOptimizationRegression<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -268,7 +270,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSupportVectorRegression<TModel, TKernel, TInput>
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
 
         // Learning algorithm parameters
@@ -342,6 +346,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Initialize variables
             int N = Inputs.Length;
+            
+            // Set the value of the ε parameter controlled the width of the ε-insensitive zone
+            epsilon = Epsilon;
 
             // Lagrange multipliers
             this.alpha_a = new double[N];
@@ -442,7 +449,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             double alpha2b = alpha_b[i2]; // Lagrange multiplier a* for i2 
 
 
-            #region Compute example error
+#region Compute example error
             double e2 = 0.0;
             if (I0.Contains(i2))
             {
@@ -479,10 +486,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     biasUpperIndex = i2;
                 }
             }
-            #endregion
+#endregion
 
 
-            #region Check optimality using current thresholds
+#region Check optimality using current thresholds
             // Check optimality using current thresholds then select
             //   the best i1 to joint optimize when appropriate.
 
@@ -578,7 +585,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 throw new InvalidOperationException("The index could not be found.");
             }
-            #endregion
+#endregion
 
 
             if (optimal)
@@ -630,7 +637,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
 
-            #region Optimize
+#region Optimize
             bool case1 = false;
             bool case2 = false;
             bool case3 = false;
@@ -820,7 +827,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // If nothing has changed, return false.
             if (!changed)
                 return false;
-            #endregion
+#endregion
 
 
 

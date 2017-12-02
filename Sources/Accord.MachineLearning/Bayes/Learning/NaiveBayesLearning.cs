@@ -22,20 +22,16 @@
 
 namespace Accord.MachineLearning.Bayes
 {
+#if !MONO
+
     using Accord.Math;
-    using Accord.Math.Optimization.Losses;
-    using Accord.Statistics;
-    using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Runtime.Serialization;
-    using System.Threading.Tasks;
+    using Accord.Compat;
+    using System.Threading;
+    using System.Diagnostics;
 
-#if !MONO
     /// <summary>
     ///   Naïve Bayes learning algorithm for discrete distribution models.
     /// </summary>
@@ -65,7 +61,8 @@ namespace Accord.MachineLearning.Bayes
         /// </summary>
         protected override NaiveBayes Create(int[][] x, int y)
         {
-            int[] inputs = x.DistinctCount();
+            int[] inputs = x.Max(dimension: 0).Add(1);
+            Debug.Assert(inputs.Length == x.Columns());
             return new NaiveBayes(classes: y, symbols: inputs);
         }
 
@@ -245,7 +242,7 @@ namespace Accord.MachineLearning.Bayes
     ///   a bug in the Mono compiler.
     /// </summary>
     /// 
-    [Obsolete("This class is not supported in Mono due to a bug in the Mono compiler.")]
+    [System.Obsolete("This class is not supported in Mono due to a bug in the Mono compiler.")]
     public class NaiveBayesLearning
     {
     }

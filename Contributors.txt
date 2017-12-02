@@ -8,7 +8,7 @@
  space below enlists a few of those people who either agreed to help
  or actively participated on its development:
  
-
+  - Alex Cross
   - Anders Gustafsson 
   - Antonino Porcino 
   - Antonis Kalapodis 
@@ -16,21 +16,24 @@
   - Ashley Messer
   - Benjamin Collins
   - Darko Juric 
+  - Darren Schroeder
   - David Durrleman
   - Doug Blank
   - Hans Wolff
+  - Hashem Zawary
+  - Ivan Pizhenko
   - Marcos Diego Catalano
   - Max Bügler
   - Mathias Brandewinder
   - Mikkel Porse Rasmussen
   - Peter Sergio Larsen 
   - Remy Disp
+  - Yang Ting
 
   
 In May 2015, the project has been merged with the AForge.NET codebase,
 incorporating the work of even more contributors. In a true spirit of
 community, notorious previous contributors are also listed below:
-
 
   - Andrew Kirillov (the project creator, with the best ideas)
   - Fábio Caversan

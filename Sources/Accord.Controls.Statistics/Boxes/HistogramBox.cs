@@ -187,9 +187,11 @@ namespace Accord.Controls
         /// <param name="title">The title for the histogram window.</param>
         /// <param name="histogram">The histogram to show.</param>
         /// 
-        public static HistogramBox Show(Histogram histogram, string title = "Histogram")
+        public static HistogramBox Show(Histogram histogram, string title = null)
         {
-            return show(title, histogram.Values.ToDouble());
+            if (title == null)
+                title = histogram.Title;
+            return show(histogram.Title, histogram.Values.ToDouble());
         }
 
 

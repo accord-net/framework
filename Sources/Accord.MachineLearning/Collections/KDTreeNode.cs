@@ -24,10 +24,14 @@ namespace Accord.Collections
 {
     using System;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
-    ///   K-dimensional tree node.
+    ///   K-dimensional tree node (for <see cref="KDTree"/>).
     /// </summary>
+    /// 
+    /// <seealso cref="SPTreeNode"/>
+    /// <seealso cref="VPTreeNode{TPoint}"/>
     /// 
     [Serializable]
     public class KDTreeNode : KDTreeNodeBase<KDTreeNode>
@@ -35,8 +39,11 @@ namespace Accord.Collections
     }
 
     /// <summary>
-    ///   K-dimensional tree node.
+    ///   K-dimensional tree node (for <see cref="KDTree{T}"/>).
     /// </summary>
+    /// 
+    /// <seealso cref="SPTreeNode"/>
+    /// <seealso cref="VPTreeNode{TPoint}"/>
     /// 
     [Serializable]
     public class KDTreeNode<T> : KDTreeNodeBase<KDTreeNode<T>>
@@ -49,10 +56,14 @@ namespace Accord.Collections
     }
 
     /// <summary>
-    ///   K-dimensional tree node.
+    ///   Base class for K-dimensional tree nodes.
     /// </summary>
     /// 
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
+    /// 
+    /// <seealso cref="KDTreeNode"/>
+    /// <seealso cref="KDTreeNode{T}"/>
+    /// <seealso cref="BinaryNode{TNode}"/>
     /// 
     [Serializable]
     public class KDTreeNodeBase<TNode> : BinaryNode<TNode>, 

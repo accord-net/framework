@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Statistics;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base implementation for generative observation sequence taggers. A sequence
@@ -375,12 +376,12 @@ namespace Accord.MachineLearning
             return LogLikelihoods(sequences, ref decision, result);
         }
 
-        double ITransform<TInput[], double>.Transform(TInput[] input)
+        double ICovariantTransform<TInput[], double>.Transform(TInput[] input)
         {
             return LogLikelihood(input);
         }
 
-        double[] ITransform<TInput[], double>.Transform(TInput[][] input)
+        double[] ICovariantTransform<TInput[], double>.Transform(TInput[][] input)
         {
             return LogLikelihood(input);
         }

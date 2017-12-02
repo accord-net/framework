@@ -28,6 +28,8 @@ namespace Accord.Imaging
     using AForge;
     using Accord.Imaging;
     using System;
+    using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Feature detector based on corners.
@@ -36,7 +38,7 @@ namespace Accord.Imaging
     /// <remarks>
     ///   This class can be used as an adapter for classes implementing
     ///   AForge.NET's ICornersDetector interface, so they can be used
-    ///   where an <see cref="IFeatureDetector{T}"/> is needed.
+    ///   where an <see cref="IImageFeatureExtractor{T}"/> is needed.
     /// </remarks>
     /// 
     /// <example>
@@ -44,7 +46,8 @@ namespace Accord.Imaging
     ///   on the example section for <c>BagOfVisualWords{T}</c>.
     /// </example>
     /// 
-    public class CornerFeaturesDetector : IFeatureDetector<CornerFeaturePoint>
+    [Serializable]
+    public class CornerFeaturesDetector : BaseSparseFeatureExtractor<CornerFeaturePoint>
     {
 
         /// <summary>
@@ -63,91 +66,29 @@ namespace Accord.Imaging
         public CornerFeaturesDetector(ICornersDetector detector)
         {
             this.Detector = detector;
+            this.SupportedFormats.UnionWith(detector.SupportedFormats);
         }
 
         /// <summary>
-        ///   Process image looking for interest points.
+        /// This method should be implemented by inheriting classes to implement the
+        /// actual corners detection, transforming the input image into a list of points.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        public List<CornerFeaturePoint> ProcessImage(Bitmap image)
+        protected override IEnumerable<CornerFeaturePoint> InnerTransform(UnmanagedImage input)
         {
-            return Detector.ProcessImage(image).ConvertAll(convert);
+            return Detector.ProcessImage(input).Select(x => new CornerFeaturePoint(x)).ToList();
         }
 
         /// <summary>
-        ///   Process image looking for interest points.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        public List<CornerFeaturePoint> ProcessImage(BitmapData imageData)
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
-            return Detector.ProcessImage(imageData).ConvertAll(convert);
-        }
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        public List<CornerFeaturePoint> ProcessImage(UnmanagedImage image)
-        {
-            return Detector.ProcessImage(image).ConvertAll(convert);
-        }
-
-
-        IEnumerable<CornerFeaturePoint> IFeatureDetector<CornerFeaturePoint, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image);
-        }
-
-        IEnumerable<CornerFeaturePoint> IFeatureDetector<CornerFeaturePoint, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData);
-        }
-
-        IEnumerable<CornerFeaturePoint> IFeatureDetector<CornerFeaturePoint, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image);
-        }
-
-
-        private CornerFeaturePoint convert(IntPoint point)
-        {
-            return new CornerFeaturePoint(point);
-        }
-
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public object Clone()
-        {
-            return new CornerFeaturesDetector((ICornersDetector)this.Detector.Clone());
-        }
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, 
-        ///   or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            return new CornerFeaturesDetector((ICornersDetector)this.Detector.Clone())
+            {
+                SupportedFormats = supportedFormats
+            };
         }
 
         /// <summary>
@@ -157,14 +98,17 @@ namespace Accord.Imaging
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged
         ///   resources; <c>false</c> to release only unmanaged resources.</param>
         /// 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                // free managed resources
+                var d = Detector as IDisposable;
+                if (d != null)
+                    d.Dispose();
             }
-            
+
             // free native resources if there are any.
+            Detector = null;
         }
 
     }

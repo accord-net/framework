@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.Math;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="IMultilabelScoreClassifier{TInput}">
@@ -35,7 +36,8 @@ namespace Accord.MachineLearning
     [Serializable]
     public abstract class MultilabelScoreClassifierBase<TInput> :
         MultilabelClassifierBase<TInput>,
-        IMultilabelScoreClassifier<TInput>
+        IMultilabelScoreClassifier<TInput>,
+        IMulticlassScoreClassifier<TInput>
     {
 
 
@@ -626,13 +628,13 @@ namespace Accord.MachineLearning
 
         // Transform
 
-        int ITransform<TInput, int>.Transform(TInput input)
+        int ICovariantTransform<TInput, int>.Transform(TInput input)
         {
             var t = (IClassifier<TInput, int>)this;
             return t.Decide(input);
         }
 
-        int[] ITransform<TInput, int>.Transform(TInput[] input)
+        int[] ICovariantTransform<TInput, int>.Transform(TInput[] input)
         {
             return Transform(input, new int[NumberOfOutputs]);
         }
@@ -650,13 +652,13 @@ namespace Accord.MachineLearning
             return Decide(input, result);
         }
 
-        double ITransform<TInput, double>.Transform(TInput input)
+        double ICovariantTransform<TInput, double>.Transform(TInput input)
         {
             var t = (IClassifier<TInput, double>)this;
             return t.Decide(input);
         }
 
-        double[] ITransform<TInput, double>.Transform(TInput[] input)
+        double[] ICovariantTransform<TInput, double>.Transform(TInput[] input)
         {
             return Transform(input, new double[NumberOfOutputs]);
         }
@@ -707,9 +709,121 @@ namespace Accord.MachineLearning
         /// <returns>
         /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
         /// </returns>
-        public IClassifier<TInput, int> ToMulticlass()
+        public IMulticlassScoreClassifier<TInput> ToMulticlass()
         {
-            return (IClassifier<TInput, int>)this;
+            return (IMulticlassScoreClassifier<TInput>)this;
+        }
+
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        public IMulticlassScoreClassifier<TInput, T> ToMulticlass<T>()
+        {
+            return (IMulticlassScoreClassifier<TInput, T>)this;
+        }
+
+
+
+
+        int IMulticlassScoreClassifier<TInput>.Decide(TInput input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+        int[] IMulticlassScoreClassifier<TInput>.Decide(TInput[] input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+        double IMulticlassScoreClassifier<TInput>.Score(TInput input)
+        {
+            int decision;
+            return Scores(input, out decision)[decision];
+        }
+
+        double[] IMulticlassScoreClassifier<TInput>.Score(TInput[] input)
+        {
+            return ((IMulticlassScoreClassifier<TInput>)this).Score(input, new double[input.Length]);
+        }
+
+        double[] IMulticlassScoreClassifier<TInput>.Score(TInput[] input, double[] result)
+        {
+            int d;
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Scores(input[i], out d)[d];
+            return result;
+        }
+
+         IMultilabelScoreClassifier<TInput> IMulticlassScoreClassifier<TInput>.ToMultilabel()
+        {
+            return this;
+        }
+
+        double IMulticlassOutScoreClassifier<TInput, int>.Score(TInput input, out int decision)
+        {
+            return Scores(input, out decision)[decision];
+        }
+
+        double[] IMulticlassScoreClassifierBase<TInput, int>.Score(TInput[] input, ref int[] decision)
+        {
+            return ((IMulticlassScoreClassifier<TInput>)this).Score(input, ref decision, new double[input.Length]);
+        }
+
+        double[] IMulticlassScoreClassifierBase<TInput, int>.Score(TInput[] input, ref int[] decision, double[] result)
+        {
+            decision = createOrReuse(input, decision);
+
+            int d;
+            for (int i = 0; i < input.Length; i++)
+            {
+                result[i] = Scores(input[i], out d)[d];
+                decision[i] = d;
+            }
+            return result;
+        }
+
+        double IMulticlassOutScoreClassifier<TInput, double>.Score(TInput input, out double decision)
+        {
+            int d;
+            double result = Scores(input, out d)[d];
+            decision = d;
+            return result;
+        }
+
+        double[] IMulticlassScoreClassifierBase<TInput, double>.Score(TInput[] input, ref double[] decision)
+        {
+            return ((IMulticlassScoreClassifier<TInput>)this).Score(input, ref decision);
+        }
+
+        double[] IMulticlassScoreClassifierBase<TInput, double>.Score(TInput[] input, ref double[] decision, double[] result)
+        {
+            decision = createOrReuse(input, decision);
+
+            int d;
+            for (int i = 0; i < input.Length; i++)
+            {
+                result[i] = Scores(input[i], out d)[d];
+                decision[i] = d;
+            }
+            return result;
+        }
+
+        int IMulticlassClassifier<TInput>.Decide(TInput input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+        int[] IMulticlassClassifier<TInput>.Decide(TInput[] input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+        IMultilabelClassifier<TInput> IMulticlassClassifier<TInput>.ToMultilabel()
+        {
+            return this;
         }
     }
 }

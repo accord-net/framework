@@ -28,7 +28,7 @@ namespace Accord.Audio.Generators
     ///   Custom function signal generator.
     /// </summary>
     /// 
-    public class SignalGenerator : ISignalGenerator
+    public class SignalGenerator : BaseSignalGenerator, ISignalGenerator
     {
 
         /// <summary>
@@ -37,24 +37,6 @@ namespace Accord.Audio.Generators
         /// </summary>
         /// 
         public Func<double, double> Function { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the Sampling Rate of the generated signals.
-        /// </summary>
-        /// 
-        public int SamplingRate { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the number of channels for the generated signals.
-        /// </summary>
-        /// 
-        public int Channels { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the sample format for created signals.
-        /// </summary>
-        /// 
-        public SampleFormat Format { get; set; }
 
         /// <summary>
         ///   Constructs a new signal generator.
@@ -72,7 +54,7 @@ namespace Accord.Audio.Generators
         ///   Generates a signal.
         /// </summary>
         /// 
-        public Signal Generate(int samples)
+        public override Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 
@@ -81,15 +63,15 @@ namespace Accord.Audio.Generators
                 if (Format == SampleFormat.Format32BitIeeeFloat)
                 {
                     var dst = (float*)signal.Data.ToPointer();
-                    for (int i = 0; i < signal.Samples; i++)
-                        for (int c = 0; c < signal.Channels; c++, dst++)
+                    for (int i = 0; i < signal.NumberOfFrames; i++)
+                        for (int c = 0; c < signal.NumberOfChannels; c++, dst++)
                             *dst = (float)(Function(i));
                 }
                 else if (Format == SampleFormat.Format64BitIeeeFloat)
                 {
                     var dst = (double*)signal.Data.ToPointer();
-                    for (int i = 0; i < signal.Samples; i++)
-                        for (int c = 0; c < signal.Channels; c++, dst++)
+                    for (int i = 0; i < signal.NumberOfFrames; i++)
+                        for (int c = 0; c < signal.NumberOfChannels; c++, dst++)
                             *dst = (double)(Function(i));
                 }
                 else

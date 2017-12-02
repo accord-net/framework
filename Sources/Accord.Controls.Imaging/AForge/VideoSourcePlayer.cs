@@ -1,25 +1,44 @@
-﻿// AForge Controls Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+﻿// Accord Control Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
 //
 // Copyright © AForge.NET, 2005-2012
 // contacts@aforgenet.com
 //
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Data;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
-
-using Accord.Video;
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 namespace Accord.Controls
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Data;
+    using System.Text;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using Accord.Video;
+    using Accord.Imaging;
+    using System.Drawing.Drawing2D;
+
     using Point = System.Drawing.Point;
 
     /// <summary>
@@ -62,9 +81,6 @@ namespace Accord.Controls
         private IVideoSource videoSource = null;
         // last received frame from the video source
         private Bitmap currentFrame = null;
-        // converted version of the current frame (in the case if current frame is a 16 bpp 
-        // per color plane image, then the converted image is its 8 bpp version for rendering)
-        private Bitmap convertedFrame = null;
         // last error message provided by video source
         private string lastMessage = null;
         // controls border color
@@ -108,7 +124,8 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        /// Gets or sets whether the player should keep the aspect ratio of the images being shown.
+        ///   Gets or sets whether the player should keep
+        ///   the aspect ratio of the images being shown.
         /// </summary>
         /// 
         [DefaultValue(false)]
@@ -165,9 +182,9 @@ namespace Accord.Controls
                 // detach events
                 if (videoSource != null)
                 {
-                    videoSource.NewFrame -= new NewFrameEventHandler(videoSource_NewFrame);
-                    videoSource.VideoSourceError -= new VideoSourceErrorEventHandler(videoSource_VideoSourceError);
-                    videoSource.PlayingFinished -= new PlayingFinishedEventHandler(videoSource_PlayingFinished);
+                    videoSource.NewFrame -= new NewFrameEventHandler(VideoSource_NewFrame);
+                    videoSource.VideoSourceError -= new VideoSourceErrorEventHandler(VideoSource_VideoSourceError);
+                    videoSource.PlayingFinished -= new PlayingFinishedEventHandler(VideoSource_PlayingFinished);
                 }
 
                 lock (sync)
@@ -184,9 +201,9 @@ namespace Accord.Controls
                 // atach events
                 if (videoSource != null)
                 {
-                    videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
-                    videoSource.VideoSourceError += new VideoSourceErrorEventHandler(videoSource_VideoSourceError);
-                    videoSource.PlayingFinished += new PlayingFinishedEventHandler(videoSource_PlayingFinished);
+                    videoSource.NewFrame += new NewFrameEventHandler(VideoSource_NewFrame);
+                    videoSource.VideoSourceError += new VideoSourceErrorEventHandler(VideoSource_VideoSourceError);
+                    videoSource.PlayingFinished += new PlayingFinishedEventHandler(VideoSource_PlayingFinished);
                 }
                 else
                 {
@@ -225,8 +242,10 @@ namespace Accord.Controls
         /// <param name="sender">Event sender.</param>
         /// <param name="image">New frame.</param>
         /// 
+        [Obsolete("Please listen to the NewFrameReceived event instead.")]
         public delegate void NewFrameHandler(object sender, ref Bitmap image);
 
+#pragma warning disable CS0618
         /// <summary>
         /// New frame event.
         /// </summary>
@@ -241,6 +260,22 @@ namespace Accord.Controls
         /// </remarks>
         /// 
         public event NewFrameHandler NewFrame;
+#pragma warning restore CS0618
+
+        /// <summary>
+        /// New frame event.
+        /// </summary>
+        /// 
+        /// <remarks><para>The event is fired on each new frame received from video source. The
+        /// event is fired right after receiving and before displaying, what gives user a chance to
+        /// perform some image processing on the new frame and/or update it.</para>
+        /// 
+        /// <para><note>Users should not keep references of the passed to the event handler image.
+        /// If user needs to keep the image, it should be cloned, since the original image will be disposed
+        /// by the control when it is required.</note></para>
+        /// </remarks>
+        /// 
+        public event NewFrameEventHandler NewFrameReceived;
 
         /// <summary>
         /// Playing finished event.
@@ -345,10 +380,7 @@ namespace Accord.Controls
 
             requestedToStop = true;
 
-            if (videoSource != null)
-            {
-                videoSource.SignalToStop();
-            }
+            videoSource?.SignalToStop();
         }
 
         /// <summary>
@@ -364,9 +396,7 @@ namespace Accord.Controls
             CheckForCrossThreadAccess();
 
             if (!requestedToStop)
-            {
                 SignalToStop();
-            }
 
             if (videoSource != null)
             {
@@ -403,9 +433,7 @@ namespace Accord.Controls
         private void VideoSourcePlayer_Paint(object sender, PaintEventArgs e)
         {
             if (!Visible)
-            {
                 return;
-            }
 
             // is it required to update control's size/position
             if ((needSizeUpdate) || (firstFrameNotProcessed))
@@ -417,58 +445,57 @@ namespace Accord.Controls
             lock (sync)
             {
                 Graphics g = e.Graphics;
+                g.CompositingQuality = CompositingQuality.HighSpeed;
+                g.SmoothingMode = SmoothingMode.HighSpeed;
                 Rectangle rect = this.ClientRectangle;
-                Pen borderPen = new Pen(borderColor, 1);
-
-                // draw rectangle
-                g.DrawRectangle(borderPen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-
-                if (videoSource != null)
+                using (Pen borderPen = new Pen(borderColor, 1))
                 {
-                    if ((currentFrame != null) && (lastMessage == null))
+                    // draw rectangle
+                    g.DrawRectangle(borderPen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+
+                    if (videoSource != null)
                     {
-                        Bitmap frame = (convertedFrame != null) ? convertedFrame : currentFrame;
-
-                        if (keepRatio)
+                        if ((currentFrame != null) && (lastMessage == null))
                         {
-                            double ratio = (double)frame.Width / frame.Height;
-                            Rectangle newRect = rect;
+                            Bitmap frame = this.currentFrame;
 
-                            if (rect.Width < rect.Height * ratio)
+                            if (keepRatio)
                             {
-                                newRect.Height = (int)(rect.Width / ratio);
+                                double ratio = frameSize.Width / (double)frameSize.Height;
+
+                                Rectangle newRect = rect;
+
+                                if (rect.Width < rect.Height * ratio)
+                                    newRect.Height = (int)(rect.Width / ratio);
+                                else
+                                    newRect.Width = (int)(rect.Height * ratio);
+
+                                newRect.X = rect.Width / 2 - newRect.Width / 2;
+                                newRect.Y = rect.Height / 2 - newRect.Height / 2;
+
+                                Rectangle sourceRegion = new Rectangle(0, 0, this.frameSize.Width, this.frameSize.Height);
+                                Rectangle destRegion = new Rectangle(newRect.X + 1, newRect.Y + 1, newRect.Width - 2, newRect.Height - 2);
+                                g.DrawImage(frame, destRegion, sourceRegion, GraphicsUnit.Pixel);
                             }
                             else
                             {
-                                newRect.Width = (int)(rect.Height * ratio);
+                                // draw current frame
+                                g.DrawImage(frame, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
                             }
 
-                            newRect.X = (rect.Width - newRect.Width) / 2;
-                            newRect.Y = (rect.Height - newRect.Height) / 2;
-
-                            g.DrawImage(frame, newRect.X + 1, newRect.Y + 1, newRect.Width - 2, newRect.Height - 2);
+                            firstFrameNotProcessed = false;
                         }
                         else
                         {
-                            // draw current frame
-                            g.DrawImage(frame, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+                            // create font and brush
+                            using (SolidBrush drawBrush = new SolidBrush(this.ForeColor))
+                            {
+                                g.DrawString(lastMessage ?? "Connecting ...",
+                                    this.Font, drawBrush, new PointF(5, 5));
+                            }
                         }
-
-                        firstFrameNotProcessed = false;
-                    }
-                    else
-                    {
-                        // create font and brush
-                        SolidBrush drawBrush = new SolidBrush(this.ForeColor);
-
-                        g.DrawString((lastMessage == null) ? "Connecting ..." : lastMessage,
-                            this.Font, drawBrush, new PointF(5, 5));
-
-                        drawBrush.Dispose();
                     }
                 }
-
-                borderPen.Dispose();
             }
         }
 
@@ -490,49 +517,61 @@ namespace Accord.Controls
         }
 
         // On new frame ready
-        private void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        private void VideoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             if (!requestedToStop)
             {
-                Bitmap newFrame = (Bitmap)eventArgs.Frame.Clone();
+                Size originalSize = eventArgs.Frame.Size;
+                Bitmap newFrame = null;
+                bool needDispose = false;
 
                 // let user process the frame first
                 if (NewFrame != null)
                 {
+                    newFrame = (Bitmap)newFrame.Clone();
                     NewFrame(this, ref newFrame);
+                    needDispose = true;
+                }
+                else if (NewFrameReceived != null)
+                {
+                    NewFrameReceived.Invoke(this, eventArgs);
+
+                    // Get the latest version of the frame
+                    // (as manipulated by the user above)
+                    newFrame = eventArgs.Frame;
+                }
+                else
+                {
+                    // Get the original frame
+                    newFrame = eventArgs.Frame;
                 }
 
                 // now update current frame of the control
-                lock (sync)
+                if (Visible)
                 {
-                    // dispose previous frame
-                    if (currentFrame != null)
+                    lock (sync)
                     {
-                        if (currentFrame.Size != eventArgs.Frame.Size)
-                        {
+                        if (newFrame.Size != originalSize)
                             needSizeUpdate = true;
+
+                        this.frameSize = newFrame.Size;
+                        this.lastMessage = null;
+
+                        // check if conversion is required to lower bpp rate
+                        if ((newFrame.PixelFormat == PixelFormat.Format16bppGrayScale) ||
+                            (newFrame.PixelFormat == PixelFormat.Format48bppRgb) ||
+                            (newFrame.PixelFormat == PixelFormat.Format64bppArgb))
+                        {
+                            this.currentFrame = newFrame.Convert16bppTo8bpp(destination: this.currentFrame);
                         }
-
-                        currentFrame.Dispose();
-                        currentFrame = null;
-                    }
-                    if (convertedFrame != null)
-                    {
-                        convertedFrame.Dispose();
-                        convertedFrame = null;
+                        else
+                        {
+                            this.currentFrame = newFrame.Copy(destination: this.currentFrame);
+                        }
                     }
 
-                    currentFrame = newFrame;
-                    frameSize = currentFrame.Size;
-                    lastMessage = null;
-
-                    // check if conversion is required to lower bpp rate
-                    if ((currentFrame.PixelFormat == PixelFormat.Format16bppGrayScale) ||
-                         (currentFrame.PixelFormat == PixelFormat.Format48bppRgb) ||
-                         (currentFrame.PixelFormat == PixelFormat.Format64bppArgb))
-                    {
-                        convertedFrame = Accord.Imaging.Image.Convert16bppTo8bpp(currentFrame);
-                    }
+                    if (needDispose)
+                        newFrame.Dispose();
                 }
 
                 // update control
@@ -541,14 +580,14 @@ namespace Accord.Controls
         }
 
         // Error occured in video source
-        private void videoSource_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
+        private void VideoSource_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
         {
             lastMessage = eventArgs.Description;
             Invalidate();
         }
 
         // Video source has finished playing video
-        private void videoSource_PlayingFinished(object sender, ReasonToFinishPlaying reason)
+        private void VideoSource_PlayingFinished(object sender, ReasonToFinishPlaying reason)
         {
             switch (reason)
             {
@@ -575,33 +614,27 @@ namespace Accord.Controls
             Invalidate();
 
             // notify users
-            if (PlayingFinished != null)
-            {
-                PlayingFinished(this, reason);
-            }
+            PlayingFinished?.Invoke(this, reason);
         }
 
         // Parent Changed event handler
         private void VideoSourcePlayer_ParentChanged(object sender, EventArgs e)
         {
             if (parent != null)
-            {
-                parent.SizeChanged -= new EventHandler(parent_SizeChanged);
-            }
+                parent.SizeChanged -= new EventHandler(Parent_SizeChanged);
 
             parent = this.Parent;
 
             // set handler for Size Changed parent's event
             if (parent != null)
-            {
-                parent.SizeChanged += new EventHandler(parent_SizeChanged);
-            }
+                parent.SizeChanged += new EventHandler(Parent_SizeChanged);
         }
 
         // Parent control has changed its size
-        private void parent_SizeChanged(object sender, EventArgs e)
+        private void Parent_SizeChanged(object sender, EventArgs e)
         {
             UpdatePosition();
         }
+
     }
 }

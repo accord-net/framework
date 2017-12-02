@@ -24,6 +24,7 @@ namespace Accord.Tests.Math
 {
     using Accord.Math;
     using NUnit.Framework;
+    using System.Linq;
 
     [TestFixture]
     public partial class VectorTest
@@ -47,6 +48,15 @@ namespace Accord.Tests.Math
             double[] v = Vector.Ones(5);
             int[] idx = v.GetIndices();
             Assert.IsTrue(idx.IsEqual(new[] { 0, 1, 2, 3, 4 }));
+        }
+
+        [Test]
+        public void sample_test()
+        {
+            // https://github.com/accord-net/framework/issues/862
+            var r = Vector.Range(10000);
+            int[] s = Vector.Sample(r, 10);
+            Assert.IsTrue(s.Any(x => x > 10));
         }
 
     }

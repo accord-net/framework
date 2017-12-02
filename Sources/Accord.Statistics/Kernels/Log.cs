@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Logarithm Kernel.
@@ -102,7 +103,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Function(double z)
         {
-            return -System.Math.Log(System.Math.Pow(z, degree / 2.0) + 1);
+            return -System.Math.Log(System.Math.Pow(z, degree) + 1);
         }
 
         /// <summary>

@@ -722,14 +722,18 @@ namespace SampleApp
         {
             try
             {
-                int time;
-                if (Int32.TryParse(txtInterval.Text, out time))
+                int time = -1;
+                this.Invoke((Action)(() => 
+                {
+                    Int32.TryParse(txtInterval.Text, out time);
+                }));
+
+                if (time < 0)
                     return;
 
                 while (Thread.CurrentThread.IsAlive)
                 {
-                    MethodInvoker mi = new MethodInvoker(AGVStep);
-                    this.BeginInvoke(mi);
+                    this.Invoke((Action)(() => AGVStep()));
                     Thread.Sleep(time);
                 }
             }

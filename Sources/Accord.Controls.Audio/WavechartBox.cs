@@ -23,15 +23,15 @@
 namespace Accord.Controls
 {
     using System;
-    using System.Data;
     using System.Threading;
     using System.Windows.Forms;
     using System.Drawing;
     using Accord.Audio;
     using Accord.Math;
-    using AForge.Math;
     using ZedGraph;
     using Accord.Audio.Filters;
+    using Accord.Compat;
+    using Accord.Math.Transforms;
 
     /// <summary>
     ///   Wavechart Box.
@@ -170,8 +170,8 @@ namespace Accord.Controls
 
                     if (complex != null && complex.Status != ComplexSignalStatus.Normal)
                     {
-                        double[] spectrum = Accord.Audio.Tools.GetPowerSpectrum(complex.GetChannel(channel));
-                        double[] frequencies = Accord.Audio.Tools.GetFrequencyVector(signal.Length, signal.SampleRate);
+                        double[] spectrum = FourierTransform2.GetPowerSpectrum(complex.GetChannel(channel));
+                        double[] frequencies = FourierTransform2.GetFrequencyVector(signal.Length, signal.SampleRate);
 
                         form.series.Add(new LineItem(i.ToString(), frequencies,
                             spectrum, sequence.GetColor(i), SymbolType.None));
@@ -182,7 +182,7 @@ namespace Accord.Controls
                     else
                     {
                         double[] values;
-                        if (signal.Channels == 1)
+                        if (signal.NumberOfChannels == 1)
                         {
                             values = signal.ToDouble();
                         }

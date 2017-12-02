@@ -1,26 +1,46 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>Accord.Math.Core</AssemblyName>
     <RootNamespace>Accord.Math</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
-
-<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-
-  
   <ItemGroup>
     <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <None Update="Matrix.Comparisons.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Comparisons.Generated.cs</LastGenOutput>
+      <LastOutputs></LastOutputs>
+    </None>
+    <None Update="Matrix.Elementwise.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise.Generated.cs</LastGenOutput>
+      <LastOutputs></LastOutputs>
+    </None>
+    <None Update="Matrix.Elementwise2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise2.txt</LastGenOutput>
+      <LastOutputs>
+        .\Matrix.Add.Generated.cs
+        .\Matrix.Divide.Generated.cs
+        .\Matrix.Multiply.Generated.cs
+        .\Matrix.Subtract.Generated.cs
+      </LastOutputs>
+    </None>
+    <None Update="Matrix.Elementwise3.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise3.txt</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
 </Project>

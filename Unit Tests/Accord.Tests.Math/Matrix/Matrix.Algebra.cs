@@ -32,6 +32,9 @@ namespace Accord.Tests.Math
     using NUnit.Framework;
     using Accord.IO;
     using System.Globalization;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfoEx;
+#endif
 
     [TestFixture]
     public partial class MatrixTest

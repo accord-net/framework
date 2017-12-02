@@ -31,6 +31,7 @@ namespace Accord.IO
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
 #if !NET35 && !NET40
@@ -57,7 +58,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(byte[] bytes)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -79,7 +84,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(byte[] bytes, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -99,7 +108,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(string path, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -119,7 +132,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(Stream stream, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -136,7 +153,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(string path)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -155,7 +176,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(Stream stream)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -236,7 +261,7 @@ namespace Accord.IO
         /// 
         public static Array LoadMatrix(Stream stream)
         {
-            using (var reader = new BinaryReader(stream, Encoding.ASCII
+            using (var reader = new BinaryReader(stream, System.Text.Encoding.ASCII
 #if !NET35 && !NET40
             , leaveOpen: true
 #endif
@@ -248,7 +273,7 @@ namespace Accord.IO
                 if (!parseReader(reader, out bytes, out type, out shape))
                     throw new FormatException();
 
-                Array matrix = Matrix.Create(type, shape);
+                Array matrix = Matrix.Zeros(type, shape);
 
                 if (type == typeof(String))
                     return readStringMatrix(reader, matrix, bytes, type, shape);
@@ -267,7 +292,7 @@ namespace Accord.IO
         /// 
         public static Array LoadJagged(Stream stream, bool trim = true)
         {
-            using (var reader = new BinaryReader(stream, Encoding.ASCII
+            using (var reader = new BinaryReader(stream, System.Text.Encoding.ASCII
 #if !NET35 && !NET40
             , leaveOpen: true
 #endif
@@ -279,7 +304,7 @@ namespace Accord.IO
                 if (!parseReader(reader, out bytes, out type, out shape))
                     throw new FormatException();
 
-                Array matrix = Jagged.Create(type, shape);
+                Array matrix = Jagged.Zeros(type, shape);
 
                 if (type == typeof(String))
                 {
@@ -377,7 +402,11 @@ namespace Accord.IO
                             }
                         }
 
+#if NETSTANDARD1_4
+                        String s = new String((char*)b);
+#else
                         String s = new String((sbyte*)b);
+#endif
                         matrix.SetValue(value: s, deep: true, indices: p);
                     }
                 }
@@ -447,13 +476,25 @@ namespace Accord.IO
             if (typeCode == "b1")
                 return typeof(bool);
             if (typeCode == "i1")
-                return typeof(Byte);
+                return typeof(SByte);
             if (typeCode == "i2")
                 return typeof(Int16);
             if (typeCode == "i4")
                 return typeof(Int32);
             if (typeCode == "i8")
                 return typeof(Int64);
+            if (typeCode == "u1")
+                return typeof(Byte);
+            if (typeCode == "u2")
+                return typeof(UInt16);
+            if (typeCode == "u4")
+                return typeof(UInt32);
+            if (typeCode == "u8")
+                return typeof(UInt64);
+            if (typeCode == "f4")
+                return typeof(Single);
+            if (typeCode == "f8")
+                return typeof(Double);
             if (typeCode.StartsWith("S"))
                 return typeof(String);
 

@@ -555,6 +555,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void LargeLearningTest1()
         {
             // Create large input vectors

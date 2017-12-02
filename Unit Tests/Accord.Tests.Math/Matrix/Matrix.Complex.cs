@@ -25,9 +25,11 @@ namespace Accord.Tests.Math
     using Accord.Math;
     using NUnit.Framework;
     using System;
-    using AForge.Math;
-    using AForge;
+#if NET35
+    using Accord.Compat;
+#else
     using System.Numerics;
+#endif
 
     [TestFixture]
     public class ComplexMatrixTest

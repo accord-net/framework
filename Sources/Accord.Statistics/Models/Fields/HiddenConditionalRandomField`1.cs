@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Fields
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -480,7 +481,7 @@ namespace Accord.Statistics.Models.Fields
             return logLikelihoods;
         }
 
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the random field to a stream.
         /// </summary>
@@ -532,8 +533,9 @@ namespace Accord.Statistics.Models.Fields
         {
             return Accord.IO.Serializer.Load<HiddenConditionalRandomField<T>>(path);
         }
+#endif
 
-        #region ICloneable Members
+#region ICloneable Members
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -548,7 +550,7 @@ namespace Accord.Statistics.Models.Fields
             return new HiddenConditionalRandomField<T>((IPotentialFunction<T>)Function.Clone());
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Computes a class-label decision for a given <paramref name="input" />.

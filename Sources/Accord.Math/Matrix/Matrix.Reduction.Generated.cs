@@ -1091,6 +1091,182 @@ namespace Accord.Math
             return Product(matrix, dimension, result);
         }
         
+
+        /// <summary>
+        ///   Vector sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose sum will be calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Sum(this bool[] vector)
+        {
+            int sum = 0;
+            for (int i = 0; i < vector.Length; i++)
+                sum = (int)(sum + (vector[i] ? 1 : 0));
+            return sum;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Sum(this bool[,] matrix)
+        {
+            int sum = 0;
+            foreach (var v in matrix)
+                sum = (int)(sum + (v ? 1 : 0));
+            return sum;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sums will be calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Sum(this bool[][] matrix)
+        {
+            int sum = 0;
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    sum = (int)(sum + (matrix[i][j] ? 1 : 0));
+            return sum;
+        }
+
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Sum(this bool[][] matrix, int dimension)
+        {
+            var result = new int[Matrix.GetLength(matrix, dimension)];      
+            return Sum(matrix, dimension, result);
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Sum(this bool[,] matrix, int dimension)
+        {
+            var result = new int[Matrix.GetLength(matrix, dimension)];      
+            return Sum(matrix, dimension, result);
+        }
+        
+
+        /// <summary>
+        ///   Vector product.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose product will be calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Product(this bool[] vector)
+        {
+            int sum = 1;
+            for (int i = 0; i < vector.Length; i++)
+                sum = (int)(sum * (vector[i] ? 1 : 0));
+            return sum;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Product(this bool[,] matrix)
+        {
+            int sum = 1;
+            foreach (var v in matrix)
+                sum = (int)(sum * (v ? 1 : 0));
+            return sum;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sums will be calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Product(this bool[][] matrix)
+        {
+            int sum = 1;
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    sum = (int)(sum * (matrix[i][j] ? 1 : 0));
+            return sum;
+        }
+
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Product(this bool[][] matrix, int dimension)
+        {
+            var result = new int[Matrix.GetLength(matrix, dimension)];      
+            return Product(matrix, dimension, result);
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Product(this bool[,] matrix, int dimension)
+        {
+            var result = new int[Matrix.GetLength(matrix, dimension)];      
+            return Product(matrix, dimension, result);
+        }
+        
         /// <summary>
         ///   Matrix sum.
         /// </summary>
@@ -8147,6 +8323,1182 @@ namespace Accord.Math
             return result;
         }
 
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Sum(this bool[][] matrix, int dimension, int[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    int s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (int)(s + (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    int s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (int)(s + (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Sum(this bool[,] matrix, int dimension, int[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    int s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (int)(s + (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    int s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (int)(s + (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Product(this bool[][] matrix, int dimension, int[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    int s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (int)(s * (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    int s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (int)(s * (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Product(this bool[,] matrix, int dimension, int[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    int s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (int)(s * (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    int s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (int)(s * (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Sum(this bool[][] matrix, int dimension, short[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    short s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (short)(s + (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    short s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (short)(s + (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Sum(this bool[,] matrix, int dimension, short[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    short s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (short)(s + (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    short s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (short)(s + (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Product(this bool[][] matrix, int dimension, short[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    short s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (short)(s * (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    short s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (short)(s * (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Product(this bool[,] matrix, int dimension, short[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    short s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (short)(s * (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    short s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (short)(s * (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Sum(this bool[][] matrix, int dimension, float[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    float s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (float)(s + (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    float s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (float)(s + (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Sum(this bool[,] matrix, int dimension, float[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    float s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (float)(s + (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    float s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (float)(s + (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Product(this bool[][] matrix, int dimension, float[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    float s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (float)(s * (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    float s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (float)(s * (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Product(this bool[,] matrix, int dimension, float[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    float s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (float)(s * (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    float s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (float)(s * (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Sum(this bool[][] matrix, int dimension, double[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    double s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (double)(s + (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    double s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (double)(s + (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Sum(this bool[,] matrix, int dimension, double[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    double s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (double)(s + (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    double s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (double)(s + (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Product(this bool[][] matrix, int dimension, double[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    double s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (double)(s * (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    double s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (double)(s * (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Product(this bool[,] matrix, int dimension, double[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    double s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (double)(s * (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    double s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (double)(s * (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Sum(this bool[][] matrix, int dimension, long[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    long s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (long)(s + (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    long s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (long)(s + (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Sum(this bool[,] matrix, int dimension, long[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    long s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (long)(s + (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    long s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (long)(s + (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Product(this bool[][] matrix, int dimension, long[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    long s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (long)(s * (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    long s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (long)(s * (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] Product(this bool[,] matrix, int dimension, long[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    long s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (long)(s * (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    long s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (long)(s * (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Sum(this bool[][] matrix, int dimension, decimal[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    decimal s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (decimal)(s + (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    decimal s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (decimal)(s + (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the sum will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Sum(this bool[,] matrix, int dimension, decimal[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    decimal s = 0;
+                    for (int i = 0; i < rows; i++)
+                        s = (decimal)(s + (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    decimal s = 0;
+                    for (int i = 0; i < cols; i++)
+                        s = (decimal)(s + (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Product(this bool[][] matrix, int dimension, decimal[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    decimal s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (decimal)(s * (matrix[i][j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    decimal s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (decimal)(s * (matrix[j][i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix product.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose product will be calculated.</param>
+        /// <param name="dimension">The dimension in which the product will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Product(this bool[,] matrix, int dimension, decimal[] result)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    decimal s = 1;
+                    for (int i = 0; i < rows; i++)
+                        s = (decimal)(s * (matrix[i, j] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else if (dimension == 1)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    decimal s = 1;
+                    for (int i = 0; i < cols; i++)
+                        s = (decimal)(s * (matrix[j, i] ? 1 : 0));
+                    result[j] = s;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
 
         /// <summary>
         ///   Matrix cumulative sum.
@@ -8261,7 +9613,7 @@ namespace Accord.Math
             int cols = matrix.Columns();
             if (dimension == 1)
                 return CumulativeSum(matrix, dimension, Matrix.Zeros<int>(rows, cols));
-            return CumulativeSum(matrix, dimension, Matrix.Zeros<int>(cols, rows));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<int>(cols, rows)); 
         }        
 
         /// <summary>
@@ -8417,7 +9769,7 @@ namespace Accord.Math
             int cols = matrix.Columns();
             if (dimension == 1)
                 return CumulativeSum(matrix, dimension, Matrix.Zeros<short>(rows, cols));
-            return CumulativeSum(matrix, dimension, Matrix.Zeros<short>(cols, rows));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<short>(cols, rows)); 
         }        
 
         /// <summary>
@@ -8573,7 +9925,7 @@ namespace Accord.Math
             int cols = matrix.Columns();
             if (dimension == 1)
                 return CumulativeSum(matrix, dimension, Matrix.Zeros<float>(rows, cols));
-            return CumulativeSum(matrix, dimension, Matrix.Zeros<float>(cols, rows));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<float>(cols, rows)); 
         }        
 
         /// <summary>
@@ -8729,7 +10081,7 @@ namespace Accord.Math
             int cols = matrix.Columns();
             if (dimension == 1)
                 return CumulativeSum(matrix, dimension, Matrix.Zeros<double>(rows, cols));
-            return CumulativeSum(matrix, dimension, Matrix.Zeros<double>(cols, rows));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<double>(cols, rows)); 
         }        
 
         /// <summary>
@@ -8885,7 +10237,7 @@ namespace Accord.Math
             int cols = matrix.Columns();
             if (dimension == 1)
                 return CumulativeSum(matrix, dimension, Matrix.Zeros<long>(rows, cols));
-            return CumulativeSum(matrix, dimension, Matrix.Zeros<long>(cols, rows));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<long>(cols, rows)); 
         }        
 
         /// <summary>
@@ -9041,7 +10393,7 @@ namespace Accord.Math
             int cols = matrix.Columns();
             if (dimension == 1)
                 return CumulativeSum(matrix, dimension, Matrix.Zeros<decimal>(rows, cols));
-            return CumulativeSum(matrix, dimension, Matrix.Zeros<decimal>(cols, rows));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<decimal>(cols, rows)); 
         }        
 
         /// <summary>

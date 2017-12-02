@@ -37,7 +37,6 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    // [GeneratedCode("Accord.NET T4 Templates", "3.1")]
     public static partial class Elementwise
     {
 <# 
@@ -175,13 +174,13 @@ namespace Accord.Math
     Func<string, string, string, string, string, string, string> reference = (a, b, r, A, B, R) =>
     {
          StringBuilder sb = new StringBuilder();
-		 if (R == "[]")
-			sb.AppendLine(String.Format("{0}{1} r = VectorCreateAs<{2},{3}>(a);", r, R, a, r));
-		else if (R == "[][]")
-			sb.AppendLine(String.Format("{0}{1} r = JaggedCreateAs<{2},{3}>(a);", r, R, a, r));
-		else if (R == "[,]")
-			sb.AppendLine(String.Format("{0}{1} r = MatrixCreateAs<{2},{3}>(a);", r, R, a, r));
-		return sb.ToString();
+         if (R == "[]")
+            sb.AppendLine(String.Format("{0}{1} r = VectorCreateAs<{2},{3}>(a);", r, R, a, r));
+        else if (R == "[][]")
+            sb.AppendLine(String.Format("{0}{1} r = JaggedCreateAs<{2},{3}>(a);", r, R, a, r));
+        else if (R == "[,]")
+            sb.AppendLine(String.Format("{0}{1} r = MatrixCreateAs<{2},{3}>(a);", r, R, a, r));
+        return sb.ToString();
     };
 
 
@@ -189,7 +188,7 @@ namespace Accord.Math
     {
         foreach (string b in types)
         {
-			string r = "bool";
+            string r = "bool";
             string tr = "Double";
             string ta = null;
             if (a == "Decimal" || b == "Decimal")
@@ -256,7 +255,7 @@ namespace Accord.Math
             {
                 fixed (<#=a#>* ptrA = a)
                 fixed (<#=b#>* ptrB = b)
-				fixed (<#=r#>* ptrR = r)
+                fixed (<#=r#>* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -426,7 +425,7 @@ namespace Accord.Math
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
-				fixed (<#=r#>* ptrR = r)
+                fixed (<#=r#>* ptrR = r)
                 {
                     if (rtol > 0)
                     {

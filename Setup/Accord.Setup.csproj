@@ -1,21 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Accord.Setup</RootNamespace>
     <AssemblyName>Accord.Setup</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Accord.Setup.Archiver.PackageSamples</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="..\build-all.cmd">
+      <Link>build-all.cmd</Link>
+    </None>
+    <None Include="..\clean-all.cmd">
+      <Link>clean-all.cmd</Link>
+    </None>
+    <None Include="..\run-tests.cmd">
+      <Link>run-tests.cmd</Link>
+    </None>
     <None Include="Archiver\package-framework.cmd" />
     <None Include="Archiver\package-samples.cmd" />
+    <None Include="Archiver\PackageSamples.ps1" />
     <None Include="create-release.cmd" />
     <None Include="Installer\Build.cmd" />
+    <None Include="NuGet\Accord.Audition.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="NuGet\Accord.DataSets.nuspec" />
     <None Include="NuGet\Accord.Fuzzy.nuspec" />
     <None Include="NuGet\Accord.Genetic.nuspec" />
@@ -35,7 +72,9 @@
     <None Include="NuGet\Accord.MachineLearning.nuspec" />
     <None Include="NuGet\Accord.Math.Noncommercial.nuspec" />
     <None Include="NuGet\Accord.Math.nuspec" />
-    <None Include="NuGet\Accord.Neuro.nuspec" />
+    <None Include="NuGet\Accord.Neuro.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="NuGet\Accord.nuspec" />
     <None Include="NuGet\Accord.Statistics.nuspec" />
     <None Include="NuGet\Accord.Text.nuspec" />
@@ -64,29 +103,35 @@
     <None Include="Scripts\UpdateVersion.ps1" />
     <None Include="update-version.cmd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Installer\Accord.iss" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Archiver\PackageSamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\UpdateVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>-->
-  <Target Name="AfterBuild">
-    <!-- Load up the information from the assembly -->
-    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)$(AssemblyName).dll">
-      <Output TaskParameter="Assemblies" ItemName="OutputAssemblyInfo" />
-    </GetAssemblyIdentity>
-    <Message Text="Info: %(OutputAssemblyInfo.Version)" />
-  </Target>
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

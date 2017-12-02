@@ -134,17 +134,17 @@ namespace Accord.Tests.Statistics
 
             expected = 0;
             actual = target.Distance(x, x);
-            Assert.AreEqual(expected, actual, 0);
+            Assert.AreEqual(expected, actual, 1e-6);
 
             expected = 0;
             actual = target.Distance(y, y);
-            Assert.AreEqual(expected, actual, 0);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 2.1533930274840158;
             actual = target.Distance(x, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(y, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
 
             target = new DynamicTimeWarping(2, 1.42);
@@ -152,27 +152,27 @@ namespace Accord.Tests.Statistics
 
             expected = 0;
             actual = target.Distance(x, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0;
             actual = target.Distance(y, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0;
             actual = target.Distance(z, z);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 2.2180712512020921;
             actual = target.Distance(x, z);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(z, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 1.1582243214162151;
             actual = target.Distance(x, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(y, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
 
             target = new DynamicTimeWarping(1, 0.0000000001);
@@ -197,15 +197,15 @@ namespace Accord.Tests.Statistics
 
             expected = 0;
             actual = target.Distance(x, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(y, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0.00029292648999024173;
             actual = target.Distance(x, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(y, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
 
@@ -223,6 +223,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
+#if !MONO
         [Test]
         public void generic_test()
         {
@@ -277,5 +278,6 @@ namespace Accord.Tests.Statistics
             actual = target.Function(y, x);
             Assert.AreEqual(expected, actual, 1e-6);
         }
+#endif
     }
 }

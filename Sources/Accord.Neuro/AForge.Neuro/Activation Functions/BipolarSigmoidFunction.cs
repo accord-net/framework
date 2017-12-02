@@ -9,6 +9,7 @@
 namespace Accord.Neuro
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// Bipolar sigmoid activation function.
@@ -30,7 +31,7 @@ namespace Accord.Neuro
     /// <para>Output range of the function: <b>[-1, 1]</b>.</para>
     /// 
     /// <para>Functions graph:</para>
-    /// <img src="img/neuro/sigmoid_bipolar.bmp" width="242" height="172" />
+    /// <img src="..\images\neuro\sigmoid_bipolar.bmp" width="242" height="172" />
     /// </remarks>
     /// 
     [Serializable]

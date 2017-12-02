@@ -5,18 +5,18 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="T4Toolbox.tt"#>
 <#
-	new MatrixOperationTemplate() .RenderToFile("Matrix.MultiplyAndAdd.Generated.cs");
+    new MatrixOperationTemplate() .RenderToFile("Matrix.MultiplyAndAdd.Generated.cs");
 #>
 <#+
 public class MatrixOperationTemplate : Template
 {
 
-	public MatrixOperationTemplate() 
+    public MatrixOperationTemplate() 
     { 
     }
 
-	public override string TransformText()
-	{
+    public override string TransformText()
+    {
         string[] types =
         { 
             "int", 
@@ -63,10 +63,6 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///   Elementwise matrix and vector operations.
-    /// </summary>
-    ///
     public static partial class Elementwise
     {
 #pragma warning disable 1591
@@ -76,11 +72,11 @@ namespace Accord.Math
         foreach (string a in types)
         {
             string b = a;
-			string c = a;
+            string c = a;
             string r = a;
 #>
 
-#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Multiplies a matrix <c>A</c> with a scalar <c>b</c> and accumulates with <c>c</c>.
@@ -88,7 +84,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -97,6 +93,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] MultiplyAndAdd(this <#=a#>[][] a, <#=b#> b, <#=c#>[][] c, <#=r#>[][] result)
         {
+            check<<#=a#>, <#=b#>, <#=c#>, <#=r#>>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)(a[i][j]) * b + (<#=r#>)(c[i][j]));
@@ -110,7 +107,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -119,6 +116,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] MultiplyAndAdd(this <#=a#>[,] a, <#=b#> b, <#=c#>[,] c, <#=r#>[,] result)
         {
+            check<<#=a#>, <#=b#>, <#=c#>, <#=r#>>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.GetLength(0); i++)
                 for (int j = 0; j < result.GetLength(1); j++)
                     result[i, j] = (<#=r#>)((<#=r#>)(a[i, j]) * b + (<#=r#>)(c[i, j]));
@@ -126,7 +124,7 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
 
 <#+
@@ -137,6 +135,6 @@ namespace Accord.Math
 }
 <#+
         return this.GenerationEnvironment.ToString();
-	}
+    }
 }
 #>

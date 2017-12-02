@@ -233,7 +233,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual("0", codification.Columns[0].ColumnName);
             Assert.AreEqual(3, codification.Columns[0].NumberOfSymbols);
             Assert.AreEqual(1, codification.Columns[0].NumberOfInputs);
-            Assert.AreEqual(1, codification.Columns[0].NumberOfOutputs);
+            Assert.AreEqual(3, codification.Columns[0].NumberOfOutputs);
             Assert.AreEqual(3, codification.Columns[0].NumberOfClasses);
             Assert.AreEqual(CodificationVariable.Categorical, codification.Columns[0].VariableType);
             Assert.AreEqual("1", codification.Columns[1].ColumnName);
@@ -492,12 +492,16 @@ namespace Accord.Tests.MachineLearning
             Assert.Throws<ArgumentException>(() => kmeans.Compute(observations), "");
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void DeserializationTest1()
         {
-            MemoryStream stream = new MemoryStream(Properties.Resources.kmeans);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "kmeans.bin");
 
-            KMeans kmeans = Serializer.Load<KMeans>(stream);
+            KMeans kmeans = Serializer.Load<KMeans>(fileName);
 
 
             KMeans kbase = new KMeans(3);
@@ -517,6 +521,6 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(kbase.ComputeCovariances);
             Assert.AreEqual(kbase.Distance.GetType(), kmeans.Distance.GetType());
         }
-
+#endif
     }
 }

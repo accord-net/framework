@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Estimation methods for <see cref="Accord.Statistics.Distributions.Univariate.BetaDistribution">

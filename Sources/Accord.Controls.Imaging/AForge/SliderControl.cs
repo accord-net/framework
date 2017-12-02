@@ -20,7 +20,7 @@ namespace Accord.Controls
     /// <remarks>
     /// <para>The control represents a slider, which can be dragged in the [-1, 1] range.
     /// Default position of the slider is set 0, which corresponds to center of the control.<br />
-    /// <img src="img/controls/slider_control.png" width="227" height="56" />
+    /// <img src="..\images\controls\slider_control.png" width="227" height="56" />
     /// </para>
     /// </remarks>
     ///

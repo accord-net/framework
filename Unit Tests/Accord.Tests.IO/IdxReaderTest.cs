@@ -31,12 +31,13 @@ namespace Accord.Tests.IO
     public class IdxReaderTest
     {
 
+
         [Test]
         public void ReadSampleTest()
         {
-            MemoryStream file = new MemoryStream(Resources.t10k_images_idx3_ubyte);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "t10k-images-idx3-ubyte.gz");
 
-            IdxReader reader = new IdxReader(file, compressed: true);
+            IdxReader reader = new IdxReader(fileName, compressed: true);
 
             Assert.AreEqual(IdxDataType.UnsignedByte, reader.DataType);
             Assert.AreEqual(10000, reader.Samples);
@@ -45,7 +46,7 @@ namespace Accord.Tests.IO
 
             for (int i = 0; i < samples.Length; i++)
                 samples[i] = reader.ReadMatrix<byte>();
-            
+
             for (int i = 0; i < samples.Length; i++)
             {
                 Assert.AreEqual(28, samples[i].GetLength(0));
@@ -56,8 +57,9 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadSampleTest2()
         {
-            MemoryStream file = new MemoryStream(Resources.t10k_images_idx3_ubyte);
-            IdxReader reader = new IdxReader(file, compressed: true);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "t10k-images-idx3-ubyte.gz");
+
+            IdxReader reader = new IdxReader(fileName, compressed: true);
 
             var samples = reader.ReadToEndAsMatrices<byte>();
 
@@ -71,8 +73,10 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadSampleTest3()
         {
-            MemoryStream file = new MemoryStream(Resources.t10k_images_idx3_ubyte);
-            IdxReader reader = new IdxReader(file, compressed: true);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "t10k-images-idx3-ubyte.gz");
+            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+
+            IdxReader reader = new IdxReader(stream, compressed: true);
 
             var samples = reader.ReadToEndAsVectors<byte>();
 

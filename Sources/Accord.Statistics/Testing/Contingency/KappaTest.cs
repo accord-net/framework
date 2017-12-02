@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Math;
     using Accord.Statistics.Analysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kappa Test for agreement in contingency tables.
@@ -214,7 +215,7 @@ namespace Accord.Statistics.Testing
         /// 
         public static double DeltaMethodKappaVariance(GeneralConfusionMatrix matrix, out double stdDev)
         {
-            int n = matrix.Samples;
+            int n = matrix.NumberOfSamples;
             double sum;
 
             double θ1 = (1.0 / n) * matrix.Diagonal.Sum(); // observed agreement, po
@@ -280,7 +281,7 @@ namespace Accord.Statistics.Testing
         public static double AsymptoticKappaVariance(GeneralConfusionMatrix matrix, out double stdDev,
             bool nullHypothesis = false)
         {
-            double n = matrix.Samples;
+            double n = matrix.NumberOfSamples;
             double k = matrix.Kappa;
 
             double[,] p = matrix.ProportionMatrix;
@@ -370,7 +371,7 @@ namespace Accord.Statistics.Testing
         public static double AsymptoticKappaVariance(WeightedConfusionMatrix matrix, out double stdDev,
             bool nullHypothesis = false)
         {
-            double n = matrix.Samples;
+            double n = matrix.NumberOfSamples;
             double k = matrix.Kappa;
 
             double[,] p = matrix.ProportionMatrix;

@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.Statistics.Filters
 {
 
@@ -90,7 +91,8 @@ namespace Accord.Statistics.Filters
     /// <seealso cref="Codification"/>
     /// 
     [Serializable]
-    public class Normalization : BaseFilter<Normalization.Options>, IAutoConfigurableFilter
+    public class Normalization : BaseFilter<Normalization.Options, Normalization>,
+        IAutoConfigurableFilter
     {
 
         /// <summary>
@@ -284,7 +286,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         ///
         [Serializable]
-        public class Options : ColumnOptionsBase
+        public class Options : ColumnOptionsBase<Normalization>
         {
             /// <summary>
             ///   Gets or sets the mean of the data contained in the column.
@@ -341,3 +343,4 @@ namespace Accord.Statistics.Filters
 
     }
 }
+#endif

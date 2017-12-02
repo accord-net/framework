@@ -24,7 +24,9 @@ namespace Accord.Statistics.Filters
 {
     using System;
     using System.Collections.ObjectModel;
+#if !NETSTANDARD1_4
     using System.Data;
+#endif
 
     /// <summary>
     ///   Indicates that a filter supports automatic initialization.
@@ -32,11 +34,13 @@ namespace Accord.Statistics.Filters
     /// 
     public interface IAutoConfigurableFilter : IFilter
     {
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Auto detects the filter options by analyzing a given <see cref="System.Data.DataTable"/>.
         /// </summary> 
         /// 
         void Detect(DataTable data);
+#endif
     }
 
 }

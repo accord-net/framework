@@ -27,21 +27,55 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Collections;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.
     /// </summary>
     /// 
     /// <remarks>
-    ///   For more detailed documentation, including examples and code snippets, 
-    ///   please take a look on the <see cref="KNearestNeighbors{T}"/> documentation
-    ///   page.
+    /// <para> The k-nearest neighbor algorithm (k-NN) is a method for classifying objects
+    ///   based on closest training examples in the feature space. It is amongst the simplest
+    ///   of all machine learning algorithms: an object is classified by a majority vote of
+    ///   its neighbors, with the object being assigned to the class most common amongst its 
+    ///   k nearest neighbors (k is a positive integer, typically small).</para>
+    ///   
+    /// <para>If k = 1, then the object is simply assigned to the class of its nearest neighbor.</para>
+    /// 
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Wikipedia contributors. "K-nearest neighbor algorithm." Wikipedia, The
+    ///       Free Encyclopedia. Wikipedia, The Free Encyclopedia, 10 Oct. 2012. Web.
+    ///       9 Nov. 2012. http://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm </description></item>
+    ///   </list>
+    /// </para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how to create and use a k-Nearest Neighbor algorithm to classify
+    ///   a set of numeric vectors in a multi-class decision problem involving 3 classes. It also shows
+    ///   how to compute class decisions for a new sample and how to measure the performance of a classifier.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_serialization" />
+    /// 
+    /// <para>
+    ///   The second example show how to use a different distance metric when computing k-NN:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn_distance" />
+    /// 
+    /// <para>
+    ///   The k-Nearest neighbor algorithm implementation in the framework can also be used with any instance 
+    ///   data type. For such cases, the framework offers a generic version of the classifier. The third example
+    ///   shows how to use the generic kNN classifier to perform the direct classification of actual text samples:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn_text" />
+    /// </example>
     /// 
     /// <seealso cref="KNearestNeighbors{T}"/>
     /// 
     [Serializable]
-    public class KNearestNeighbors : 
+    public class KNearestNeighbors :
         BaseKNearestNeighbors<KNearestNeighbors, double[], IMetric<double[]>>
     {
 

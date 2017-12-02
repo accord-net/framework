@@ -23,17 +23,7 @@
 namespace Accord.Imaging
 {
     using Accord.MachineLearning;
-    using Accord.Math;
-    using Accord.Imaging;
     using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Collections.Concurrent;
 
     /// <summary>
     ///   Bag of Visual Words
@@ -50,7 +40,7 @@ namespace Accord.Imaging
     ///   The type of the clustering algorithm to be used to cluster the visual features
     ///   and form visual codewords.
     /// </typeparam>
-    /// <typeparam name="TDetector">
+    /// <typeparam name="TExtractor">
     ///   The type of the feature detector used to extract features from the images.
     /// </typeparam>
     /// 
@@ -58,7 +48,7 @@ namespace Accord.Imaging
     /// <para>
     ///   The bag-of-words (BoW) model can be used to extract finite
     ///   length features from otherwise varying length representations.
-    ///   This class can uses any <see cref="IFeatureDetector{TPoint}">feature
+    ///   This class can uses any <see cref="IImageFeatureExtractor{TPoint}">feature
     ///   detector</see> to determine a coded representation for a given image.</para>
     ///   
     /// <para>
@@ -76,23 +66,23 @@ namespace Accord.Imaging
     /// <seealso cref="BagOfVisualWords"/>
     /// 
     [Serializable]
-    public class BagOfVisualWords<TPoint, TFeature, TClustering, TDetector> :
-        BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>, 
-            TPoint, TFeature, TClustering, TDetector>
+    public class BagOfVisualWords<TPoint, TFeature, TClustering, TExtractor> :
+        BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature, TClustering, TExtractor>,
+            TPoint, TFeature, TClustering, TExtractor>
         where TPoint : IFeatureDescriptor<TFeature>
         where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int>
-        where TDetector : IFeatureDetector<TPoint, TFeature>
+        where TExtractor : IImageFeatureExtractor<TPoint>
     {
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
         /// </summary>
         /// 
-        /// <param name="detector">The feature detector to use.</param>
+        /// <param name="extractor">The feature extractor to use.</param>
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(TDetector detector, TClustering algorithm)
+        public BagOfVisualWords(TExtractor extractor, TClustering algorithm)
         {
-            Init(detector, algorithm);
+            Init(extractor, algorithm);
         }
 
     }

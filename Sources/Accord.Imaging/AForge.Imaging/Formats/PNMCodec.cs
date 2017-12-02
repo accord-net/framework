@@ -1,8 +1,29 @@
-﻿// AForge Image Formats Library
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// AForge Image Formats Library
 // AForge.NET framework
 //
 // Copyright © Andrew Kirillov, 2005-2008
 // andrew.kirillov@gmail.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Formats
@@ -12,78 +33,6 @@ namespace Accord.Imaging.Formats
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Text;
-    using System.ComponentModel;
-
-    /// <summary>
-    /// Information about PNM image's frame.
-    /// </summary>
-    public sealed class PNMImageInfo : ImageInfo
-    {
-        // PNM file version (1-6)
-        private int version;
-        // maximum data value
-        private int maxDataValue;
-
-        /// <summary>
-        /// PNM file version (format), [1, 6].
-        /// </summary>
-        [Category("PNM Info")]
-        public int Version
-        {
-            get { return version; }
-            set { version = value; }
-        }
-
-        /// <summary>
-        /// Maximum pixel's value in source PNM image.
-        /// </summary>
-        /// 
-        /// <remarks><para>The value is used to scale image's data converting them
-        /// from original data range to the range of
-        /// <see cref="ImageInfo.BitsPerPixel">supported bits per pixel</see> format.</para></remarks>
-        /// 
-        [Category("PNM Info")]
-        public int MaxDataValue
-        {
-            get { return maxDataValue; }
-            set { maxDataValue = value; }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PNMImageInfo"/> class.
-        /// </summary>
-        /// 
-        public PNMImageInfo() { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PNMImageInfo"/> class.
-        /// </summary>
-        /// 
-        /// <param name="width">Image's width.</param>
-        /// <param name="height">Image's height.</param>
-        /// <param name="bitsPerPixel">Number of bits per image's pixel.</param>
-        /// <param name="frameIndex">Frame's index.</param>
-        /// <param name="totalFrames">Total frames in the image.</param>
-        /// 
-        public PNMImageInfo(int width, int height, int bitsPerPixel, int frameIndex, int totalFrames) :
-            base(width, height, bitsPerPixel, frameIndex, totalFrames) { }
-
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance. 
-        /// </summary>
-        /// 
-        /// <returns>A new object that is a copy of this instance.</returns>
-        /// 
-        public override object Clone()
-        {
-            PNMImageInfo clone = new PNMImageInfo(width, height, bitsPerPixel, frameIndex, totalFrames);
-
-            clone.version = version;
-            clone.maxDataValue = maxDataValue;
-
-            return clone;
-        }
-    }
 
     /// <summary>
     /// PNM image format decoder.
@@ -96,16 +45,23 @@ namespace Accord.Imaging.Formats
     /// <para>Image in PNM format can be found in different scientific databases and laboratories,
     /// for example <i>Yale Face Database</i> and <i>AT&amp;T Face Database</i>.</para>
     /// 
-    /// <para><note>Only PNM images of P5 (binary encoded PGM) and P6 (binary encoded PPM) formats
-    /// are supported at this point.</note></para>
+    /// <para><note>Only PNM images of P2 (ascii encoded PGM), P3 (ascii encoded ppm), P5 
+    ///   (binary encoded PGM) and P6 (binary encoded PPM) formats are supported at this point.</note></para>
     /// 
     /// <para><note>The maximum supported pixel value is 255 at this point.</note></para>
     /// 
     /// <para><note>The class supports only one-frame PNM images. As it is specified in format
     /// specification, the multi-frame PNM images has appeared starting from 2000.</note></para>
-    /// 
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\Formats\PNMCodecTest.cs" region="doc_load" />
+    /// </example>
+    /// 
+    [FormatDecoder("pbm")]
+    [FormatDecoder("pgm")]
+    [FormatDecoder("pnm")]
+    [FormatDecoder("ppm")]
     public class PNMCodec : IImageDecoder
     {
         // stream with PNM encoded data
@@ -114,6 +70,8 @@ namespace Accord.Imaging.Formats
         private PNMImageInfo imageInfo = null;
         // stream position pointing to beginning of data - right after header
         private long dataPosition = 0;
+
+        private static readonly char[] emptyChars = new[] { ' ', '\n', '\r', '\t' };
 
         /// <summary>
         /// Decode first frame of PNM image.
@@ -209,8 +167,8 @@ namespace Accord.Imaging.Formats
         private PNMImageInfo ReadHeader(Stream stream)
         {
             // read magic word
-            byte magic1 = (byte)stream.ReadByte();
-            byte magic2 = (byte)stream.ReadByte();
+            char magic1 = (char)stream.ReadByte();
+            char magic2 = (char)stream.ReadByte();
 
             // check if it is valid PNM image
             if ((magic1 != 'P') || (magic2 < '1') || (magic2 > '6'))
@@ -218,10 +176,10 @@ namespace Accord.Imaging.Formats
                 throw new FormatException("The stream does not contain PNM image.");
             }
 
-            // check if it is P5 or P6 format
-            if ((magic2 != '5') && (magic2 != '6'))
+            // check if it is P2, P3, P5 or P6 format
+            if ((magic2 != '2') && (magic2 != '3') && (magic2 != '5') && (magic2 != '6'))
             {
-                throw new NotSupportedException("Format is not supported yet. Only P5 and P6 are supported for now.");
+                throw new NotSupportedException("Format P{0} is not supported yet. Only P2, P3, P5 and P6 are supported for now.".Format(magic2));
             }
 
             int width = 0, height = 0, maxValue = 0;
@@ -267,6 +225,10 @@ namespace Accord.Imaging.Formats
                 // decode PNM image depending on its format
                 switch (imageInfo.Version)
                 {
+                    case 2:
+                        return ReadP2Image(new StreamReader(stream), imageInfo.Width, imageInfo.Height, imageInfo.MaxDataValue);
+                    case 3:
+                        return ReadP3Image(new StreamReader(stream), imageInfo.Width, imageInfo.Height, imageInfo.MaxDataValue);
                     case 5:
                         return ReadP5Image(stream, imageInfo.Width, imageInfo.Height, imageInfo.MaxDataValue);
                     case 6:
@@ -281,15 +243,44 @@ namespace Accord.Imaging.Formats
             return null;
         }
 
-        // Load P5 PGM image (grayscale PNM image with binary encoding)
-        private static unsafe Bitmap ReadP5Image(Stream stream, int width, int height, int maxValue)
+        // Load P2 PGM image (grayscale PNM image with ascii encoding)
+        private static unsafe Bitmap ReadP2Image(TextReader stream, int width, int height, int maxValue)
         {
-            double scalingFactor = (double)255 / maxValue;
+            double scalingFactor = 255 / (double)maxValue;
 
             // create new bitmap and lock it
             Bitmap image = Tools.CreateGrayscaleImage(width, height);
-            BitmapData imageData = image.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData imageData = image.LockBits(ImageLockMode.WriteOnly);
+
+            int stride = imageData.Stride;
+            byte* ptr = (byte*)imageData.Scan0.ToPointer();
+            int offset = imageData.Stride - imageData.Width;
+
+            // load all rows
+            string all = stream.ReadToEnd();
+            string[] values = all.Split(emptyChars, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int y = 0, z = 0; y < height; y++)
+            {
+                // fill next image row
+                for (int x = 0; x < width; x++, ptr++, z++)
+                    *ptr = (byte)(scalingFactor * Byte.Parse(values[z]));
+                ptr += offset;
+            }
+
+            // unlock image and return it
+            image.UnlockBits(imageData);
+            return image;
+        }
+
+        // Load P5 PGM image (grayscale PNM image with binary encoding)
+        private static unsafe Bitmap ReadP5Image(Stream stream, int width, int height, int maxValue)
+        {
+            double scalingFactor = 255 / (double)maxValue;
+
+            // create new bitmap and lock it
+            Bitmap image = Tools.CreateGrayscaleImage(width, height);
+            BitmapData imageData = image.LockBits(ImageLockMode.WriteOnly);
 
             int stride = imageData.Stride;
             byte* ptr = (byte*)imageData.Scan0.ToPointer();
@@ -334,6 +325,42 @@ namespace Accord.Imaging.Formats
             return image;
         }
 
+        // Load P3 PPM image (color PNM image with ascii encoding)
+        private static unsafe Bitmap ReadP3Image(TextReader stream, int width, int height, int maxValue)
+        {
+            double scalingFactor = 255 / (double)maxValue;
+
+            // create new bitmap and lock it
+            Bitmap image = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            BitmapData imageData = image.LockBits(ImageLockMode.WriteOnly);
+
+            int stride = imageData.Stride;
+            byte* ptr = (byte*)imageData.Scan0.ToPointer();
+            int offset = imageData.Stride - imageData.Width * 3;
+
+            // load all rows
+            string all = stream.ReadToEnd();
+            string[] values = all.Split(emptyChars, StringSplitOptions.RemoveEmptyEntries);
+
+            // load all rows
+            for (int y = 0, z = 0; y < height; y++)
+            {
+                // fill next image row
+                for (int x = 0, i = 0; x < width; x++, i += 3, ptr += 3, z += 3)
+                {
+                    ptr[2] = (byte)(scalingFactor * Byte.Parse(values[z + 0]));   // red
+                    ptr[1] = (byte)(scalingFactor * Byte.Parse(values[z + 1]));   // green
+                    ptr[0] = (byte)(scalingFactor * Byte.Parse(values[z + 2]));   // blue
+                }
+
+                ptr += offset;
+            }
+
+            // unlock image and return it
+            image.UnlockBits(imageData);
+            return image;
+        }
+
         // Load P6 PPM image (color PNM image with binary encoding)
         private static unsafe Bitmap ReadP6Image(Stream stream, int width, int height, int maxValue)
         {
@@ -341,8 +368,7 @@ namespace Accord.Imaging.Formats
 
             // create new bitmap and lock it
             Bitmap image = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-            BitmapData imageData = image.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData imageData = image.LockBits(ImageLockMode.WriteOnly);
 
             int stride = imageData.Stride;
             byte* ptr = (byte*)imageData.Scan0.ToPointer();

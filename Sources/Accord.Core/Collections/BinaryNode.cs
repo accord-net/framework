@@ -24,6 +24,7 @@ namespace Accord.Collections
 {
     using System;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Tree node for binary trees.
@@ -31,7 +32,8 @@ namespace Accord.Collections
     /// 
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
-    public class BinaryNode<TNode> : IEquatable<TNode> // TODO: Try to remove IEquatable
+    [Serializable]
+    public class BinaryNode<TNode> : IEquatable<TNode>, ITreeNode<TNode> // TODO: Try to remove IEquatable
         where TNode : BinaryNode<TNode>
     {
         /// <summary>
@@ -67,6 +69,23 @@ namespace Accord.Collections
         {
             return this == other;
         }
-    }
 
+        /// <summary>
+        ///   Gets or sets the collection of child nodes
+        ///   under this node.
+        /// </summary>
+        /// 
+        public TNode[] Children
+        {
+            get { return new[] { Left, Right }; }
+            set
+            {
+                if (value.Length != 2)
+                    throw new ArgumentException("The array must have length 2.", "value");
+                Left = value[0];
+                Right = value[1];
+            }
+        }
+
+    }
 }

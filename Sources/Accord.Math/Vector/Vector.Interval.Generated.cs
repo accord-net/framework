@@ -35,18 +35,29 @@ namespace Accord.Math
     {
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static int[] Interval(int a, int b)
         {
-            return Interval(a, b, (double)1.0);
+			if (a < b)
+				return Interval(a, b, steps: (int)(b - a) + 1);
+			return Interval(a, b, steps: (int)(a - b) + 1);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
         public static int[] Interval(int a, int b, double stepSize)
         {
             if (a == b)
@@ -75,54 +86,85 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static int[] Interval(int a, int b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static int[] Interval(int a, int b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new int[] { };
+
+			if (steps == 1)
+				return new int[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new int[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            int[] r = new int[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((int)(steps - 1)); 
+			}
+			else
+			{
+				length = ((int)(steps));
+			}
 
             if (a > b)
             {
-                int stepSize = (int)((a - b) / (int)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (int)(a - i * stepSize);
-                r[steps] = (int)(b);
             }
             else
             {
-                var stepSize = (int)((b - a) / (int)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (int)(a + i * stepSize);
-                r[steps] = (int)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static float[] Interval(float a, float b)
         {
-            return Interval(a, b, (float)1.0);
+            return Interval(a, b, steps: (int)Math.Ceiling(Math.Abs(a - b)));
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
-        public static float[] Interval(float a, float b, float stepSize)
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
+        public static float[] Interval(float a, float b, double stepSize)
         {
             if (a == b)
                 return new [] { a };
@@ -150,53 +192,84 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static float[] Interval(float a, float b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static float[] Interval(float a, float b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new float[] { };
+
+			if (steps == 1)
+				return new float[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new float[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            float[] r = new float[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((float)(steps - 1)); 
+			}
+			else
+			{
+				length = ((float)(steps));
+			}
 
             if (a > b)
             {
-                float stepSize = (float)((a - b) / (float)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (float)(a - i * stepSize);
-                r[steps] = (float)(b);
             }
             else
             {
-                var stepSize = (float)((b - a) / (float)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (float)(a + i * stepSize);
-                r[steps] = (float)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static double[] Interval(double a, double b)
         {
-            return Interval(a, b, (double)1.0);
+            return Interval(a, b, steps: (int)Math.Ceiling(Math.Abs(a - b)));
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
         public static double[] Interval(double a, double b, double stepSize)
         {
             if (a == b)
@@ -225,54 +298,87 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static double[] Interval(double a, double b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static double[] Interval(double a, double b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new double[] { };
+
+			if (steps == 1)
+				return new double[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new double[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            double[] r = new double[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((double)(steps - 1)); 
+			}
+			else
+			{
+				length = ((double)(steps));
+			}
 
             if (a > b)
             {
-                double stepSize = (double)((a - b) / (double)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (double)(a - i * stepSize);
-                r[steps] = (double)(b);
             }
             else
             {
-                var stepSize = (double)((b - a) / (double)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (double)(a + i * stepSize);
-                r[steps] = (double)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static short[] Interval(short a, short b)
         {
-            return Interval(a, b, (short)1.0);
+			if (a < b)
+				return Interval(a, b, steps: (int)(b - a) + 1);
+			return Interval(a, b, steps: (int)(a - b) + 1);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
-        public static short[] Interval(short a, short b, short stepSize)
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
+        public static short[] Interval(short a, short b, double stepSize)
         {
             if (a == b)
                 return new [] { a };
@@ -300,54 +406,87 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static short[] Interval(short a, short b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static short[] Interval(short a, short b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new short[] { };
+
+			if (steps == 1)
+				return new short[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new short[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            short[] r = new short[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((short)(steps - 1)); 
+			}
+			else
+			{
+				length = ((short)(steps));
+			}
 
             if (a > b)
             {
-                short stepSize = (short)((a - b) / (short)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (short)(a - i * stepSize);
-                r[steps] = (short)(b);
             }
             else
             {
-                var stepSize = (short)((b - a) / (short)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (short)(a + i * stepSize);
-                r[steps] = (short)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static byte[] Interval(byte a, byte b)
         {
-            return Interval(a, b, (byte)1.0);
+			if (a < b)
+				return Interval(a, b, steps: (int)(b - a) + 1);
+			return Interval(a, b, steps: (int)(a - b) + 1);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
-        public static byte[] Interval(byte a, byte b, byte stepSize)
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
+        public static byte[] Interval(byte a, byte b, double stepSize)
         {
             if (a == b)
                 return new [] { a };
@@ -375,54 +514,87 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static byte[] Interval(byte a, byte b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static byte[] Interval(byte a, byte b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new byte[] { };
+
+			if (steps == 1)
+				return new byte[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new byte[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            byte[] r = new byte[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((byte)(steps - 1)); 
+			}
+			else
+			{
+				length = ((byte)(steps));
+			}
 
             if (a > b)
             {
-                byte stepSize = (byte)((a - b) / (byte)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (byte)(a - i * stepSize);
-                r[steps] = (byte)(b);
             }
             else
             {
-                var stepSize = (byte)((b - a) / (byte)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (byte)(a + i * stepSize);
-                r[steps] = (byte)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static sbyte[] Interval(sbyte a, sbyte b)
         {
-            return Interval(a, b, (sbyte)1.0);
+			if (a < b)
+				return Interval(a, b, steps: (int)(b - a) + 1);
+			return Interval(a, b, steps: (int)(a - b) + 1);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
-        public static sbyte[] Interval(sbyte a, sbyte b, sbyte stepSize)
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
+        public static sbyte[] Interval(sbyte a, sbyte b, double stepSize)
         {
             if (a == b)
                 return new [] { a };
@@ -450,54 +622,87 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static sbyte[] Interval(sbyte a, sbyte b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static sbyte[] Interval(sbyte a, sbyte b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new sbyte[] { };
+
+			if (steps == 1)
+				return new sbyte[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new sbyte[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            sbyte[] r = new sbyte[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((sbyte)(steps - 1)); 
+			}
+			else
+			{
+				length = ((sbyte)(steps));
+			}
 
             if (a > b)
             {
-                sbyte stepSize = (sbyte)((a - b) / (sbyte)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (sbyte)(a - i * stepSize);
-                r[steps] = (sbyte)(b);
             }
             else
             {
-                var stepSize = (sbyte)((b - a) / (sbyte)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (sbyte)(a + i * stepSize);
-                r[steps] = (sbyte)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static long[] Interval(long a, long b)
         {
-            return Interval(a, b, (long)1.0);
+			if (a < b)
+				return Interval(a, b, steps: (int)(b - a) + 1);
+			return Interval(a, b, steps: (int)(a - b) + 1);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
-        public static long[] Interval(long a, long b, long stepSize)
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
+        public static long[] Interval(long a, long b, double stepSize)
         {
             if (a == b)
                 return new [] { a };
@@ -525,53 +730,84 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static long[] Interval(long a, long b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static long[] Interval(long a, long b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new long[] { };
+
+			if (steps == 1)
+				return new long[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new long[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            long[] r = new long[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((long)(steps - 1)); 
+			}
+			else
+			{
+				length = ((long)(steps));
+			}
 
             if (a > b)
             {
-                long stepSize = (long)((a - b) / (long)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (long)(a - i * stepSize);
-                r[steps] = (long)(b);
             }
             else
             {
-                var stepSize = (long)((b - a) / (long)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (long)(a + i * stepSize);
-                r[steps] = (long)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static decimal[] Interval(decimal a, decimal b)
         {
-            return Interval(a, b, (decimal)1.0);
+            return Interval(a, b, steps: (int)Math.Ceiling(Math.Abs(a - b)));
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
         public static decimal[] Interval(decimal a, decimal b, decimal stepSize)
         {
             if (a == b)
@@ -600,54 +836,87 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static decimal[] Interval(decimal a, decimal b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static decimal[] Interval(decimal a, decimal b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new decimal[] { };
+
+			if (steps == 1)
+				return new decimal[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new decimal[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            decimal[] r = new decimal[steps];
+			decimal length;
+			if (includeLast)
+			{
+				length = ((decimal)(steps - 1)); 
+			}
+			else
+			{
+				length = ((decimal)(steps));
+			}
 
             if (a > b)
             {
-                decimal stepSize = (decimal)((a - b) / (decimal)steps);
+                var stepSize = (decimal)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (decimal)(a - i * stepSize);
-                r[steps] = (decimal)(b);
             }
             else
             {
-                var stepSize = (decimal)((b - a) / (decimal)steps);
+                var stepSize = (decimal)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (decimal)(a + i * stepSize);
-                r[steps] = (decimal)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static ulong[] Interval(ulong a, ulong b)
         {
-            return Interval(a, b, (ulong)1.0);
+			if (a < b)
+				return Interval(a, b, steps: (int)(b - a) + 1);
+			return Interval(a, b, steps: (int)(a - b) + 1);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
-        public static ulong[] Interval(ulong a, ulong b, ulong stepSize)
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
+        public static ulong[] Interval(ulong a, ulong b, double stepSize)
         {
             if (a == b)
                 return new [] { a };
@@ -675,54 +944,87 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static ulong[] Interval(ulong a, ulong b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static ulong[] Interval(ulong a, ulong b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new ulong[] { };
+
+			if (steps == 1)
+				return new ulong[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new ulong[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            ulong[] r = new ulong[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((ulong)(steps - 1)); 
+			}
+			else
+			{
+				length = ((ulong)(steps));
+			}
 
             if (a > b)
             {
-                ulong stepSize = (ulong)((a - b) / (ulong)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (ulong)(a - i * stepSize);
-                r[steps] = (ulong)(b);
             }
             else
             {
-                var stepSize = (ulong)((b - a) / (ulong)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (ulong)(a + i * stepSize);
-                r[steps] = (ulong)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static ushort[] Interval(ushort a, ushort b)
         {
-            return Interval(a, b, (ushort)1.0);
+			if (a < b)
+				return Interval(a, b, steps: (int)(b - a) + 1);
+			return Interval(a, b, steps: (int)(a - b) + 1);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Obsolete. Please use Vector.Range(a, b, stepSize) instead.
         /// </summary>
-        /// 
-        public static ushort[] Interval(ushort a, ushort b, ushort stepSize)
+		[Obsolete("Please use Vector.Range(a, b, stepSize) instead.")]
+        public static ushort[] Interval(ushort a, ushort b, double stepSize)
         {
             if (a == b)
                 return new [] { a };
@@ -750,110 +1052,172 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
-        public static ushort[] Interval(ushort a, ushort b, int steps)
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
+        public static ushort[] Interval(ushort a, ushort b, int steps, bool includeLast = true)
         {
+			if (steps < 0)
+				throw new ArgumentOutOfRangeException("steps", "The number of steps must be positive.");
+
+			if (steps == 0)
+				return new ushort[] { };
+
+			if (steps == 1)
+				return new ushort[] { a };
+
             if (a == b)
-                return new [] { a };
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new ushort[steps + 1];
+                return Vector.Create(size: steps, value: a);
+			
+            ushort[] r = new ushort[steps];
+			double length;
+			if (includeLast)
+			{
+				length = ((ushort)(steps - 1)); 
+			}
+			else
+			{
+				length = ((ushort)(steps));
+			}
 
             if (a > b)
             {
-                ushort stepSize = (ushort)((a - b) / (ushort)steps);
+                var stepSize = (double)((a - b) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (ushort)(a - i * stepSize);
-                r[steps] = (ushort)(b);
             }
             else
             {
-                var stepSize = (ushort)((b - a) / (ushort)steps);
+                var stepSize = (double)((b - a) / length);
                 for (uint i = 0; i < r.Length; i++)
                     r[i] = (ushort)(a + i * stepSize);
-                r[steps] = (ushort)(b);
             }
+
+			if (includeLast)
+				r[r.Length - 1] = b;
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static double[] Interval(this DoubleRange range, int steps)
         {
             return Interval(range.Min, range.Max, steps);
         }
 
-        /// <summary>
-        ///   Creates an interval vector.
+		/// <summary>
+        ///   Obsolete. Please use Vector.Range(range, stepSize) instead.
         /// </summary>
-        /// 
+		[Obsolete("Please use Vector.Range(range, stepSize) instead.")]
         public static double[] Interval(this DoubleRange range, double stepSize)
         {
             return Interval(range.Min, range.Max, stepSize);
         }
+     
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static float[] Interval(this Range range, int steps)
         {
             return Interval(range.Min, range.Max, steps);
         }
 
-        /// <summary>
-        ///   Creates an interval vector.
+		/// <summary>
+        ///   Obsolete. Please use Vector.Range(range, stepSize) instead.
         /// </summary>
-        /// 
-        public static float[] Interval(this Range range, float stepSize)
+		[Obsolete("Please use Vector.Range(range, stepSize) instead.")]
+        public static float[] Interval(this Range range, double stepSize)
         {
             return Interval(range.Min, range.Max, stepSize);
         }
+     
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static byte[] Interval(this ByteRange range, int steps)
         {
             return Interval(range.Min, range.Max, steps);
         }
 
-        /// <summary>
-        ///   Creates an interval vector.
+		/// <summary>
+        ///   Obsolete. Please use Vector.Range(range, stepSize) instead.
         /// </summary>
-        /// 
-        public static byte[] Interval(this ByteRange range, byte stepSize)
+		[Obsolete("Please use Vector.Range(range, stepSize) instead.")]
+        public static byte[] Interval(this ByteRange range, double stepSize)
         {
             return Interval(range.Min, range.Max, stepSize);
         }
+     
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates an interval vector (like NumPy's linspace function).
         /// </summary>
-        /// 
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
+		///   a similar method that accepts a step size instead of a number of steps, see
+		///   <see cref="Vector.Range(int, int)"/>.</para>
+        /// </remarks>
+        ///
+        /// <seealso cref="Vector.Range(int, int)"/>
+        ///
         public static int[] Interval(this IntRange range, int steps)
         {
             return Interval(range.Min, range.Max, steps);
         }
 
-        /// <summary>
-        ///   Creates an interval vector.
+		/// <summary>
+        ///   Obsolete. Please use Vector.Range(range, stepSize) instead.
         /// </summary>
-        /// 
+		[Obsolete("Please use Vector.Range(range, stepSize) instead.")]
         public static int[] Interval(this IntRange range, double stepSize)
         {
             return Interval(range.Min, range.Max, stepSize);
         }
+     
     }
 }

@@ -28,7 +28,6 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
     using System;
     using System.Data;
@@ -317,15 +316,16 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-#if !NETSTANDARD2_0
+#if !NO_EXCEL
         [Test]
         [Category("Office")]
         public void GaussianMixtureModelTest5()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            MemoryStream stream = new MemoryStream(Resources.CircleWithWeights);
-            ExcelReader reader = new ExcelReader(stream, xlsx: false);
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "CircleWithWeights.xls");
+
+            ExcelReader reader = new ExcelReader(path);
 
             DataTable table = reader.GetWorksheet("Sheet1");
 

@@ -28,6 +28,7 @@ namespace Accord.Vision.Detection
     using System.Xml.Schema;
     using System.Xml.Serialization;
     using Accord.Imaging;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Rectangular Haar-like feature container.
@@ -96,6 +97,9 @@ namespace Accord.Vision.Detection
         ///   Gets the sum of the areas of the rectangular features in an integral image.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public double GetSum(IntegralImage2 image, int x, int y)
         {
             double sum = 0.0;
@@ -126,10 +130,12 @@ namespace Accord.Vision.Detection
         ///   Sets the scale and weight of a Haar-like rectangular feature container.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void SetScaleAndWeight(float scale, float weight)
         {
             // manual loop unfolding
-
             if (Rectangles.Length == 2)
             {
                 HaarRectangle a = Rectangles[0];

@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Normalized Kernel.
@@ -35,20 +36,32 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Normalized<T> : KernelBase, IKernel, ICloneable where T : IKernel
+    public sealed class Normalized<TKernel> : KernelBase, IKernel, ICloneable 
+        where TKernel : IKernel
     {
-        private T kernel;
-
+        private TKernel kernel;
+        private double power;
 
         /// <summary>
         ///   Gets or sets the inner kernel function 
         ///   whose results should be normalized.
         /// </summary>
         /// 
-        public T Kernel
+        public TKernel Kernel
         {
             get { return kernel; }
             set { kernel = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the normalization power to be 
+        ///   used. Default is 0.5 (take the square root).
+        /// </summary>
+        /// 
+        public double Power
+        {
+            get { return power; }
+            set { power = value; }
         }
 
         /// <summary>
@@ -56,10 +69,12 @@ namespace Accord.Statistics.Kernels
         /// </summary>
         /// 
         /// <param name="kernel">The kernel function to be normalized.</param>
+        /// <param name="power">The normalization power to be used. Default is 0.5 (take the square root).</param>
         /// 
-        public Normalized(T kernel)
+        public Normalized(TKernel kernel, double power = 0.5)
         {
             this.kernel = kernel;
+            this.power = power;
         }
 
         /// <summary>
@@ -72,7 +87,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public override double Function(double[] x, double[] y)
         {
-            return kernel.Function(x, y) / Math.Sqrt(kernel.Function(x, x) * kernel.Function(y, y));
+            return kernel.Function(x, y) / Math.Pow(kernel.Function(x, x) * kernel.Function(y, y), power);
         }
 
         /// <summary>

@@ -28,6 +28,9 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using System.Globalization;
     using System.Threading;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfoEx;
+#endif
 
     [TestFixture]
     public class ExponentialDistributionTest
@@ -209,8 +212,13 @@ namespace Accord.Tests.Statistics
 
             string actual;
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
-
+            var cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
+#if NETCORE
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+#else
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+#endif
             actual = exp.ToString("G3", CultureInfo.InvariantCulture);
             Assert.AreEqual("Exp(x; λ = 0.342)", actual);
 

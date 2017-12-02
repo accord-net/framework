@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NO_BINARY_SERIALIZATION
+
 using System;
 using Accord.IO;
 using Accord.Math;
@@ -180,3 +182,4 @@ namespace Accord.Tests
         }
     }
 }
+#endif

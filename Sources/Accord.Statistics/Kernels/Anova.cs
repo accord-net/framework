@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   ANOVA (ANalysis Of VAriance) Kernel.

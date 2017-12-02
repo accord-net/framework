@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization
 {
     using System;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

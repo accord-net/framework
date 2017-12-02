@@ -22,6 +22,7 @@
 
 namespace Accord.Math
 {
+    using Accord.Statistics;
     using System;
     using System.Collections.Generic;
 
@@ -313,73 +314,26 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Returns subgroups extracted from the given vector.
+        ///   Obsolete. Please use <see cref="Classes.Separate{T}(T[], int[])"/> instead.
         /// </summary>
         /// 
-        /// <param name="values">The vector to extract the groups from.</param>
-        /// <param name="groups">The vector of indices for the groups.</param>
-        /// 
+        [Obsolete("Please use Classes.Separate(T[], int[]) instead.")]
         public static T[][] Subgroups<T>(this T[] values, int[] groups)
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
+            int[] distinct = groups.Distinct().Sorted();
+            int[] regroups = groups.Apply(x => Array.IndexOf(distinct, x));
 
-            if (groups == null)
-                throw new ArgumentNullException("groups");
-
-            if (values.Length != groups.Length)
-                throw new DimensionMismatchException("groups",
-                    "The vector of group labels should have the same length as the values vector.");
-
-            int[] distinct = groups.Distinct();
-
-            T[][] result = new T[distinct.Length][];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = values.Get(groups.Find(x => x == distinct[i]));
-
-            return result;
+            return Classes.Separate(values, regroups);
         }
 
         /// <summary>
-        ///   Returns subgroups extracted from the given vector, assuming that
-        ///   the groups should have been labels from 0 until the given number
-        ///   of <paramref name="classes"/>.
+        ///   Obsolete. Please use <see cref="Classes.Separate{T}(T[], int[], int)"/> instead.
         /// </summary>
         /// 
-        /// <param name="values">The vector to extract the groups from.</param>
-        /// <param name="groups">The vector of indices for the groups.</param>
-        /// <param name="classes">The number of classes in the groups. Specifying this
-        ///   parameter will make the method assume the groups should be containing
-        ///   integer labels ranging from 0 until the number of classes.</param>
-        /// 
+        [Obsolete("Please use Classes.Separate(T[], int[], int) instead.")]
         public static T[][] Subgroups<T>(this T[] values, int[] groups, int classes)
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
-            if (groups == null)
-                throw new ArgumentNullException("groups");
-
-            if (values.Length != groups.Length)
-                throw new DimensionMismatchException("groups",
-                    "The vector of group labels should have the same length as the values vector.");
-
-            if (classes <= 0)
-                throw new ArgumentOutOfRangeException("classes",
-                    "The number of classes must be a positive number.");
-
-            for (int i = 0; i < groups.Length; i++)
-            {
-                if (groups[i] < 0 || groups[i] >= classes)
-                    throw new ArgumentException("The group labels should be between"
-                        + " 0 and the total number of classes", "groups");
-            }
-
-            T[][] result = new T[classes][];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = values.Get(groups.Find(x => x == i));
-
-            return result;
+            return Classes.Separate(values, groups, classes);
         }
 
     }

@@ -29,6 +29,8 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using NUnit.Framework;
+    using Accord.Math.Optimization.Losses;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class NonLinearLeastSquaresTest
@@ -70,6 +72,150 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void learn_test()
+        {
+            #region doc_learn_lm
+            // Suppose we would like to map the continuous values in the
+            // second column to the integer values in the first column.
+            double[,] data =
+            {
+                { -40,    -21142.1111111111 },
+                { -30,    -21330.1111111111 },
+                { -20,    -12036.1111111111 },
+                { -10,      7255.3888888889 },
+                {   0,     32474.8888888889 },
+                {  10,     32474.8888888889 },
+                {  20,      9060.8888888889 },
+                {  30,    -11628.1111111111 },
+                {  40,    -15129.6111111111 },
+            };
+
+            // Extract inputs and outputs
+            double[][] inputs = data.GetColumn(0).ToJagged();
+            double[] outputs = data.GetColumn(1);
+
+            // Create a Nonlinear regression using 
+            var nls = new NonlinearLeastSquares()
+            {
+                NumberOfParameters = 3,
+
+                // Initialize to some random values
+                StartValues = new[] { 4.2, 0.3, 1 },
+
+                // Let's assume a quadratic model function: ax² + bx + c
+                Function = (w, x) => w[0] * x[0] * x[0] + w[1] * x[0] + w[2],
+
+                // Derivative in respect to the weights:
+                Gradient = (w, x, r) =>
+                {
+                    r[0] = w[0] * w[0]; // w.r.t a: a²  // https://www.wolframalpha.com/input/?i=diff+ax²+%2B+bx+%2B+c+w.r.t.+a
+                    r[1] = w[0];       // w.r.t b: b   // https://www.wolframalpha.com/input/?i=diff+ax²+%2B+bx+%2B+c+w.r.t.+b
+                    r[2] = 1;          // w.r.t c: 1   // https://www.wolframalpha.com/input/?i=diff+ax²+%2B+bx+%2B+c+w.r.t.+c
+                },
+
+                Algorithm = new LevenbergMarquardt()
+                {
+                    MaxIterations = 100,
+                    Tolerance = 0
+                }
+            };
+
+
+            var regression = nls.Learn(inputs, outputs);
+
+            // Use the function to compute the input values
+            double[] predict = regression.Transform(inputs);
+            #endregion
+
+            Assert.IsTrue(nls.Algorithm is LevenbergMarquardt);
+
+            double error = new SquareLoss(outputs)
+            {
+                Mean = false
+            }.Loss(predict) / 2.0;
+
+            Assert.AreEqual(1616964052.1048875, error, 1e7);
+
+            Assert.AreEqual(-16.075187551945078, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(-221.50453233335202, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(1995.1774385125705, regression.Coefficients[2], 1e-3);
+
+            Assert.AreEqual(-14864.941351259276, predict[0], 1e-10);
+            Assert.AreEqual(-5827.35538823598, predict[1], 1e-10);
+            Assert.AreEqual(-4.8069356009871171, predict[2], 1e-10);
+            Assert.AreEqual(-1827.3866400257925, predict[5], 1e-10);
+        }
+
+        [Test]
+        public void simple_gauss_newton_test()
+        {
+            #region doc_learn_gn
+            // Suppose we would like to map the continuous values in the
+            // second row to the integer values in the first row.
+            double[,] data =
+            {
+                { 0.03, 0.1947, 0.425, 0.626, 1.253, 2.500, 3.740 },
+                { 0.05, 0.127, 0.094, 0.2122, 0.2729, 0.2665, 0.3317}
+            };
+
+            // Extract inputs and outputs
+            double[][] inputs = data.GetRow(0).ToJagged();
+            double[] outputs = data.GetRow(1);
+
+            // Create a Nonlinear regression using 
+            var nls = new NonlinearLeastSquares()
+            {
+                // Initialize to some random values
+                StartValues = new[] { 0.9, 0.2 },
+
+                // Let's assume a quadratic model function: ax² + bx + c
+                Function = (w, x) => (w[0] * x[0]) / (w[1] + x[0]),
+
+                // Derivative in respect to the weights:
+                Gradient = (w, x, r) =>
+                {
+                    r[0] = -((-x[0]) / (w[1] + x[0]));
+                    r[1] = -((w[0] * x[0]) / Math.Pow(w[1] + x[0], 2));
+                },
+
+                Algorithm = new GaussNewton()
+                {
+                    MaxIterations = 0,
+                    Tolerance = 1e-5
+                }
+            };
+
+
+            var regression = nls.Learn(inputs, outputs);
+
+            // Use the function to compute the input values
+            double[] predict = regression.Transform(inputs);
+            #endregion
+
+            var alg = nls.Algorithm as GaussNewton;
+            Assert.AreEqual(0, alg.MaxIterations);
+            Assert.AreEqual(1e-5, alg.Tolerance);
+            Assert.AreEqual(6, alg.CurrentIteration);
+
+            double error = new SquareLoss(outputs)
+            {
+                Mean = false
+            }.Loss(predict) / 2.0;
+
+            Assert.AreEqual(0.004048452937977628, error, 1e-8);
+
+            double b1 = regression.Coefficients[0];
+            double b2 = regression.Coefficients[1];
+
+            Assert.AreEqual(0.362, b1, 1e-3);
+            Assert.AreEqual(0.556, b2, 3e-3);
+
+            Assert.AreEqual(1.23859, regression.StandardErrors[0], 1e-3);
+            Assert.AreEqual(6.06352, regression.StandardErrors[1], 5e-3);
+        }
+
+
+        [Test]
         public void ExampleTest()
         {
             // Suppose we would like to map the continuous values in the
@@ -95,7 +241,7 @@ namespace Accord.Tests.Statistics
             var regression = new NonlinearRegression(3,
 
                 // Let's assume a quadratic model function: ax² + bx + c
-                function: (w, x) => w[0] * x[0] * x[0] + w[1] * x[0] + w[2], 
+                function: (w, x) => w[0] * x[0] * x[0] + w[1] * x[0] + w[2],
 
                 // Derivative in respect to the weights:
                 gradient: (w, x, r) =>
@@ -124,16 +270,16 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(nls.Algorithm is LevenbergMarquardt);
 
-            Assert.AreEqual(1318374605.8436923d, error);
+            Assert.AreEqual(2145404235.739383, error, 1e-7);
 
-            Assert.AreEqual(-12.025250289329851, regression.Coefficients[0], 1e-3);
-            Assert.AreEqual(-0.082208180694676766, regression.Coefficients[1], 1e-3);
-            Assert.AreEqual(-0.27402726898225627, regression.Coefficients[2], 1e-3);
+            Assert.AreEqual(-11.916652026711853, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(-358.9758898959638, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(-107.31273008811895, regression.Coefficients[2], 1e-3);
 
-            Assert.AreEqual(-19237.386162968953, predict[0]);
-            Assert.AreEqual(-10820.533042245008, predict[1]);
-            Assert.AreEqual(-4808.7299793870288, predict[2]);
-            Assert.AreEqual(-1203.6211380089139, predict[5]);
+            Assert.AreEqual(-4814.9203769986034, predict[0], 1e-10);
+            Assert.AreEqual(-63.02285725721211, predict[1], 1e-10);
+            Assert.AreEqual(2305.5442571416661, predict[2], 1e-10);
+            Assert.AreEqual(-4888.736831716782, predict[5], 1e-10);
         }
 
 
@@ -181,17 +327,12 @@ namespace Accord.Tests.Statistics
             double a = regression.Coefficients[2];
             double b = regression.Coefficients[3];
 
-            Assert.AreEqual(010345587.465428974, error);
+            Assert.AreEqual(10345587.465428978, error);
 
-            Assert.AreEqual(5.316196154830604, m, 1e-3);
-            Assert.AreEqual(12.792301798208918, s, 1e-3);
+            Assert.AreEqual(5.3161961121998953, m, 1e-3);
+            Assert.AreEqual(-12.792301015831979, s, 1e-3);
             Assert.AreEqual(56794.832645792514, a, 1e-3);
             Assert.AreEqual(-20219.675997523173, b, 1e-2);
-
-            Assert.IsFalse(Double.IsNaN(m));
-            Assert.IsFalse(Double.IsNaN(s));
-            Assert.IsFalse(Double.IsNaN(a));
-            Assert.IsFalse(Double.IsNaN(b));
         }
 
         [Test]
@@ -230,7 +371,9 @@ namespace Accord.Tests.Statistics
 
             NonlinearRegression regression = new NonlinearRegression(2, rate, grad);
 
-            NonlinearLeastSquares nls = new NonlinearLeastSquares(regression, new GaussNewton(2));
+            var gn = new GaussNewton(2);
+            gn.ParallelOptions.MaxDegreeOfParallelism = 1;
+            NonlinearLeastSquares nls = new NonlinearLeastSquares(regression, gn);
 
             Assert.IsTrue(nls.Algorithm is GaussNewton);
 
@@ -248,14 +391,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.362, b1, 1e-3);
             Assert.AreEqual(0.556, b2, 3e-3);
 
-            Assert.IsFalse(Double.IsNaN(b1));
-            Assert.IsFalse(Double.IsNaN(b2));
-
             for (int i = 1; i < errors.Length; i++)
-            {
-                Assert.IsFalse(Double.IsNaN(errors[i - 1]));
                 Assert.IsTrue(errors[i - 1] >= errors[i]);
-            }
 
             Assert.AreEqual(1.23859, regression.StandardErrors[0], 1e-3);
             Assert.AreEqual(6.06352, regression.StandardErrors[1], 3e-3);

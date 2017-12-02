@@ -59,7 +59,7 @@ namespace Accord.Tests.Statistics
             };
 
             // mix the source data
-            double[,] input = source.Multiply(mix);
+            double[,] input = source.Dot(mix);
 
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
@@ -119,7 +119,7 @@ namespace Accord.Tests.Statistics
             };
 
             // mix the source data
-            double[][] input = source.Multiply(mix);
+            double[][] input = source.Dot(mix);
 
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
@@ -192,7 +192,7 @@ namespace Accord.Tests.Statistics
             };
 
             // mix the source data
-            double[,] input = source.Multiply(mix);
+            double[,] input = source.Dot(mix);
 
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
@@ -249,7 +249,7 @@ namespace Accord.Tests.Statistics
 
             A = A.Divide(Norm.Norm1(A));
 
-            double[,] X = S.Multiply(A);
+            double[,] X = S.Dot(A);
 
             IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X, IndependentComponentAlgorithm.Deflation);
 
@@ -325,7 +325,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = S.Dot(A);
 
             var ica = new IndependentComponentAnalysis(X);
 
@@ -384,7 +384,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = S.Dot(A);
 
             var ica = new IndependentComponentAnalysis(X);
 
@@ -397,6 +397,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest()
@@ -411,7 +412,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] input = source.Multiply(mix);
+            double[,] input = source.Dot(mix);
 
             var ica = new IndependentComponentAnalysis(input);
 
@@ -451,8 +452,12 @@ namespace Accord.Tests.Statistics
             revertMatrix = revertMatrix.Divide(revertMatrix.Sum());
             Assert.IsTrue(expected.IsEqual(revertMatrix, atol: 0.008));
         }
+#endif
 
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void ConvergenceTest()
         {
             IndependentComponentAnalysis ica;
@@ -478,7 +483,9 @@ namespace Accord.Tests.Statistics
             int nchans = 24;
             int nsamps = 20001;
             double[,] data = new double[nsamps, nchans];
-            using (StreamReader reader = new StreamReader(new MemoryStream(Resources.ica_data)))
+
+            string fn = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "ica_data.dat");
+            using (StreamReader reader = new StreamReader(new FileStream(fn, FileMode.Open)))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)

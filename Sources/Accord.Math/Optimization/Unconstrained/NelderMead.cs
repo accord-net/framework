@@ -150,6 +150,10 @@ namespace Accord.Math.Optimization
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\NelderMeadTest.cs" region="doc_min" />
+    /// </example>
+    /// 
     public class NelderMead : BaseOptimizationMethod, IOptimizationMethod<NelderMeadStatus>
     {
         private int nmax;
@@ -177,7 +181,7 @@ namespace Accord.Math.Optimization
 
         NelderMeadStatus status;
 
-        private double minf_max;
+        private double minf_max = Double.NegativeInfinity;
 
         private double psi;
         private double fdiff;

@@ -24,13 +24,14 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Chebyshev distance.
     /// </summary>
     /// 
     [Serializable]
-    public struct Chebyshev : IMetric<double[]>
+    public struct Chebyshev : IMetric<double[]>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -63,5 +64,15 @@ namespace Accord.Math.Distances
             return max;
         }
 
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Chebyshev();
+        }
     }
 }

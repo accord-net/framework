@@ -70,6 +70,8 @@ namespace Accord.Tests.Math
         [Test]
         public void lbfgsTest2()
         {
+            #region doc_minimize
+            // Ensure that results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
             // Suppose we would like to find the minimum of the function
@@ -98,31 +100,37 @@ namespace Accord.Tests.Math
                 Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2)) * (x[1] - 2)
             };
 
-            // Finally, we can create the L-BFGS solver, passing the functions as arguments
-            var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
+            // Finally, we create a L-BFGS solver for the two variable problem:
+            var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2)
+            {
+                Function = f, 
+                Gradient = g
+            };
 
             // And then minimize the function:
-            Assert.IsTrue(lbfgs.Minimize());
-            double minValue = lbfgs.Value;
-            double[] solution = lbfgs.Solution;
+            bool success = lbfgs.Minimize();     // should be true
+            double minValue = lbfgs.Value;       // should be -2
+            double[] solution = lbfgs.Solution;  // should be (1, 2)
 
             // The resultant minimum value should be -2, and the solution
             // vector should be { 1.0, 2.0 }. The answer can be checked on
             // Wolfram Alpha by clicking the following the link:
 
             // http://www.wolframalpha.com/input/?i=maximize+%28exp%28-%28x-1%29%C2%B2%29+%2B+exp%28-%28y-2%29%C2%B2%2F2%29%29
+            #endregion
 
+            Assert.IsTrue(success);
             double expected = -2;
             Assert.AreEqual(expected, minValue, 1e-10);
 
             Assert.AreEqual(1, solution[0], 1e-3);
             Assert.AreEqual(2, solution[1], 1e-3);
-
         }
 
         // The famous Rosenbrock test function.
         public static double rosenbrockFunction(double[] x)
         {
+            // f(x, y) = (1 - x)^2 + 100(y - x^2)^2
             double a = x[1] - x[0] * x[0];
             double b = 1 - x[0];
             return b * b + 100 * a * a;

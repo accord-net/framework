@@ -23,10 +23,33 @@
 namespace Accord.Math.Optimization.Losses
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Negative log-likelihood loss. 
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   The log-likelihood loss can be used to measure the performance of unsupervised
+    ///   model fitting algorithms. It simply computes the sum of all log-likelihood values
+    ///   produced by the model.</para>
+    ///   
+    /// <para>
+    ///   If you would like to measure the performance of a supervised classification model
+    ///   based on their probability predictions, please refer to the <see cref="BinaryCrossEntropyLoss"/>
+    ///   and <see cref="CategoryCrossEntropyLoss"/> for binary and multi-class decision problems,
+    ///   respectively.</para>
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <para>The following example shows how to learn an one-class SVM 
+    ///   and measure its performance using the log-likelihood loss class.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\OneclassSupportVectorLearningTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="BinaryCrossEntropyLoss"/>
+    /// <seealso cref="CategoryCrossEntropyLoss"/>
     /// 
     [Serializable]
     public class LogLikelihoodLoss : ILoss<double[][]>, ILoss<double[]>

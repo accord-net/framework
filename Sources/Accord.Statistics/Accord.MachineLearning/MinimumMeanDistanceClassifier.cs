@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using System;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>
@@ -229,7 +230,7 @@ namespace Accord.MachineLearning
                     break;
             }
 
-            means.Divide(counts, dimension: 1, result: means);
+            means.Divide(counts, dimension: (VectorType)1, result: means);
 
             return this;
         }

@@ -25,6 +25,8 @@ namespace Accord.MachineLearning.DecisionTrees
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
+    using System.Linq;
 
     /// <summary>
     ///   Collection of decision nodes. A decision branch specifies the index of
@@ -124,8 +126,20 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public void AddRange(IEnumerable<DecisionNode> children)
         {
-            foreach (var node in children) Add(node);
+            foreach (DecisionNode node in children)
+                Add(node);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        /// 
+        public override string ToString()
+        {
+            string values = String.Join(", ", this.Select(x => x.ToString()).ToArray());
+            return String.Format("{0} ({1}) => {2}", this.Attribute, this.AttributeIndex, values);
         }
     }
-
 }

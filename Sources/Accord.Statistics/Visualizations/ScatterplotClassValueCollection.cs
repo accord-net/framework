@@ -27,7 +27,7 @@ namespace Accord.Statistics.Visualizations
     using System.Collections.ObjectModel;
     using System.Linq;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Scatter Plot class.

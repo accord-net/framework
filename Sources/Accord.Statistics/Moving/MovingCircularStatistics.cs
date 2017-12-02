@@ -24,6 +24,7 @@ namespace Accord.Statistics.Moving
 {
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Moving-window circular statistics.

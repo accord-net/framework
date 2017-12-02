@@ -36,9 +36,9 @@ namespace Accord.MachineLearning.DecisionTrees
 
     internal static class DecisionTreeHelper
     {
-        public static void CheckArgs(DecisionTree tree, int[][] inputs, int[] outputs)
+        public static void CheckArgs(DecisionTree tree, int[][] inputs, int[] outputs, double[] weights = null)
         {
-            checkArgs(tree, inputs, outputs);
+            checkArgs(tree, inputs, outputs, weights);
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -60,9 +60,9 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
-        public static void CheckArgs(DecisionTree tree, double[][] inputs, int[] outputs)
+        public static void CheckArgs(DecisionTree tree, double[][] inputs, int[] outputs, double[] weights = null)
         {
-            checkArgs(tree, inputs, outputs);
+            checkArgs(tree, inputs, outputs, weights);
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -84,7 +84,7 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
-        private static void checkArgs(DecisionTree tree, Array[] inputs, int[] outputs)
+        private static void checkArgs(DecisionTree tree, Array[] inputs, int[] outputs, double[] weights = null)
         {
             if (inputs == null)
                 throw new ArgumentNullException("inputs");
@@ -99,6 +99,11 @@ namespace Accord.MachineLearning.DecisionTrees
             if (inputs.Length == 0)
                 throw new ArgumentOutOfRangeException("inputs",
                     "Training algorithm needs at least one training vector.");
+
+            if (weights != null)
+                if (inputs.Length != weights.Length)
+                    throw new ArgumentOutOfRangeException("weights",
+                        "The number of input vectors and weights does not match.");
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -135,6 +140,13 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         public static DecisionTree Create(int[][] x, int[] y, IList<DecisionVariable> attributes)
+        {
+            if (attributes == null || attributes.Count == 0)
+                attributes = DecisionVariable.FromData(x);
+            return Create(y, attributes);
+        }
+
+        public static DecisionTree Create(int?[][] x, int[] y, IList<DecisionVariable> attributes)
         {
             if (attributes == null || attributes.Count == 0)
                 attributes = DecisionVariable.FromData(x);

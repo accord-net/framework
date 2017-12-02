@@ -28,6 +28,7 @@ namespace Accord.Statistics.Testing
     using Accord.Statistics.Visualizations;
     using Accord.Statistics.Distributions;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Two-Sample (Goodness-of-fit) Chi-Square Test (Upper Tail)
@@ -171,7 +172,7 @@ namespace Accord.Statistics.Testing
             int[] row = matrix.RowTotals;
             int[] col = matrix.ColumnTotals;
             int[,] values = matrix.Matrix;
-            int samples = matrix.Samples;
+            int samples = matrix.NumberOfSamples;
 
             double chiSquare = compute(values, row, col, samples, yatesCorrection);
 
@@ -188,12 +189,12 @@ namespace Accord.Statistics.Testing
                 throw new ArgumentNullException("matrix");
 
 
-            int df = (matrix.Classes - 1) * (matrix.Classes - 1);
+            int df = (matrix.NumberOfClasses - 1) * (matrix.NumberOfClasses - 1);
 
             int[] row = matrix.RowTotals;
             int[] col = matrix.ColumnTotals;
             int[,] values = matrix.Matrix;
-            int samples = matrix.Samples;
+            int samples = matrix.NumberOfSamples;
 
             double chiSquare = compute(values, row, col, samples, yatesCorrection);
 

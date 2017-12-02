@@ -25,6 +25,44 @@ namespace Accord.Math.Optimization
     using System;
 
     /// <summary>
+    ///   Status codes for the <see cref="BrentSearch"/>.
+    /// </summary>
+    /// 
+    public enum BrentSearchStatus : byte
+    {
+        /// <summary>
+        ///   The status is unset.
+        /// </summary>
+        /// 
+        None = 0,
+
+        /// <summary>
+        ///   Convergence was attained.
+        /// </summary>
+        /// 
+        Success,
+
+        /// <summary>
+        ///   The root is not bracketed correctly. The root must be bracketed
+        ///   once and only once.
+        /// </summary>
+        /// 
+        RootNotBracketed,
+
+        /// <summary>
+        ///   The function was not finite or returned NaN.
+        /// </summary>
+        /// 
+        FunctionNotFinite,
+
+        /// <summary>
+        ///   Maximum number of iterations reached.
+        /// </summary>
+        /// 
+        MaxIterationsReached,
+    }
+
+    /// <summary>
     ///   Brent's root finding and minimization algorithms.
     /// </summary>
     /// 
@@ -67,6 +105,8 @@ namespace Accord.Math.Optimization
     /// 
     public sealed class BrentSearch : IOptimizationMethod<double, double>
     {
+        private const int  DefaultMaxIterations = 500;
+        private const double DefaultTolerance = 1e-6;
 
         /// <summary>
         ///   Gets the number of variables (free parameters)
@@ -116,11 +156,24 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the value at the solution found in the last call
-        ///   to <see cref="Minimize()"/>, <see cref="Maximize()"/>
-        ///   or <see cref="FindRoot()"/>.
+        ///   to <see cref="Minimize()"/>, <see cref="Maximize()"/>,
+        ///   <see cref="Find(double)"/> or <see cref="FindRoot()"/>.
         /// </summary>
         /// 
         public double Value { get; private set; }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations that should be 
+        ///   performed before the method terminates. Default is 500.
+        /// </summary>
+        /// 
+        public int MaxIterations { get; set; }
+
+        /// <summary>
+        ///   Gets the status of the search.
+        /// </summary>
+        /// 
+        public BrentSearchStatus Status { get; private set; }
 
         /// <summary>
         ///   Gets the function to be searched.
@@ -134,15 +187,23 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="function">The function to be searched.</param>
-        /// <param name="a">Start of search region.</param>
-        /// <param name="b">End of search region.</param>
+        /// <param name="lowerBound">Start of search region.</param>
+        /// <param name="upperBound">End of search region.</param>
+        /// <param name="tol">The tolerance for determining the solution.</param>
+        /// <param name="maxIterations">The maximum number of iterations before terminating.</param>
         /// 
-        public BrentSearch(Func<double, double> function, double a, double b)
+        public BrentSearch(
+            Func<double, double> function, 
+            double lowerBound, 
+            double upperBound, 
+            double tol = DefaultTolerance,
+            int maxIterations = DefaultMaxIterations)
         {
             this.Function = function;
-            this.LowerBound = a;
-            this.UpperBound = b;
-            this.Tolerance = 1e-6;
+            this.LowerBound = lowerBound;
+            this.UpperBound = upperBound;
+            this.Tolerance = tol;
+            this.MaxIterations = maxIterations;
         }
 
 
@@ -150,54 +211,81 @@ namespace Accord.Math.Optimization
         ///   Attempts to find a root in the interval [a;b] 
         /// </summary>
         /// 
-        /// <returns>The location of the zero value in the given interval.</returns>
-        /// 
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
+        ///   property.</returns>
+        ///
         public bool FindRoot()
         {
-            Solution = FindRoot(Function, LowerBound, UpperBound, Tolerance);
-            Value = Function(Solution);
-            return true;
+            BrentSearchResult result = FindRootInternal(
+                Function, LowerBound, UpperBound, Tolerance, MaxIterations);
+
+            Solution = result.Solution;
+            Value = result.Value;
+            Status = result.Status;
+
+            return Status == BrentSearchStatus.Success;
         }
 
         /// <summary>
         ///   Attempts to find a value in the interval [a;b] 
         /// </summary>
         /// 
-        /// <returns>The location of the zero value in the given interval.</returns>
-        /// 
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
+        ///   property.</returns>
+        ///
         public bool Find(double value)
         {
-            Solution = Find(Function, value, LowerBound, UpperBound, Tolerance);
-            Value = Function(Solution);
-            return true;
+            BrentSearchResult result = FindRootInternal(
+                x => Function(x) - value, LowerBound, UpperBound, Tolerance, MaxIterations);
+
+            Solution = result.Solution;
+            Value = result.Value + value;
+            Status = result.Status;
+
+            return Status == BrentSearchStatus.Success;
         }
 
         /// <summary>
         ///   Finds the minimum of the function in the interval [a;b]
         /// </summary>
         /// 
-        /// <returns>The location of the minimum of the function in the given interval.</returns>
-        /// 
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
+        ///   property.</returns>
+        ///
         public bool Minimize()
         {
-            Solution = Minimize(Function, LowerBound, UpperBound, Tolerance);
-            Value = Function(Solution);
-            return true;
+            BrentSearchResult result = MinimizeInternal(
+                Function, LowerBound, UpperBound, Tolerance, MaxIterations);
+
+            Solution = result.Solution;
+            Value = result.Value;
+            Status = result.Status;
+
+            return Status == BrentSearchStatus.Success;
         }
 
         /// <summary>
         ///   Finds the maximum of the function in the interval [a;b]
         /// </summary>
         /// 
-        /// <returns>The location of the maximum of the function in the given interval.</returns>
-        /// 
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
+        ///   property.</returns>
+        ///
         public bool Maximize()
         {
-            Solution = Maximize(Function, LowerBound, UpperBound, Tolerance);
-            Value = Function(Solution);
-            return true;
-        }
+            BrentSearchResult result = MinimizeInternal(
+                x => -Function(x), LowerBound, UpperBound, Tolerance, MaxIterations);
 
+            Solution = result.Solution;
+            Value = -result.Value;
+            Status = result.Status;
+
+            return Status == BrentSearchStatus.Success;
+        }
 
         /// <summary>
         ///   Finds the minimum of a function in the interval [a;b]
@@ -207,17 +295,109 @@ namespace Accord.Math.Optimization
         /// <param name="lowerBound">Start of search region.</param>
         /// <param name="upperBound">End of search region.</param>
         /// <param name="tol">The tolerance for determining the solution.</param>
+        /// <param name="maxIterations">The maximum number of iterations before terminating.</param>
         /// 
         /// <returns>The location of the minimum of the function in the given interval.</returns>
         /// 
-        public static double Minimize(Func<double, double> function,
-            double lowerBound, double upperBound, double tol = 1e-6)
+        public static double Minimize(
+            Func<double, double> function,
+            double lowerBound,
+            double upperBound,
+            double tol = DefaultTolerance,
+            int maxIterations = DefaultMaxIterations)
         {
-            if (Double.IsInfinity(lowerBound))
-                throw new ArgumentOutOfRangeException("lowerBound");
+            BrentSearchResult result = MinimizeInternal(function, lowerBound, upperBound, tol, maxIterations);
+            return HandleResult(result);
+        }
 
-            if (Double.IsInfinity(upperBound))
-                throw new ArgumentOutOfRangeException("upperBound");
+        /// <summary>
+        ///   Finds the maximum of a function in the interval [a;b]
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be maximized.</param>
+        /// <param name="lowerBound">Start of search region.</param>
+        /// <param name="upperBound">End of search region.</param>
+        /// <param name="tol">The tolerance for determining the solution.</param>
+        /// <param name="maxIterations">The maximum number of iterations before terminating.</param>
+        /// 
+        /// <returns>The location of the maximum of the function in the given interval.</returns>
+        /// 
+        public static double Maximize(
+            Func<double, double> function,
+            double lowerBound,
+            double upperBound, 
+            double tol = DefaultTolerance,
+            int maxIterations = DefaultMaxIterations)
+        {
+            return Minimize(x => -function(x), lowerBound, upperBound, tol, maxIterations);
+        }
+
+        /// <summary>
+        ///   Finds the root of a function in the interval [a;b]
+        /// </summary>
+        /// 
+        /// <param name="function">The function to have its root computed.</param>
+        /// <param name="lowerBound">Start of search region.</param>
+        /// <param name="upperBound">End of search region.</param>
+        /// <param name="tol">The tolerance for determining the solution.</param>
+        /// <param name="maxIterations">The maximum number of iterations before terminating.</param>
+        /// 
+        /// <returns>The location of the zero value in the given interval.</returns>
+        /// 
+        public static double FindRoot(
+            Func<double, double> function,
+            double lowerBound,
+            double upperBound,
+            double tol = DefaultTolerance,
+            int maxIterations = DefaultMaxIterations)
+        {
+            BrentSearchResult result = FindRootInternal(function, lowerBound, upperBound, tol, maxIterations);
+            return HandleResult(result);
+        }
+
+        /// <summary>
+        ///   Finds a value of a function in the interval [a;b]
+        /// </summary>
+        /// 
+        /// <param name="function">The function to have its root computed.</param>
+        /// <param name="value">The value to be looked for in the function.</param>
+        /// <param name="lowerBound">Start of search region.</param>
+        /// <param name="upperBound">End of search region.</param>
+        /// <param name="tol">The tolerance for determining the solution.</param>
+        /// <param name="maxIterations">The maximum number of iterations before terminating.</param>
+        /// 
+        /// <returns>The location of the value in the given interval.</returns>
+        /// 
+        public static double Find(
+            Func<double, double> function, 
+            double value,
+            double lowerBound,
+            double upperBound,
+            double tol = DefaultTolerance,
+            int maxIterations = DefaultMaxIterations)
+        {
+            return FindRoot(x => function(x) - value, lowerBound, upperBound, tol, maxIterations);
+        }
+
+        private static BrentSearchResult MinimizeInternal(
+            Func<double, double> function,
+            double lowerBound, 
+            double upperBound, 
+            double tol,
+            int maxIterations)
+        {
+            // perform some basic validation checks and allow these to throw
+            if (double.IsInfinity(lowerBound))
+                throw new ArgumentOutOfRangeException("lowerBound", "Bounds must be finite");
+
+            if (double.IsInfinity(upperBound))
+                throw new ArgumentOutOfRangeException("upperBound", "Bounds must be finite");
+
+            if (tol < 0)
+                throw new ArgumentOutOfRangeException("tol", "Tolerance must be positive.");
+
+            if (maxIterations == 0)
+                maxIterations = Int32.MaxValue;
 
             double x, v, w; // Abscissas
             double fx;      // f(x)             
@@ -225,18 +405,13 @@ namespace Accord.Math.Optimization
             double fw;      // f(w)
 
             // Gold section ratio: (3.9 - sqrt(5)) / 2; 
-            double r = 0.831966011250105;
+            const double r = 0.831966011250105;
 
             if (upperBound < lowerBound)
             {
-                throw new ArgumentOutOfRangeException("upperBound",
-                    "The search interval upper bound must be higher than the lower bound.");
-            }
-
-            if (tol < 0)
-            {
-                throw new ArgumentOutOfRangeException("tol",
-                    "Tolerance must be positive.");
+                double tmp = upperBound;
+                upperBound = lowerBound;
+                lowerBound = tmp;
             }
 
             // First step - always gold section
@@ -247,9 +422,8 @@ namespace Accord.Math.Optimization
 
 
             // Main loop
-            while (true)
+            for (int i = 0; i < maxIterations; i++)
             {
-
                 double range = upperBound - lowerBound; // Range over which the minimum
 
                 double middle_range = lowerBound / 2.0 + upperBound / 2.0;
@@ -258,7 +432,7 @@ namespace Accord.Math.Optimization
 
                 // Check if an acceptable solution has been found
                 if (Math.Abs(x - middle_range) + range / 2 <= 2 * tol_act)
-                    return x;
+                    return new BrentSearchResult(x, fx, BrentSearchStatus.Success);
 
                 // Obtain the gold section step
                 new_step = r * (x < middle_range ? upperBound - x : lowerBound - x);
@@ -305,8 +479,8 @@ namespace Accord.Math.Optimization
                     double t = x + new_step;     // Tentative point for the min
                     double ft = function(t);     // recompute f(tentative point)
 
-                    if (Double.IsNaN(ft) || Double.IsInfinity(ft))
-                        throw new ConvergenceException("Function evaluation didn't return a finite number.");
+                    if (double.IsNaN(ft) || double.IsInfinity(ft))
+                        return new BrentSearchResult(x, fx, BrentSearchStatus.FunctionNotFinite);
 
                     if (ft <= fx)
                     {
@@ -341,57 +515,38 @@ namespace Accord.Math.Optimization
                     }
                 }
             }
+
+            return new BrentSearchResult(x, fx, BrentSearchStatus.MaxIterationsReached);
         }
 
-        /// <summary>
-        ///   Finds the maximum of a function in the interval [a;b]
-        /// </summary>
-        /// 
-        /// <param name="function">The function to be maximized.</param>
-        /// <param name="lowerBound">Start of search region.</param>
-        /// <param name="upperBound">End of search region.</param>
-        /// <param name="tol">The tolerance for determining the solution.</param>
-        /// 
-        /// <returns>The location of the maximum of the function in the given interval.</returns>
-        /// 
-        public static double Maximize(Func<double, double> function,
-            double lowerBound, double upperBound, double tol = 1e-6)
+        private static BrentSearchResult FindRootInternal(
+            Func<double, double> function,
+            double lowerBound,
+            double upperBound,
+            double tol,
+            int maxIterations)
         {
-            return Minimize(x => -function(x), lowerBound, upperBound, tol);
-        }
+            // perform some basic validation checks and allow these to throw
+            if (double.IsInfinity(lowerBound))
+                throw new ArgumentOutOfRangeException("lowerBound", "Bounds must be finite");
 
-        /// <summary>
-        ///   Finds the root of a function in the interval [a;b]
-        /// </summary>
-        /// 
-        /// <param name="function">The function to have its root computed.</param>
-        /// <param name="lowerBound">Start of search region.</param>
-        /// <param name="upperBound">End of search region.</param>
-        /// <param name="tol">The tolerance for determining the solution.</param>
-        /// 
-        /// <returns>The location of the zero value in the given interval.</returns>
-        /// 
-        public static double FindRoot(Func<double, double> function,
-            double lowerBound, double upperBound, double tol = 1e-6)
-        {
-            if (Double.IsInfinity(lowerBound))
-                throw new ArgumentOutOfRangeException("lowerBound");
+            if (double.IsInfinity(upperBound))
+                throw new ArgumentOutOfRangeException("upperBound", "Bounds must be finite");
 
-            if (Double.IsInfinity(upperBound))
-                throw new ArgumentOutOfRangeException("upperBound");
+            if (tol < 0)
+                throw new ArgumentOutOfRangeException("tol", "Tolerance must be positive.");
 
+            double fa = function(lowerBound); // f(a)
+            double fb = function(upperBound); // f(b) 
+            double c = lowerBound;            // Abscissas
+            double fc = fa;                   // f(c)
 
-            double c;               // Abscissas
-            double fa;              // f(a)  
-            double fb;              // f(b)
-            double fc;              // f(c)
+            if (Math.Sign(fa) == Math.Sign(fb))
+                return new BrentSearchResult(upperBound, fb, BrentSearchStatus.RootNotBracketed);
 
-            fa = function(lowerBound);
-            fb = function(upperBound);
-            c = lowerBound; fc = fa;
 
             // Main loop
-            while (true)
+            for (int i = 0; i < maxIterations; i++)
             {
                 double prev_step = upperBound - lowerBound;
 
@@ -415,14 +570,13 @@ namespace Accord.Math.Optimization
 
                 // Check if an acceptable solution has been found
                 if (Math.Abs(new_step) <= tol_act || fb == 0)
-                    return upperBound;
+                    return new BrentSearchResult(upperBound, fb, BrentSearchStatus.Success);
 
                 // Decide if the interpolation can be tried
                 if (Math.Abs(prev_step) >= tol_act  // If prev_step was large enough
                     && Math.Abs(fa) > Math.Abs(fb)) // and was in the true direction,
                 {
                     // Then interpolation may be tried   
-
                     double t1, cb, t2;
                     double p, q;
                     cb = c - upperBound;
@@ -461,7 +615,6 @@ namespace Accord.Math.Optimization
                     // 
                 }
 
-
                 if (Math.Abs(new_step) < tol_act)
                 {
                     // Adjust the step to be not less than tolerance
@@ -475,9 +628,8 @@ namespace Accord.Math.Optimization
                 upperBound += new_step;
                 fb = function(upperBound);
 
-                if (Double.IsNaN(fb) || Double.IsInfinity(fb))
-                    throw new ConvergenceException("Function evaluation didn't return a finite number.");
-
+                if (double.IsNaN(fb) || double.IsInfinity(fb))
+                    return new BrentSearchResult(upperBound, fb, BrentSearchStatus.FunctionNotFinite);
 
                 // Adjust c to have a sign opposite to that of b
                 if ((fb > 0 && fc > 0) || (fb < 0 && fc < 0))
@@ -485,25 +637,40 @@ namespace Accord.Math.Optimization
                     c = lowerBound; fc = fa;
                 }
             }
+
+            return new BrentSearchResult(upperBound, fb, BrentSearchStatus.MaxIterationsReached);
         }
 
-        /// <summary>
-        ///   Finds a value of a function in the interval [a;b]
-        /// </summary>
-        /// 
-        /// <param name="function">The function to have its root computed.</param>
-        /// <param name="lowerBound">Start of search region.</param>
-        /// <param name="upperBound">End of search region.</param>
-        /// <param name="tol">The tolerance for determining the solution.</param>
-        /// <param name="value">The value to be looked for in the function.</param>
-        /// 
-        /// <returns>The location of the zero value in the given interval.</returns>
-        /// 
-        public static double Find(Func<double, double> function, double value,
-            double lowerBound, double upperBound, double tol = 1e-6)
+        private static double HandleResult(BrentSearchResult result)
         {
-            return FindRoot((x) => function(x) - value, lowerBound, upperBound, tol);
+            switch (result.Status)
+            {
+                case BrentSearchStatus.Success:
+                    return result.Solution;
+                case BrentSearchStatus.RootNotBracketed:
+                    throw new ConvergenceException("Root must be enclosed between bounds once and only once.");
+                case BrentSearchStatus.FunctionNotFinite:
+                    throw new ConvergenceException("Function evaluation didn't return a finite number.");
+                case BrentSearchStatus.MaxIterationsReached:
+                    throw new ConvergenceException("The maximum number of iterations was reached.");
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
+        private struct BrentSearchResult
+        {
+            public BrentSearchResult(double solution, double value, BrentSearchStatus status)
+                : this()
+            {
+                this.Solution = solution;
+                this.Value = value;
+                this.Status = status;
+            }
+
+            public double Solution { get; private set; }
+            public double Value { get; private set; }
+            public BrentSearchStatus Status { get; private set; }
+        }
     }
 }

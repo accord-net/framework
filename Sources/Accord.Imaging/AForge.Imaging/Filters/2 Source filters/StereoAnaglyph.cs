@@ -20,7 +20,7 @@ namespace Accord.Imaging.Filters
     /// aimed to be viewed through anaglyph glasses with red filter over the left eye and
     /// cyan over the right.</para>
     /// 
-    /// <img src="img/imaging/anaglyph_glasses.png" width="125" height="97" />
+    /// <img src="..\images\imaging\anaglyph_glasses.png" width="125" height="97" />
     /// 
     /// <para>The stereo image is produced by combining two images of the same scene taken
     /// from a bit different points. The right image must be provided to the filter using
@@ -42,11 +42,11 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image (left):</b></para>
-    /// <img src="img/imaging/sample16_left.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample16_left.png" width="320" height="240" />
     /// <para><b>Overlay image (right):</b></para>
-    /// <img src="img/imaging/sample16_right.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample16_right.png" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/anaglyph.png" width="320" height="240" />
+    /// <img src="..\images\imaging\anaglyph.png" width="320" height="240" />
     /// 
     /// </remarks>
     /// 

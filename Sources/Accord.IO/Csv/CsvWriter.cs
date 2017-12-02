@@ -23,7 +23,9 @@
 namespace Accord.IO
 {
     using System;
+#if !NETSTANDARD1_4
     using System.Data;
+#endif
     using System.Globalization;
     using System.IO;
     using System.Text;
@@ -111,22 +113,13 @@ namespace Accord.IO
         ///   Initializes a new instance of the <see cref="CsvWriter"/> class.
         /// </summary>
         /// 
-        /// <param name="writer">A <see cref="T:TextWriter"/> pointing to the CSV file.</param>
-        /// 
-        public CsvWriter(TextWriter writer)
-            : this(writer, CsvReader.DefaultDelimiter)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="CsvWriter"/> class.
-        /// </summary>
-        /// 
         /// <param name="path">The path to the file to be written.</param>
+        /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
+        ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
         /// 
-        public CsvWriter(String path)
-            : this(new StreamWriter(path), CsvReader.DefaultDelimiter)
+        public CsvWriter(String path, char delimiter = CsvReader.DefaultDelimiter)
         {
+            init(new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write)), delimiter);
         }
 
         /// <summary>
@@ -137,7 +130,12 @@ namespace Accord.IO
         /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
         ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
         /// 
-        public CsvWriter(TextWriter writer, char delimiter)
+        public CsvWriter(TextWriter writer, char delimiter = CsvReader.DefaultDelimiter)
+        {
+            init(writer, delimiter);
+        }
+
+        private void init(TextWriter writer, char delimiter)
         {
             this.Writer = writer;
             this.Quote = CsvReader.DefaultQuote;
@@ -157,24 +155,13 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="builder">A <see cref="T:StringBuilder"/> to write to.</param>
-        /// 
-        public static CsvWriter ToText(StringBuilder builder)
-        {
-            return new CsvWriter(new StringWriter(builder));
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="CsvWriter"/> 
-        ///   class to write the CSV fields to a in-memory string.
-        /// </summary>
-        /// 
-        /// <param name="builder">A <see cref="T:StringBuilder"/> to write to.</param>
         /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
         ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
         /// 
-        public static CsvWriter ToText(StringBuilder builder, char delimiter)
+        public static CsvWriter ToText(StringBuilder builder, char delimiter = CsvReader.DefaultDelimiter)
         {
-            return new CsvWriter(new StringWriter(builder), delimiter);
+            using (var writer = new StringWriter(builder))
+                return new CsvWriter(writer, delimiter);
         }
 
         /// <summary>
@@ -192,6 +179,7 @@ namespace Accord.IO
             write(headers, String.Empty);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Writes the column names of a data table as the headers of the CSV file.
         /// </summary>
@@ -206,7 +194,7 @@ namespace Accord.IO
 
             write(headers, String.Empty);
         }
-
+#endif
 
         /// <summary>
         ///   Writes the specified matrix in CSV format.
@@ -255,6 +243,7 @@ namespace Accord.IO
             Writer.Flush();
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Writes the specified table in a CSV format.
         /// </summary>
@@ -277,6 +266,7 @@ namespace Accord.IO
 
             Writer.Flush();
         }
+#endif
 
         /// <summary>
         ///   Writes the specified fields in a CSV format.

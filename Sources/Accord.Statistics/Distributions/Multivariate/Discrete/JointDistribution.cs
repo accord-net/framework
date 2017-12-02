@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Math;
     using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Joint distribution of multiple discrete univariate distributions.

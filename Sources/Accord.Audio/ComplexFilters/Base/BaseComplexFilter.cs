@@ -37,7 +37,7 @@ namespace Accord.Audio.ComplexFilters
         public ComplexSignal Apply(ComplexSignal complexSignal)
         {
             // get number of channels and samples
-            int channels = complexSignal.Channels;
+            int channels = complexSignal.NumberOfChannels;
             int samples = complexSignal.Length;
 
             // retrieve other information

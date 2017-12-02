@@ -24,10 +24,11 @@ namespace Accord.Neuro.Learning
 {
     using System;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Decompositions;
     using MachineLearning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   The Jacobian computation method used by the Levenberg-Marquardt.
@@ -211,7 +212,7 @@ namespace Accord.Neuro.Learning
     {
 
         private const double lambdaMax = 1e25;
-
+        private double eps = 1e-12;
 
         // network to teach
         private ActivationNetwork network;
@@ -365,6 +366,17 @@ namespace Accord.Neuro.Learning
         }
 
         /// <summary>
+        ///   Gets or sets a small epsilon value to be added to the
+        ///   diagonal of the Hessian matrix. Default is 1e-12.
+        /// </summary>
+        /// 
+        public double Epsilon
+        {
+            get { return eps; }
+            set { eps = value; }
+        }
+
+        /// <summary>
         ///   Gets the approximate Hessian matrix of second derivatives 
         ///   generated in the last algorithm iteration. The Hessian is 
         ///   stored in the upper triangular part of this matrix. See 
@@ -419,7 +431,8 @@ namespace Accord.Neuro.Learning
         /// <param name="network">Network to teach.</param>
         /// 
         public LevenbergMarquardtLearning(ActivationNetwork network) :
-            this(network, false, JacobianMethod.ByBackpropagation) { }
+            this(network, false, JacobianMethod.ByBackpropagation)
+        { }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="LevenbergMarquardtLearning"/> class.
@@ -638,7 +651,7 @@ namespace Accord.Neuro.Learning
             // diagonal will be destroyed in the decomposition, so it can
             // still be updated on every iteration by restoring this copy.
             for (int i = 0; i < hessian.Length; i++)
-                diagonal[i] = hessian[i][i];
+                diagonal[i] = hessian[i][i] + (float)eps;
 
             // Create the initial weights vector
             sumOfSquaredWeights = saveNetworkToArray();
@@ -660,7 +673,7 @@ namespace Accord.Neuro.Learning
 
                 // Update diagonal (Levenberg-Marquardt)
                 for (int i = 0; i < diagonal.Length; i++)
-                    hessian[i][i] = (float)(diagonal[i] + 2 * lambda + 2 * alpha);
+                    hessian[i][i] = (float)(diagonal[i] * (1 + lambda) + 2 * alpha);
 
                 // Decompose to solve the linear system. The Cholesky decomposition
                 // is done in place, occupying the Hessian's lower-triangular part.
@@ -948,10 +961,6 @@ namespace Accord.Neuro.Learning
         /// 
         private double CalculateDerivatives(double[] input, double[] desiredOutput, int outputIndex)
         {
-            // Assume all network neurons have the same activation function
-            var function = (network.Layers[0].Neurons[0] as ActivationNeuron).ActivationFunction;
-
-
             // Start by the output layer first
             int outputLayerIndex = network.Layers.Length - 1;
             ActivationLayer outputLayer = network.Layers[outputLayerIndex] as ActivationLayer;
@@ -974,7 +983,7 @@ namespace Accord.Neuro.Learning
 
             double output = outputNeuron.Output;
             double error = desiredOutput[outputIndex] - output;
-            double derivative = function.Derivative2(output);
+            double derivative = outputNeuron.ActivationFunction.Derivative2(output);
 
             // Set derivative for each weight in the neuron
             for (int i = 0; i < neuronWeightDerivatives.Length; i++)
@@ -1030,7 +1039,7 @@ namespace Accord.Neuro.Learning
                     }
 
                     // Continue forming the chain-rule statement
-                    derivative = sum * function.Derivative2(neuron.Output);
+                    derivative = sum * neuron.ActivationFunction.Derivative2(neuron.Output);
 
                     // Set derivative for each weight in the neuron
                     for (int wi = 0; wi < neuronWeightDerivatives.Length; wi++)

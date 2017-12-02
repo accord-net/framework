@@ -23,7 +23,10 @@
 namespace Accord.Statistics.Models.Regression
 {
     using Accord.MachineLearning;
+    using Accord.Math.Optimization;
+    using Accord.Statistics.Models.Regression.Fitting;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Regression function delegate.
@@ -65,6 +68,20 @@ namespace Accord.Statistics.Models.Regression
     ///   Nonlinear Regression.
     /// </summary>
     /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how to fit a non-linear regression with <see cref="LevenbergMarquardt"/>.</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_lm" lang="cs" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics.VB\Models\Regression\NonlinearLeastSquaresTest.vb" region="doc_learn_lm" lang="vb" />
+    /// 
+    /// <para>
+    ///   The second example shows how to fit a non-linear regression with <see cref="GaussNewton"/>.</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_gn" lang="cs" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics.VB\Models\Regression\NonlinearLeastSquaresTest.vb" region="doc_learn_gn" lang="vb" />
+    /// </example>
+    /// 
+    /// <seealso cref="NonlinearLeastSquares"/>
+    /// 
     [Serializable]
     public class NonlinearRegression : TransformBase<double[], double>, ICloneable
     {
@@ -74,10 +91,7 @@ namespace Accord.Statistics.Models.Regression
         // TODO: implement a way to serialize the function and gradient
         // functions, most likely using serializable expression trees.
 
-        [NonSerialized]
         RegressionFunction function;
-
-        [NonSerialized]
         RegressionGradientFunction gradient;
 
 
@@ -145,7 +159,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <param name="parameters">The number of variables (free parameters) in the model.</param>
         /// <param name="function">The regression function implementing the regression model.</param>
-        /// <param name="gradient">The function that computes the gradient for <paramref name="function"/>.</param>
+        /// <param name="gradient">The function that computes the gradient for <paramref name="function"/> (optional).</param>
         /// 
         public NonlinearRegression(int parameters, RegressionFunction function, RegressionGradientFunction gradient)
             : this(parameters, function)

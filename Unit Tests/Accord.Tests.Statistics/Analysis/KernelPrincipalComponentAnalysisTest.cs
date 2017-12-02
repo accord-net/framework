@@ -731,7 +731,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(data, preimage, 0.0001));
         }
 
-#if !NETSTANDARD2_0
+#if !NO_EXCEL
         [Test]
         [Category("Office")]
         public void RevertTest2()
@@ -1248,6 +1248,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest()
@@ -1296,5 +1297,6 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Overwrite.Equals(copy.Overwrite));
             Assert.IsTrue(target.Whiten.Equals(copy.Whiten));
         }
+#endif
     }
 }

@@ -61,6 +61,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Statistics.Kernels;
     using Accord.Math.Optimization.Losses;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   L2-regularized L2-loss linear support vector regression
@@ -80,7 +81,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   for the primal of L2-regularized, L2-loss linear epsilon-vector regression (epsilon-SVR).
     /// </para>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// <seealso cref="LinearRegressionCoordinateDescent"/>
     /// 
@@ -132,7 +133,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   for the primal of L2-regularized, L2-loss linear epsilon-vector regression (epsilon-SVR).
     /// </para>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// <seealso cref="LinearRegressionCoordinateDescent"/>
     /// 
@@ -167,7 +168,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSupportVectorRegression<TModel, TKernel, TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TKernel : struct, ILinear<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
 
         TrustRegionNewtonMethod tron;

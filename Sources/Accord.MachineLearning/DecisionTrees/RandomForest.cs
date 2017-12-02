@@ -26,19 +26,12 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Data;
     using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.IO;
-    using Accord.Statistics.Filters;
     using Accord.Math;
-    using AForge;
-    using Accord.Statistics;
+    using Accord.Compat;
     using System.Threading;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
 
 
     /// <summary>
@@ -113,6 +106,40 @@ namespace Accord.MachineLearning.DecisionTrees
             set { ParallelOptions.CancellationToken = value; }
         }
 
+        private RandomForest()
+        {
+            this.ParallelOptions = new ParallelOptions();
+        }
+
+        /// <summary>
+        ///   Creates a new random forest.
+        /// </summary>
+        /// 
+        /// <param name="trees">The trees to be added to the forest.</param>
+        /// 
+        public RandomForest(DecisionTree[] trees)
+            : this()
+        {
+            init(trees);
+        }
+
+        /// <summary>
+        ///   Creates a new random forest.
+        /// </summary>
+        /// 
+        /// <param name="trees">The number of trees to be added to the forest.</param>
+        /// <param name="inputs">An array specifying the attributes to be processed by the trees.</param>
+        /// <param name="classes">The number of classes in the classification problem.</param>
+        /// 
+        public RandomForest(int trees, IList<DecisionVariable> inputs, int classes)
+            : this()
+        {
+            var t = new DecisionTree[trees];
+            for (int i = 0; i < t.Length; i++)
+                t[i] = new DecisionTree(inputs, classes);
+            init(t);
+        }
+
         /// <summary>
         ///   Creates a new random forest.
         /// </summary>
@@ -121,11 +148,29 @@ namespace Accord.MachineLearning.DecisionTrees
         /// <param name="classes">The number of classes in the classification problem.</param>
         /// 
         public RandomForest(int trees, int classes)
+            : this()
         {
             this.trees = new DecisionTree[trees];
             this.NumberOfOutputs = classes;
             this.NumberOfClasses = classes;
-            this.ParallelOptions = new ParallelOptions();
+        }
+
+        private void init(DecisionTree[] trees)
+        {
+            this.trees = trees;
+            this.NumberOfInputs = trees[0].NumberOfInputs;
+            this.NumberOfOutputs = trees[0].NumberOfOutputs;
+            this.NumberOfClasses = trees[0].NumberOfClasses;
+
+            for (int i = 0; i < trees.Length; i++)
+            {
+                if (trees[i].NumberOfInputs != NumberOfInputs)
+                    throw new Exception("The decision tree accepts less inputs than {0}".Format(NumberOfInputs));
+                if (trees[i].NumberOfClasses != NumberOfClasses)
+                    throw new Exception("The decision tree recognizes less classes than {0}".Format(NumberOfClasses));
+                if (trees[i].NumberOfOutputs != NumberOfOutputs)
+                    throw new Exception("The decision tree produces less outputs than {0}".Format(NumberOfOutputs));
+            }
         }
 
         /// <summary>
@@ -153,11 +198,24 @@ namespace Accord.MachineLearning.DecisionTrees
         public override int Decide(double[] input)
         {
             int[] responses = new int[NumberOfOutputs];
-            Parallel.For(0, trees.Length, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                int j = trees[i].Decide(input);
-                Interlocked.Increment(ref responses[j]);
-            });
+                for (int i = 0; i < trees.Length; i++)
+                {
+                    int j = trees[i].Decide(input);
+                    if (j >= 0)
+                        Interlocked.Increment(ref responses[j]);
+                }
+            }
+            else
+            {
+                Parallel.For(0, trees.Length, ParallelOptions, i =>
+                {
+                    int j = trees[i].Decide(input);
+                    if (j >= 0)
+                        Interlocked.Increment(ref responses[j]);
+                });
+            }
 
             return responses.ArgMax();
         }

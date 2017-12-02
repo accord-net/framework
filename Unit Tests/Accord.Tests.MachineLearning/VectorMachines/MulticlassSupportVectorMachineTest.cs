@@ -333,7 +333,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-#if !NET35
         [Test]
         public void ComputeTest2()
         {
@@ -424,8 +423,8 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < evals.Length; i++)
                 Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i]);
         }
-#endif
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest1()
@@ -507,10 +506,14 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void LoadTest1()
         {
-            MemoryStream stream = new MemoryStream(Properties.Resources.svm1);
-            var svm = MulticlassSupportVectorMachine.Load(stream);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "svm1.svm");
+
+            var svm = MulticlassSupportVectorMachine.Load(fileName);
 
             Assert.IsNotNull(svm.Machines);
             Assert.IsFalse(svm.IsProbabilistic);
@@ -518,12 +521,14 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void LoadTest2()
         {
-            byte[] blob = Properties.Resources.svm2;
-            MemoryStream stream = new MemoryStream(blob);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "svm2.svm");
 
-            var ksvm = MulticlassSupportVectorMachine.Load(stream);
+            var ksvm = MulticlassSupportVectorMachine.Load(fileName);
 
             Assert.AreEqual(3, ksvm.Classes);
             Assert.AreEqual(21, ksvm.Inputs);
@@ -540,9 +545,8 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1.2115031055900578E-08d, ksvm.Machines[1][1].Weights.Variance());
             Assert.AreEqual(0.00010847163737093268, ksvm.Machines[1][1].Threshold);
             Assert.AreEqual(806, ksvm.Machines[1][1].SupportVectors.Length);
-
         }
-
+#endif
 
         [Test]
 #if DEBUG
@@ -550,7 +554,7 @@ namespace Accord.Tests.MachineLearning
 #endif
         public void kaggle_digits_old_style()
         {
-            string root = Environment.CurrentDirectory;
+            string root = TestContext.CurrentContext.TestDirectory;
             var training = Properties.Resources.trainingsample;
             var validation = Properties.Resources.validationsample;
 
@@ -595,7 +599,7 @@ namespace Accord.Tests.MachineLearning
 #endif
         public void kaggle_digits()
         {
-            string root = Environment.CurrentDirectory;
+            string root = TestContext.CurrentContext.TestDirectory;
             var training = Properties.Resources.trainingsample;
             var validation = Properties.Resources.validationsample;
 
@@ -642,7 +646,7 @@ namespace Accord.Tests.MachineLearning
 #endif
         public void kaggle_digits_with_compress()
         {
-            string root = Environment.CurrentDirectory;
+            string root = TestContext.CurrentContext.TestDirectory;
             var training = Properties.Resources.trainingsample;
             var validation = Properties.Resources.validationsample;
 

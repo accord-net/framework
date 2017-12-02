@@ -257,16 +257,16 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(0, bootstrap.NumberOfSubsamples);
             Assert.AreEqual(1000, result.NumberOfSubsamples);
-            Assert.AreEqual(0.39083617460317444, result.Estimate);
+            Assert.AreEqual(0.394522841269841, result.Estimate, 1e-10);
 
             Assert.AreEqual(0.22575, result.Training.Mean, 1e-10);
-            Assert.AreEqual(0.4869623015873013, result.Validation.Mean, 1e-10);
+            Assert.AreEqual(0.4927956349206345, result.Validation.Mean, 1e-10);
 
             Assert.AreEqual(0.034696634134134319, result.Training.Variance, 1e-10);
-            Assert.AreEqual(0.026083718193975015, result.Validation.Variance, 1e-10);
+            Assert.AreEqual(0.028066001403109997, result.Validation.Variance, 1e-10);
 
             Assert.AreEqual(0.18627032542553396, result.Training.StandardDeviation, 1e-10);
-            Assert.AreEqual(0.16150454542821702, result.Validation.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.16752910613714261, result.Validation.StandardDeviation, 1e-10);
 
             Assert.AreEqual(0, result.Training.PooledStandardDeviation);
             Assert.AreEqual(0, result.Validation.PooledStandardDeviation);

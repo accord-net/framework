@@ -30,13 +30,14 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math.Optimization.Losses;
     using System;
     using Accord.MachineLearning.Performance;
-    using Accord.Math;
     using System.Threading;
     using System.Collections.Generic;
-    using System.Linq;
+    using Accord.DataSets;
+    using Accord.MachineLearning.DecisionTrees.Learning;
+    using Accord.MachineLearning.DecisionTrees;
 
 #if NET35
-    using CancellationToken = Accord.CancellationToken;
+    using CancellationToken = Accord.Compat.CancellationToken;
 #endif
 
     [TestFixture]
@@ -347,10 +348,11 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, bestConstant, 1e-8);
         }
 
+#if !NET35
         [Test]
         public void learn_test_strongly_typed()
         {
-            #region doc_learn_strongly_typed
+        #region doc_learn_strongly_typed
             // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -393,9 +395,9 @@ namespace Accord.Tests.MachineLearning
                 // Here we can specify the range of the parameters to be included in the search
                 ranges: new
                 {
-                    Kernel = GridSearch.Range(new IKernel[] { new Linear(), new ChiSquare(), new Gaussian(), new Sigmoid() }),
-                    Complexity = GridSearch.Range(new[] { 0.00000001, 5.20, 0.30, 0.50 }),
-                    Tolerance = GridSearch.Range(Vector.Range(1e-10, 1.0, stepSize: 0.05))
+                    Kernel = GridSearch.Values<IKernel>(new Linear(), new ChiSquare(), new Gaussian(), new Sigmoid()),
+                    Complexity = GridSearch.Values(0.00000001, 5.20, 0.30, 0.50),
+                    Tolerance = GridSearch.Range(1e-10, 1.0, stepSize: 0.05)
                 },
 
                 // Indicate how learning algorithms for the models should be created
@@ -429,7 +431,7 @@ namespace Accord.Tests.MachineLearning
             double bestC = result.BestParameters.Complexity;
             double bestTolerance = result.BestParameters.Tolerance;
             IKernel bestKernel = result.BestParameters.Kernel.Value;
-            #endregion
+        #endregion
 
             Assert.IsNotNull(svm);
             Assert.AreEqual(1e-8, bestC, 1e-10);
@@ -437,7 +439,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, bestTolerance, 1e-8);
             Assert.AreEqual(typeof(Gaussian), bestKernel.GetType());
         }
-
+#endif
 
         [Test]
         public void cross_validation_test()
@@ -486,9 +488,9 @@ namespace Accord.Tests.MachineLearning
                 // Here we can specify the range of the parameters to be included in the search
                 ranges: new
                 {
-                    Complexity = GridSearch.Range(new double[] { 0.00000001, 5.20, 0.30, 0.50 }),
-                    Degree = GridSearch.Range(new int[] { 1, 10, 2, 3, 4, 5 }),
-                    Constant = GridSearch.Range(new double[] { 0, 1, 2 }),
+                    Complexity = GridSearch.Values(0.00000001, 5.20, 0.30, 0.50),
+                    Degree = GridSearch.Values(1, 10, 2, 3, 4, 5),
+                    Constant = GridSearch.Values(0, 1, 2),
                 },
 
                 // Indicate how learning algorithms for the models should be created
@@ -540,6 +542,100 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, bestConstant, 1e-8);
         }
 
+#if !NET35
+        [Test]
+        [Category("Slow")]
+        public void cross_validation_decision_tree()
+        {
+        #region doc_learn_tree_cv
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // This is a sample code showing how to use Grid-Search in combination with 
+            // Cross-Validation  to assess the performance of Decision Trees with C4.5.
+
+            var parkinsons = new Parkinsons();
+            double[][] input = parkinsons.Features;
+            int[] output = parkinsons.ClassLabels;
+
+            // Create a new Grid-Search with Cross-Validation algorithm. Even though the
+            // generic, strongly-typed approach used accross the framework is most of the
+            // time easier to handle, combining those both methods in a single call can be
+            // difficult. For this reason. the framework offers a specialized method for
+            // combining those two algorirthms:
+            var gscv = GridSearch.CrossValidate(
+
+                // Here we can specify the range of the parameters to be included in the search
+                ranges: new
+                {
+                    Join = GridSearch.Range(fromInclusive: 1, toExclusive: 20),
+                    MaxHeight = GridSearch.Range(fromInclusive: 1, toExclusive: 20),
+                },
+
+                // Indicate how learning algorithms for the models should be created
+                learner: (p, ss) => new C45Learning
+                {
+                    // Here, we can use the parameters we have specified above:
+                    Join = p.Join,
+                    MaxHeight = p.MaxHeight,
+                },
+
+                // Define how the model should be learned, if needed
+                fit: (teacher, x, y, w) => teacher.Learn(x, y, w),
+
+                // Define how the performance of the models should be measured
+                loss: (actual, expected, r) => new ZeroOneLoss(expected).Loss(actual),
+
+                folds: 3, // use k = 3 in k-fold cross validation
+
+                x: input, y: output // so the compiler can infer generic types
+            );
+
+            // If needed, control the parallelization degree
+            gscv.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Search for the best decision tree
+            var result = gscv.Learn(input, output);
+
+            // Get the best cross-validation result:
+            var crossValidation = result.BestModel;
+
+            // Get an estimate of its error:
+            double bestAverageError = result.BestModelError;
+
+            double trainError = result.BestModel.Training.Mean;
+            double trainErrorVar = result.BestModel.Training.Variance;
+            double valError = result.BestModel.Validation.Mean;
+            double valErrorVar = result.BestModel.Validation.Variance;
+
+            // Get the best values for the parameters:
+            int bestJoin = result.BestParameters.Join;
+            int bestHeight = result.BestParameters.MaxHeight;
+
+            // Use the best parameter values to create the final 
+            // model using all the training and validation data:
+            var bestTeacher = new C45Learning
+            {
+                Join = bestJoin,
+                MaxHeight = bestHeight,
+            };
+
+            // Use the best parameters to create the final tree model:
+            DecisionTree finalTree = bestTeacher.Learn(input, output);
+        #endregion
+
+            int height = finalTree.GetHeight();
+            Assert.AreEqual(5, height);
+            Assert.AreEqual(22, result.BestModel.NumberOfInputs);
+            Assert.AreEqual(2, result.BestModel.NumberOfOutputs);
+            Assert.AreEqual(195, result.BestModel.NumberOfSamples);
+            Assert.AreEqual(65, result.BestModel.AverageNumberOfSamples);
+            Assert.AreEqual(bestAverageError, valError);
+            Assert.AreEqual(5, bestJoin, 1e-10);
+            Assert.AreEqual(0.1076923076923077, bestAverageError, 1e-8);
+            Assert.AreEqual(5, bestHeight, 1e-8);
+        }
+#endif
 
 
         class Mapper : TransformBase<string, string>
@@ -621,12 +717,12 @@ namespace Accord.Tests.MachineLearning
 
             var ranges = new
             {
-                Parameter1 = GridSearch.Range("parameter 11", "parameter 12"),
-                Parameter2 = GridSearch.Range("parameter 21", "parameter 22", "parameter 23", "parameter 24"),
-                Parameter3 = GridSearch.Range("parameter 31")
+                Parameter1 = GridSearch.Values("parameter 11", "parameter 12"),
+                Parameter2 = GridSearch.Values("parameter 21", "parameter 22", "parameter 23", "parameter 24"),
+                Parameter3 = GridSearch.Values("parameter 31")
             };
 
-            var result = GridSearch.Create(
+            var gs = GridSearch.Create(
 
                 ranges: ranges,
 
@@ -654,10 +750,10 @@ namespace Accord.Tests.MachineLearning
                 },
 
                 x: inputs,
-                y: outputs,
-                weights: weights
+                y: outputs
             );
 
+            var result = gs.Learn(inputs, outputs, weights);
 
             Mapper bestModel = result.BestModel;
             Assert.AreEqual("parameter 12", bestModel.Parameter1);

@@ -27,6 +27,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using Accord.Math.Decompositions;
     using Accord.Statistics.Links;
     using Accord.MachineLearning;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>
@@ -75,6 +76,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
         IRegressionFitting
 #pragma warning restore 612, 618
     {
+        /// <summary>
+        ///   Constructs a new Iterative Reweighted Least Squares.
+        /// </summary>
+        /// 
+        public IterativeReweightedLeastSquares()
+        {
+        }
+
         /// <summary>
         ///   Constructs a new Iterative Reweighted Least Squares.
         /// </summary>

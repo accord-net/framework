@@ -25,15 +25,32 @@ namespace Accord.MachineLearning.Rules
     using Accord.Math;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   A-priori algorithm for association rule mining.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Anita Wasilewska, Lecture Notes. Available on 
+    ///       http://www3.cs.stonybrook.edu/~cse634/lecture_notes/07apriori.pdf </description></item>
+    ///    </list>></para>
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\AprioriTest.cs" region="doc_learn_1" lang="cs"/>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\AprioriTest.cs" region="doc_learn_2" lang="cs"/>
+    /// </example>
+    /// 
+    /// <seealso cref="AssociationRule{T}"/>
+    /// <seealso cref="AssociationRuleMatcher{T}"/>
+    ///
     public class Apriori : Apriori<int>
     {
         /// <summary>
@@ -54,6 +71,8 @@ namespace Accord.MachineLearning.Rules
     ///   A-priori algorithm for association rule mining.
     /// </summary>
     /// 
+    /// <typeparam name="T">The dataset item type. Default is int.</typeparam>
+    /// 
     /// <remarks>
     /// <para>
     ///   References:
@@ -63,6 +82,14 @@ namespace Accord.MachineLearning.Rules
     ///       http://www3.cs.stonybrook.edu/~cse634/lecture_notes/07apriori.pdf </description></item>
     ///    </list>></para>
     /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\AprioriTest.cs" region="doc_learn_1" lang="cs"/>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\AprioriTest.cs" region="doc_learn_2" lang="cs"/>
+    /// </example>
+    /// 
+    /// <seealso cref="AssociationRule{T}"/>
+    /// <seealso cref="AssociationRuleMatcher{T}"/>
     ///
     public class Apriori<T> :
         IUnsupervisedLearning<AssociationRuleMatcher<T>, SortedSet<T>, SortedSet<T>[]>,
@@ -109,7 +136,7 @@ namespace Accord.MachineLearning.Rules
         {
             this.supportMin = threshold;
             this.confidence = confidence;
-            this.frequent = new Dictionary<SortedSet<T>, int>();
+            this.frequent = new Dictionary<SortedSet<T>, int>(new SetComparer());
         }
 
 
@@ -140,9 +167,12 @@ namespace Accord.MachineLearning.Rules
         /// 
         public AssociationRuleMatcher<T> Learn(SortedSet<T>[] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             frequent.Clear();
-            var L = new HashSet<SortedSet<T>>(new Comparer());
-            var counts = new Dictionary<SortedSet<T>, int>(new Comparer());
+            var L = new HashSet<SortedSet<T>>(new SetComparer());
+            var counts = new Dictionary<SortedSet<T>, int>(new SetComparer());
 
             foreach (var t in x)
                 foreach (var s in t)
@@ -223,7 +253,8 @@ namespace Accord.MachineLearning.Rules
         }
 
 
-        private class Comparer : IEqualityComparer<SortedSet<T>>
+        // TODO: Move to a public class
+        internal class SetComparer : IEqualityComparer<SortedSet<T>>
         {
             public bool Equals(SortedSet<T> x, SortedSet<T> y)
             {
@@ -242,7 +273,7 @@ namespace Accord.MachineLearning.Rules
 
         HashSet<SortedSet<T>> fold(HashSet<SortedSet<T>> L, int k)
         {
-            var r = new HashSet<SortedSet<T>>(new Comparer());
+            var r = new HashSet<SortedSet<T>>(new SetComparer());
 
             foreach (var i in L)
             {

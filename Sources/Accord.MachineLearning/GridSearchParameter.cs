@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Contains the name and value of a parameter that should be used during fitting.

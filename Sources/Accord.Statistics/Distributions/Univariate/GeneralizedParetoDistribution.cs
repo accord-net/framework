@@ -29,9 +29,9 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Generalized Pareto distribution (three parameters).
@@ -89,13 +89,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The scale parameter σ (sigma). Must be > 0. Default is 1.</param>
         /// <param name="shape">The shape parameter ξ (Xi). Default is 2.</param>
         /// 
-        public GeneralizedParetoDistribution([Real] double location, [Positive] double scale, [Positive(minimum: 2)] double shape)
+        public GeneralizedParetoDistribution([Real, DefaultValue(0)] double location,
+            [Positive] double scale,
+            [Real, DefaultValue(0)] double shape)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
-
-            if (shape <= 1)
-                throw new ArgumentOutOfRangeException("scale", "Shape must be higher than 1.");
 
             init(location, scale, shape);
         }
@@ -141,7 +140,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <value>The distribution's variance.</value>
         public override double Variance
         {
-            get { return (sigma * sigma) / ((1 - ksi) * (1 - ksi) * (1 - 2 * ksi)); }
+            get
+            {
+                double den = ((1.0 - ksi) * (1.0 - ksi) * 2.0 * (0.5 - ksi));
+                double num = (sigma * sigma);
+                return num / den;
+            }
         }
 
 
@@ -187,9 +191,35 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <value>The distribution's median value.</value>
         public override double Median
         {
-            get { return mu + (sigma * (Math.Pow(2, ksi) - 1) / ksi); }
+            get
+            {
+                if (ksi == 0)
+                    return -Math.Log(0.5) * sigma + mu;
+
+                double m = Math.Pow(2, ksi) - 1;
+                return mu + (sigma * m / ksi);
+            }
         }
 
+        /// <summary>
+        /// Gets the inverse of the cumulative distribution function (icdf) for
+        /// this distribution evaluated at probability <c>p</c>. This function
+        /// is also known as the Quantile function.
+        /// </summary>
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// <returns>A sample which could original the given probability
+        /// value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)" />.</returns>
+        /// <remarks>The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        /// a given probability, the value which the random variable will be at,
+        /// or below, with that probability.</remarks>
+        protected internal override double InnerInverseDistributionFunction(double p)
+        {
+            if (ksi == 0)
+                return -Math.Log(1 - p) * sigma + mu;
+
+            double m = Math.Exp(-ksi * Math.Log(1 - p)) - 1;
+            return m * sigma / ksi + mu;
+        }
 
         /// <summary>
         /// Gets the cumulative distribution function (cdf) for
@@ -201,30 +231,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// probability that a given value or any value smaller than it will occur.</remarks>
         protected internal override double InnerDistributionFunction(double x)
         {
-            // PDF components
             double m = (x - mu) / sigma;
-            double k = 1 + (ksi * m);
-            double l = -1 / ksi;
 
-            // domain logic
-            bool shapePos = ksi > 0;
-            bool shapeNeg = ksi < 0;
-            bool shapeZero = ksi == 0; // special case 
+            if (ksi == 0)
+                return 1 - Math.Exp(-m);
 
-            bool xA = x >= mu;
-            bool xB = x <= (mu - (sigma / ksi));
-
-            bool A = shapePos && xA;
-            bool B = shapeNeg && xA && xB;
-            bool C = shapeZero && xA; // special case
-
-            // CDF function
-            if (A || B)
-                return 1 - Math.Pow(k, l);
-            if (C)
-                return 1 - Math.Exp(-1 * m);
-
-            return 0;
+            return 1 - Math.Pow(1 + (ksi * m), -1 / ksi);
         }
 
 
@@ -239,30 +251,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// probability that a given value <c>x</c> will occur.</remarks>
         protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            // PDF components
             double m = (x - mu) / sigma;
-            double k = 1 + (ksi * m);
-            double l = -1 * ((1 / ksi) + 1);
 
-            // domain logic
-            bool shapePos = ksi > 0;
-            bool shapeNeg = ksi < 0;
-            bool shapeZero = ksi == 0; // special case 
+            if (ksi == 0)
+                return Math.Exp(-m) / sigma;
 
-            bool xA = x >= mu;
-            bool xB = x <= (mu - (sigma / ksi));
-
-            bool A = shapePos && xA;
-            bool B = shapeNeg && xA && xB;
-            bool C = shapeZero && xA; // special case
-
-            // PDF function
-            if (A || B)
-                return Math.Pow(k, l) / sigma;
-            if (C)
-                return Math.Exp(-1 * m) / sigma;
-
-            return 0;
+            return Math.Pow(1 + (ksi * m), -((1 / ksi) + 1)) / sigma;
         }
 
 

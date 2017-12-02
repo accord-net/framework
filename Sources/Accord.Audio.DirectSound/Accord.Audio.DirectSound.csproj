@@ -5,52 +5,81 @@
     <RootNamespace>Accord.Audio.DirectSound</RootNamespace>
     <AssemblyName>Accord.Audio.DirectSound</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />  
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DebugType>Full</DebugType>
-		<Optimize>False</Optimize>
-		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-		<DocumentationFile></DocumentationFile>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
-		<DefineConstants>TRACE;NET35</DefineConstants>
-		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
-		<DefineConstants>TRACE;NET40</DefineConstants>
-		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
-		<DefineConstants>TRACE;NET45</DefineConstants>
-		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
-		<DefineConstants>TRACE;NET46</DefineConstants>
-		<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
-    <DefineConstants>TRACE;NET462</DefineConstants>
-	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
-		<DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	</PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <Choose>
+    <When Condition="'$(Configuration)' == 'net35'">
+      <ItemGroup>
+        <Reference Include="SharpDX">
+          <HintPath>..\..\Externals\SharpDX\v263\net20\SharpDX.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="SharpDX.DirectSound">
+          <HintPath>..\..\Externals\SharpDX\v263\net20\SharpDX.DirectSound.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="'$(Configuration)' == 'net40'">
+      <ItemGroup>
+        <Reference Include="SharpDX">
+          <HintPath>..\..\Externals\SharpDX\v263\net40\SharpDX.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="SharpDX.DirectSound">
+          <HintPath>..\..\Externals\SharpDX\v263\net40\SharpDX.DirectSound.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="SharpDX">
+          <HintPath>..\..\Externals\SharpDX\v401\net45\SharpDX.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="SharpDX.DirectSound">
+          <HintPath>..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
-    <Reference Include="SharpDX">
-      <HintPath Condition="'$(Configuration)' != 'net35' AND '$(Configuration)' != 'net40'">..\..\Externals\SharpDX\v311\net45\SharpDX.dll</HintPath>
-      <HintPath Condition="'$(Configuration)' == 'net35' OR '$(Configuration)' == 'net40'">..\..\Externals\SharpDX\v263\net20\SharpDX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SharpDX.DirectSound">
-      <HintPath Condition="'$(Configuration)' != 'net35' AND '$(Configuration)' != 'net40'">..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.dll</HintPath>
-      <HintPath Condition="'$(Configuration)' == 'net35' OR '$(Configuration)' == 'net40'">..\..\Externals\SharpDX\v263\net20\SharpDX.DirectSound.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -68,9 +97,9 @@
     <Compile Include="AudioOutputDevice.cs" />
     <Compile Include="AudioDeviceInfo.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Formats\WaveEncoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WaveDecoder.cs" />
-    <Compile Include="WaveEncoder.cs" />
+    <Compile Include="Formats\WaveDecoder.cs" />
     <Compile Include="WaveFileAudioSource.cs" />
   </ItemGroup>
   <ItemGroup>

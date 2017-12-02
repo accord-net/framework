@@ -1,3 +1,10 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
 // AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
@@ -8,6 +15,21 @@
 // Copyright © Frank Nagl, 2007
 // admin@franknagl.de
 //
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
 namespace Accord.Imaging
 {
     using System;
@@ -15,6 +37,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using System.Collections.Generic;
     using Accord.Imaging.Filters;
+    using Accord.Compat;
 
     /// <summary>
     /// Susan corners detector.
@@ -63,7 +86,7 @@ namespace Accord.Imaging
     /// 
     /// <seealso cref="MoravecCornersDetector"/>
     /// 
-    public class SusanCornersDetector : ICornersDetector
+    public class SusanCornersDetector : BaseCornersDetector
     {
         // brightness difference threshold
         private int differenceThreshold = 25;
@@ -119,6 +142,10 @@ namespace Accord.Imaging
         /// </summary>
         public SusanCornersDetector()
         {
+            base.SupportedFormats.UnionWith(new[] { PixelFormat.Format8bppIndexed,
+               PixelFormat.Format24bppRgb,
+               PixelFormat.Format32bppRgb,
+               PixelFormat.Format32bppArgb });
         }
 
         /// <summary>
@@ -135,87 +162,12 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        /// Process image looking for corners.
+        /// This method should be implemented by inheriting classes to implement the
+        /// actual corners detection, transforming the input image into a list of points.
         /// </summary>
         /// 
-        /// <param name="image">Source image to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
-        /// 
-        public List<IntPoint> ProcessImage(Bitmap image)
+        protected override List<IntPoint> InnerProcess(UnmanagedImage image)
         {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<IntPoint> corners;
-
-            try
-            {
-                // process the image
-                corners = ProcessImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-
-            return corners;
-        }
-
-        /// <summary>
-        /// Process image looking for corners.
-        /// </summary>
-        /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
-        /// 
-        public List<IntPoint> ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(new UnmanagedImage(imageData));
-        }
-
-        /// <summary>
-        /// Process image looking for corners.
-        /// </summary>
-        /// 
-        /// <param name="image">Unmanaged source image to process.</param>
-        /// 
-        /// <returns>Returns array of found corners (X-Y coordinates).</returns>
-        ///
-        /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
-        /// 
-        public List<IntPoint> ProcessImage(UnmanagedImage image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
             // get source image size
             int width = image.Width;
             int height = image.Height;
@@ -351,17 +303,15 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
-            var clone = new SusanCornersDetector(differenceThreshold, geometricalThreshold);
-            return clone;
+            return new SusanCornersDetector(differenceThreshold, geometricalThreshold)
+            {
+                SupportedFormats = supportedFormats
+            };
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using Accord.Math.Optimization;
     using Accord.MachineLearning;
     using System.Threading;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Conjugate Gradient learning algorithm for <see cref="HiddenConditionalRandomField{T}">

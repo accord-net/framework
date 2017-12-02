@@ -106,6 +106,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializationTest()
         {
@@ -129,7 +130,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
-
+#endif
         [Test]
         public void learn_test()
         {
@@ -213,9 +214,13 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(c2);
         }
 
-        [Test]
+        [Test, Category("Intensive")]
+        [Ignore("Random")] // reproducible parallelization of this test requires #870
         public void learn_pendigits_normalization()
         {
+            Console.WriteLine("Starting BagOfWordsTest.learn_pendigits_normalization");
+            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits1");
+
             using (var travis = new KeepTravisAlive())
             {
                 #region doc_learn_pendigits
@@ -226,7 +231,7 @@ namespace Accord.Tests.MachineLearning
                 Accord.Math.Random.Generator.Seed = 0;
 
                 // Download the PENDIGITS dataset from UCI ML repository
-                var pendigits = new Pendigits(path: Path.GetTempPath());
+                var pendigits = new Pendigits(path: localDownloadPath);
 
                 // Get and pre-process the training set
                 double[][][] trainInputs = pendigits.Training.Item1;
@@ -320,6 +325,8 @@ namespace Accord.Tests.MachineLearning
 
             // Create a Bag-of-Words learning algorithm
             var bow = new BagOfWords<int>();
+
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Use the BoW to create a quantizer
             var quantizer = bow.Learn(sequences);

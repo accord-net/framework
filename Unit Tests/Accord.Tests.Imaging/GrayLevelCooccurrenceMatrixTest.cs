@@ -22,14 +22,16 @@
 
 namespace Accord.Tests.Imaging
 {
+    using Accord.DataSets;
     using Accord.Imaging;
     using Accord.Imaging.Converters;
     using Accord.Math;
+    using Accord.Statistics;
     using NUnit.Framework;
     using Properties;
     using System.Collections.Generic;
     using System.Drawing;
-#if NETSTANDARD2_0
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 
@@ -38,9 +40,37 @@ namespace Accord.Tests.Imaging
     {
 
         [Test]
+        public void learn_dataset()
+        {
+            string localPath = TestContext.CurrentContext.TestDirectory;
+
+            #region doc_learn
+            // Let's load an example image, such as Lena,
+            // from a standard dataset of example images:
+            var images = new TestImages(path: localPath);
+            Bitmap lena = images["lena.bmp"];
+
+            // Create a new gray-level cooccurrence matrix using default parameters
+            var glcm = new GrayLevelCooccurrenceMatrix(distance: 1, degree: CooccurrenceDegree.Degree0, normalize: true);
+
+            // Extract the matrix from the image
+            double[,] matrix = glcm.Compute(lena);
+            #endregion
+
+            double mean = matrix.Mean();
+            double stdDev = matrix.Reshape().StandardDeviation();
+            double width = matrix.Columns();
+            double height = matrix.Rows();
+
+            Assert.AreEqual(1.6659725114535677E-05, mean);
+            Assert.AreEqual(0.00048770834479288511, stdDev);
+            Assert.AreEqual(245, width);
+            Assert.AreEqual(245, height);
+        }
+
+        [Test]
         public void ComputeTest()
         {
-            #region doc_learn
             // Suppose we have an input image
             Bitmap lena = Accord.Imaging.Image.Clone(Resources.lena512);
 
@@ -49,7 +79,6 @@ namespace Accord.Tests.Imaging
 
             // Extract the matrix from the image
             double[,] matrix = glcm.Compute(lena);
-            #endregion
 
             string str = matrix.ToCSharp();
 

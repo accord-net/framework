@@ -23,6 +23,7 @@
 namespace Accord.Audio.Filters
 {
     using System.Collections.Generic;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -57,7 +58,7 @@ namespace Accord.Audio.Filters
         protected unsafe override void ProcessFilter(Signal sourceData, Signal destinationData)
         {
             SampleFormat format = sourceData.SampleFormat;
-            int samples = sourceData.Samples;
+            int samples = sourceData.NumberOfSamples;
 
             if (format == SampleFormat.Format32BitIeeeFloat)
             {

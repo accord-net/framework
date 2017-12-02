@@ -36,6 +36,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ConstructorTest4()
         {
+            #region doc_fit_epanechnikov
             // Suppose we have the following data, and we would
             // like to estimate a distribution from this data
 
@@ -68,7 +69,7 @@ namespace Accord.Tests.Statistics
             double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 }); // 0.010212109770266639
             double pdf3 = dist.ProbabilityDensityFunction(new double[] { 5, 7 }); // 0.02891906722705221
             double lpdf = dist.LogProbabilityDensityFunction(new double[] { 5, 7 }); // -3.5432541357714742
-
+            #endregion
 
             Assert.AreEqual(3.7142857142857144, mean[0]);
             Assert.AreEqual(2.0, mean[1]);
@@ -84,6 +85,68 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.010212109770266639, pdf2);
             Assert.AreEqual(0.02891906722705221, pdf3);
             Assert.AreEqual(-3.5432541357714742, lpdf);
+        }
+
+        [Test]
+        public void fit_gaussian_test()
+        {
+            #region doc_fit_gaussian
+            // Suppose we have the following data, and we would
+            // like to estimate a distribution from this data
+
+            double[][] samples =
+            {
+                new double[] { 0, 1 },
+                new double[] { 1, 2 },
+                new double[] { 5, 1 },
+                new double[] { 7, 1 },
+                new double[] { 6, 1 },
+                new double[] { 5, 7 },
+                new double[] { 2, 1 },
+            };
+
+            // Start by specifying a density kernel
+            IDensityKernel kernel = new GaussianKernel(dimension: 2);
+
+            // The density kernel gives a window function centered in a particular sample. 
+            // By creating one of those windows for each sample, we can achieve an empirical 
+            // multivariate distribution function. An output example for a single Gaussian 
+            // kernel would be:
+            double z = kernel.Function(new double[] { 0, 1 }); // should be 0.096532352630053914
+
+
+            // Create a multivariate Empirical distribution from the samples
+            var dist = new MultivariateEmpiricalDistribution(kernel, samples);
+
+            // Common measures
+            double[] mean = dist.Mean;       // { 3.71, 2.00 }
+            double[] median = dist.Median;   // { 3.71, 2.00 }
+            double[] var = dist.Variance;    // { 7.23, 5.00 } (diagonal from cov)
+            double[,] cov = dist.Covariance; // { { 7.23, 0.83 }, { 0.83, 5.00 } }
+
+            // Probability mass functions
+            double pdf1 = dist.ProbabilityDensityFunction(new double[] { 2, 1 });    // 0.017657515909330332
+            double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 });    // 0.011581172997320841
+            double pdf3 = dist.ProbabilityDensityFunction(new double[] { 5, 7 });    // 0.0072297668067630525
+            double lpdf = dist.LogProbabilityDensityFunction(new double[] { 5, 7 }); // -4.929548496891365
+            #endregion
+
+            Assert.AreEqual(0.096532352630053914, z);
+
+            Assert.AreEqual(3.7142857142857144, mean[0]);
+            Assert.AreEqual(2.0, mean[1]);
+            Assert.AreEqual(3.7142857142857144, median[0]);
+            Assert.AreEqual(2.0, median[1]);
+            Assert.AreEqual(7.2380952380952381, var[0]);
+            Assert.AreEqual(5.0, var[1]);
+            Assert.AreEqual(7.2380952380952381, cov[0, 0]);
+            Assert.AreEqual(0.83333333333333337, cov[0, 1]);
+            Assert.AreEqual(0.83333333333333337, cov[1, 0]);
+            Assert.AreEqual(5.0, cov[1, 1]);
+            Assert.AreEqual(0.017657515909330332, pdf1);
+            Assert.AreEqual(0.011581172997320841, pdf2);
+            Assert.AreEqual(0.0072297668067630525, pdf3);
+            Assert.AreEqual(-4.929548496891365, lpdf);
         }
 
 
@@ -134,7 +197,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest2()
         {
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 0.1000, -0.2000 },
                 new double[] { 0.4000,  0.6000 },
@@ -154,16 +217,17 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Slow")]
         public void GenerateTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
             double[] mean = { 2, 6 };
 
-            double[,] cov = 
+            double[,] cov =
             {
                 { 2, 1 },
-                { 1, 5 } 
+                { 1, 5 }
             };
 
             var normal = new MultivariateNormalDistribution(mean, cov);
@@ -199,7 +263,7 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = kernel.Function((i - 5) / 10.0);
 
-            double[] expected = 
+            double[] expected =
             {
                 0.5625, 0.63, 0.6825, 0.72, 0.74249999999999994,
                 0.75,
@@ -310,7 +374,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void WeightedEmpiricalDistribution_DistributionFunction()
         {
-            double[][] samples = 
+            double[][] samples =
             {
                 new double[] { 5, 2 },
                 new double[] { 1, 5 },
@@ -329,11 +393,11 @@ namespace Accord.Tests.Statistics
 
             var target = new MultivariateEmpiricalDistribution(samples);
 
-            double[] expected = 
+            double[] expected =
             {
                0.33333333333333331, 0.083333333333333329, 0.83333333333333337,
                0.16666666666666666, 0.083333333333333329, 0.41666666666666669,
-               0.91666666666666663, 0.25, 0.5, 
+               0.91666666666666663, 0.25, 0.5,
                0.66666666666666663, 0.16666666666666666, 0.083333333333333329
             };
 

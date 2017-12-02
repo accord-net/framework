@@ -61,6 +61,23 @@ namespace Accord.Math
     /// 
     public static class Constants
     {
+        /// <summary>
+        ///   The number one (1).
+        /// </summary>
+        /// 
+        public static T One<T>()
+        {
+            return 1.To<T>();
+        }
+
+        /// <summary>
+        ///   The number zero (0).
+        /// </summary>
+        /// 
+        public static T Zero<T>()
+        {
+            return 0.To<T>();
+        }
 
         /// <summary>
         ///   Euler-Mascheroni constant.

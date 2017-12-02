@@ -20,9 +20,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.Statistics.Filters
 {
+    using Accord.MachineLearning;
+    using Accord.Math;
     using System;
+    using System.Collections.Generic;
     using System.Data;
 
     /// <summary>
@@ -57,9 +61,8 @@ namespace Accord.Statistics.Filters
     /// </example>
     /// 
     [Serializable]
-    public class Discretization : BaseFilter<Discretization.Options>, IAutoConfigurableFilter
+    public class Discretization : BaseFilter<Discretization.Options, Discretization>, IAutoConfigurableFilter
     {
-
         /// <summary>
         ///   Creates a new Discretization filter.
         /// </summary>
@@ -137,12 +140,14 @@ namespace Accord.Statistics.Filters
             }
         }
 
+
+
         /// <summary>
         ///   Options for the discretization filter.
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase
+        public class Options : ColumnOptionsBase<Discretization>
         {
             /// <summary>
             ///   Gets or sets the threshold for the discretization filter.
@@ -188,4 +193,6 @@ namespace Accord.Statistics.Filters
             }
         }
     }
+
 }
+#endif

@@ -26,10 +26,8 @@ namespace Accord.Statistics.Distributions.Reflection
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Discovers the parameters of a <see cref="IDistribution">probability distribution</see>
@@ -119,7 +117,11 @@ namespace Accord.Statistics.Distributions.Reflection
             var attrb = parameter.GetCustomAttribute<RangeAttribute>();
             if (attrb == null)
             {
+#if NETSTANDARD
+                if (!parameter.ParameterType.GetTypeInfo().IsEnum)
+#else
                 if (!parameter.ParameterType.IsEnum)
+#endif
                     return false;
 
                 Array enumValues = Enum.GetValues(parameter.ParameterType);

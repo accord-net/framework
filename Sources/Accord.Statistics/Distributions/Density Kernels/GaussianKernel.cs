@@ -23,12 +23,22 @@
 namespace Accord.Statistics.Distributions.DensityKernels
 {
     using System;
+    using Accord.Compat;
+    using Accord.Statistics.Kernels;
+    using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions.Multivariate;
 
     /// <summary>
     ///   Gaussian density kernel.
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
+    ///   This class provides a Gaussian density kernel (not to be confused
+    ///   with a <see cref="Gaussian"/> kernel function) to be used in density
+    ///   estimation models (i.e. <see cref="EmpiricalDistribution"/>) and 
+    ///   clustering algorithms (i.e. MeanShift.</para>
+    /// 
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -47,7 +57,16 @@ namespace Accord.Statistics.Distributions.DensityKernels
     ///   </list></para>
     /// </remarks>
     ///
+    /// <example>
+    /// <para>
+    ///   The following example shows how to fit a <see cref="MultivariateEmpiricalDistribution"/> 
+    ///   using <see cref="GaussianKernel">Gaussian kernels</see>:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" region="doc_fit_gaussian" />
+    /// </example>
+    /// 
     /// <seealso cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution"/>
+    /// <seealso cref="EpanechnikovKernel"/>
+    /// <seealso cref="UniformKernel"/>
     ///
     [Serializable]
     public class GaussianKernel : IRadiallySymmetricKernel

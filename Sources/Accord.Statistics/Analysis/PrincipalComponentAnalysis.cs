@@ -30,7 +30,7 @@ namespace Accord.Statistics.Analysis
     using Accord.MachineLearning;
     using Accord.Statistics.Analysis.Base;
     using Accord.Statistics.Models.Regression.Linear;
-
+    using Accord.Compat;
 
     /// <summary>
     ///   Principal component analysis (PCA) is a technique used to reduce
@@ -98,7 +98,7 @@ namespace Accord.Statistics.Analysis
 #pragma warning disable 612, 618
     public class PrincipalComponentAnalysis : BasePrincipalComponentAnalysis, ITransform<double[], double[]>,
         IUnsupervisedLearning<MultivariateLinearRegression, double[], double[]>,
- IMultivariateAnalysis, IProjectionAnalysis
+        IMultivariateAnalysis, IProjectionAnalysis
 #pragma warning restore 612, 618
     {
 
@@ -190,35 +190,66 @@ namespace Accord.Statistics.Analysis
 
             if (Method == PrincipalComponentMethod.Center || Method == PrincipalComponentMethod.Standardize)
             {
-                this.Means = x.Mean(dimension: 0);
-
-                double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
-                x.Subtract(Means, dimension: 0, result: matrix);
-
-                if (Method == PrincipalComponentMethod.Standardize)
+                if (weights == null)
                 {
-                    this.StandardDeviations = x.StandardDeviation(Means);
-                    matrix.Divide(StandardDeviations, dimension: 0, result: matrix);
+                    this.Means = x.Mean(dimension: 0);
+
+                    double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
+                    x.Subtract(Means, dimension: (VectorType)0, result: matrix);
+
+                    if (Method == PrincipalComponentMethod.Standardize)
+                    {
+                        this.StandardDeviations = x.StandardDeviation(Means);
+                        matrix.Divide(StandardDeviations, dimension: (VectorType)0, result: matrix);
+                    }
+
+                    //  The principal components of 'Source' are the eigenvectors of Cov(Source). Thus if we
+                    //  calculate the SVD of 'matrix' (which is Source standardized), the columns of matrix V
+                    //  (right side of SVD) will be the principal components of Source.                        
+
+                    // Perform the Singular Value Decomposition (SVD) of the matrix
+                    var svd = new JaggedSingularValueDecomposition(matrix,
+                        computeLeftSingularVectors: false,
+                        computeRightSingularVectors: true,
+                        autoTranspose: true, inPlace: true);
+
+                    SingularValues = svd.Diagonal;
+                    Eigenvalues = SingularValues.Pow(2);
+                    Eigenvalues.Divide(x.Rows() - 1, result: Eigenvalues);
+                    ComponentVectors = svd.RightSingularVectors.Transpose();
                 }
+                else
+                {
+                    this.Means = x.WeightedMean(weights: weights);
 
-                //  The principal components of 'Source' are the eigenvectors of Cov(Source). Thus if we
-                //  calculate the SVD of 'matrix' (which is Source standardized), the columns of matrix V
-                //  (right side of SVD) will be the principal components of Source.                        
+                    double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
+                    x.Subtract(Means, dimension: (VectorType)0, result: matrix);
 
-                // Perform the Singular Value Decomposition (SVD) of the matrix
-                var svd = new JaggedSingularValueDecomposition(matrix,
-                    computeLeftSingularVectors: false,
-                    computeRightSingularVectors: true,
-                    autoTranspose: true, inPlace: true);
+                    if (Method == PrincipalComponentMethod.Standardize)
+                    {
+                        this.StandardDeviations = x.WeightedStandardDeviation(weights, Means);
+                        matrix.Divide(StandardDeviations, dimension: (VectorType)0, result: matrix);
+                    }
 
-                SingularValues = svd.Diagonal;
-                Eigenvalues = SingularValues.Pow(2);
-                Eigenvalues.Divide(x.Rows() - 1, result: Eigenvalues);
-                ComponentVectors = svd.RightSingularVectors.Transpose();
+                    double[,] cov = x.WeightedCovariance(weights, Means);
+
+                    // Perform the Eigenvalue Decomposition of the covariance
+                    // We only have the covariance matrix. Compute the Eigenvalue decomposition
+                    var evd = new EigenvalueDecomposition(cov,
+                        assumeSymmetric: true, sort: true);
+
+                    // Gets the Eigenvalues and corresponding Eigenvectors
+                    Eigenvalues = evd.RealEigenvalues;
+                    SingularValues = Eigenvalues.Sqrt();
+                    ComponentVectors = Jagged.Transpose(evd.Eigenvectors);
+                }
             }
             else if (Method == PrincipalComponentMethod.CovarianceMatrix
                   || Method == PrincipalComponentMethod.CorrelationMatrix)
             {
+                if (weights != null)
+                    throw new Exception();
+
                 // We only have the covariance matrix. Compute the Eigenvalue decomposition
                 var evd = new JaggedEigenvalueDecomposition(x,
                     assumeSymmetric: true, sort: true);
@@ -235,7 +266,7 @@ namespace Accord.Statistics.Analysis
             }
 
             if (Whiten)
-                ComponentVectors.Divide(SingularValues, dimension: 1, result: ComponentVectors);
+                ComponentVectors.Divide(SingularValues, dimension: (VectorType)1, result: ComponentVectors);
 
             // Computes additional information about the analysis and creates the
             //  object-oriented structure to hold the principal components found.
@@ -248,7 +279,7 @@ namespace Accord.Statistics.Analysis
         {
             double[][] weights = ComponentVectors;
             if (Method == PrincipalComponentMethod.Standardize || Method == PrincipalComponentMethod.CorrelationMatrix)
-                weights = weights.Divide(StandardDeviations, dimension: 0);
+                weights = weights.Divide(StandardDeviations, dimension: (VectorType)0);
 
             double[] bias = weights.Dot(Means).Multiply(-1);
 
@@ -431,9 +462,9 @@ namespace Accord.Statistics.Analysis
             // if the data has been standardized or centered,
             //  we need to revert those operations as well
             if (this.Method == PrincipalComponentMethod.Standardize || this.Method == PrincipalComponentMethod.CorrelationMatrix)
-                reversion.Multiply(StandardDeviations, dimension: 0, result: reversion);
+                reversion.Multiply(StandardDeviations, dimension: (VectorType)0, result: reversion);
 
-            reversion.Add(Means, dimension: 0, result: reversion);
+            reversion.Add(Means, dimension: (VectorType)0, result: reversion);
             return reversion;
         }
 

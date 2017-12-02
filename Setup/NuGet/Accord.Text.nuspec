@@ -15,7 +15,7 @@
       Contains Snowball language stemmers for C#/.NET. This package is part of the Accord.NET Framework.
     </description>
     <summary>Snowball language stemmers for C#/.NET.</summary>
-    <tags>accord.net aforge.net text tf-idf snowball stemmer nlp natural language processing</tags>
+    <tags>accord.net aforge.net text tf-idf snowball stemmer nlp natural language processing unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"            version="$version$" />
       <dependency id="Accord.Math"       version="$version$" />
@@ -23,6 +23,18 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.Text.dll" target="lib\net35-unity full v3.5\Accord.Text.dll" />
+    <file src="..\..\Release\net35\Accord.Text.xml" target="lib\net35-unity full v3.5\Accord.Text.xml" />
+
+    <file src="..\..\Release\net35\Accord.Text.dll" target="lib\net35-unity subset v3.5\Accord.Text.dll" />
+    <file src="..\..\Release\net35\Accord.Text.xml" target="lib\net35-unity subset v3.5\Accord.Text.xml" />
+
+    <file src="..\..\Release\net35\Accord.Text.dll" target="lib\net35-unity web v3.5\Accord.Text.dll" />
+    <file src="..\..\Release\net35\Accord.Text.xml" target="lib\net35-unity web v3.5\Accord.Text.xml" />
+
+    <file src="..\..\Release\net35\Accord.Text.dll" target="lib\net35-unity micro v3.5\Accord.Text.dll" />
+    <file src="..\..\Release\net35\Accord.Text.xml" target="lib\net35-unity micro v3.5\Accord.Text.xml" />
+
     <file src="..\..\Release\net35\Accord.Text.dll" target="lib\net35\Accord.Text.dll" />
     <file src="..\..\Release\net35\Accord.Text.xml" target="lib\net35\Accord.Text.xml" />
 
@@ -31,14 +43,17 @@
 
     <file src="..\..\Release\net45\Accord.Text.dll" target="lib\net45\Accord.Text.dll" />
     <file src="..\..\Release\net45\Accord.Text.xml" target="lib\net45\Accord.Text.xml" />
-	
-	<file src="..\..\Release\net46\Accord.Text.dll" target="lib\net46\Accord.Text.dll" />
+
+    <file src="..\..\Release\net46\Accord.Text.dll" target="lib\net46\Accord.Text.dll" />
     <file src="..\..\Release\net46\Accord.Text.xml" target="lib\net46\Accord.Text.xml" />
-	
-	<file src="..\..\Release\net462\Accord.Text.dll" target="lib\net462\Accord.Text.dll" />
+
+    <file src="..\..\Release\net462\Accord.Text.dll" target="lib\net462\Accord.Text.dll" />
     <file src="..\..\Release\net462\Accord.Text.xml" target="lib\net462\Accord.Text.xml" />
-	
-	<file src="..\..\Release\netstandard2.0\Accord.Text.dll" target="lib\netstandard2.0\Accord.Text.dll" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.Text.dll" target="lib\netstandard2.0\Accord.Text.dll" />
     <file src="..\..\Release\netstandard2.0\Accord.Text.xml" target="lib\netstandard2.0\Accord.Text.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.Text.dll" target="lib\netstandard1.4\Accord.Text.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Text.xml" target="lib\netstandard1.4\Accord.Text.xml" />
   </files>
 </package>

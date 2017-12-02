@@ -43,9 +43,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample1.jpg" width="480" height="361" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/ycbcr_replace_channel.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\ycbcr_replace_channel.jpg" width="480" height="361" />
     /// </remarks>
     /// 
     /// <seealso cref="YCbCrExtractChannel"/>
@@ -276,7 +276,7 @@ namespace Accord.Imaging.Filters
                     rgb.Blue = dst[RGB.B];
 
                     // convert to YCbCr
-                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ref ycbcr);
 
                     switch (channel)
                     {
@@ -294,7 +294,7 @@ namespace Accord.Imaging.Filters
                     }
 
                     // convert back to RGB
-                    Accord.Imaging.YCbCr.ToRGB(ycbcr, rgb);
+                    Accord.Imaging.YCbCr.ToRGB(ycbcr, ref rgb);
 
                     dst[RGB.R] = rgb.Red;
                     dst[RGB.G] = rgb.Green;

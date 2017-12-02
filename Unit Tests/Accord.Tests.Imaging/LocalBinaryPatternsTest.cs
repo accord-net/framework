@@ -26,6 +26,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Converters;
     using NUnit.Framework;
+    using Accord.DataSets;
+    using System.Drawing;
+    using System.Linq;
 
     [TestFixture]
     public class LocalBinaryPatternTest
@@ -96,6 +99,33 @@ namespace Accord.Tests.Imaging
 
             Assert.AreEqual(196, result.Count);
         }
+
+        [Test]
+        public void doc_test()
+        {
+            string localPath = TestContext.CurrentContext.TestDirectory;
+
+            #region doc_apply
+            // Let's load an example image, such as Lena,
+            // from a standard dataset of example images:
+            var images = new TestImages(path: localPath);
+            Bitmap lena = images["lena.bmp"];
+
+            // Create a new Local Binary Pattern with default values:
+            var lbp = new LocalBinaryPattern(blockSize: 3, cellSize: 6);
+
+            // Use it to extract descriptors from the Lena image:
+            List<double[]> descriptors = lbp.ProcessImage(lena);
+
+            // Now those descriptors can be used to represent the image itself, such
+            // as for example, in the Bag-of-Visual-Words approach for classification.
+            #endregion
+
+            Assert.AreEqual(784, descriptors.Count);
+            double sum = descriptors.Sum(x => x.Sum());
+            Assert.AreEqual(6094.543992693033, sum, 1e-10);
+        }
+
 
     }
 }

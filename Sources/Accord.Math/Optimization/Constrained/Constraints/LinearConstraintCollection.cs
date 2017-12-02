@@ -147,9 +147,11 @@ namespace Accord.Math.Optimization
         /// 
         /// <param name="a">The constraint matrix.</param>
         /// <param name="b">The constraint values.</param>
-        /// <param name="meq">The number of inequalities 
-        ///   at the start of the matrix <paramref name="a"/>.</param>
+        /// <param name="meq">The number of equalities at the start of the 
+        /// matrix <paramref name="a"/>. Contraints thereafter are taken to be
+        /// less than or equal to the constraint values.</param>
         /// 
+        [Obsolete("This method is obsolete because the convention is inconsistent with GoldfarbIdnani. Use Create(...) instead.")]
         public static LinearConstraintCollection FromMatrix(double[,] a, double[] b, int meq)
         {
             int numberOfVariables = a.GetLength(1);
@@ -170,5 +172,36 @@ namespace Accord.Math.Optimization
             return new LinearConstraintCollection(constraints);
         }
 
+        /// <summary>
+        ///   Creates a <see cref="LinearConstraintCollection"/> from a matrix
+        ///   specifying the constraint variables and a vector specifying their
+        ///   expected value.
+        /// </summary>
+        /// 
+        /// <param name="a">The constraint matrix.</param>
+        /// <param name="b">The constraint values.</param>
+        /// <param name="meq">The number of equalities at the start of the 
+        /// matrix <paramref name="a"/>. Contraints thereafter are taken to be
+        /// greater than or equal to the constraint values.</param>
+        /// 
+        public static LinearConstraintCollection Create(double[,] a, double[] b, int meq)
+        {
+            int numberOfVariables = a.GetLength(1);
+            int numberOfConstraints = a.GetLength(0);
+
+            var constraints = new LinearConstraint[numberOfConstraints];
+            for (int i = 0; i < constraints.Length; i++)
+            {
+                constraints[i] = new LinearConstraint(numberOfVariables);
+                a.GetRow(i, result: constraints[i].CombinedAs);
+                if (i < meq)
+                    constraints[i].ShouldBe = ConstraintType.EqualTo;
+                else
+                    constraints[i].ShouldBe = ConstraintType.GreaterThanOrEqualTo;
+                constraints[i].Value = b[i];
+            }
+
+            return new LinearConstraintCollection(constraints);
+        }
     }
 }

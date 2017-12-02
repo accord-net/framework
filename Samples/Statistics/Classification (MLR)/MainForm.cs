@@ -43,6 +43,7 @@ using Accord.Statistics;
 using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
+using Accord.Statistics.Models.Regression;
 
 namespace Classification.MLR
 {
@@ -139,11 +140,9 @@ namespace Classification.MLR
             DoubleRange[] ranges = table.GetRange(0);
 
             // Generate a Cartesian coordinate system
-            double[][] map = Matrix.Cartesian(
-                Vector.Interval(ranges[0], 0.05),
-                Vector.Interval(ranges[1], 0.05));
+            double[][] map = Matrix.Mesh(ranges[0], 200, ranges[1], 200);
 
-            var lr = mlr.Regression;
+            MultinomialLogisticRegression lr = mlr.Regression;
 
             // Classify each point in the Cartesian coordinate system
             double[] result = lr.Decide(map).ToDouble();

@@ -32,6 +32,7 @@ namespace Accord.Imaging
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -46,7 +47,7 @@ namespace Accord.Imaging
     /// <para>
     ///   The bag-of-words (BoW) model can be used to extract finite
     ///   length features from otherwise varying length representations.
-    ///   This class can uses any <see cref="IFeatureDetector{TPoint}">feature
+    ///   This class can uses any <see cref="IImageFeatureExtractor{TPoint}">feature
     ///   detector</see> to determine a coded representation for a given image.</para>
     ///   
     /// <para>
@@ -67,34 +68,33 @@ namespace Accord.Imaging
     public class BagOfVisualWords<TPoint> :
         BaseBagOfVisualWords<BagOfVisualWords<TPoint>,
             TPoint, double[],
-            //IClusteringAlgorithm<double[]>,
             IUnsupervisedLearning<IClassifier<double[], int>, double[], int>,
-            IFeatureDetector<TPoint, double[]>>
+            IImageFeatureExtractor<TPoint>>
         where TPoint : IFeatureDescriptor<double[]>
     {
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
         /// </summary>
         /// 
-        /// <param name="detector">The feature detector to use.</param>
+        /// <param name="extractor">The feature extractor to use.</param>
         /// <param name="numberOfWords">The number of codewords.</param>
         /// 
-        public BagOfVisualWords(IFeatureDetector<TPoint> detector, int numberOfWords)
+        public BagOfVisualWords(IImageFeatureExtractor<TPoint> extractor, int numberOfWords)
         {
-            base.Init(detector, base.KMeans(numberOfWords));
+            base.Init(extractor, BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
         /// </summary>
         /// 
-        /// <param name="detector">The feature detector to use.</param>
+        /// <param name="extractor">The feature extractor to use.</param>
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(IFeatureDetector<TPoint> detector, //IClusteringAlgorithm<double[]> 
+        public BagOfVisualWords(IImageFeatureExtractor<TPoint> extractor, //IClusteringAlgorithm<double[]> 
             IUnsupervisedLearning<IClassifier<double[], int>, double[], int> algorithm)
         {
-            base.Init(detector, algorithm);
+            base.Init(extractor, algorithm);
         }
 
     }

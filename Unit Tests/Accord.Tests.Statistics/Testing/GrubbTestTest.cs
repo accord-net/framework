@@ -34,7 +34,7 @@ namespace Accord.Tests.Statistics
     {
 
         [Test]
-        public void TTestConstructorTest()
+        public void grubb_test_success()
         {
             // http://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
 
@@ -55,6 +55,33 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.5013193443991213E-07, target.PValue);
             Assert.IsTrue(target.Significant);
         }
+
+        [Test]
+        public void grubb_test_change_size()
+        {
+            // https://github.com/accord-net/framework/issues/759
+
+            double[] sample =
+            {
+                199.31, 199.53, 200.19, 200.82, 201.92, 201.95, 202.18, 245.57
+            };
+
+            // Null Hypothesis: there are no outliers in the data
+            // Alternative    : there is at least one outlier
+
+            var target = new GrubbTest(sample, GrubbTestHypothesis.TheMaximumIsAnOutlier)
+            {
+                Size = 1e-8
+            };
+
+            Assert.AreEqual(2.4687646112124519, target.Statistic);
+            Assert.AreEqual(GrubbTestHypothesis.TheMaximumIsAnOutlier, target.Hypothesis);
+            Assert.AreEqual(DistributionTail.OneUpper, target.Tail);
+            Assert.AreEqual(2.4723982413556524, target.CriticalValue);
+            Assert.AreEqual(1.5013193443991213E-07, target.PValue);
+            Assert.IsFalse(target.Significant);
+        }
+
 
         [Test]
         public void TTestConstructorTest2()

@@ -24,8 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
-    using AForge.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

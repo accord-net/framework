@@ -24,6 +24,7 @@ namespace Accord.Audio.ComplexFilters
 {
     using Accord.Audio;
     using Accord.Audio.Generators;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -113,7 +114,7 @@ namespace Accord.Audio.ComplexFilters
         /// 
         protected override void ProcessFilter(ComplexSignal sourceData, ComplexSignal destinationData)
         {
-            int samples = sourceData.Samples;
+            int samples = sourceData.NumberOfSamples;
 
             unsafe
             {

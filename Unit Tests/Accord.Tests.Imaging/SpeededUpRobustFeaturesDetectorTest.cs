@@ -22,13 +22,16 @@
 
 namespace Accord.Tests.Imaging
 {
+    using Accord.DataSets;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Math;
     using Accord.Tests.Imaging.Properties;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
-#if NETSTANDARD2_0
+    using System.Linq;
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 
@@ -49,6 +52,35 @@ namespace Accord.Tests.Imaging
             };
 
             return images;
+        }
+
+        [Test]
+        public void doc_test()
+        {
+            string localPath = TestContext.CurrentContext.TestDirectory;
+
+            #region doc_apply
+            // Let's load an example image, such as Lena,
+            // from a standard dataset of example images:
+            var images = new TestImages(path: localPath);
+            Bitmap lena = images["lena.bmp"];
+
+            // Create a new SURF with the default parameter values:
+            var surf = new SpeededUpRobustFeaturesDetector(threshold: 0.0002f, octaves: 5, initial: 2);
+
+            // Use it to extract the SURF point descriptors from the Lena image:
+            List<SpeededUpRobustFeaturePoint> descriptors = surf.ProcessImage(lena);
+
+            // We can obtain the actual double[] descriptors using
+            double[][] features = descriptors.Apply(d => d.Descriptor);
+
+            // Now those descriptors can be used to represent the image itself, such
+            // as for example, in the Bag-of-Visual-Words approach for classification.
+            #endregion
+
+            Assert.AreEqual(523, descriptors.Count);
+            double sum = features.Sum(x => x.Sum());
+            Assert.AreEqual(2340.9402310500964, sum, 1e-10);
         }
 
         [Test]

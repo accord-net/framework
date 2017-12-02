@@ -25,6 +25,7 @@ namespace Accord.Audio
     using System;
     using System.Runtime.InteropServices;
     using Accord.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -144,7 +145,7 @@ namespace Accord.Audio
         ///   Constructs a new Complex Signal
         /// </summary>
         /// 
-        public ComplexSignal(byte[] data, int channels, int length, int sampleRate)
+        public ComplexSignal(Array data, int channels, int length, int sampleRate)
             : this(data, channels, length, sampleRate, ComplexSignalStatus.Normal)
         {
         }
@@ -153,9 +154,13 @@ namespace Accord.Audio
         ///   Constructs a new Complex Signal
         /// </summary>
         /// 
-        public ComplexSignal(byte[] data, int channels, int length, int sampleRate, ComplexSignalStatus status)
+        public ComplexSignal(Array data, int channels, int length, int sampleRate, ComplexSignalStatus status)
             : base(data, channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
+            // check signal size
+            if (!Accord.Math.Tools.IsPowerOf2(length))
+                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
+
             this.status = status;
         }
 
@@ -166,6 +171,10 @@ namespace Accord.Audio
         public ComplexSignal(int channels, int length, int sampleRate)
             : base(channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
+            // check signal size
+            if (!Accord.Math.Tools.IsPowerOf2(length))
+                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
+
         }
 
 
@@ -176,12 +185,19 @@ namespace Accord.Audio
         /// 
         public Complex[,] ToArray()
         {
-            Complex[,] array = new Complex[Length, Channels];
+            Complex[,] array = new Complex[NumberOfFrames, NumberOfChannels];
 
-            GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            IntPtr pointer = handle.AddrOfPinnedObject();
-            Marshal.Copy(RawData, 0, pointer, array.Length * Marshal.SizeOf(typeof(Complex)));
-            handle.Free();
+            unsafe
+            {
+                fixed (Complex* ptrArray = array)
+                {
+                    Complex* src = (Complex*)Data;
+                    Complex* dst = ptrArray;
+
+                    for (int i = 0; i < array.Length; i++, src++, dst++)
+                        *dst = *src;
+                }
+            }
 
             return array;
         }
@@ -201,8 +217,8 @@ namespace Accord.Audio
         /// 
         public Complex[] GetChannel(int channel)
         {
-            Complex[] array = new Complex[Length];
-            int channels = Channels;
+            Complex[] array = new Complex[NumberOfFrames];
+            int channels = NumberOfChannels;
             int length = Length;
 
             unsafe
@@ -226,8 +242,8 @@ namespace Accord.Audio
         /// 
         private void SetChannel(int channel, Complex[] samples)
         {
-            int channels = Channels;
-            int length = Length;
+            int channels = NumberOfChannels;
+            int length = NumberOfFrames;
 
             unsafe
             {
@@ -253,7 +269,7 @@ namespace Accord.Audio
             if (status == ComplexSignalStatus.Normal ||
                 status == ComplexSignalStatus.Analytic)
             {
-                for (int i = 0; i < Channels; i++)
+                for (int i = 0; i < NumberOfChannels; i++)
                 {
                     Complex[] channel = GetChannel(i);
                     FourierTransform.FFT(channel, FourierTransform.Direction.Forward);
@@ -271,7 +287,7 @@ namespace Accord.Audio
         {
             if (status == ComplexSignalStatus.FourierTransformed)
             {
-                for (int i = 0; i < Channels; i++)
+                for (int i = 0; i < NumberOfChannels; i++)
                 {
                     Complex[] channel = GetChannel(i);
                     FourierTransform.FFT(channel, FourierTransform.Direction.Backward);
@@ -288,7 +304,7 @@ namespace Accord.Audio
         {
             if (status == ComplexSignalStatus.Normal)
             {
-                for (int c = 0; c < Channels; c++)
+                for (int c = 0; c < NumberOfChannels; c++)
                 {
                     Complex[] channel = GetChannel(c);
                     HilbertTransform.FHT(channel, FourierTransform.Direction.Forward);
@@ -305,7 +321,7 @@ namespace Accord.Audio
         {
             if (status == ComplexSignalStatus.Analytic)
             {
-                for (int c = 0; c < Channels; c++)
+                for (int c = 0; c < NumberOfChannels; c++)
                 {
                     Complex[] channel = GetChannel(c);
                     HilbertTransform.FHT(channel, FourierTransform.Direction.Backward);
@@ -331,18 +347,17 @@ namespace Accord.Audio
         {
             if (signal.SampleFormat == SampleFormat.Format32BitIeeeFloat)
             {
-                float[] buffer = new float[signal.Samples];
+                float[] buffer = new float[signal.NumberOfSamples];
                 Marshal.Copy(signal.Data, buffer, 0, buffer.Length);
 
-                float[,] data = new float[signal.Length, signal.Channels];
-                Buffer.BlockCopy(buffer, 0, data, 0, signal.Samples * sizeof(float));
+                float[,] data = new float[signal.Length, signal.NumberOfChannels];
+                Buffer.BlockCopy(buffer, 0, data, 0, signal.NumberOfSamples * sizeof(float));
 
                 return FromArray(data, signal.SampleRate);
             }
             else if (signal.SampleFormat == SampleFormat.Format128BitComplex)
             {
-                return new ComplexSignal(signal.RawData, signal.Channels,
-                    signal.Length, signal.SampleRate);
+                return new ComplexSignal(signal.InnerData, signal.NumberOfChannels, signal.Length, signal.SampleRate);
             }
             else
             {
@@ -375,7 +390,9 @@ namespace Accord.Audio
                 for (int j = 0; j < channels; j++)
                     data[i, j] = new Complex(array[i, j], 0);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             byte[] buffer = new byte[data.Length * Marshal.SizeOf(typeof(Complex))];
+#pragma warning restore CS0618 // Type or member is obsolete
 
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             Marshal.Copy(handle.AddrOfPinnedObject(), buffer, 0, buffer.Length);
@@ -414,20 +431,7 @@ namespace Accord.Audio
             int samples = array.GetLength(0);
             int channels = array.GetLength(1);
 
-            // check signal size
-            if (!Accord.Math.Tools.IsPowerOf2(samples))
-            {
-                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
-            }
-
-
-            byte[] buffer = new byte[array.Length * Marshal.SizeOf(typeof(Complex))];
-
-            GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            Marshal.Copy(handle.AddrOfPinnedObject(), buffer, 0, buffer.Length);
-            handle.Free();
-
-            return new ComplexSignal(buffer, channels, samples, sampleRate, status);
+            return new ComplexSignal(array, channels, samples, sampleRate, status);
         }
 
         #endregion
@@ -442,7 +446,7 @@ namespace Accord.Audio
         {
             // Compute common data
             int length = 0;
-            int nchannels = signals[0].Channels;
+            int nchannels = signals[0].NumberOfChannels;
             int sampleRate = signals[0].SampleRate;
 
             // Compute final length
@@ -457,8 +461,8 @@ namespace Accord.Audio
             int pos = 0;
             foreach (ComplexSignal signal in signals)
             {
-                Buffer.BlockCopy(signal.RawData, 0, result.RawData, pos, result.RawData.Length);
-                pos += signal.RawData.Length;
+                Buffer.BlockCopy(signal.InnerData, 0, result.InnerData, pos, result.NumberOfBytes);
+                pos += signal.NumberOfBytes;
             }
 
             return result;

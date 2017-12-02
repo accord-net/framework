@@ -1,0 +1,85 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <PropertyGroup>
+    <RootNamespace>Accord.Tests.Imaging</RootNamespace>
+    <AssemblyName>Accord.Tests.Imaging.WPF</AssemblyName>
+    <TargetFrameworks>netcoreapp2.0<!--;net462--></TargetFrameworks>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+      <ItemGroup>
+        <Compile Remove="Properties\Resources.Designer.cs" />
+        <EmbeddedResource Remove="Properties\Resources.resx" />
+        <Compile Update="Properties\Resources.Standard.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Resources.Standard.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Properties\Resources.Standard.resx">
+          <Generator>PublicResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Standard.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <EmbeddedResource Remove="Properties\Resources.Standard.cs" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Imaging\Accord.Imaging (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\PNM\baboon.ascii.pgm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\baboon.pgm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\baboon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\lena.ascii.pgm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\lena.pgm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\lena.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\newton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\newton.ppm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\pepper.pgm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\PNM\pepper.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Update="NUnit" Version="3.8.1" />
+    <PackageReference Update="NUnit.Console" Version="3.7.0" />
+  </ItemGroup>
+
+</Project>

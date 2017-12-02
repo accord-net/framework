@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Math;
     using Accord.Statistics.Analysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bhapkar test of homogeneity for contingency tables.
@@ -96,8 +97,8 @@ namespace Accord.Statistics.Testing
         /// 
         public BhapkarTest(GeneralConfusionMatrix matrix)
         {
-            int classes = matrix.Classes;
-            int samples = matrix.Samples;
+            int classes = matrix.NumberOfClasses;
+            int samples = matrix.NumberOfSamples;
 
             int df = classes - 1;
 

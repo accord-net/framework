@@ -28,7 +28,8 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
-#if NETSTANDARD2_0
+    using System.Linq;
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 
@@ -54,7 +55,7 @@ namespace Accord.Tests.Imaging
             var freak = new FastRetinaKeypointDetector(detector);
 
             // Now, all we have to do is to process our image:
-            List<FastRetinaKeypoint> points = freak.ProcessImage(lena);
+            IList<FastRetinaKeypoint> points = freak.Transform(lena).ToList();
 
             // Afterwards, we should obtain 83 feature points. We can inspect
             // the feature points visually using the FeaturesMarker class as
@@ -93,7 +94,7 @@ namespace Accord.Tests.Imaging
 
             FastRetinaKeypointDetector target = new FastRetinaKeypointDetector();
 
-            List<FastRetinaKeypoint> actual = target.ProcessImage(lena);
+            IList<FastRetinaKeypoint> actual = target.Transform(lena).ToList();
 
             string code;
             Assert.AreEqual(1283, actual.Count);

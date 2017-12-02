@@ -1,27 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
-
   <PropertyGroup>
     <AssemblyName>Accord.MachineLearning.GPL</AssemblyName>
     <RootNamespace>Accord.MachineLearning</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard1.4<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
+    <OutputPath>bin\$(Configuration)\$(TargetFramework)\GPL</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <OutDir>$(SolutionDir)..\Debug\GPL</OutDir>
-    <DocumentationFile></DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\GPL\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <OutDir>$(SolutionDir)..\Release\$(Configuration)\GPL</OutDir>
-    <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\GPL\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-  </PropertyGroup>
-
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+  
   <ItemGroup>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core (NETStandard).csproj" />
     <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning (NETStandard).csproj" />

@@ -41,10 +41,10 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using Accord.Math.Optimization;
     using Accord.Math.Random;
     using System.ComponentModel.DataAnnotations;
+    using Accord.Compat;
 
     /// <summary>
     ///   Abstract class for univariate discrete probability distributions.

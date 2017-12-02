@@ -9,10 +9,9 @@
 namespace Accord.Imaging.ComplexFilters
 {
     using System;
-    using AForge;
-    using AForge.Math;
-    using System.Numerics;
     using Accord;
+    using Accord.Compat;
+    using System.Numerics;
 
     /// <summary>
     /// Filtering of frequencies outside of specified range in complex Fourier
@@ -39,9 +38,9 @@ namespace Accord.Imaging.ComplexFilters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample3.jpg" width="256" height="256" />
+    /// <img src="..\images\imaging\sample3.jpg" width="256" height="256" />
     /// <para><b>Fourier image:</b></para>
-    /// <img src="img/imaging/frequency_filter.jpg" width="256" height="256" />
+    /// <img src="..\images\imaging\frequency_filter.jpg" width="256" height="256" />
     /// </remarks>
     /// 
     public class FrequencyFilter : IComplexFilter

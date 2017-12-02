@@ -25,25 +25,22 @@ namespace Accord.Math.Distances
     using Accord.Math.Decompositions;
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Squared Mahalanobis distance.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_square_mahalanobis_3" />
+    /// </example>
+    /// 
     [Serializable]
-    public sealed class SquareMahalanobis : IMetric<double[]>
+    public struct SquareMahalanobis : IMetric<double[]>, ICloneable
     {
         CholeskyDecomposition chol;
         SingularValueDecomposition svd;
         double[,] precision;
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SquareMahalanobis"/> class.
-        /// </summary>
-        /// 
-        public SquareMahalanobis()
-        {
-        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="Mahalanobis"/> class.
@@ -51,9 +48,15 @@ namespace Accord.Math.Distances
         /// 
         /// <param name="chol">A Cholesky decomposition of the covariance matrix.</param>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_square_mahalanobis_3" />
+        /// </example>
+        /// 
         public SquareMahalanobis(CholeskyDecomposition chol)
         {
             this.chol = chol;
+            this.svd = null;
+            this.precision = null;
         }
 
         /// <summary>
@@ -62,9 +65,15 @@ namespace Accord.Math.Distances
         /// 
         /// <param name="svd">A Singular Value decomposition of the covariance matrix.</param>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_square_mahalanobis_3" />
+        /// </example>
+        /// 
         public SquareMahalanobis(SingularValueDecomposition svd)
         {
+            this.chol = null;
             this.svd = svd;
+            this.precision = null;
         }
 
         /// <summary>
@@ -73,8 +82,14 @@ namespace Accord.Math.Distances
         /// 
         /// <param name="precision">The precision matrix (the inverse of the covariance matrix).</param>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_square_mahalanobis_3" />
+        /// </example>
+        /// 
         public SquareMahalanobis(double[,] precision)
         {
+            this.chol = null;
+            this.svd = null;
             this.precision = precision;
         }
 
@@ -88,6 +103,10 @@ namespace Accord.Math.Distances
         ///   A square Mahalanobis distance using the <see cref="SingularValueDecomposition"/>
         ///   of the given covariance matrix.
         /// </returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_square_mahalanobis_3" />
+        /// </example>
         /// 
         public static SquareMahalanobis FromCovarianceMatrix(double[,] covariance)
         {
@@ -103,6 +122,10 @@ namespace Accord.Math.Distances
         /// <returns>
         ///   A square Mahalanobis distance using the given precision matrix.
         /// </returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_square_mahalanobis_3" />
+        /// </example>
         /// 
         public static SquareMahalanobis FromPrecisionMatrix(double[,] precision)
         {
@@ -122,6 +145,10 @@ namespace Accord.Math.Distances
         ///   between <paramref name="x"/> and <paramref name="y"/> according 
         ///   to the distance function implemented by this class.
         /// </returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_square_mahalanobis_3" />
+        /// </example>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -146,5 +173,16 @@ namespace Accord.Math.Distances
             return Math.Abs(sum);
         }
 
+
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

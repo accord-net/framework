@@ -490,31 +490,20 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose medians will be calculated.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>Returns a vector containing the medians of the given matrix.</returns>
         /// 
-        public static double[] Median(this double[,] matrix)
+        public static double[] Median(this double[,] matrix, QuantileMethod type = QuantileMethod.Default)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
             double[] medians = new double[cols];
+            double[] data = new double[rows];
 
             for (int i = 0; i < cols; i++)
-            {
-                double[] data = new double[rows];
-
-                // Creates a copy of the given values
-                for (int j = 0; j < rows; j++)
-                    data[j] = matrix[j, i];
-
-                Array.Sort(data); // Sort it
-
-                int N = data.Length;
-
-                if (N % 2 == 0)
-                    medians[i] = (data[N / 2] + data[(N / 2) - 1]) * 0.5; // N is even 
-                else medians[i] = data[N / 2];                      // N is odd
-            }
+                medians[i] = matrix.GetColumn(i, result: data).Median(type: type, inPlace: true);
 
             return medians;
         }
@@ -524,34 +513,20 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose medians will be calculated.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>Returns a vector containing the medians of the given matrix.</returns>
         /// 
-        public static double[] Median(this double[][] matrix)
+        public static double[] Median(this double[][] matrix, QuantileMethod type = QuantileMethod.Default)
         {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
 
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
             double[] medians = new double[cols];
+            double[] data = new double[rows];
 
             for (int i = 0; i < cols; i++)
-            {
-                double[] data = new double[rows];
-
-                // Creates a copy of the given values
-                for (int j = 0; j < rows; j++)
-                    data[j] = matrix[j][i];
-
-                Array.Sort(data); // Sort it
-
-                int N = data.Length;
-
-                if (N % 2 == 0)
-                    medians[i] = (data[N / 2] + data[(N / 2) - 1]) * 0.5; // N is even 
-                else medians[i] = data[N / 2];                      // N is odd
-            }
+                medians[i] = matrix.GetColumn(i, result: data).Median(type: type, inPlace: true);
 
             return medians;
         }
@@ -563,13 +538,14 @@ namespace Accord.Statistics
         /// 
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="range">The inter-quartile range for the values.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double[] Quartiles(this double[,] matrix, out DoubleRange[] range)
+        public static double[] Quartiles(this double[,] matrix, out DoubleRange[] range, QuantileMethod type = QuantileMethod.Default)
         {
             double[] q1, q3;
-            double[] median = Quartiles(matrix, out q1, out q3);
+            double[] median = Quartiles(matrix, out q1, out q3, type: type);
 
             range = new DoubleRange[median.Length];
             for (int i = 0; i < range.Length; i++)
@@ -584,13 +560,14 @@ namespace Accord.Statistics
         /// 
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="range">The inter-quartile range for the values.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double[] Quartiles(this double[][] matrix, out DoubleRange[] range)
+        public static double[] Quartiles(this double[][] matrix, out DoubleRange[] range, QuantileMethod type = QuantileMethod.Default)
         {
             double[] q1, q3;
-            double[] median = Quartiles(matrix, out q1, out q3);
+            double[] median = Quartiles(matrix, out q1, out q3, type: type);
 
             range = new DoubleRange[median.Length];
             for (int i = 0; i < range.Length; i++)
@@ -607,30 +584,25 @@ namespace Accord.Statistics
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="q1">The first quartile for each column.</param>
         /// <param name="q3">The third quartile for each column.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double[] Quartiles(double[][] matrix, out double[] q1, out double[] q3)
+        public static double[] Quartiles(double[][] matrix, out double[] q1, out double[] q3, QuantileMethod type = QuantileMethod.Default)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
 
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
             double[] medians = new double[cols];
             q1 = new double[cols];
             q3 = new double[cols];
 
+            double[] data = new double[rows];
             for (int i = 0; i < cols; i++)
-            {
-                double[] data = new double[rows];
-
-                // Creates a copy of the given values
-                for (int j = 0; j < rows; j++)
-                    data[j] = matrix[j][i];
-
-                medians[i] = Quartiles(data, out q1[i], out q3[i], alreadySorted: false);
-            }
+                medians[i] = matrix.GetColumn(i, result: data).Quartiles(out q1[i], out q3[i], alreadySorted: false, type: type, inPlace: true);
 
             return medians;
         }
@@ -642,30 +614,25 @@ namespace Accord.Statistics
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="q1">The first quartile for each column.</param>
         /// <param name="q3">The third quartile for each column.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double[] Quartiles(double[,] matrix, out double[] q1, out double[] q3)
+        public static double[] Quartiles(double[,] matrix, out double[] q1, out double[] q3, QuantileMethod type = QuantileMethod.Default)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
 
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
             double[] medians = new double[cols];
             q1 = new double[cols];
             q3 = new double[cols];
 
+            double[] data = new double[rows];
             for (int i = 0; i < cols; i++)
-            {
-                double[] data = new double[rows];
-
-                // Creates a copy of the given values
-                for (int j = 0; j < rows; j++)
-                    data[j] = matrix[j, i];
-
-                medians[i] = Quartiles(data, out q1[i], out q3[i], alreadySorted: false);
-            }
+                medians[i]  = matrix.GetColumn(i, result: data).Quartiles(out q1[i], out q3[i], alreadySorted: false, type: type, inPlace: true);
 
             return medians;
         }
@@ -1548,6 +1515,15 @@ namespace Accord.Statistics
         /// </remarks>
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
+        /// 
         public static double[,] Correlation(this double[,] matrix)
         {
             double[] means = Mean(matrix, dimension: 0);
@@ -1563,6 +1539,11 @@ namespace Accord.Statistics
         /// </remarks>
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
+        /// 
         public static double[][] Correlation(this double[][] matrix)
         {
             double[] means = Mean(matrix, dimension: 0);
@@ -1583,6 +1564,10 @@ namespace Accord.Statistics
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// 
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
         /// 
         public static double[,] Correlation(this double[,] matrix, double[] means, double[] standardDeviations)
         {
@@ -1625,6 +1610,10 @@ namespace Accord.Statistics
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// 
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
         /// 
         public static double[][] Correlation(this double[][] matrix, double[] means, double[] standardDeviations)
         {

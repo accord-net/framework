@@ -36,7 +36,7 @@ namespace Accord.Imaging
     /// <seealso cref="SpeededUpRobustFeaturesDescriptor"/>
     /// 
     [Serializable]
-    public class SpeededUpRobustFeaturePoint : IFeaturePoint
+    public class SpeededUpRobustFeaturePoint : IFeaturePoint<double[]> // ISpeededUpRobustFeaturePoint
     {
 
         /// <summary>

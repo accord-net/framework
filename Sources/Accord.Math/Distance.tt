@@ -2,7 +2,7 @@
 <#@ output extension="Generated.cs" #>
 <#@ assembly name="EnvDTE" #> 
 <#@ assembly name="System.Core" #>
-<#@ assembly name="Microsoft.VisualStudio.Shell.11.0" #>
+<#@ assembly name="Microsoft.VisualStudio.Shell.15.0" #>
 <#@ assembly name="Microsoft.VisualStudio.Shell.Interop" #>
 <#@ import namespace="EnvDTE" #>
 <#@ import namespace="System.Linq" #>
@@ -48,6 +48,7 @@ namespace Accord.Math
     using Accord;
     using Accord.Math.Distances;
     using Accord.Math.Decompositions;
+    using Accord.Compat;
 
     /// <summary>
     ///   Static class Distance. Defines a set of methods defining distance measures.
@@ -56,8 +57,10 @@ namespace Accord.Math
     public static partial class Distance
     {
 <#
-    foreach (CodeClass cls in FindClasses("Accord.Math.Distances", "", ""))
+    foreach (KeyValuePair<string, CodeElement> pair in FindClasses("Accord.Math.Distances", "", ""))
     {
+        string name = pair.Key;
+        CodeElement cls = pair.Value;
         if (cls.FullName.Contains("<T>"))
             continue;
 
@@ -94,11 +97,17 @@ namespace Accord.Math
 #>        /// 
         /// <returns>The <#=cls.Name#> distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.<#=cls.Name#>"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double <#=cls.Name#>(<#=parameters#>)
         {
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
 <#
                 if (String.IsNullOrEmpty(ctorParameters))
                 {
@@ -133,17 +142,25 @@ namespace Accord.Math
 }
 
 <#+
-    private List<CodeElement> GetConstructors(CodeClass cls)
+    private List<CodeElement> GetConstructors(CodeElement cls)
     {
-        return GetMethods(cls, cls.Name);
+        var methods = GetMethods(cls, cls.Name);
+
+        if (cls is CodeStruct)
+            methods.Add(null);
+
+        return methods;
     }
 
-    private List<CodeElement> GetMethods(CodeClass cls, string name)
+    private List<CodeElement> GetMethods(CodeElement cls, string name)
     {
         var methods = new List<CodeElement>();
         foreach (CodeElement e in cls.Children)
         {
-            if (e.Kind == vsCMElement.vsCMElementFunction && e.Name == name)
+            string eName = e.Name;
+            vsCMElement eKind = e.Kind;
+
+            if (eKind == vsCMElement.vsCMElementFunction && eName == name)
                 methods.Add(e);
         }
 
@@ -153,12 +170,24 @@ namespace Accord.Math
     private List<Tuple<string, string>> GetParameterDocumentation(CodeElement e)
     {
         var list = new List<Tuple<string, string>>();
-        foreach (CodeElement a in e.Children)
+
+        if (e != null)
         {
-            EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
-            if (p == null)
-                continue;
-            list.Add(Tuple.Create(p.Name, p.DocComment));
+            foreach (CodeElement a in e.Children)
+            {
+                EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
+                if (p == null)
+                    continue;
+				string comment = p.DocComment;
+				if (String.IsNullOrEmpty(comment))
+				{	
+					if (p.Name == "x")
+						comment = "The first point <c>x</c>.";
+					else if  (p.Name == "y")
+						comment = "The second point <c>y</c>.";
+				}
+                list.Add(Tuple.Create(p.Name, comment));
+            }
         }
 
         return list;
@@ -167,25 +196,29 @@ namespace Accord.Math
     private string GetParameterString(CodeElement e, bool includeTypes)
     {
         var list = new List<string>();
-        foreach (CodeElement a in e.Children)
+        
+        if (e != null)
         {
-            EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
-            if (p == null)
-                continue;
-
-            if (includeTypes)
+            foreach (CodeElement a in e.Children)
             {
-                var str = p.Type.AsString.Split('.');
-                list.Add(str[str.Length - 1] + " " + p.FullName);
+                EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
+                if (p == null)
+                    continue;
+
+                if (includeTypes)
+                {
+                    var str = p.Type.AsString.Split('.');
+                    list.Add(str[str.Length - 1] + " " + p.FullName);
+                }
+                else 
+                    list.Add(p.FullName);
             }
-            else 
-                list.Add(p.FullName);
         }
 
         return String.Join(", ", list);
     }
 
-    private bool HasParameterlessConstructor(CodeClass cls)
+/*    private bool HasParameterlessConstructor(CodeClass cls)
     {
         foreach (CodeElement e in cls.Children)
         {
@@ -200,27 +233,30 @@ namespace Accord.Math
         }
         return true;
     }
-
-    private List<CodeClass> FindClasses(string nameSpace, string className, string baseClassName)
+*/
+    private Dictionary<string, CodeElement> FindClasses(string nameSpace, string className, string baseClassName)
     {
-        var result = new List<CodeClass>();
+        var result = new Dictionary<string, CodeElement>();
         FindClasses(GetProject().CodeModel.CodeElements, className, baseClassName, nameSpace, result, false);
         return result;
     }
 
-    private void FindClasses(CodeElements elements, string className, string baseClassName, string searchNamespace, List<CodeClass> result, bool isNamespaceOk)
+    private void FindClasses(CodeElements elements, string className, string baseClassName, string searchNamespace, Dictionary<string, CodeElement> result, bool isNamespaceOk)
     {
         if (elements == null)
             return;
 
         foreach (CodeElement element in elements)
         {       
+
             if (element is CodeNamespace)
             {
                 CodeNamespace ns = element as CodeNamespace;
                 if (ns != null)
                 {
-                    if (ns.FullName == searchNamespace)
+                    string fullName = ns.FullName;
+
+                    if (fullName == searchNamespace)
                         FindClasses(ns.Members, className, baseClassName, searchNamespace, result, true);
                     else                   
                         FindClasses(ns.Members, className, baseClassName, searchNamespace, result, false);
@@ -232,12 +268,29 @@ namespace Accord.Math
                 CodeClass c = element as CodeClass;
                 if (c != null)
                 {
-                    if(c.FullName.Contains(className) && (String.IsNullOrEmpty(baseClassName) || (HasIt(c.Bases, baseClassName) && c.Name != baseClassName)))
-                        result.Add(c);
+                    string name = c.Name;
+                    string fullName = c.FullName;
+
+                    if (fullName.Contains(className) && (String.IsNullOrEmpty(baseClassName) || (HasIt(c.Bases, baseClassName) && name != baseClassName)))
+                        result.Add(fullName, element);
 
                     FindClasses(c.Members, className, baseClassName, searchNamespace, result, true);
                 }
+            }
 
+            else if (element is CodeStruct && isNamespaceOk) 
+            {
+                CodeStruct c = element as CodeStruct; 
+                if (c != null)
+                {
+                    string name = c.Name;
+                    string fullName = c.FullName;
+
+                    if (fullName.Contains(className) && (String.IsNullOrEmpty(baseClassName) || (HasIt(c.Bases, baseClassName) && name != baseClassName)))
+                        result.Add(fullName, element);
+
+                    FindClasses(c.Members, className, baseClassName, searchNamespace, result, true);
+                }
             }
         }
     }

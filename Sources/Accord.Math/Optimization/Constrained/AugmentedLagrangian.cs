@@ -56,7 +56,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   The optimization could not make progress towards finding a feasible
-        ///   solution. Try increasing the <see cref="NonlinearConstraint.Tolerance"/>
+        ///   solution. Try increasing the <see cref="IConstraint.Tolerance"/>
         ///   of the constraints.
         /// </summary>
         /// 
@@ -115,9 +115,9 @@ namespace Accord.Math.Optimization
 
         IGradientOptimizationMethod dualSolver;
 
-        NonlinearConstraint[] lesserThanConstraints;
-        NonlinearConstraint[] greaterThanConstraints;
-        NonlinearConstraint[] equalityConstraints;
+        IConstraint[] lesserThanConstraints;
+        IConstraint[] greaterThanConstraints;
+        IConstraint[] equalityConstraints;
 
 
         private double rho;
@@ -188,7 +188,8 @@ namespace Accord.Math.Optimization
             get { return maxEvaluations; }
             set
             {
-                if (value < 0) throw new ArgumentOutOfRangeException("value");
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 maxEvaluations = value;
             }
         }
@@ -205,9 +206,9 @@ namespace Accord.Math.Optimization
         /// 
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// <param name="constraints">
-        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        ///   The <see cref="IConstraint"/>s to which the solution must be subjected.</param>
         /// 
-        public AugmentedLagrangian(int numberOfVariables, IEnumerable<NonlinearConstraint> constraints)
+        public AugmentedLagrangian(int numberOfVariables, IEnumerable<IConstraint> constraints)
             : base(numberOfVariables)
         {
             init(null, constraints, null);
@@ -219,9 +220,9 @@ namespace Accord.Math.Optimization
         /// 
         /// <param name="function">The objective function to be optimized.</param>
         /// <param name="constraints">
-        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        ///   The <see cref="IConstraint"/>s to which the solution must be subjected.</param>
         /// 
-        public AugmentedLagrangian(NonlinearObjectiveFunction function, IEnumerable<NonlinearConstraint> constraints)
+        public AugmentedLagrangian(NonlinearObjectiveFunction function, IEnumerable<IConstraint> constraints)
             : base(function.NumberOfVariables)
         {
             init(function, constraints, null);
@@ -236,10 +237,10 @@ namespace Accord.Math.Optimization
         ///   problem.</param>
         /// <param name="function">The objective function to be optimized.</param>
         /// <param name="constraints">
-        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        ///   The <see cref="IConstraint"/>s to which the solution must be subjected.</param>
         /// 
         public AugmentedLagrangian(IGradientOptimizationMethod innerSolver,
-            NonlinearObjectiveFunction function, IEnumerable<NonlinearConstraint> constraints)
+            NonlinearObjectiveFunction function, IEnumerable<IConstraint> constraints)
             : base(innerSolver.NumberOfVariables)
         {
             if (innerSolver.NumberOfVariables != function.NumberOfVariables)
@@ -257,9 +258,9 @@ namespace Accord.Math.Optimization
         ///   optimization method</see> used internally to solve the dual of this optimization 
         ///   problem.</param>
         /// <param name="constraints">
-        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        ///   The <see cref="IConstraint"/>s to which the solution must be subjected.</param>
         /// 
-        public AugmentedLagrangian(IGradientOptimizationMethod innerSolver, IEnumerable<NonlinearConstraint> constraints)
+        public AugmentedLagrangian(IGradientOptimizationMethod innerSolver, IEnumerable<IConstraint> constraints)
             : base(innerSolver.NumberOfVariables)
         {
             init(null, constraints, innerSolver);
@@ -267,7 +268,7 @@ namespace Accord.Math.Optimization
 
 
         private void init(NonlinearObjectiveFunction function,
-            IEnumerable<NonlinearConstraint> constraints, IGradientOptimizationMethod innerSolver)
+            IEnumerable<IConstraint> constraints, IGradientOptimizationMethod innerSolver)
         {
             if (function != null)
             {
@@ -293,9 +294,9 @@ namespace Accord.Math.Optimization
                 };
             }
 
-            var equality = new List<NonlinearConstraint>();
-            var lesserThan = new List<NonlinearConstraint>();
-            var greaterThan = new List<NonlinearConstraint>();
+            var equality = new List<IConstraint>();
+            var lesserThan = new List<IConstraint>();
+            var greaterThan = new List<IConstraint>();
 
             foreach (var c in constraints)
             {
@@ -457,6 +458,7 @@ namespace Accord.Math.Optimization
             int noProgressCounter = 0;
             int maxCount = 100;
             iterations = 0;
+            functionEvaluations = 0;
 
             // magic parameters from Birgin & Martinez
             const double tau = 0.5, gam = 10;

@@ -37,7 +37,7 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    // [GeneratedCode("Accord.NET T4 Templates", "3.1")]
+    // [GeneratedCode("Accord.NET T4 Templates", "3.6")]
     public static partial class Matrix
     {
 <# 
@@ -219,6 +219,16 @@ namespace Accord.Math
         return sb.ToString();
     };
 
+	Func<string, string, string> symmetric = (a, A) =>
+    {
+        StringBuilder sb = new StringBuilder();
+
+		sb.AppendLine("    if (!a.IsSquare())");
+		sb.AppendLine("        return false;");
+
+        return sb.ToString();
+    };
+
     foreach (string a in types)
     {
         foreach (string b in types)
@@ -250,7 +260,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[] a, <#=b#>[] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -279,7 +289,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -315,7 +325,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -347,7 +357,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -379,7 +389,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -420,7 +430,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -449,7 +459,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -484,7 +494,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -535,7 +545,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#>[] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -547,7 +557,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -559,7 +569,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -578,7 +588,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -598,8 +608,110 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
 <#
         }
+    }
+
+    foreach (string a in types)
+    {
+        string tr = "Double";
+        string ta = null;
+        if (a == "Decimal")
+        {
+            ta = "Decimal";
+            tr = "Decimal";
+        }
+        else if (a == "Double")
+            ta = "Double";
+        else if (a == "Single")
+            ta = "Single";
+        else if (a == "Int64")
+            ta = "Int64";
+        else if (a == "Int32")
+            ta = "Int32";
+        else if (a == "Int16")
+            ta = "Int16";
+        else if (a == "Byte")
+            ta = "Byte";
+        else if (a == "sbyte")
+            ta = "byte";
+#>
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this <#=a#>[][] a, <#=ta#> atol = 0, <#=tr#> rtol = 0)
+        {
+<#=symmetric(a, "[][]")#>
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+<#=rtol(a, a, "a[i][j]", "a[j][i]")#>
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+<#=atol(a, a, "a[i][j]", "a[j][i]")#>
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+<#=notol(a, a, "a[i][j]", "a[j][i]")#>
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this <#=a#>[,] a, <#=ta#> atol = 0, <#=tr#> rtol = 0)
+        {
+<#=symmetric(a, "[,]")#>
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+<#=rtol(a, a, "a[i, j]", "a[j, i]")#>
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+<#=atol(a, a, "a[i, j]", "a[j, i]")#>
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+<#=notol(a, a, "a[i, j]", "a[j, i]")#>
+            }
+
+            return true;
+        }
+
+
+
+<#
     }
 #>
     }

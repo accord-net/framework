@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Topology
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Forward Topology for Hidden Markov Models.

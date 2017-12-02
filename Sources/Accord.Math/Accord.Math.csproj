@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Math</RootNamespace>
     <AssemblyName>Accord.Math</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -55,10 +55,13 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
     <Compile Include="Accord.Statistics\Classes.cs" />
+    <Compile Include="Accord.Statistics\IConvergenceLearning.cs" />
     <Compile Include="Accord.Statistics\Measures.Histogram.cs" />
     <Compile Include="Accord.Statistics\Measures.Matrix.cs" />
     <Compile Include="Accord.Statistics\Measures.Matrix.Weighted.cs" />
+    <Compile Include="Accord.Statistics\Measures.Vectors.Quantiles.cs" />
     <Compile Include="Accord.Statistics\Measures.Vectors.cs" />
     <Compile Include="Accord.Statistics\Measures.Vectors.Weighted.cs" />
     <Compile Include="AForge.Math\ContinuousHistogram.cs" />
@@ -119,6 +122,11 @@
     <Compile Include="Decompositions\SingularValueDecompositionF.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Distance.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Distance.tt</DependentUpon>
+    </Compile>
     <Compile Include="Distances\Angular.cs" />
     <Compile Include="Distances\Dirac.cs" />
     <Compile Include="Distances\WeightedSquareEuclidean.cs" />
@@ -129,10 +137,23 @@
     <Compile Include="IO\NumPy\NpzFormat.Writer.cs" />
     <Compile Include="IO\NumPy\NpyFormat.Writer.cs" />
     <Compile Include="IO\NumPy\NpyFormat.Reader.cs" />
+    <Compile Include="Matrix\Jagged.Conversions.cs" />
     <Compile Include="Matrix\Jagged.Product.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Jagged.Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Comparisons.Generated.cs">
+      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Enumerable.cs" />
+    <Compile Include="Matrix\Matrix.Tensor.cs" />
+    <Compile Include="Matrix\Matrix.Product.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Product.tt</DependentUpon>
     </Compile>
     <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Linear.Generated.cs">
@@ -146,11 +167,6 @@
       <DependentUpon>Norm.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Distance.Generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Distance.tt</DependentUpon>
     </Compile>
     <Compile Include="Distances\Base\IMetric.cs" />
     <Compile Include="Distances\Base\ISimilarity.cs" />
@@ -184,11 +200,6 @@
     <Compile Include="Distances\Euclidean.cs" />
     <Compile Include="Distances\Base\IDistance.cs" />
     <Compile Include="Matrix\Jagged.Common.cs" />
-    <Compile Include="Matrix\Matrix.Comparisons1.Generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
-    </Compile>
     <Compile Include="Matrix\Matrix.Conversions.Generated.cs">
       <DependentUpon>Matrix.Conversions.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -200,11 +211,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Matrix\Jagged.MinMax.cs" />
-    <Compile Include="Matrix\Matrix.Product1.Generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Matrix.Product.tt</DependentUpon>
-    </Compile>
     <Compile Include="Matrix\Jagged.Random.Generated.cs">
       <DependentUpon>Jagged.Random.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -214,6 +220,7 @@
     <Compile Include="Matrix\Vector.MinMax.cs" />
     <Compile Include="Matrix\Matrix.MinMax.cs" />
     <Compile Include="Optimization\Base\IFunctionOptimizationMethod.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\ConstraintExtensions.cs" />
     <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\HammingLoss.cs" />
@@ -229,7 +236,9 @@
     <Compile Include="Optimization\Losses\SquareLoss.cs" />
     <Compile Include="Optimization\Losses\ZeroOneLoss.cs" />
     <Compile Include="Optimization\Munkres.cs" />
+    <Compile Include="Optimization\QuadraticExpressionParser.cs" />
     <Compile Include="Optimization\Unconstrained\GradientDescent.cs" />
+    <Compile Include="Optimization\Base\BaseLeastSquaresMethod.cs" />
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Random\IRandomNumberGenerator.cs" />
     <Compile Include="Random\ZigguratExponentialGenerator.cs" />
@@ -238,6 +247,7 @@
     <Compile Include="Random\ZigguratUniformOneGenerator.cs" />
     <Compile Include="Random\ZigguratNormalGenerator.cs" />
     <Compile Include="Sort.cs" />
+    <Compile Include="Vector\Vector.Random.cs" />
     <Compile Include="Vector\Vector.Parse.cs" />
     <Compile Include="Vector\Vector.Sparse.cs" />
     <Compile Include="Vector\Vector.Common.cs" />
@@ -575,8 +585,8 @@
     <None Include="Integration\Accord.Math.Integration.cd" />
     <None Include="Matrix\Matrix.Comparisons.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastOutputs>.\Matrix.Comparisons1.Generated.cs</LastOutputs>
-      <LastGenOutput>Matrix.Comparisons1.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Comparisons.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Comparisons.Generated.cs</LastGenOutput>
     </None>
     <None Include="Matrix\Matrix.Conversions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -590,8 +600,8 @@
     </None>
     <None Include="Matrix\Matrix.Product.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Matrix.Product1.Generated.cs</LastGenOutput>
-      <LastOutputs>.\Matrix.Product1.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Product.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Product.Generated.cs</LastOutputs>
     </None>
     <None Include="Matrix\Jagged.Random.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

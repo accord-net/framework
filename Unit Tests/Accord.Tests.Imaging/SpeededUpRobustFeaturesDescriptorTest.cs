@@ -35,6 +35,7 @@ namespace Accord.Tests.Imaging
     {
 
         [Test]
+        [Category("Slow")]
         public void ProcessImageTest()
         {
             var bitmaps = SpeededUpRobustFeaturesDetectorTest.GetImages();

@@ -29,7 +29,9 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Math;
     using Accord.Tests.Imaging.Properties;
-#if NETSTANDARD2_0
+    using Accord.DataSets;
+    using System.Linq;
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 
@@ -51,6 +53,31 @@ namespace Accord.Tests.Imaging
             return images;
         }
 
+        [Test]
+        public void doc_test()
+        {
+            string localPath = TestContext.CurrentContext.TestDirectory;
+
+            #region doc_apply
+            // Let's load an example image, such as Lena,
+            // from a standard dataset of example images:
+            var images = new TestImages(path: localPath);
+            Bitmap lena = images["lena.bmp"];
+
+            // Create a new Histogram of Oriented Gradients with the default parameter values:
+            var hog = new HistogramsOfOrientedGradients(numberOfBins: 9, blockSize: 3, cellSize: 6);
+
+            // Use it to extract descriptors from the Lena image:
+            List<double[]> descriptors = hog.ProcessImage(lena);
+
+            // Now those descriptors can be used to represent the image itself, such
+            // as for example, in the Bag-of-Visual-Words approach for classification.
+            #endregion
+
+            Assert.AreEqual(784, descriptors.Count);
+            double sum = descriptors.Sum(x => x.Sum());
+            Assert.AreEqual(3359.1014569812564, sum, 1e-3);
+        }
 
         [Test]
         public void MagnitudeDirectionTest()

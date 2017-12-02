@@ -29,6 +29,8 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+	using System.Diagnostics;
+	using Accord.Compat;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -73,10 +75,13 @@ namespace Accord.Math.Decompositions
         private const Single eps = 2 * Constants.SingleEpsilon;
         private const Single tiny = Constants.SingleSmall;
 
-        Single? determinant;
+        int? rank;
+		Single? determinant;
         Single? lndeterminant;
         Single? pseudoDeterminant;
         Single? lnpseudoDeterminant;
+
+		Single[][] diagonalMatrix;
 
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
@@ -115,13 +120,16 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.rank.HasValue)
+					return this.rank.Value;
+
                 Single tol = System.Math.Max(m, n) * s[0] * eps;
 
                 int r = 0;
                 for (int i = 0; i < s.Length; i++)
                     if (s[i] > tol) r++;
 
-                return r;
+                return (int)(this.rank = r);
             }
         }
 
@@ -149,7 +157,13 @@ namespace Accord.Math.Decompositions
         ///
         public Single[][] DiagonalMatrix
         {
-            get { return Jagged.Diagonal(u[0].Length, v[0].Length, s); }
+            get 
+			{
+				if (this.diagonalMatrix != null)
+					return this.diagonalMatrix;
+
+				return this.diagonalMatrix = Jagged.Diagonal(u[0].Length, v[0].Length, s); 
+			}
         }
 
         /// <summary>
@@ -380,8 +394,7 @@ namespace Accord.Math.Decompositions
 
                     // throw new ArgumentException("Matrix should have more rows than columns.");
 
-                    System.Diagnostics.Trace.WriteLine(
-                        "WARNING: Computing SVD on a matrix with more columns than rows.");
+                    Trace.WriteLine("WARNING: Computing SVD on a matrix with more columns than rows.");
 
                     // Proceed anyway
                     a = inPlace ? value : (Single[][])value.MemberwiseClone();

@@ -29,11 +29,13 @@ namespace Accord.Tests.Statistics
     using System;
     using System.Data;
     using System.IO;
+    using System.Linq.Expressions;
 
     [TestFixture]
     public class CodificationFilterTest
     {
 
+#if !NO_DATA_TABLE
         // An extra example for the Codification filter is available
         // at the Accord.Tests.MachineLearning assembly in the file
         // CodificationFilterSvmTest.cs
@@ -116,6 +118,96 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(expected.Rows[i][j], actual.Rows[i][j]);
         }
 
+        [Test]
+        public void remapping_test()
+        {
+            // https://web.archive.org/web/20170210050820/http://www.ats.ucla.edu/stat/stata/dae/mlogit.htm
+            CsvReader reader = CsvReader.FromText(Properties.Resources.hsbdemo, hasHeaders: true);
+
+            var table = reader.ToTable();
+
+            var codification = new Codification(table);
+            codification["ses"].VariableType = CodificationVariable.CategoricalWithBaseline;
+            codification["prog"].VariableType = CodificationVariable.Categorical;
+            codification["write"].VariableType = CodificationVariable.Discrete;
+            codification["ses"].Remap("low", 0);
+            codification["ses"].Remap("middle", 1);
+            codification["prog"].Remap("academic", 0);
+            codification["prog"].Remap("general", 1);
+
+            Assert.AreEqual(CodificationVariable.Discrete, codification["write"].VariableType);
+
+            var inputs = codification.Apply(table, "write", "ses");
+            var output = codification.Apply(table, "prog");
+
+            // Get inputs
+            string[] inputNames;
+            var inputsData = inputs.ToArray(out inputNames);
+
+            // Get outputs
+            string[] outputNames;
+            var outputData = output.ToArray(out outputNames);
+
+            Assert.AreEqual(new[] { "write", "ses: middle", "ses: high" }, inputNames);
+            Assert.AreEqual(new[] { "prog: academic", "prog: general", "prog: vocation" }, outputNames);
+
+            Assert.AreEqual(new double[] { 35, 0, 0 }, inputsData[0]);
+            Assert.AreEqual(new double[] { 33, 1, 0 }, inputsData[1]);
+            Assert.AreEqual(new double[] { 39, 0, 1 }, inputsData[2]);
+
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[0]);
+            Assert.AreEqual(new double[] { 0, 1, 0 }, outputData[1]);
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[2]);
+            Assert.AreEqual(new double[] { 1, 0, 0 }, outputData[11]);
+        }
+
+        [Test]
+        public void remapping_test_new_method()
+        {
+            // https://web.archive.org/web/20170210050820/http://www.ats.ucla.edu/stat/stata/dae/mlogit.htm
+
+            // Let's download an example dataset from the web to learn a multinomial logistic regression:
+            CsvReader reader = CsvReader.FromUrl("https://raw.githubusercontent.com/rlowrance/re/master/hsbdemo.csv", hasHeaders: true);
+
+            // Let's read the CSV into a DataTable. As mentioned above, this step
+            // can help, but is not necessarily required for learning a the model:
+            DataTable table = reader.ToTable();
+
+            // We will learn a MLR regression between the following input and output fields of this table:
+            string[] inputNames = new[] { "write", "ses" };
+            string[] outputNames = new[] { "prog" };
+
+            // Now let's create a codification codebook to convert the string fields in the data 
+            // into integer symbols. This is required because the MLR model can only learn from 
+            // numeric data, so strings have to be transformed first. We can force a particular
+            // interpretation for those columns if needed, as shown in the initializer below:
+            var codification = new Codification()
+            {
+                new Codification.Options("write", CodificationVariable.Continuous),
+                new Codification.Options("ses", CodificationVariable.CategoricalWithBaseline, order: new[] { "low", "middle", "high" }),
+                new Codification.Options("prog", CodificationVariable.Categorical, order: new[] { "academic", "general" })
+            };
+
+            // Learn the codification
+            codification.Learn(table);
+
+            // Now, transform symbols into a vector representation, growing the number of inputs:
+            double[][] inputsData = codification.Transform(table, inputNames, out inputNames).ToDouble();
+            double[][] outputData = codification.Transform(table, outputNames, out outputNames).ToDouble();
+
+            Assert.AreEqual(new[] { "write", "ses: middle", "ses: high" }, inputNames);
+            Assert.AreEqual(new[] { "prog: academic", "prog: general", "prog: vocation" }, outputNames);
+
+            Assert.AreEqual(new double[] { 35, 0, 0 }, inputsData[0]);
+            Assert.AreEqual(new double[] { 33, 1, 0 }, inputsData[1]);
+            Assert.AreEqual(new double[] { 39, 0, 1 }, inputsData[2]);
+
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[0]);
+            Assert.AreEqual(new double[] { 0, 1, 0 }, outputData[1]);
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[2]);
+            Assert.AreEqual(new double[] { 1, 0, 0 }, outputData[11]);
+        }
+#endif
 
         [Test]
         public void ApplyTest3()
@@ -145,7 +237,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", labelc);
         }
 
-#if !NETSTANDARD2_0
+#if !NO_EXCEL
         [Test]
         [Category("Office")]
         public void ApplyTest4()
@@ -169,6 +261,7 @@ namespace Accord.Tests.Statistics
         }
 #endif
 
+#if !NO_DATA_TABLE
         /// <summary>
         ///   Testing Codification.Translate(string, string)
         ///   This method tests, that the correct DataColumn is used 
@@ -313,7 +406,9 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(thrown);
         }
+#endif
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializationTest()
@@ -345,6 +440,51 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("adult", reloaded.Translate("Label", 1));
             Assert.AreEqual("elder", reloaded.Translate("Label", 2));
         }
+
+        [Test]
+        public void missing_values_gh809()
+        {
+            // https://github.com/accord-net/framework/issues/809
+
+            DataTable data = new DataTable("Tennis Example with Missing Values");
+
+            data.Columns.Add("Day", typeof(string));
+            data.Columns.Add("Outlook", typeof(string));
+            data.Columns.Add("Temperature", typeof(string));
+            data.Columns.Add("Humidity", typeof(string));
+            data.Columns.Add("Wind", typeof(string));
+            data.Columns.Add("PlayTennis", typeof(string));
+
+            data.Rows.Add("D2", null, "Hot", "High", "Strong", "No");
+            data.Rows.Add("D3", null, null, "High", null, "Yes");
+            data.Rows.Add("D4", "Rain", "Mild", "High", "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", "Cool", null, "Weak", "Yes");
+            data.Rows.Add("D8", null, "Mild", "High", null, "No");
+
+            var codebook = new Codification(data)
+            {
+                DefaultMissingValueReplacement = Double.NaN
+            };
+
+            codebook["Wind"].MissingValueReplacement = 42;
+
+            DataTable symbols = codebook.Apply(data);
+            double[][] inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
+
+            //string str = inputs.ToCSharp();
+
+            double[][] expected =
+            {
+                new double[] { Double.NaN, 0, 0, 0 },
+                new double[] { Double.NaN, Double.NaN, 0, 42 },
+                new double[] { 0, 1, 0, 1 },
+                new double[] { 0, 2, Double.NaN, 1 },
+                new double[] { Double.NaN, 1, 0, 42 }
+            };
+
+            Assert.AreEqual(expected, inputs);
+        }
+#endif
 
         [Test]
         public void StringApplyTest3()
@@ -386,11 +526,71 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(new[] { 3, 8 }, features.GetLength());
 
             // string t = features.ToCSharp();
-            var expected = new double[][] 
+            var expected = new double[][]
             {
                 new double[] { 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5, 0 },
                 new double[] { 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5 },
                 new double[] { 0, 0, 0.333333333333333, 0, 0, 0.333333333333333, 0.5, 0 }
+            };
+
+            Assert.IsTrue(features.IsEqual(expected, rtol: 1e-10));
+        }
+
+        [Test]
+        public void thresholds()
+        {
+            // Example for https://github.com/accord-net/framework/issues/737
+
+            // Let's say we have a dataset of US birds:
+            string[] names = { "State", "Bird", "Percentage" };
+
+            object[][] inputData =
+            {
+                new object[] { "Kansas", "Crow", 0.1 },
+                new object[] { "Ohio", "Pardal", 0.5 },
+                new object[] { "Hawaii", "Penguim", 0.7 }
+            };
+
+            // Discretize the continous data from a doubles to a string representation
+            var discretization = new Discretization<double, string>(names, inputData);
+            discretization["Percentage"].Mapping[x => x >= 0.00 && x < 0.25] = x => "Q1";
+            discretization["Percentage"].Mapping[x => x >= 0.25 && x < 0.50] = x => "Q2";
+            discretization["Percentage"].Mapping[x => x >= 0.50 && x < 0.75] = x => "Q3";
+            discretization["Percentage"].Mapping[x => x >= 0.75 && x < 1.09] = x => "Q4";
+
+            // Transform the data into discrete categories
+            string[][] discreteData = discretization.Transform(inputData);
+
+            // Codify the discrete data from strings to integers
+            var codebook = new Codification<string>(names, discreteData);
+
+            // Transform the data into integer symbols
+            int[][] values = codebook.Transform(discreteData);
+
+            // Transform the symbols into 1-of-K vectors
+            double[][] states = Jagged.OneHot(values.GetColumn(0));
+            double[][] birds = Jagged.OneHot(values.GetColumn(1));
+            double[][] colors = Jagged.OneHot(values.GetColumn(2));
+
+            // Normalize each variable separately if needed
+            states = states.Divide(codebook["State"].NumberOfSymbols);
+            birds = birds.Divide(codebook["Bird"].NumberOfSymbols);
+            colors = colors.Divide(codebook["Percentage"].NumberOfSymbols);
+
+            // Create final feature vectors
+            double[][] features = Matrix.Concatenate(states, birds, colors);
+
+            Assert.AreEqual(new[] { 3, 3 }, states.GetLength());
+            Assert.AreEqual(new[] { 3, 3 }, birds.GetLength());
+            Assert.AreEqual(new[] { 3, 2 }, colors.GetLength());
+            Assert.AreEqual(new[] { 3, 8 }, features.GetLength());
+
+            // string t = features.ToCSharp();
+            var expected = new double[][]
+            {
+                new double[] { 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5, 0 },
+                new double[] { 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5 },
+                new double[] { 0, 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0.5 }
             };
 
             Assert.IsTrue(features.IsEqual(expected, rtol: 1e-10));

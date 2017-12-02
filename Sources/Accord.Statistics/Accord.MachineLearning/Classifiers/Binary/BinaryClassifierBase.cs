@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Statistics;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// Base class for binary classifiers.
@@ -52,25 +53,29 @@ namespace Accord.MachineLearning
             return Decide(input).ToZeroOne();
         }
 
-        
         int IClassifier<TInput, int>.Decide(TInput input)
         {
             return Decide(input).ToZeroOne();
         }
+        int IMulticlassClassifier<TInput>.Decide(TInput input)
+        {
+            return ToMulticlass<int>().Decide(input);
+        }
 
-        
+        int[] IMulticlassClassifier<TInput>.Decide(TInput[] input)
+        {
+            return ToMulticlass<int>().Decide(input);
+        }
         bool[] IClassifier<TInput, bool[]>.Decide(TInput input)
         {
             return Decide(input, new bool[NumberOfOutputs]);
         }
 
-        
         int[] IClassifier<TInput, int[]>.Decide(TInput input)
         {
             return ToMulticlass().Decide(input, new int[NumberOfOutputs]);
         }
 
-        
         double[] IClassifier<TInput, double[]>.Decide(TInput input)
         {
             return ToMulticlass().Decide(input, new double[NumberOfOutputs]);
@@ -177,56 +182,56 @@ namespace Accord.MachineLearning
 
         // Transform
 
-        int ITransform<TInput, int>.Transform(TInput input)
+        int ICovariantTransform<TInput, int>.Transform(TInput input)
         {
             return ((IClassifier<TInput, int>)this).Decide(input);
         }
 
         
-        double ITransform<TInput, double>.Transform(TInput input)
+        double ICovariantTransform<TInput, double>.Transform(TInput input)
         {
             return ((IClassifier<TInput, double>)this).Decide(input);
         }
 
         
-        double[] ITransform<TInput, double>.Transform(TInput[] input)
+        double[] ICovariantTransform<TInput, double>.Transform(TInput[] input)
         {
             return Transform(input, new double[input.Length]);
         }
 
         
-        double[] ITransform<TInput, double[]>.Transform(TInput input)
+        double[] ICovariantTransform<TInput, double[]>.Transform(TInput input)
         {
             return Transform(input, create<double>(input));
         }
 
 
-        int[] ITransform<TInput, int>.Transform(TInput[] input)
+        int[] ICovariantTransform<TInput, int>.Transform(TInput[] input)
         {
             return Transform(input, new int[input.Length]);
         }
 
-        double[][] ITransform<TInput, double[]>.Transform(TInput[] input)
+        double[][] ICovariantTransform<TInput, double[]>.Transform(TInput[] input)
         {
             return Transform(input, create<double>(input));
         }
 
-        bool[] ITransform<TInput, bool[]>.Transform(TInput input)
+        bool[] ICovariantTransform<TInput, bool[]>.Transform(TInput input)
         {
             return Transform(input, create<bool>(input));
         }
 
-        bool[][] ITransform<TInput, bool[]>.Transform(TInput[] input)
+        bool[][] ICovariantTransform<TInput, bool[]>.Transform(TInput[] input)
         {
             return Transform(input, create<bool>(input));
         }
 
-        int[] ITransform<TInput, int[]>.Transform(TInput input)
+        int[] ICovariantTransform<TInput, int[]>.Transform(TInput input)
         {
             return Transform(input, create<int>(input));
         }
 
-        int[][] ITransform<TInput, int[]>.Transform(TInput[] input)
+        int[][] ICovariantTransform<TInput, int[]>.Transform(TInput[] input)
         {
             return Transform(input, create<int>(input));
         }
@@ -357,6 +362,19 @@ namespace Accord.MachineLearning
         public IMulticlassClassifier<TInput> ToMulticlass()
         {
             return (IMulticlassClassifier<TInput>)this;
+        }
+
+        /// <summary>
+        /// Views this instance as a multi-class classifier,
+        /// giving access to more advanced methods, such as the prediction
+        /// of integer labels.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassClassifier{TInput}" />.
+        /// </returns>
+        public IMulticlassClassifier<TInput, T> ToMulticlass<T>()
+        {
+            return (IMulticlassClassifier<TInput, T>)this;
         }
 
         /// <summary>

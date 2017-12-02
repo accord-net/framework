@@ -18,9 +18,8 @@
 // 
 
 
-// This class has been ported from the ICSharpCode.SharpZipLib library in order to avoid
-// adding a dependency on said library just for a single class. This class is available
-// under the MIT license as stated above.
+// This class has been ported from the ICSharpCode.SharpZipLib library to overcome a bug
+// in the said library. This class is available under the MIT license as stated above.
 
 using System;
 using System.IO;
@@ -118,7 +117,7 @@ namespace Accord.IO.Compression
 
         /// <summary>
         /// Get/set flag indicating ownership of underlying stream.
-        /// When the flag is true <see cref="Stream.Close"/> will close the underlying stream also.
+        /// When the flag is true <c>Stream.Close</c> will close the underlying stream also.
         /// </summary>
         /// <remarks>
         /// The default value is true.

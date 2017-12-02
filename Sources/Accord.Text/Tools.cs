@@ -31,33 +31,26 @@ namespace Accord.MachineLearning
     ///   Set of machine learning tools.
     /// </summary>
     /// 
-    public static partial class Tools
+    public static class Tools
     {
         /// <summary>
-        ///   Splits the given text into individual atomic words, 
-        ///   irrespective of punctuation and other marks.
+        ///   Obsolete. Please use <see cref="Accord.Text.ExtensionMethods.Tokenize(string)"/> instead.
         /// </summary>
         /// 
-        public static string[][] Tokenize(this string[] x)
+        [Obsolete("please use Accord.Text.ExtensionMethods.Tokenize(x) instead.")]
+        public static string[][] Tokenize(string[] x)
         {
-            var r = new string[x.Length][];
-            for (int i = 0; i < x.Length; i++)
-                r[i] = Tokenize(x[i]);
-            return r;
+            return Accord.Text.ExtensionMethods.Tokenize(x);
         }
 
         /// <summary>
-        ///   Splits the given text into individual atomic words, 
-        ///   irrespective of punctuation and other marks.
+        ///   Obsolete. Please use <see cref="Accord.Text.ExtensionMethods.Tokenize(string)"/> instead.
         /// </summary>
         /// 
-        public static string[] Tokenize(this string x)
+        [Obsolete("please use Accord.Text.ExtensionMethods.Tokenize(x) instead.")]
+        public static string[] Tokenize(string x)
         {
-            string s = Regex.Replace(x, @"[^\w]", " ");
-            string[] words = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < words.Length; i++)
-                words[i] = words[i].ToLowerInvariant();
-            return words;
+            return Accord.Text.ExtensionMethods.Tokenize(x);
         }
     }
 }

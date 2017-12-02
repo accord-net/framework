@@ -39,9 +39,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/sample24.png" width="480" height="320" />
+    /// <img src="..\images\imaging\sample24.png" width="480" height="320" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/vrls.png" width="480" height="320" />
+    /// <img src="..\images\imaging\vrls.png" width="480" height="320" />
     /// </remarks>
     /// 
     /// <see cref="HorizontalRunLengthSmoothing"/>

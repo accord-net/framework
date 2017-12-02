@@ -24,7 +24,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using Accord.Math;
-    using System.Threading.Tasks;
     using Accord.Statistics;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning;
@@ -32,6 +31,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using System.Collections.Generic;
     using Statistics.Filters;
     using System.Collections;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -70,63 +71,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// <see cref="RandomForestLearning"/>
     /// 
     [Serializable]
-    public class ID3Learning : ParallelLearningBase, ISupervisedLearning<DecisionTree, int[], int>,
-        IEnumerable<DecisionVariable>
+    public class ID3Learning : DecisionTreeLearningBase, ISupervisedLearning<DecisionTree, int[], int>
     {
 
-        private DecisionTree tree;
-
-        private int maxHeight;
         private IntRange[] inputRanges;
-        private int outputClasses;
 
-        private int join = 1;
-
-        private int[] attributeUsageCount;
-        private IList<DecisionVariable> attributes;
-
-
-        /// <summary>
-        ///   Gets or sets the maximum allowed height when
-        ///   learning a tree. If set to zero, no limit will
-        ///   be applied. Default is zero.
-        /// </summary>
-        /// 
-        public int MaxHeight
-        {
-            get { return maxHeight; }
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException("value",
-                        "The height must be greater than zero.");
-                }
-
-                maxHeight = value;
-            }
-        }
-
-        /// <summary>
-        ///   Gets or sets the collection of attributes to 
-        ///   be processed by the induced decision tree.
-        /// </summary>
-        /// 
-        public IList<DecisionVariable> Attributes
-        {
-            get { return attributes; }
-            set { attributes = value; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the decision trees being learned.
-        /// </summary>
-        /// 
-        public DecisionTree Model
-        {
-            get { return tree; }
-            set { tree = value; }
-        }
+        private bool rejection = true;
 
         /// <summary>
         ///   Gets or sets whether all nodes are obligated to provide 
@@ -134,29 +84,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         ///   may contain <c>null</c>. Default is false.
         /// </summary>
         /// 
-        public bool Rejection { get; set; }
-
-
-        /// <summary>
-        ///   Gets or sets how many times one single variable can be
-        ///   integrated into the decision process. In the original
-        ///   ID3 algorithm, a variable can join only one time per
-        ///   decision path (path from the root to a leaf).
-        /// </summary>
-        /// 
-        public int Join
+        public bool Rejection
         {
-            get { return join; }
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException("value",
-                        "The number of times must be greater than zero.");
-                }
-
-                join = value;
-            }
+            get { return rejection; }
+            set { rejection = value; }
         }
 
         /// <summary>
@@ -165,8 +96,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public ID3Learning()
         {
-            this.Rejection = true;
-            this.attributes = new List<DecisionVariable>();
         }
 
         /// <summary>
@@ -176,7 +105,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="tree">The decision tree to be generated.</param>
         /// 
         public ID3Learning(DecisionTree tree)
-            : this()
         {
             init(tree);
         }
@@ -188,9 +116,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="attributes">The attributes to be processed by the induced tree.</param>
         /// 
         public ID3Learning(DecisionVariable[] attributes)
-            : this()
+            : base(attributes)
         {
-            this.attributes = new List<DecisionVariable>(attributes);
         }
 
         private void init(DecisionTree tree)
@@ -198,11 +125,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             if (tree == null)
                 throw new ArgumentNullException("tree");
 
-            this.tree = tree;
+            this.Model = tree;
             this.inputRanges = new IntRange[tree.NumberOfInputs];
-            this.outputClasses = tree.NumberOfOutputs;
-            this.attributeUsageCount = new int[tree.NumberOfInputs];
-            this.attributes = tree.Attributes;
+            this.AttributeUsageCount = new int[tree.NumberOfInputs];
+            this.Attributes = tree.Attributes;
 
             for (int i = 0; i < tree.Attributes.Count; i++)
             {
@@ -214,14 +140,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(provideInnerRange: false);
         }
 
-        /// <summary>
-        ///   Adds the specified variable to the list of <see cref="Attribute"/>s.
-        /// </summary>
-        /// 
-        public void Add(DecisionVariable variable)
-        {
-            this.attributes.Add(variable);
-        }
+
 
         /// <summary>
         ///   Learns a model that can map the given inputs to the given outputs.
@@ -238,12 +157,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             if (weights != null)
                 throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
-            if (tree == null)
-                init(DecisionTreeHelper.Create(x, y, this.attributes));
+            if (Model == null)
+                init(DecisionTreeHelper.Create(x, y, this.Attributes));
 
             run(x, y);
 
-            return tree;
+            return Model;
         }
 
         /// <summary>
@@ -265,26 +184,26 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return new ZeroOneLoss(outputs)
             {
                 Mean = true
-            }.Loss(tree.Decide(inputs));
+            }.Loss(Model.Decide(inputs));
         }
 
         private void run(int[][] inputs, int[] outputs)
         {
             // Initial argument check
-            DecisionTreeHelper.CheckArgs(tree, inputs, outputs);
+            DecisionTreeHelper.CheckArgs(Model, inputs, outputs);
 
             // Reset the usage of all attributes
-            for (int i = 0; i < attributeUsageCount.Length; i++)
+            for (int i = 0; i < AttributeUsageCount.Length; i++)
             {
                 // a[i] has never been used
-                attributeUsageCount[i] = 0;
+                AttributeUsageCount[i] = 0;
             }
 
             // 1. Create a root node for the tree
-            this.tree.Root = new DecisionNode(tree);
+            this.Model.Root = new DecisionNode(Model);
 
             // Recursively split the tree nodes
-            split(tree.Root, inputs, outputs, 0);
+            split(Model.Root, inputs, outputs, 0);
         }
 
 
@@ -305,14 +224,14 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return new ZeroOneLoss(outputs)
             {
                 Mean = true
-            }.Loss(tree.Decide(inputs));
+            }.Loss(Model.Decide(inputs));
         }
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)
         {
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
-            double entropy = Measures.Entropy(output, outputClasses);
+            double entropy = Measures.Entropy(output, Model.NumberOfClasses);
 
             if (entropy == 0)
             {
@@ -326,38 +245,44 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    the target attributes in the examples.
             //
 
-            // how many variables have been used less than the limit
-            int candidateCount = attributeUsageCount.Count(x => x < join);
+            // how many variables have been used less than the limit (if there is a limit)
+            int[] candidates = Matrix.Find(AttributeUsageCount, x => Join == 0 ? true : x < Join);
 
-            if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
+            if (candidates.Length == 0 || (MaxHeight > 0 && height == MaxHeight))
             {
                 root.Output = Measures.Mode(output);
                 return;
             }
 
-
             // 4. Otherwise, try to select the attribute which
-            //    best explains the data sample subset.
+            //    best explains the data sample subset. If the tree
+            //    is part of a random forest, only consider a percentage
+            //    of the candidate attributes at each split point
 
-            double[] scores = new double[candidateCount];
-            int[][][] partitions = new int[candidateCount][][];
-            int[][][] outputSubs = new int[candidateCount][][];
+            if (MaxVariables > 0 && candidates.Length > MaxVariables)
+                candidates = Vector.Sample(candidates, MaxVariables);
 
-            // Retrieve candidate attribute indices
-            int[] candidates = new int[candidateCount];
-            for (int i = 0, k = 0; i < attributeUsageCount.Length; i++)
+            double[] scores = new double[candidates.Length];
+            int[][][] partitions = new int[candidates.Length][][];
+            int[][][] outputSubs = new int[candidates.Length][][];
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                if (attributeUsageCount[i] < join)
-                    candidates[k++] = i;
+                for (int i = 0; i < scores.Length; i++)
+                {
+                    scores[i] = computeGainRatio(input, output, candidates[i],
+                        entropy, out partitions[i], out outputSubs[i]);
+                }
             }
-
-
-            // For each attribute in the data set
-            Parallel.For(0, scores.Length, ParallelOptions, i =>
-            {
-                scores[i] = computeGainRatio(input, output, candidates[i],
-                    entropy, out partitions[i], out outputSubs[i]);
-            });
+            else
+            {             
+                // For each attribute in the data set
+                Parallel.For(0, scores.Length, ParallelOptions, i =>
+                {
+                    scores[i] = computeGainRatio(input, output, candidates[i],
+                        entropy, out partitions[i], out outputSubs[i]);
+                });
+            }
 
             // Select the attribute with maximum gain ratio
             int maxGainIndex; scores.Max(out maxGainIndex);
@@ -366,14 +291,14 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             var maxGainAttribute = candidates[maxGainIndex];
             var maxGainRange = inputRanges[maxGainAttribute];
 
-            attributeUsageCount[maxGainAttribute]++;
+            AttributeUsageCount[maxGainAttribute]++;
 
             // Now, create next nodes and pass those partitions as their responsibilities.
             DecisionNode[] children = new DecisionNode[maxGainPartition.Length];
 
             for (int i = 0; i < children.Length; i++)
             {
-                children[i] = new DecisionNode(tree)
+                children[i] = new DecisionNode(Model)
                 {
                     Parent = root,
                     Comparison = ComparisonKind.Equal,
@@ -398,7 +323,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
 
 
-            attributeUsageCount[maxGainAttribute]--;
+            AttributeUsageCount[maxGainAttribute]--;
 
             root.Branches.AttributeIndex = maxGainAttribute;
             root.Branches.AddRange(children);
@@ -431,7 +356,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 outputSubset[i] = output.Get(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
-                double e = Measures.Entropy(outputSubset[i], outputClasses);
+                double e = Measures.Entropy(outputSubset[i], Model.NumberOfClasses);
 
                 info += (outputSubset[i].Length / (double)output.Length) * e;
             }
@@ -448,30 +373,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private double computeGainRatio(int[][] input, int[] output, int attributeIndex,
             double entropy, out int[][] partitions, out int[][] outputSubset)
         {
-            double infoGain = computeInfoGain(input, output, attributeIndex,
-                entropy, out partitions, out outputSubset);
-
-            double splitInfo = Statistics.Tools.SplitInformation(output.Length, partitions);
+            double infoGain = computeInfoGain(input, output, attributeIndex, entropy, out partitions, out outputSubset);
+            double splitInfo = SplitInformation(output.Length, partitions);
 
             return infoGain == 0 ? 0 : infoGain / splitInfo;
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        public IEnumerator<DecisionVariable> GetEnumerator()
-        {
-            return attributes.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return attributes.GetEnumerator();
-        }
     }
 }

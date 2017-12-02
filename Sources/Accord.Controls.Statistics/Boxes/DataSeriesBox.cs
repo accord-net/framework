@@ -29,8 +29,8 @@ namespace Accord.Controls
     using System.Threading;
     using System.Windows.Forms;
     using Accord.Math;
-    using AForge;
     using ZedGraph;
+    using Accord.Compat;
 
     /// <summary>
     ///   Data Series Box for quickly displaying a form with a time
@@ -285,7 +285,7 @@ namespace Accord.Controls
             if (step == null)
                 step = (max - min) / npoints;
 
-            double[] input = Vector.Interval(min.Value, max.Value, step.Value);
+            double[] input = Vector.Range(min.Value, max.Value, step.Value);
             double[] output = Matrix.Apply(input, function);
 
             return show(title, input, new[] { output });

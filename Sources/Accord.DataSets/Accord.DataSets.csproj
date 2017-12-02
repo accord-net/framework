@@ -5,7 +5,7 @@
     <RootNamespace>Accord.DataSets</RootNamespace>
     <AssemblyName>Accord.DataSets</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -60,6 +60,14 @@
     </Compile>
     <Compile Include="Base\WebDataSet.cs" />
     <Compile Include="Chunking.cs" />
+    <Compile Include="Nursery.cs" />
+    <Compile Include="PimaIndiansDiabetes.cs" />
+    <Compile Include="Servo.cs" />
+    <Compile Include="YinYang.cs" />
+    <Compile Include="Parkinsons.cs" />
+    <Compile Include="WisconsinPrognosticBreastCancer.cs" />
+    <Compile Include="WisconsinDiagnosticBreastCancer.cs" />
+    <Compile Include="WisconsinOriginalBreastCancer.cs" />
     <Compile Include="Pendigits.cs" />
     <Compile Include="Iris.cs" />
     <Compile Include="Wine.cs" />

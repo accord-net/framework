@@ -80,12 +80,10 @@
 
 namespace Accord.Math.Optimization
 {
-    using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hungarian method for solving the assignment problem, also known
@@ -432,7 +430,7 @@ namespace Accord.Math.Optimization
         private int step_one()
         {
             minRow = Matrix.Min(validCost, dimension: 1);
-            minCol = Matrix.Min(validCost.Subtract(MinRow, dimension: 1), dimension: 0);
+            minCol = Matrix.Min(validCost.Subtract(MinRow, dimension: (VectorType)1), dimension: 0);
 
             return 2;
         }

@@ -40,12 +40,12 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample12.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample12.png" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/erosion.png" width="320" height="240" />
+    /// <img src="..\images\imaging\erosion.png" width="320" height="240" />
     /// </remarks>
     /// 
-    /// <seealso cref="Dilatation"/>
+    /// <seealso cref="Dilation"/>
     /// <seealso cref="Closing"/>
     /// <seealso cref="Opening"/>
     /// <seealso cref="Erosion3x3"/>

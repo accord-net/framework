@@ -1,0 +1,6 @@
+[submodule "Samples/Statistics/Workbench (Distributions)"]
+	path = Samples/Statistics/Workbench (Distributions)
+	url = ../../cesarsouza/statistics-workbench.git
+[submodule "Samples/Video/Screencast Capture"]
+	path = Samples/Video/Screencast Capture
+	url = ../../cesarsouza/screencast-capture.git

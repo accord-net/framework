@@ -28,6 +28,7 @@ namespace Accord.Math
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     public static partial class Vector

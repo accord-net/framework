@@ -26,7 +26,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
     <DefineConstants>TRACE;NET462</DefineConstants>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
@@ -63,6 +62,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="HaarCascadeWriterTest.cs" />
     <Compile Include="HaarCascadeTest.cs" />
     <Compile Include="HaarDataParserTest.cs" />
     <Compile Include="Imaging\BagOfVisualWordsTest.cs" />
@@ -109,6 +109,10 @@
       <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
       <Name>Accord.MachineLearning</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
@@ -116,6 +120,10 @@
     <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Video\Accord.Video.csproj">
+      <Project>{809725DC-6502-4732-A51C-DEB7FEA12975}</Project>
+      <Name>Accord.Video</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Vision\Accord.Vision.csproj">
       <Project>{C70A159D-74A4-405F-9A7F-C17ACF451CCA}</Project>

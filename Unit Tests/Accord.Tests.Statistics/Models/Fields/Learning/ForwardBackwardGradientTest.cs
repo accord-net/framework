@@ -37,23 +37,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     public class ForwardBackwardLearningTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         #region Discrete
 
         [Test]
@@ -63,7 +46,10 @@ namespace Accord.Tests.Statistics.Models.Fields
             var model = new HiddenConditionalRandomField<int>(function);
             var target = new ForwardBackwardGradient<int>(model);
 
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
+            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length)
+            {
+                StepSize = 1e-5
+            };
 
             var inputs = QuasiNewtonHiddenLearningTest.inputs;
             var outputs = QuasiNewtonHiddenLearningTest.outputs;
@@ -77,8 +63,6 @@ namespace Accord.Tests.Statistics.Models.Fields
             for (int i = 0; i < actual.Length; i++)
             {
                 Assert.AreEqual(expected[i], actual[i], 1e-4);
-                Assert.IsFalse(double.IsNaN(actual[i]));
-                Assert.IsFalse(double.IsNaN(expected[i]));
             }
         }
 
@@ -129,7 +113,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 Assert.AreEqual(expected[i], actual[i], 1e-4);
         }
 
-     
+
 
         #endregion
 
@@ -151,7 +135,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
 
-            diff.Function = parameters => func(model, parameters, 
+            diff.Function = parameters => func(model, parameters,
                 observations,
                 labels);
 
@@ -254,7 +238,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 new [] { new double[] { 9, 1, 0 }, new double[] { 0, 1, 5 }, new double[] { 0, 0, 0 } },
             };
 
-            int[] outputs = 
+            int[] outputs =
             {
                 0, 0, 1
             };
@@ -264,7 +248,10 @@ namespace Accord.Tests.Statistics.Models.Fields
             var model = new HiddenConditionalRandomField<double[]>(function);
             var target = new ForwardBackwardGradient<double[]>(model);
 
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
+            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length)
+            {
+                StepSize = 1e-5
+            };
 
             diff.Function = parameters => func(model, parameters, inputs, outputs);
 
@@ -340,7 +327,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         }
 
 
-      
+
 
 
 

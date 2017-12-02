@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="AForge.Video.DirectShow.FileVideoSource" BaseTypeListCollapsed="true">
+  <Class Name="Accord.Video.DirectShow.FileVideoSource" BaseTypeListCollapsed="true">
     <Position X="1" Y="0.5" Width="2.5" />
     <Members>
       <Field Name="bytesReceived" Hidden="true" />
@@ -12,7 +12,7 @@
       <Field Name="thread" Hidden="true" />
     </Members>
     <NestedTypes>
-      <Class Name="AForge.Video.DirectShow.FileVideoSource.Grabber" Collapsed="true">
+      <Class Name="Accord.Video.DirectShow.FileVideoSource.Grabber" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>FileVideoSource.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -25,35 +25,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="AForge.Video.DirectShow.FilterInfo" BaseTypeListCollapsed="true">
-    <Position X="8.25" Y="0.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAIAAQAAAAAAAAAAQAAAAAAhAA=</HashCode>
-      <FileName>FilterInfo.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="AForge.Video.DirectShow.FilterInfoCollection">
-    <Position X="1.25" Y="7.75" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>FilterInfoCollection.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AForge.Video.DirectShow.FilterCategory">
-    <Position X="4.25" Y="3.5" Width="2.25" />
-    <Members>
-      <Field Name="AudioCompressorCategory" Hidden="true" />
-      <Field Name="AudioInputDevice" Hidden="true" />
-      <Field Name="VideoCompressorCategory" Hidden="true" />
-      <Field Name="VideoInputDevice" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAQAgAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Uuids.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AForge.Video.DirectShow.VideoCapabilities">
+  <Class Name="Accord.Video.DirectShow.VideoCapabilities">
     <Position X="4.25" Y="0.5" Width="2.5" />
     <Members>
       <Field Name="AverageFrameRate" Hidden="true" />
@@ -62,11 +34,19 @@
       <Field Name="MaximumFrameRate" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>ABAAAAgAAAAAAAAAgAACAAAAgCAAAIAAACAAAAAAAiA=</HashCode>
+      <HashCode>ABAAAAgAAAAAAAAEgAACAAAAgCAAAIAAACAAAAAAAiA=</HashCode>
       <FileName>VideoCapabilities.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AForge.Video.DirectShow.VideoCaptureDevice" BaseTypeListCollapsed="true">
+  <Class Name="Accord.Video.DirectShow.FilterInfo" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAQEAAAIAAQAAAAAAAAAAQAAAAAAhAA=</HashCode>
+      <FileName>FilterInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Video.DirectShow.VideoCaptureDevice" BaseTypeListCollapsed="true">
     <Position X="11.25" Y="0.5" Width="3.25" />
     <Members>
       <Field Name="bytesReceived" Hidden="true" />
@@ -95,7 +75,7 @@
       <Field Name="videoResolution" Hidden="true" />
     </Members>
     <NestedTypes>
-      <Class Name="AForge.Video.DirectShow.VideoCaptureDevice.Grabber" Collapsed="true">
+      <Class Name="Accord.Video.DirectShow.VideoCaptureDevice.Grabber" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>VideoCaptureDevice.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -103,12 +83,32 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>QQBmRIaHAuEKPQkAEhEgQAQGQAACQgDIIYSCAIEBAAI=</HashCode>
+      <HashCode>QQBmRIaHAuEKPQkAEhEgQAQGQAASQgDIIYSCAIEBADI=</HashCode>
       <FileName>VideoCaptureDevice.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="AForge.Video.DirectShow.VideoCaptureDeviceForm">
+  <Class Name="Accord.Video.DirectShow.VideoInput">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAQEAAAAAAAA=</HashCode>
+      <FileName>VideoInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Video.DirectShow.FilterCategory">
+    <Position X="4.25" Y="3.5" Width="2.25" />
+    <Members>
+      <Field Name="AudioCompressorCategory" Hidden="true" />
+      <Field Name="AudioInputDevice" Hidden="true" />
+      <Field Name="VideoCompressorCategory" Hidden="true" />
+      <Field Name="VideoInputDevice" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAQAgAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Uuids.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Video.DirectShow.VideoCaptureDeviceForm">
     <Position X="4.25" Y="7.25" Width="2.75" />
     <Members>
       <Field Name="availableVideoInputs" Hidden="true" />
@@ -140,32 +140,32 @@
       <FileName>VideoCaptureDeviceForm.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AForge.Video.DirectShow.VideoInput">
-    <Position X="8.5" Y="3.5" Width="1.5" />
+  <Class Name="Accord.Video.DirectShow.FilterInfoCollection">
+    <Position X="1.25" Y="7.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAQEAAAAAAAA=</HashCode>
-      <FileName>VideoInput.cs</FileName>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FilterInfoCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="AForge.Video.DirectShow.CameraControlProperty">
+  <Enum Name="Accord.Video.DirectShow.CameraControlProperty">
     <Position X="4.5" Y="4.75" Width="2" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAgAAEDAAAAAAAAAAAAAAAAAAAAIABAA=</HashCode>
       <FileName>CameraControlProperty.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="AForge.Video.DirectShow.CameraControlFlags">
-    <Position X="1.25" Y="6" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAA=</HashCode>
-      <FileName>CameraControlProperty.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="AForge.Video.DirectShow.PhysicalConnectorType">
+  <Enum Name="Accord.Video.DirectShow.PhysicalConnectorType">
     <Position X="8.25" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AAQFEIiEQQACAAAAAAAgqAICQABAAAAAIAAACgAAAEA=</HashCode>
       <FileName>PhysicalConnectorType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Video.DirectShow.CameraControlFlags">
+    <Position X="1.25" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAA=</HashCode>
+      <FileName>CameraControlProperty.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

@@ -61,7 +61,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The type for the output data that enters in the model. Default is double[].</typeparam>
     /// <typeparam name="TOutput">The type for the input data that exits from the model. Default is double[].</typeparam>
     /// 
-    public interface ITransform<in TInput, TOutput> : ITransform
+    public interface ICovariantTransform<in TInput, out TOutput> : ITransform
     {
         /// <summary>
         ///   Applies the transformation to an input, producing an associated output.
@@ -85,7 +85,19 @@ namespace Accord.MachineLearning
         ///   transformation to the given input.</returns>
         /// 
         TOutput[] Transform(TInput[] input);
+    }
 
+    /// <summary>
+    ///   Common interface for data transformation algorithms. Examples of transformations include
+    ///   <see cref="IClassifier{TInput, TClasses}">classifiers</see>, <see cref="IRegression{TInput, TOutputs}">regressions</see>
+    ///   and other machine learning techniques.
+    /// </summary>
+    /// 
+    /// <typeparam name="TInput">The type for the output data that enters in the model. Default is double[].</typeparam>
+    /// <typeparam name="TOutput">The type for the input data that exits from the model. Default is double[].</typeparam>
+    /// 
+    public interface ITransform<in TInput, TOutput> : ICovariantTransform<TInput, TOutput>
+    {
         /// <summary>
         ///   Applies the transformation to a set of input vectors,
         ///   producing an associated set of output vectors.

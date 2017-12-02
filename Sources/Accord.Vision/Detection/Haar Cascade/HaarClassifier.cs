@@ -37,6 +37,10 @@ namespace Accord.Vision.Detection
     using System;
     using System.Drawing;
     using Accord.Imaging;
+    using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Strong classifier based on a weaker cascade of
@@ -81,6 +85,7 @@ namespace Accord.Vision.Detection
 
         private float invArea;
         private float scale;
+        private HaarFeature[] features;
 
 
         /// <summary>
@@ -90,6 +95,24 @@ namespace Accord.Vision.Detection
         public HaarClassifier(HaarCascade cascade)
         {
             this.cascade = cascade;
+
+            var features = new List<HaarFeature>();
+
+            // For each stage in the cascade 
+            foreach (HaarCascadeStage stage in cascade.Stages)
+            {
+                // For each tree in the cascade
+                foreach (HaarFeatureNode[] tree in stage.Trees)
+                {
+                    // For each feature node in the tree
+                    foreach (HaarFeatureNode node in tree)
+                    {
+                        features.Add(node.Feature);
+                    }
+                }
+            }
+
+            this.features = features.ToArray();
         }
 
         /// <summary>
@@ -97,7 +120,9 @@ namespace Accord.Vision.Detection
         /// </summary>
         /// 
         public HaarClassifier(int baseWidth, int baseHeight, HaarCascadeStage[] stages)
-            : this(new HaarCascade(baseWidth, baseHeight, stages)) { }
+            : this(new HaarCascade(baseWidth, baseHeight, stages))
+        {
+        }
 
 
         /// <summary>
@@ -126,20 +151,10 @@ namespace Accord.Vision.Detection
                 this.scale = value;
                 this.invArea = 1f / (cascade.Width * cascade.Height * scale * scale);
 
-                // For each stage in the cascade 
-                foreach (HaarCascadeStage stage in cascade.Stages)
+                Parallel.For(0, features.Length, i =>
                 {
-                    // For each tree in the cascade
-                    foreach (HaarFeatureNode[] tree in stage.Trees)
-                    {
-                        // For each feature node in the tree
-                        foreach (HaarFeatureNode node in tree)
-                        {
-                            // Set the scale and weight for the node feature
-                            node.Feature.SetScaleAndWeight(value, invArea);
-                        }
-                    }
-                }
+                    features[i].SetScaleAndWeight(value, invArea);
+                });
             }
         }
 
@@ -148,6 +163,9 @@ namespace Accord.Vision.Detection
         ///   Detects the presence of an object in a given window.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public bool Compute(IntegralImage2 image, Rectangle rectangle)
         {
             int x = rectangle.X;
@@ -158,7 +176,6 @@ namespace Accord.Vision.Detection
             double mean = image.GetSum(x, y, w, h) * invArea;
             double var = image.GetSum2(x, y, w, h) * invArea - (mean * mean);
             double sdev = (var >= 0) ? Math.Sqrt(var) : 1;
-
 
             // For each classification stage in the cascade
             foreach (HaarCascadeStage stage in cascade.Stages)

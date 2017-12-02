@@ -54,9 +54,9 @@ namespace Accord.Imaging
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/sample17.png" width="320" height="240" />
+    /// <img src="..\images\imaging\sample17.png" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/quadrilateral_finder.png" width="320" height="240" />
+    /// <img src="..\images\imaging\quadrilateral_finder.png" width="320" height="240" />
     /// </remarks>
     ///
     public class QuadrilateralFinder

@@ -48,6 +48,8 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+	using System.Diagnostics;
+	using Accord.Compat;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -92,10 +94,13 @@ namespace Accord.Math.Decompositions
         private const <#=T#> eps = 2 * Constants.<#=T#>Epsilon;
         private const <#=T#> tiny = Constants.<#=T#>Small;
 
-        <#=T#>? determinant;
+        int? rank;
+		<#=T#>? determinant;
         <#=T#>? lndeterminant;
         <#=T#>? pseudoDeterminant;
         <#=T#>? lnpseudoDeterminant;
+
+		<#=T#>[,] diagonalMatrix;
 
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
@@ -134,13 +139,16 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.rank.HasValue)
+					return this.rank.Value;
+
                 <#=T#> tol = System.Math.Max(m, n) * s[0] * eps;
 
                 int r = 0;
                 for (int i = 0; i < s.Rows(); i++)
                     if (s[i] > tol) r++;
 
-                return r;
+                return (int)(this.rank = r);
             }
         }
 
@@ -168,7 +176,13 @@ namespace Accord.Math.Decompositions
         ///
         public <#=T#>[,] DiagonalMatrix
         {
-            get { return Matrix.Diagonal(u.Columns(), v.Columns(), s); }
+            get 
+			{	
+				if (this.diagonalMatrix != null)
+					return this.diagonalMatrix;
+
+				return diagonalMatrix = Matrix.Diagonal(u.Columns(), v.Columns(), s);
+			}
         }
 
         /// <summary>
@@ -392,8 +406,7 @@ namespace Accord.Math.Decompositions
 
                     // throw new ArgumentException("Matrix should have more rows than columns.");
 
-                    System.Diagnostics.Trace.WriteLine(
-                        "WARNING: Computing SVD on a matrix with more columns than rows.");
+                    Trace.WriteLine("WARNING: Computing SVD on a matrix with more columns than rows.");
 
                     // Proceed anyway
                     a = inPlace ? value : value.Copy();

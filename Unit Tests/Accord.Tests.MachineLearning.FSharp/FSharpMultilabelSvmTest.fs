@@ -1,5 +1,7 @@
 ﻿namespace Accord.Tests.FSharp.MachineLearning
 
+#nowarn "0044"
+
 open System
 open System.IO
 

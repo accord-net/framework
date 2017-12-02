@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Statistics</RootNamespace>
     <AssemblyName>Accord.Statistics</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -87,6 +87,8 @@
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\DistributionAnalysis.cs" />
     <Compile Include="Analysis\BaseDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\GoodnessOfFit.cs" />
+    <Compile Include="Analysis\GoodnessOfFitCollection.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProcustesAnalysis.cs" />
@@ -239,12 +241,16 @@
     <Compile Include="Distributions\Univariate\Continuous\VonMisesDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WeibullDistribution.cs" />
     <Compile Include="Filters\Base\BaseFilter.cs" />
+    <Compile Include="Filters\Base\ColumnOptionCollection.cs" />
+    <Compile Include="Filters\Base\ColumnOptionsBase.cs" />
     <Compile Include="Filters\Base\IInPlaceFilter.cs" />
     <Compile Include="Filters\Base\IAutoConfigurableColumn.cs" />
     <Compile Include="Filters\Base\IAutoConfigurableFilter.cs" />
     <Compile Include="Filters\Branching.cs" />
     <Compile Include="Filters\Codification`1.cs" />
     <Compile Include="Filters\Codification`1.Options.cs" />
+    <Compile Include="Filters\Discretization`1.Options.cs" />
+    <Compile Include="Filters\Discretization`1.cs" />
     <Compile Include="Filters\Identification.cs" />
     <Compile Include="Filters\Randomization.cs" />
     <Compile Include="Filters\Imputation.cs" />
@@ -282,10 +288,12 @@
     <Compile Include="Kernels\Gaussian`2.cs" />
     <Compile Include="Kernels\Gaussian`1.cs" />
     <Compile Include="Kernels\Hellinger.cs" />
+    <Compile Include="Kernels\Normalized`2.cs" />
     <Compile Include="Kernels\Pearson.cs" />
     <Compile Include="Kernels\Normalized`1.cs" />
     <Compile Include="Kernels\InverseMultiquadric.cs" />
     <Compile Include="Kernels\NormalizedPolynomial.cs" />
+    <Compile Include="Kernels\StringSubsequence.cs" />
     <Compile Include="Kernels\Structures\KernelFunctionCache.cs" />
     <Compile Include="Kernels\Quadratic.cs" />
     <Compile Include="Kernels\SymmetricTriangle.cs" />
@@ -337,8 +345,6 @@
     <Compile Include="Accord.MachineLearning\Learning\IUnsupervisedLearning.cs" />
     <Compile Include="Accord.MachineLearning\Learning\BinaryLearningBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\MulticlassLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
     <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
@@ -414,7 +420,6 @@
     <Compile Include="Models\Fields\Potential Functions\Base\IPotentialFunction.cs" />
     <Compile Include="Models\Fields\Potential Functions\Base\PotentialFunctionBase.cs" />
     <Compile Include="Models\Fields\HiddenConditionalRandomField`1.cs" />
-    <Compile Include="Models\IConvergenceLearning.cs" />
     <Compile Include="Models\Fields\Gradient\ForwardBackwardGradient.cs" />
     <Compile Include="Models\Fields\Learning\Hidden\IHiddenConditionalRandomFieldLearning.cs" />
     <Compile Include="Models\Fields\Learning\Visible\IConditionalRandomFieldLearning.cs" />
@@ -489,6 +494,7 @@
     <Compile Include="Testing\Contingency\FisherExactTest.cs" />
     <Compile Include="Testing\AndersonDarlingTest.cs" />
     <Compile Include="Testing\LillieforsTest.cs" />
+    <Compile Include="Testing\Multiple Samples\TwoWayAnovaVariationSources.cs" />
     <Compile Include="Testing\ShapiroWilkTest.cs" />
     <Compile Include="Testing\MultinomialTest.cs" />
     <Compile Include="Testing\Multiple Samples\BartlettTest.cs" />
@@ -537,6 +543,7 @@
     <Compile Include="Testing\ZTest.cs" />
     <Compile Include="Testing\Base\HypothesisTypes.cs" />
     <Compile Include="Measures\Tools.cs" />
+    <Compile Include="TimeSeries\StatTools.cs" />
     <Compile Include="Visualizations\ScatterplotClassValueCollection.cs" />
     <Compile Include="Visualizations\HistogramBinCollection.cs" />
     <Compile Include="Visualizations\HistogramBin.cs" />

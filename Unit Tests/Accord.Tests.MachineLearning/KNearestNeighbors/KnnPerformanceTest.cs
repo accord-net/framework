@@ -88,6 +88,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void AccuracyTest1()
         {
             int n1 = 5000;

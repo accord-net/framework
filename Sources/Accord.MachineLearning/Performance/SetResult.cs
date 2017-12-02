@@ -23,6 +23,7 @@
 namespace Accord.MachineLearning.Performance
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Training and validation errors of a model. 

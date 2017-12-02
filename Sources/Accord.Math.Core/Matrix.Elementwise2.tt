@@ -5,10 +5,10 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="T4Toolbox.tt"#>
 <#
-	new MatrixOperationTemplate("Add", "Adds", "to", "+", true) .RenderToFile("Matrix.Add.Generated.cs");
-	new MatrixOperationTemplate("Subtract", "Subtracts", "from", "-", true) .RenderToFile("Matrix.Subtract.Generated.cs");
-	new MatrixOperationTemplate("Multiply", "Multiplies", "with", "*", false).RenderToFile("Matrix.Multiply.Generated.cs");
-	new MatrixOperationTemplate("Divide", "Divides", "by", "/", false).RenderToFile("Matrix.Divide.Generated.cs");
+    new MatrixOperationTemplate("Add", "Elementwise addition between", "and", "To", "+", true).RenderToFile("Matrix.Add.Generated.cs");
+    new MatrixOperationTemplate("Subtract", "Elementwise subtraction between", "and", "From", "-", true).RenderToFile("Matrix.Subtract.Generated.cs");
+    new MatrixOperationTemplate("Multiply", "Elementwise multiplication (note: this is not a dot or matrix product) between", "and", "With", "*", false).RenderToFile("Matrix.Multiply.Generated.cs");
+    new MatrixOperationTemplate("Divide", "Elementwise division between", "and", "By", "/", false).RenderToFile("Matrix.Divide.Generated.cs");
 #>
 <#+
 public class MatrixOperationTemplate : Template
@@ -20,19 +20,17 @@ public class MatrixOperationTemplate : Template
     public string op;
     public string ext;
 
-	public MatrixOperationTemplate(string name, string act, string com, string op, bool ext) 
+    public MatrixOperationTemplate(string name, string act, string com, string Com, string op, bool ext) 
     { 
         this.name = name;
         this.act  = act;
         this.com  = com;
-        this.Com  = System.Globalization.CultureInfo
-            .CurrentCulture.TextInfo.ToTitleCase(com);
+        this.Com = Com;
         this.op   = op;
-        this.ext = ext ? "this " : "";
     }
 
-	public override string TransformText()
-	{
+    public override string TransformText()
+    {
         string[] types =
         { 
             "int", 
@@ -44,6 +42,16 @@ public class MatrixOperationTemplate : Template
             // "long",
             // "uint", "ulong", "ushort"
         };
+
+        string dim_doc = @"		/// <param name=""dimension"">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href=""VectorType.RowVector""/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href=""VectorType.ColumnVector""/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>";
+
 #>
 // Accord Math Library
 // The Accord.NET Framework
@@ -78,10 +86,6 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///   Elementwise matrix and vector operations.
-    /// </summary>
-    ///
     public static partial class Elementwise
     {
 #pragma warning disable 1591
@@ -163,7 +167,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[] <#=name#>(<#=ext#><#=a#>[] a, <#=b#>[] b)
+        public static <#=r#>[] <#=name#>(this <#=a#>[] a, <#=b#>[] b)
         {
             return <#=name#>(a, b, new <#=r#>[a.Length]);
         }     
@@ -178,7 +182,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[][] b)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[][] b)
         {
             return <#=name#>(a, b, JaggedCreateAs<<#=a#>, <#=r#>>(a));
         }     
@@ -193,26 +197,11 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[,] b)
         {
             return <#=name#>(a, b, MatrixCreateAs<<#=a#>, <#=r#>>(a));
         }     
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b)
-        {
-            return <#=name#>(a, b, JaggedCreateAs<<#=a#>, <#=r#>>(a));
-        }      
-*/
+
         /// <summary>
         ///   <#=act#> a scalar <c>a</c> <#=com#> a matrix <c>B</c>.
         /// </summary>
@@ -258,23 +247,25 @@ namespace Accord.Math
             return <#=name#>(a, b, new <#=r#>[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
-        /// </param>
-        /// 
+<#=dim_doc#>
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a,  <#=b#>[] b, int dimension)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, VectorType dimension)
         {
             return <#=name#>(a, b, dimension, MatrixCreateAs<<#=a#>, <#=r#>>(a));
         }
@@ -285,20 +276,92 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
-        /// </param>
-        /// 
+<#=dim_doc#>
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a,  <#=b#>[] b, int dimension)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, VectorType dimension)
         {
             return <#=name#>(a, b, dimension, JaggedCreateAs<<#=a#>, <#=r#>>(a));
         }
+
+                /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, VectorType dimension)
+        {
+            return <#=name#>(a, b, dimension, MatrixCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+        /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, VectorType dimension)
+        {
+            return <#=name#>(a, b, dimension, JaggedCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, MatrixCreateAs<<#=a#>, <#=r#>>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, JaggedCreateAs<<#=a#>, <#=r#>>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, MatrixCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, int dimension)
+        {
+            return <#=name#>(a, b, dimension, JaggedCreateAs<<#=b#>, <#=r#>>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   <#=act#> a scalar <c>a</c> <#=com#> to the main diagonal of matrix <c>B</c>.
@@ -451,43 +514,8 @@ namespace Accord.Math
                 {
 #>
 
-#region Matrix matrix
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b, <#=r#>[,] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=b#>* ptrB = b)
-                fixed (<#=r#>* ptrR = result)
-                {
-                    var pb = ptrB;
-                    var pr = ptrR;
-                    for (int i = 0; i < a.Length; i++)
-                        for (int j = 0; j < a[i].Length; j++, pb++, pr++)
-                            *pr = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)(*pb));
-                }
-            }
+        #region Matrix matrix
 
-            return result;
-        }
-*/
-/*
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
         /// </summary>
@@ -500,147 +528,9 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[][] b, <#=r#>[,] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=a#>* ptrA = a)
-                fixed (<#=r#>* ptrR = result)
-                {
-                    var pa = ptrA;
-                    var pr = ptrR;
-                    for (int i = 0; i < b.Length; i++)
-                        for (int j = 0; j < b[i].Length; j++, pa++, pr++)
-                            *pr = (<#=r#>)((<#=r#>)(*pa) <#=op#> (<#=r#>)(b[i][j]));
-                }
-            }
-
-            return result;
-        }
-*/
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b, <#=r#>[][] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=a#>* ptrA = a)
-                fixed (<#=b#>* ptrB = b)
-                {
-                    var pa = ptrA;
-                    var pb = ptrB;
-                    for (int i = 0; i < result.Length; i++)
-                        for (int j = 0; j < result[i].Length; j++, pa++, pb++)
-                            result[i][j] = (<#=r#>)((<#=r#>)(*pa) <#=op#> (<#=r#>)(*pb));
-                }
-            }
-
-            return result;
-        }
-*/
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=b#>* ptrB = b)
-                {
-                    var pb = ptrB;
-                    for (int i = 0; i < result.Length; i++)
-                        for (int j = 0; j < result[i].Length; j++, pb++)
-                            result[i][j] = (<#=r#>)((<#=r#>)(a[i][j]) <#=op#> (<#=r#>)(*pb));
-                }
-            }
-
-            return result;
-        }
-*/
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=a#>* ptrA = a)
-                {
-                    var pa = ptrA;
-                    for (int i = 0; i < result.Length; i++)
-                        for (int j = 0; j < result[i].Length; j++, pa++)
-                            result[i][j] = (<#=r#>)((<#=r#>)(*pa) <#=op#> (<#=r#>)(b[i][j]));
-                }
-            }
-
-            return result;
-        }
-*/
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)(a[i][j]) <#=op#> (<#=r#>)(b[i][j]));
@@ -660,12 +550,9 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -709,40 +596,7 @@ namespace Accord.Math
 
 
 
-#region Matrix with scalar
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a scalar <c>b</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The scalar <c>b</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=a#>* ptrA = a)
-                {
-                    var pa = ptrA;
-                    for (int i = 0; i < result.Length; i++)
-                        for (int j = 0; j < result[i].Length; j++, pa++)
-                        result[i][j] = (<#=r#>)((<#=r#>)(*pa) <#=op#>  (<#=r#>)b);
-                }
-            }
-
-            return result;
-        }
-*/
+        #region Matrix with scalar
 
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a scalar <c>b</c>.
@@ -758,73 +612,12 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#> b, <#=r#>[][] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < a.Length; i++)
                 for (int j = 0; j < a[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b);
             return result;
         }
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a scalar <c>b</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The scalar <c>b</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            for (int i = 0; i < a.Length; i++)
-                for (int j = 0; j < a[i].Length; j++)
-                    result[i, j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b);
-            return result;
-        }
-*/
-/*
-        /// <summary>
-        ///   <#=act#> a scalar <c>a</c> <#=com#> a matrix <c>B</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The scalar <c>a</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(this <#=a#> a, <#=b#>[,] b, <#=r#>[][] result)
-        {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=b#>* ptrB = b)
-                {
-                    var pb = ptrB;
-                    for (int i = 0; i < result.Length; i++)
-                        for (int j = 0; j < result[i].Length; j++, pb++)
-                            result[i][j] = (<#=r#>)((<#=r#>)a <#=op#>  (<#=r#>)(*pb));
-                }
-            }
-
-            return result;
-        }
-*/
 
         /// <summary>
         ///   <#=act#> a scalar <c>a</c> <#=com#> a matrix <c>B</c>.
@@ -840,48 +633,12 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] <#=name#>(this <#=a#> a, <#=b#>[][] b, <#=r#>[][] result)
         {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 for (int j = 0; j < b[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)b[i][j]);
             return result;
         }
-/*
-        /// <summary>
-        ///   <#=act#> a scalar <c>a</c> <#=com#> a matrix <c>b</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The scalar <c>a</c>.</param>
-        /// <param name="b">The matrix <c>B</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[,] <#=name#>(this <#=a#> a, <#=b#>[][] b, <#=r#>[,] result)
-        {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=r#>* ptrR = result)
-                {
-                    var pr = ptrR;
-                    for (int i = 0; i < b.Length; i++)
-                        for (int j = 0; j < b[i].Length; j++, pr++)
-                            *pr = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)(b[i][j]));
-                }
-            }
-
-            return result;
-        }
-*/
 
         /// <summary>
         ///   <#=act#> a scalar <c>a</c> <#=com#> a matrix <c>b</c>.
@@ -897,10 +654,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] <#=name#>(this <#=a#> a, <#=b#>[,] b, <#=r#>[,] result)
         {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             unsafe
             {
                 fixed (<#=b#>* ptrB = b)        
@@ -930,10 +684,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#> b, <#=r#>[,] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             unsafe
             {
                 fixed (<#=a#>* ptrA = a)
@@ -948,65 +699,7 @@ namespace Accord.Math
 
             return result;
         }
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a scalar <c>b</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The scalar <c>b</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            unsafe
-            {
-                fixed (<#=a#>* ptrA = a)
-                {
-                    var pa = ptrA;
-                    for (int i = 0; i < result.Length; i++)
-                        for (int j = 0; j < result[i].Length; j++, pa++)
-                        result[i][j] = (<#=r#>)((<#=r#>)(*pa) <#=op#>  (<#=r#>)b);
-                }
-            }
-
-            return result;
-        }
-*/
-/*
-        /// <summary>
-        ///   <#=act#> a matrix <c>A</c> <#=com#> a scalar <c>b</c>.
-        /// </summary>
-        /// 
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The scalar <c>b</c>.</param>
-        /// <param name="result">The vector where the result should be stored. Pass the same
-        ///   vector as one of the arguments to perform the operation in place.</param>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
-        {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
-            for (int i = 0; i < a.Length; i++)
-                for (int j = 0; j < a[i].Length; j++)
-                    result[i, j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b);
-            return result;
-        }
-*/
-#endregion
+        #endregion
 
 
 
@@ -1031,7 +724,7 @@ namespace Accord.Math
 
 
 
-#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   <#=act#> a vector <c>a</c> <#=com#> a vector<c>b</c>.
@@ -1047,22 +740,19 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] <#=name#>(this <#=a#>[] a, <#=b#>[] b, <#=r#>[] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()) || !b.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < a.Length; i++)
                 result[i] = (<#=r#>)((<#=r#>)a[i] <#=op#> (<#=r#>)b[i]);
             return result;
         }
-#endregion
+        #endregion
 
 
 
 
 
 
-#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   <#=act#> a vector <c>a</c> <#=com#> a scalar <c>b</c>.
@@ -1078,10 +768,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] <#=name#>(this <#=a#>[] a, <#=b#> b, <#=r#>[] result)
         {
-#if CHECK
-            if (a.Length != result.Length)
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < a.Length; i++)
                 result[i] = (<#=r#>)((<#=r#>)a[i] <#=op#> (<#=r#>)b);
             return result;
@@ -1101,63 +788,127 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] <#=name#>(this <#=a#> a, <#=b#>[] b, <#=r#>[] result)
         {
-#if CHECK
-            if (b.Length != result.Length)
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 result[i] = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)b[i]);
             return result;
         }
-#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, int dimension, <#=r#>[,] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
 
-#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, int dimension, <#=r#>[][] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, int dimension, <#=r#>[,] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, int dimension, <#=r#>[][] result)
+        {
+            return <#=name#>(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
-        /// </param>
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a,  <#=b#>[] b, int dimension, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[] a, <#=b#>[,] b, VectorType dimension, <#=r#>[,] result)
         {
+            return <#=name#>(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+<#=dim_doc#>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[][] <#=name#>(this <#=a#>[] a, <#=b#>[][] b, VectorType dimension, <#=r#>[][] result)
+        {
+            return <#=name#>(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   <#=act#> a matrix <c>A</c> <#=com#> a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+<#=dim_doc#>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[] b, VectorType dimension, <#=r#>[,] result)
+        {
+            check<<#=a#>, <#=b#>, <#=r#>>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
             int cols = a.GetLength(1);
 
             if (dimension == 0)
             {
-#if CHECK
-            if (a.GetLength(1) != b.Length || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
                 for (int i = 0; i < rows; i++)
                     for (int j = 0; j < cols; j++)
                         result[i, j] = (<#=r#>)((<#=r#>)a[i, j] <#=op#> (<#=r#>)b[j]);
             }
             else
             {
-#if CHECK
-            if (a.GetLength(0) != b.Length || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
                 for (int i = 0; i < rows; i++)
                     for (int j = 0; j < cols; j++)
                         result[i, j] = (<#=r#>)((<#=r#>)a[i, j] <#=op#> (<#=r#>)b[i]);
@@ -1172,36 +923,24 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
-        /// </param>
+<#=dim_doc#>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a,  <#=b#>[] b, int dimension, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[] b, VectorType dimension, <#=r#>[][] result)
         {
+            check<<#=a#>, <#=b#>, <#=r#>>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
             {
-#if CHECK
-            if (a[0].Length != b.Length || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
                 for (int i = 0; i < a.Length; i++)
                     for (int j = 0; j < a[i].Length; j++)
                         result[i][j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b[j]);
             }
             else
             {
-#if CHECK
-            if (a.Length != b.Length || !a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
                 for (int i = 0; i < a.Length; i++)
                     for (int j = 0; j < a[i].Length; j++)
                         result[i][j] = (<#=r#>)((<#=r#>)a[i][j] <#=op#> (<#=r#>)b[i]);
@@ -1209,7 +948,7 @@ namespace Accord.Math
 
             return result;
         }
-#endregion
+        #endregion
 
 
 
@@ -1220,29 +959,13 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#> a, <#=b#>[,] b, <#=r#>[,] result)
         {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             int rows = b.GetLength(0);
             int cols = b.GetLength(1);
 
@@ -1265,10 +988,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#> a, <#=b#>[][] b, <#=r#>[][] result)
         {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a <#=op#> (<#=r#>)b[i][i]);
             return result;
@@ -1279,10 +999,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[] a, <#=b#>[,] b, <#=r#>[,] result)
         {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()) || a.Length != b.GetLength(1))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             int rows = b.GetLength(0);
             int cols = b.GetLength(1);
 
@@ -1305,10 +1022,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[] a, <#=b#>[][] b, <#=r#>[][] result)
         {
-#if CHECK
-            if (!b.GetLength().IsEqual(result.GetLength()) || a.Length != b[0].Length)
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a[i] <#=op#> (<#=r#>)b[i][i]);
             return result;
@@ -1319,10 +1033,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[,] a, <#=b#> b, <#=r#>[,] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             int rows = a.GetLength(0);
             int cols = a.GetLength(1);
 
@@ -1345,10 +1056,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[][] a, <#=b#> b, <#=r#>[][] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()))
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < a.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a[i][i] <#=op#> (<#=r#>)b);
             return result;
@@ -1359,10 +1067,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] <#=name#><#=Com#>Diagonal(this <#=a#>[,] a, <#=b#>[] b, <#=r#>[,] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()) || a.GetLength(0) != b.Length)
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             int rows = b.GetLength(0);
             int cols = b.GetLength(1);
 
@@ -1385,16 +1090,13 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] <#=name#><#=Com#>Diagonal(this <#=a#>[][] a, <#=b#>[] b, <#=r#>[][] result)
         {
-#if CHECK
-            if (!a.GetLength().IsEqual(result.GetLength()) || a.Length != b.Length)
-                throw new DimensionMismatchException();
-#endif
+            check<<#=a#>, <#=b#>, <#=r#>>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (<#=r#>)((<#=r#>)a[i][i] <#=op#> (<#=r#>)b[i]);
             return result;
         }
  
-#endregion
+        #endregion
      
 <#+
                 }
@@ -1406,6 +1108,6 @@ namespace Accord.Math
 }
 <#+
         return this.GenerationEnvironment.ToString();
-	}
+    }
 }
 #>

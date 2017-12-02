@@ -24,6 +24,7 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Levenshtein distance.
@@ -53,7 +54,8 @@ namespace Accord.Math.Distances
     /// 
     /// <typeparam name="T">The type of elements in the string. Default is char.</typeparam>
     /// 
-    public struct Levenshtein<T> : IMetric<T[]>
+    [Serializable]
+    public struct Levenshtein<T> : IMetric<T[]>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -109,6 +111,16 @@ namespace Accord.Math.Distances
             }
 
             return d[x.Length, y.Length];
+        }
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Levenshtein<T>();
         }
     }
 }

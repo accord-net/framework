@@ -34,10 +34,17 @@ namespace Accord.Tests.IO
     public class NpyFormatTest
     {
 
+        public static FileStream GetNpy(string resourceName)
+        {
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "numpy", resourceName);
+            return new FileStream(fileName, FileMode.Open, FileAccess.Read);
+        }
+
+
         [Test]
         public void ReadByteMatrixTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_byte);
+            var ms = GetNpy("npy_byte.npy");
             Array result = NpyFormat.LoadMatrix(ms);
 
             byte[,] expected =
@@ -52,7 +59,7 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadByteJaggedTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_byte);
+            var ms = GetNpy("npy_byte.npy");
             Array result = NpyFormat.LoadJagged(ms);
 
             byte[][] expected =
@@ -67,7 +74,7 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadBoolMatrixTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_bool);
+            var ms = GetNpy("npy_bool.npy");
             Array result = NpyFormat.LoadMatrix(ms);
 
             bool[,] expected =
@@ -82,7 +89,7 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadBoolJaggedTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_bool);
+            var ms = GetNpy("npy_bool.npy");
             Array result = NpyFormat.LoadJagged(ms);
 
             bool[][] expected =
@@ -97,7 +104,7 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadInt64MatrixTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_integer);
+            var ms = GetNpy("npy_integer.npy");
             Array result = NpyFormat.LoadMatrix(ms);
 
             long[,] expected =
@@ -110,9 +117,39 @@ namespace Accord.Tests.IO
         }
 
         [Test]
+        public void ReadSingleMatrixTest()
+        {
+            var ms = GetNpy("npy_single.npy");
+            Array result = NpyFormat.LoadMatrix(ms);
+
+            float[,] expected =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Assert.IsTrue(result.IsEqual(expected));
+        }
+
+        [Test]
+        public void ReadDoubleMatrixTest()
+        {
+            var ms = GetNpy("npy_double.npy");
+            Array result = NpyFormat.LoadMatrix(ms);
+
+            float[,] expected =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Assert.IsTrue(result.IsEqual(expected));
+        }
+
+        [Test]
         public void ReadStringMatrixTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_strings);
+            var ms = GetNpy("npy_strings.npy");
             Array result = NpyFormat.LoadMatrix(ms);
 
             string[,] expected =
@@ -127,7 +164,7 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadStringMatrixVariableLengthTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_strings_var);
+            var ms = GetNpy("npy_strings_var.npy");
             Array result = NpyFormat.LoadMatrix(ms);
 
             string[,] expected =
@@ -142,7 +179,7 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadStringJaggedVariableLengthTest()
         {
-            MemoryStream ms = new MemoryStream(Resources.npy_strings_var);
+            var ms = GetNpy("npy_strings_var.npy");
             Array result = NpyFormat.LoadJagged(ms);
 
             string[][] expected =

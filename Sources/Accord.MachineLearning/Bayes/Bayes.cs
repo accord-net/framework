@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bayes decision algorithm (not naive).
@@ -123,10 +124,10 @@ namespace Accord.MachineLearning.Bayes
         private void init(int classes, int inputs)
         {
             if (classes < 2)
-                throw new ArgumentOutOfRangeException("classes");
+                throw new ArgumentOutOfRangeException("classes", "The number of classses should be higher than 1 (currently detected: {0}).".Format(classes));
 
             if (inputs <= 0)
-                throw new ArgumentOutOfRangeException("inputs");
+                throw new ArgumentOutOfRangeException("inputs", "The number of inputs should be higher than 0 (currently detected: {0}).".Format(inputs));
 
             this.NumberOfOutputs = classes;
             this.NumberOfClasses = classes;

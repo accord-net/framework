@@ -93,9 +93,7 @@ namespace SampleApp
         private void ProcessImage(Bitmap bitmap)
         {
             // lock image
-            BitmapData bitmapData = bitmap.LockBits(
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            BitmapData bitmapData = bitmap.LockBits(ImageLockMode.ReadWrite);
 
             // step 1 - turn background to black
             ColorFiltering colorFilter = new ColorFiltering();
@@ -128,7 +126,7 @@ namespace SampleApp
             Pen greenPen = new Pen(Color.Green, 2);   // known triangle
             Pen bluePen = new Pen(Color.Blue, 2);     // triangle
 
-            for (int i = 0, n = blobs.Length; i < n; i++)
+            for (int i = 0; i < blobs.Length; i++)
             {
                 List<IntPoint> edgePoints = blobCounter.GetBlobsEdgePoints(blobs[i]);
 
@@ -219,10 +217,8 @@ namespace SampleApp
         {
             System.Drawing.Point[] array = new System.Drawing.Point[points.Count];
 
-            for (int i = 0, n = points.Count; i < n; i++)
-            {
+            for (int i = 0; i < points.Count; i++)
                 array[i] = new System.Drawing.Point(points[i].X, points[i].Y);
-            }
 
             return array;
         }

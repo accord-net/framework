@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.Statistics.Filters
 {
     using System;
@@ -32,7 +33,8 @@ namespace Accord.Statistics.Filters
     /// </summary>
     /// 
     [Serializable]
-    public class LinearScaling : BaseFilter<LinearScaling.Options>, IAutoConfigurableFilter
+    public class LinearScaling : BaseFilter<LinearScaling.Options, LinearScaling>, 
+        IAutoConfigurableFilter
     {
 
 
@@ -176,7 +178,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase
+        public class Options : ColumnOptionsBase<LinearScaling>
         {
             /// <summary>
             ///   Range of the input values
@@ -210,3 +212,4 @@ namespace Accord.Statistics.Filters
         }
     }
 }
+#endif

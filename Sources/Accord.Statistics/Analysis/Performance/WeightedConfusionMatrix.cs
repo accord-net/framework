@@ -25,6 +25,7 @@ namespace Accord.Statistics.Analysis
     using System;
     using System.ComponentModel;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Weighted confusion matrix for multi-class decision problems.
@@ -115,7 +116,7 @@ namespace Accord.Statistics.Analysis
                 if (weightedRowProportion == null)
                 {
                     double[] rowProportion = RowProportions;
-                    weightedRowProportion = new double[Classes];
+                    weightedRowProportion = new double[NumberOfClasses];
                     for (int i = 0; i < rowProportion.Length; i++)
                         for (int j = 0; j < rowProportion.Length; j++)
                             weightedRowProportion[i] += rowProportion[j] * weights[i, j];
@@ -137,7 +138,7 @@ namespace Accord.Statistics.Analysis
                 if (weightedColProportion == null)
                 {
                     double[] colProportion = ColumnProportions;
-                    weightedColProportion = new double[Classes];
+                    weightedColProportion = new double[NumberOfClasses];
                     for (int i = 0; i < colProportion.Length; i++)
                         for (int j = 0; j < colProportion.Length; j++)
                             weightedColProportion[i] += colProportion[j] * weights[i, j];
@@ -268,11 +269,11 @@ namespace Accord.Statistics.Analysis
             get
             {
                 double sum = 0;
-                for (int i = 0; i < Classes; i++)
-                    for (int j = 0; j < Classes; j++)
+                for (int i = 0; i < NumberOfClasses; i++)
+                    for (int j = 0; j < NumberOfClasses; j++)
                         sum += weights[i, j] * Matrix[i, j];
 
-                return sum / (double)Samples;
+                return sum / (double)NumberOfSamples;
             }
         }
 
@@ -291,12 +292,12 @@ namespace Accord.Statistics.Analysis
             get
             {
                 double chance = 0;
-                for (int i = 0; i < Classes; i++)
-                    for (int j = 0; j < Classes; j++)
+                for (int i = 0; i < NumberOfClasses; i++)
+                    for (int j = 0; j < NumberOfClasses; j++)
                         chance += weights[i, j] 
                             * RowTotals[i] 
                             * ColumnTotals[j];
-                return chance / (Samples * Samples);
+                return chance / (NumberOfSamples * NumberOfSamples);
             }
         }
 

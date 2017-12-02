@@ -38,9 +38,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample1.jpg" width="480" height="361" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/hsl_filtering.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\hsl_filtering.jpg" width="480" height="361" />
     /// 
     /// <para>Sample usage with saturation update only:</para>
     /// <code>
@@ -55,7 +55,7 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/hsl_filtering2.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\hsl_filtering2.jpg" width="480" height="361" />
     /// </remarks>
     /// 
     /// <seealso cref="ColorFiltering"/>
@@ -263,7 +263,7 @@ namespace Accord.Imaging.Filters
                     rgb.Blue = ptr[RGB.B];
 
                     // convert to HSL
-                    Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                    Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                     // check HSL values
                     if (
@@ -299,7 +299,7 @@ namespace Accord.Imaging.Filters
                     if (updated)
                     {
                         // convert back to RGB
-                        Accord.Imaging.HSL.ToRGB(hsl, rgb);
+                        Accord.Imaging.HSL.ToRGB(hsl, ref rgb);
 
                         ptr[RGB.R] = rgb.Red;
                         ptr[RGB.G] = rgb.Green;

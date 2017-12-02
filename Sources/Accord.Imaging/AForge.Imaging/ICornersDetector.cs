@@ -13,6 +13,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord.Compat;
 
     /// <summary>
     /// Corners detector's interface.
@@ -23,6 +24,17 @@ namespace Accord.Imaging
     /// 
     public interface ICornersDetector : ICloneable // TODO: Return double[] and/or int[] instead
     {
+        // TODO: Move this property to a parent interface and implement it in all the image filters
+
+        /// <summary>
+        ///   Gets the list of image pixel formats that are supported by 
+        ///   this extractor. The extractor will check whether the pixel
+        ///   format of any provided images are in this list to determine
+        ///   whether the image can be processed or not.
+        /// </summary>
+        /// 
+        ISet<PixelFormat> SupportedFormats { get; }
+
         /// <summary>
         /// Process image looking for corners.
         /// </summary>

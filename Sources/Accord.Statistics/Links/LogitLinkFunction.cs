@@ -25,6 +25,7 @@ namespace Accord.Statistics.Links
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Distributions.Multivariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Logit link function.

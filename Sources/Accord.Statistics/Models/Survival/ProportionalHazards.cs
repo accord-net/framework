@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Statistics.Testing;
     using Accord.Math;
     using Accord.MachineLearning;
+    using Accord.Compat;
 
     /// <summary>
     ///   Cox's Proportional Hazards Model.
@@ -124,56 +125,40 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
-        ///   Computes the model output for the given input vector.
+        ///   Obsolete. Please use the Probability(input) method instead.
         /// </summary>
         /// 
-        /// <param name="input">The input vector.</param>
-        /// <returns>The output value.</returns>
-        /// 
-        [Obsolete("Please use Probability() instead.")]
+        [Obsolete("Please use the Probability(input) method instead.")]
         public double Compute(double[] input)
         {
             return Probability(input);
         }
 
         /// <summary>
-        ///   Computes the model output for the given input vector.
+        ///   Obsolete. Please use the Probability(input) method instead.
         /// </summary>
         /// 
-        /// <param name="input">The input vector.</param>
-        /// <returns>The output value.</returns>
-        /// 
-        [Obsolete("Please use Probability() instead.")]
+        [Obsolete("Please use the Probability(input) method instead.")]
         public double[] Compute(double[][] input)
         {
             return Probability(input);
         }
 
         /// <summary>
-        ///   Computes the model output for the given input vector.
+        ///   Obsolete. Please use the Probability(input, time) method instead.
         /// </summary>
         /// 
-        /// <param name="input">The input vector.</param>
-        /// <param name="time">The event time.</param>
-        /// 
-        /// <returns>The probabilities of the event occurring at 
-        /// the given time for the given observation.</returns>
-        /// 
-        [Obsolete("Please use Probability() instead.")]
+        [Obsolete("Please use the Probability(input) method instead.")]
         public double Compute(double[] input, double time)
         {
             return Probability(input, time);
         }
 
         /// <summary>
-        ///   Computes the model output for the given time.
+        ///   Obsolete. Please use the Probability(input) method instead.
         /// </summary>
         /// 
-        /// <param name="time">The event time.</param>
-        /// 
-        /// <returns>The probabilities of the event occurring at the given time.</returns>
-        /// 
-        [Obsolete("Please use Probability() instead.")]
+        [Obsolete("Please use the Probability(input) method instead.")]
         public double Compute(double time)
         {
             return Probability(time);

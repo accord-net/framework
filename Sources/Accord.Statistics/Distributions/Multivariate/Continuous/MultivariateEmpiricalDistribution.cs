@@ -28,7 +28,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Statistics.Distributions.Fitting;
     using Tools = Accord.Statistics.Tools;
-using Accord.Math.Random;
+    using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate empirical distribution.
@@ -70,44 +71,22 @@ using Accord.Math.Random;
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    ///   // Suppose we have the following data, and we would
-    ///   // like to estimate a distribution from this data
-    ///   
-    ///   double[][] samples =
-    ///   {
-    ///       new double[] { 0, 1 },
-    ///       new double[] { 1, 2 },
-    ///       new double[] { 5, 1 },
-    ///       new double[] { 7, 1 },
-    ///       new double[] { 6, 1 },
-    ///       new double[] { 5, 7 },
-    ///       new double[] { 2, 1 },
-    ///   };
-    ///   
-    ///   // Start by specifying a density kernel
-    ///   IDensityKernel kernel = new EpanechnikovKernel(dimension: 2);
-    ///   
-    ///   // Create a multivariate Empirical distribution from the samples
-    ///   var dist = new MultivariateEmpiricalDistribution(kernel, samples);
-    ///   
-    ///   
-    ///   // Common measures
-    ///   double[] mean = dist.Mean;     // { 3.71, 2.00 }
-    ///   double[] median = dist.Median; // { 3.71, 2.00 }
-    ///   double[] var = dist.Variance;  // { 7.23, 5.00 } (diagonal from cov)
-    ///   double[,] cov = dist.Covariance; // { { 7.23, 0.83 }, { 0.83, 5.00 } }
-    ///   
-    ///   // Probability mass functions
-    ///   double pdf1 = dist.ProbabilityDensityFunction(new double[] { 2, 1 }); // 0.039131176997318849
-    ///   double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 }); // 0.010212109770266639
-    ///   double pdf3 = dist.ProbabilityDensityFunction(new double[] { 5, 7 }); // 0.02891906722705221
-    ///   double lpdf = dist.LogProbabilityDensityFunction(new double[] { 5, 7 }); // -3.5432541357714742
-    /// </code>
+    /// <para>
+    ///   The first example shows how to fit a <see cref="MultivariateEmpiricalDistribution"/> 
+    ///   using <see cref="GaussianKernel">Gaussian kernels</see>:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" region="doc_fit_gaussian" />
+    /// 
+    /// <para>
+    ///   The second example shows how to the same as above, but using 
+    ///   <see cref="EpanechnikovKernel">Epanechnikov kernels</see> instead.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" region="doc_fit_epanechnikov" />
     /// </example>
     /// 
     /// <seealso cref="IDensityKernel"/>
     /// <seealso cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution"/>
+    /// 
+    /// <seealso cref="GaussianKernel"/>
+    /// <seealso cref="EpanechnikovKernel"/>
     /// 
     [Serializable]
     public class MultivariateEmpiricalDistribution : MultivariateContinuousDistribution,

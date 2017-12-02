@@ -30,11 +30,17 @@ namespace Accord.Tests.IO
     [TestFixture]
     public class UnipenReaderTest
     {
+        public static Stream GetPendigits()
+        {
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "pendigits-orig.tes.Z");
+            return new FileStream(fileName, FileMode.Open, FileAccess.Read);
+        }
+
 
         [Test]
         public void ReadSampleTest()
         {
-            MemoryStream file = new MemoryStream(Resources.pendigits_orig_tes);
+            var file = GetPendigits();
 
             var reader = new UnipenReader(file, compressed: true);
 
@@ -53,7 +59,7 @@ namespace Accord.Tests.IO
         [Test]
         public void ReadToEnd()
         {
-            MemoryStream file = new MemoryStream(Resources.pendigits_orig_tes);
+            var file = GetPendigits();
 
             var reader = new UnipenReader(file, compressed: true);
 

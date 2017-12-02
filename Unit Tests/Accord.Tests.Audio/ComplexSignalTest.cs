@@ -27,16 +27,16 @@ namespace Accord.Tests.Audio
     using Accord.Audio.Formats;
     using Accord.Audio.Windows;
     using Accord.Math;
-    using AForge.Math;
     using NUnit.Framework;
     using System;
+    using Accord.Compat;
     using System.Numerics;
 
     [TestFixture]
     public class ComplexSignalTest
     {
 
-        private Complex[,] data = 
+        private Complex[,] data =
         {
             { new Complex( 0.42, 0.0), new Complex(0.2, 0.0) },
             { new Complex( 0.32, 0.0), new Complex(0.1, 0.0) },
@@ -66,13 +66,17 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(target.Length, 8);
             Assert.AreEqual(target.Samples, 16);
             Assert.AreEqual(target.SampleRate, 8000);
+            Assert.AreEqual(256, target.NumberOfBytes);
+            Assert.AreEqual(16, target.InnerData.Length);
+            Assert.AreEqual(16, target.SampleSize);
             Assert.IsNotNull(target.RawData);
+            
         }
 
         [Test]
         public void ComplexSignalConstructor()
         {
-            UnmanagedMemoryStream sourceStream = Properties.Resources.a;
+            var sourceStream = SignalTest.GetSignal("a.wav");
             MemoryStream destinationStream = new MemoryStream();
 
             // Create a decoder for the source stream

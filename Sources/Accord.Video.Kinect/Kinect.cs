@@ -22,7 +22,7 @@ namespace Accord.Video.Kinect
     /// tilt value and accessing its camera. See <see cref="KinectVideoCamera"/> and <see cref="KinectDepthCamera"/>
     /// classes, which provide access to actual video.</para>
     /// 
-    /// <para><img src="img/video/kinect.jpg" width="320" height="140" /></para>
+    /// <para><img src="..\images\video\kinect.jpg" width="320" height="140" /></para>
     /// 
     /// <para><note>In order to run correctly the class requires <i>freenect.dll</i> library
     /// to be put into solution's output folder. This can be found within the AForge.NET framework's

@@ -425,6 +425,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(+1, System.Math.Sign(svm.Compute(new double[] { 1, 1, 0, 0, 1, 1 })));
         }
 
+#if !MONO
         [Test]
         public void learn_generic()
         {
@@ -480,6 +481,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(-1, System.Math.Sign(svm.Compute(new int[] { 0, 1, 1, 0, 0 })));
             Assert.AreEqual(+1, System.Math.Sign(svm.Compute(new int[] { 1, 1, 0, 0, 1, 1 })));
         }
+#endif
 
         [Test]
         public void learn2()
@@ -563,9 +565,8 @@ namespace Accord.Tests.MachineLearning
 
             double[][] b =
             {
-                new double[] { 7, 5, 2 },
+                new double[] { 8, 5, 2 },
                 new double[] { 4, 2, 5 },
-                new double[] { 3, 1, 2 },
             };
 
             // Following the aforementioned logic, sequence (a) should be

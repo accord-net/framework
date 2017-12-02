@@ -28,6 +28,7 @@ namespace Accord.Collections
     using System.Collections.Generic;
     using System.Collections;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="VPTree"/> nodes.
@@ -36,6 +37,7 @@ namespace Accord.Collections
     /// <typeparam name="TPoint">The type for the position vector (e.g. double[]).</typeparam>
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
+    [Serializable]
     public class VPTreeNodeBase<TPoint, TNode> : BinaryNode<TNode>, IEquatable<TNode> // TODO: Try to remove IEquatable
         where TNode : VPTreeNodeBase<TPoint, TNode>
     {

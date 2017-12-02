@@ -39,6 +39,10 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\Json.NET\Json100r3\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
@@ -73,7 +77,16 @@
     <Compile Include="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs">
       <Link>VectorMachines\Liblinear\Train.cs</Link>
     </Compile>
+    <Compile Include="Boosting\DecisionStumpTest.cs" />
+    <Compile Include="Clustering\KMedoidsPAMTest.cs" />
+    <Compile Include="Clustering\KMedoidsVITest.cs" />
+    <Compile Include="Clustering\MiniBatchKMeansTest.cs" />
+    <Compile Include="DecisionTrees\DecisionTreeWriterTest.cs" />
+    <Compile Include="IO\SerializationTest.cs" />
+    <Compile Include="Kernels\SplineTest.cs" />
     <Compile Include="POSTest.cs" />
+    <Compile Include="QLearningTest.cs" />
+    <Compile Include="SarsaTest.cs" />
     <Compile Include="TFIDFTest.cs" />
     <Compile Include="BagOfWordsTest.cs" />
     <Compile Include="Boosting\AdaBoostTest.cs" />
@@ -110,7 +123,7 @@
     <Compile Include="Kernels\DynamicTimeWarpingTest.cs" />
     <Compile Include="Clustering\KMeansTest.cs" />
     <Compile Include="Clustering\KModesTest.cs" />
-    <Compile Include="KNearestNeighbors\KNearestNeighborTest.cs" />
+    <Compile Include="KNearestNeighbors\KNearestNeighborsTest.cs" />
     <Compile Include="KNearestNeighbors\NaiveNearestNeighbors.cs" />
     <Compile Include="Structures\SPTreeTest.cs" />
     <Compile Include="Structures\VPTreeTest.cs" />
@@ -212,44 +225,99 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\gh608\data16.txt" />
-    <Content Include="Resources\gh608\labels16.txt" />
-    <Content Include="Resources\iris.data.txt" />
-    <Content Include="Resources\iris.scale.txt" />
-    <Content Include="Resources\liblinear\L1R_LR_a9a.txt" />
-    <Content Include="Resources\liblinear\L1R_LR_DUAL_a9a.txt" />
-    <Content Include="Resources\liblinear\L2R_LR_a9a.txt" />
+    <Content Include="Resources\gh608\data16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\gh608\labels16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\iris.data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\iris.scale.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\liblinear\L1R_LR_a9a.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\liblinear\L1R_LR_DUAL_a9a.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\liblinear\L2R_LR_a9a.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Accord.snk" />
-    <None Include="Resources\rforest\features.csv" />
-    <None Include="Resources\kmeans.bin" />
+    <None Include="Resources\examples.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\rforest\features.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\kmeans.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\liblinear\a9a.test">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\liblinear\a9a.train">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\CircleWithWeights.xls" />
-    <None Include="Resources\ml-svm.bin" />
-    <None Include="Resources\mnist\pca_mnist.bin" />
-    <None Include="Resources\mnist\pca_mnist_v3_1.bin" />
-    <None Include="Resources\mnist\t10k-images-idx3-ubyte.gz" />
-    <None Include="Resources\mnist\t10k-labels-idx1-ubyte.gz" />
-    <None Include="Resources\mnist\train-images-idx3-ubyte.gz" />
-    <None Include="Resources\mnist\train-labels-idx1-ubyte.gz" />
-    <None Include="Resources\nb.bin" />
-    <None Include="Resources\nb2.bin" />
+    <None Include="Resources\CircleWithWeights.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ml-svm.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mnist\pca_mnist.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mnist\pca_mnist_v3_1.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mnist\t10k-images-idx3-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mnist\t10k-labels-idx1-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mnist\train-images-idx3-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mnist\train-labels-idx1-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\nb.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\nb2.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\nursery.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Shapes.csv" />
-    <None Include="Resources\svm2.svm" />
-    <None Include="Resources\rforest\times.csv" />
-    <None Include="Resources\trainingsample.csv" />
-    <None Include="Resources\tree.bin" />
-    <None Include="Resources\validationsample.csv" />
+    <None Include="Resources\Shapes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\svm2.svm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\rforest\times.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\trainingsample.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\tree.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\validationsample.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\svm1.svm" />
+    <None Include="Resources\svm1.svm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

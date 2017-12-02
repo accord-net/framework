@@ -32,29 +32,13 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using NUnit.Framework;
     using Accord.Tests.Imaging.Properties;
-#if NETSTANDARD2_0
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 
     [TestFixture]
     public class ImageToMatrixTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ImageToMatrixConstructorTest()

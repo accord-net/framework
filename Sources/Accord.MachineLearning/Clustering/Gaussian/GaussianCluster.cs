@@ -25,12 +25,12 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Univariate;
     using System.Collections;
+    using Accord.Compat;
 
     using Centroid = Statistics.Distributions.Multivariate.IMixtureComponent<Statistics.Distributions.Multivariate.MultivariateNormalDistribution>;
 

@@ -47,6 +47,16 @@ namespace Accord.MachineLearning
         /// 
         new IMulticlassScoreClassifier<TInput> ToMulticlass();
 
+        /// <summary>
+        ///   Views this instance as a multi-class distance classifier,
+        ///   giving access to more advanced methods, such as the prediction
+        ///   of integer labels.
+        /// </summary>
+        /// 
+        /// <returns>This instance seen as an <see cref="IMulticlassScoreClassifier{TInput}"/>.</returns>
+        /// 
+        new IMulticlassScoreClassifier<TInput, T> ToMulticlass<T>();
+
         //new IMultilabelDistanceClassifier<TInput> ToMultilabel();
     }
 

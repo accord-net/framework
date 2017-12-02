@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Analysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bowker test of symmetry for contingency tables.
@@ -48,7 +49,7 @@ namespace Accord.Statistics.Testing
         /// 
         public BowkerTest(GeneralConfusionMatrix matrix)
         {
-            int classes = matrix.Classes;
+            int classes = matrix.NumberOfClasses;
             int[,] n = matrix.Matrix;
 
             double Qb = 0;

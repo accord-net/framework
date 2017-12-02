@@ -30,32 +30,29 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using Accord.IO;
-using Accord.MachineLearning.VectorMachines;
-using Accord.MachineLearning.VectorMachines.Learning;
-using Accord.Math;
-using System.Diagnostics;
-using System.Globalization;
-using System.Threading;
-using Accord.MachineLearning;
-using Accord.Math.Optimization.Losses;
-using Accord;
-using Accord.Statistics.Kernels;
-
-using Machine = Accord.MachineLearning.VectorMachines
-    .SupportVectorMachine<Accord.Statistics.Kernels.Linear, Accord.Math.Sparse<double>>;
-using Solver = Accord.MachineLearning.
-    ISupervisedLearning<Accord.MachineLearning.VectorMachines.SupportVectorMachine<
-        Accord.Statistics.Kernels.Linear, Accord.Math.Sparse<double>>, Accord.Math.Sparse<double>, bool>;
-#if NET35
-using NS = Accord;
-#else
-using NS = System;
-#endif
-
 namespace Liblinear
 {
+    using System;
+    using Accord.IO;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Math;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Threading;
+    using Accord.Math.Optimization.Losses;
+    using Accord;
+    using Accord.Statistics.Kernels;
+
+    using Machine = Accord.MachineLearning.VectorMachines.SupportVectorMachine<Accord.Statistics.Kernels.Linear, Accord.Math.Sparse<double>>;
+    using Solver = Accord.MachineLearning.ISupervisedLearning<Accord.MachineLearning.VectorMachines.SupportVectorMachine<Accord.Statistics.Kernels.Linear, Accord.Math.Sparse<double>>, Accord.Math.Sparse<double>, bool>;
+
+#if NET35
+    using NS = Accord.Compat;
+#else
+    using NS = System;
+#endif
+
+
     public class Train
     {
         // From LIBLINEAR definitions
@@ -71,7 +68,12 @@ namespace Liblinear
 
         public void Main(params string[] args)
         {
+#if NETSTANDARD1_4 || NETCORE
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+#else
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+#endif
 
             if (args.Length == 0)
                 return;
@@ -100,7 +102,7 @@ namespace Liblinear
             }
 
             // Learn the specified problem and register steps and obtained results
-            NS.Tuple<Machine, Solver, LibSvmModel> result= train(Problem, Parameters);
+            NS.Tuple<Machine, Solver, LibSvmModel> result = train(Problem, Parameters);
             this.Machine = result.Item1; // The SVM actually created by Accord.NET
             this.Solver = result.Item2;  // The Accord.NET learning algorithm used.
             this.Model = result.Item3;   // LIBLINEAR's definition of what a SVM is
@@ -356,8 +358,8 @@ namespace Liblinear
 
             return NS.Tuple.Create(result.Item1, result.Item2, new LibSvmModel()
             {
-                Dimension = prob.Dimensions,
-                Classes = 2,
+                NumberOfInputs = prob.Dimensions,
+                NumberOfClasses = 2,
                 Labels = new[] { +1, -1 },
                 Solver = parameters.Solver,
                 Weights = w,
@@ -374,7 +376,7 @@ namespace Liblinear
             var teacher = create_solver(param, Cp, Cn, inputs, labels);
 
             Trace.WriteLine("Training " + param.Solver);
-            
+
             // Run the learning algorithm
             var sw = Stopwatch.StartNew();
             var svm = teacher.Learn(inputs, labels);
@@ -397,7 +399,7 @@ namespace Liblinear
             int pos = 0;
             for (int i = 0; i < outputs.Length; i++)
             {
-                if (outputs[i]) 
+                if (outputs[i])
                     pos++;
             }
             int neg = n - pos;
@@ -431,8 +433,8 @@ namespace Liblinear
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
                         Tolerance = primal_solver_tol
-                    }; 
-    
+                    };
+
                 case LibSvmSolverType.L2RegularizedL1LossSvcDual:// -s 3
                     // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L1LOSS_SVC_DUAL);
                     return new LinearDualCoordinateDescent<Linear, Sparse<double>>()
@@ -440,7 +442,7 @@ namespace Liblinear
                         Loss = Loss.L1,
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
-                    }; 
+                    };
 
                 case LibSvmSolverType.L1RegularizedLogisticRegression:// -s 6
                     // solve_l1r_lr(&prob_col, w, primal_solver_tol, Cp, Cn);
@@ -449,7 +451,7 @@ namespace Liblinear
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
                         Tolerance = primal_solver_tol
-                    }; 
+                    };
 
                 case LibSvmSolverType.L2RegularizedLogisticRegressionDual: // -s 7
                     // solve_l2r_lr_dual(prob, w, eps, Cp, Cn);
@@ -458,7 +460,7 @@ namespace Liblinear
                         PositiveWeight = Cp,
                         NegativeWeight = Cn,
                         Tolerance = primal_solver_tol,
-                    }; 
+                    };
             }
 
             throw new InvalidOperationException("Unknown solver type: {0}".Format(param.Solver));
@@ -469,7 +471,7 @@ namespace Liblinear
 
         private void ExecuteTestAndExit(string[] args)
         {
-            string[] commands = 
+            string[] commands =
             {
                 "-s 0 -c 4.0 -e 1e-06 Resources/a9a.train ../../Results/L2R_LR_a9a.txt",
                 "-s 2 -c 4.0 -e 1e-06 Resources/a9a.train ../../Results/L2R_LR_a9a_2.txt",

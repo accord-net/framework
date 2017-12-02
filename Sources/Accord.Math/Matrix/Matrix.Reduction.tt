@@ -45,6 +45,7 @@ namespace Accord.Math
         "int", "short",
         "float", "double", 
         "long", "decimal",
+		"bool"
         //"byte", "sbyte", 
     };
 
@@ -63,6 +64,17 @@ namespace Accord.Math
             string op     = opt[2];
             string start  = opt[3];
             string r = a;
+			string before = "(" + r + ")";
+			string after = "";
+
+			if (a == "bool")
+			{
+				r = "int";
+				before = "(";
+				after = " ? 1 : 0)";
+			}
+
+			string cast = r;
 #>
 
         /// <summary>
@@ -78,7 +90,7 @@ namespace Accord.Math
         {
             <#=r#> sum = <#=start#>;
             for (int i = 0; i < vector.Length; i++)
-                sum = (<#=r#>)(sum <#=op#> (<#=r#>)vector[i]);
+                sum = (<#=cast#>)(sum <#=op#> <#=before#>vector[i]<#=after#>);
             return sum;
         }
 
@@ -95,7 +107,7 @@ namespace Accord.Math
         {
             <#=r#> sum = <#=start#>;
             foreach (var v in matrix)
-                sum = (<#=r#>)(sum <#=op#> (<#=r#>)v);
+                sum = (<#=cast#>)(sum <#=op#> <#=before#>v<#=after#>);
             return sum;
         }
 
@@ -113,7 +125,7 @@ namespace Accord.Math
             <#=r#> sum = <#=start#>;
             for (int i = 0; i < matrix.Length; i++)
                 for (int j = 0; j < matrix[i].Length; j++)
-                    sum = (<#=r#>)(sum <#=op#> (<#=r#>)matrix[i][j]);
+                    sum = (<#=cast#>)(sum <#=op#> <#=before#>matrix[i][j]<#=after#>);
             return sum;
         }
 
@@ -160,12 +172,25 @@ namespace Accord.Math
     {
         foreach (string r in types)
         {
+			if (r == "bool")
+				continue;
+
             foreach (string[] opt in operations)
             {
                 string method = opt[0];
                 string name   = opt[1];
                 string op     = opt[2];
                 string start  = opt[3];
+
+				string before = "(" + r + ")";
+				string after = "";
+				string cast = r;
+
+				if (a == "bool")
+				{
+					before = "(";
+					after = " ? 1 : 0)";
+				}
 #>
         /// <summary>
         ///   Matrix <#=name#>.
@@ -194,7 +219,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < rows; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[i][j]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[i][j]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -204,7 +229,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < cols; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[j][i]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[j][i]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -243,7 +268,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < rows; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[i, j]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[i, j]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -253,7 +278,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < cols; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[j, i]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[j, i]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -272,6 +297,8 @@ namespace Accord.Math
 
     foreach (string a in types)
     {
+		if (a == "bool")
+			continue;
 #>
 
         /// <summary>
@@ -387,7 +414,7 @@ namespace Accord.Math
             int cols = matrix.Columns();
             if (dimension == 1)
                 return CumulativeSum(matrix, dimension, Matrix.Zeros<<#=a#>>(rows, cols));
-            return CumulativeSum(matrix, dimension, Matrix.Zeros<<#=a#>>(cols, rows));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<<#=a#>>(cols, rows)); 
         }        
 
         /// <summary>

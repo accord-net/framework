@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Fields.Functions
 {
     using System;
     using Accord.Statistics.Models.Fields.Features;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base implementation for <see cref="IPotentialFunction{T}">potential functions</see>.

@@ -32,6 +32,9 @@ namespace Accord.IO
     using Accord.Statistics.Links;
     using Accord.MachineLearning;
     using Accord.Statistics.Kernels;
+    using System.Diagnostics;
+    using Accord.Compat;
+    using Accord.Math;
 
     /// <summary>
     ///   Solver types allowed in LibSVM/Liblinear model files.
@@ -149,6 +152,25 @@ namespace Accord.IO
     ///   created from LibSVM or Liblinear. Not all solver types are supported.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   This class can be used to import LibSVM or LibLINEAR models into .NET
+    ///   and use them to make predictions in .NET/C# applications.</para>
+    ///   
+    /// <para>
+    ///   If you are looking for ways to load and save SVM models in the Accord.NET
+    ///   Framework without necessarily being compatible with LibSVM or LIBLINEAR,
+    ///   please use the <see cref="Serializer"/> class instead.</para>
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\IO\LibSvmModelTest.cs" region="doc_read" />
+    /// </example>
+    /// 
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// 
+    [Serializable]
     public class LibSvmModel
     {
 
@@ -170,7 +192,18 @@ namespace Accord.IO
         ///   this classification model can handle.
         /// </summary>
         /// 
-        public int Classes { get; set; }
+        public int NumberOfClasses { get; set; }
+
+        /// <summary>
+        ///   Obsolete. Please use NumberOfClasses instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfClasses instead.")]
+        public int Classes
+        {
+            get { return NumberOfClasses; }
+            set { NumberOfClasses = value; }
+        }
 
         /// <summary>
         ///   Gets or sets whether an initial double value should
@@ -186,7 +219,18 @@ namespace Accord.IO
         ///   the classification or regression model can handle.
         /// </summary>
         /// 
-        public int Dimension { get; set; }
+        public int NumberOfInputs { get; set; }
+
+        /// <summary>
+        ///   Obsolete. Please use NumberOfInputs instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
+        public int Dimension
+        {
+            get { return NumberOfInputs; }
+            set { NumberOfInputs = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the class label for each class
@@ -237,28 +281,7 @@ namespace Accord.IO
         public SupportVectorMachine CreateMachine()
         {
             // TODO: Add the option for creating Sparse machines from model definitions
-
-            switch (type)
-            {
-                case LibSvmSolverType.Unknown:
-                    break;
-
-                case LibSvmSolverType.L2RegularizedLogisticRegression:
-                case LibSvmSolverType.L1RegularizedLogisticRegression:
-                case LibSvmSolverType.L2RegularizedLogisticRegressionDual:
-                case LibSvmSolverType.L2RegularizedL2LossSvc:
-                case LibSvmSolverType.L2RegularizedL1LossSvcDual:
-                case LibSvmSolverType.L2RegularizedL2LossSvcDual:
-                case LibSvmSolverType.L1RegularizedL2LossSvc:
-                case LibSvmSolverType.L2RegularizedL2LossSvr:
-                case LibSvmSolverType.L2RegularizedL2LossSvrDual:
-                case LibSvmSolverType.L2RegularizedL1LossSvrDual:
-                    {
-                        return SupportVectorMachine.FromWeights(Weights, 0);
-                    }
-            }
-
-            throw new NotSupportedException("This solver type is unknown or not supported.");
+            return SupportVectorMachine.FromWeights(Weights, 0);
         }
 
         /// <summary>
@@ -333,19 +356,34 @@ namespace Accord.IO
             StreamWriter writer = new StreamWriter(stream);
 
             writer.WriteLine("solver_type " + Solver.GetDescription().ToUpperInvariant());
-            writer.WriteLine("nr_class " + Classes);
+            writer.WriteLine("nr_class " + NumberOfClasses);
 
             writer.Write("label");
             for (int i = 0; i < Labels.Length; i++)
                 writer.Write(" " + Labels[i]);
             writer.WriteLine();
 
-            writer.WriteLine("nr_feature " + Dimension);
-            writer.WriteLine("bias " + Bias.ToString("G17", CultureInfo.InvariantCulture));
-            writer.WriteLine("w");
+            writer.WriteLine("nr_feature " + NumberOfInputs);
+            writer.WriteLine("bias " + Bias.ToString("G17", System.Globalization.CultureInfo.InvariantCulture));
 
-            for (int i = 0; i < Weights.Length; i++)
-                writer.WriteLine(Weights[i].ToString("G17", CultureInfo.InvariantCulture) + " ");
+            if (this.Vectors == null)
+            {
+                writer.WriteLine("w");
+
+                for (int i = 0; i < Weights.Length; i++)
+                    writer.WriteLine(Weights[i].ToString("G17", System.Globalization.CultureInfo.InvariantCulture) + " ");
+            }
+            else
+            {
+                writer.WriteLine("SV");
+
+                for (int i = 0; i < Vectors.Length; i++)
+                {
+                    string alpha = Weights[i].ToString("G17", System.Globalization.CultureInfo.InvariantCulture);
+                    string values = Sparse.FromDense(Vectors[i]).ToString();
+                    writer.WriteLine(alpha + " " + values);
+                }
+            }
 
             writer.Flush();
         }
@@ -391,13 +429,13 @@ namespace Accord.IO
                     }
 
                     else if (words[0] == "nr_class")
-                        model.Classes = Int32.Parse(words[1]);
+                        model.NumberOfClasses = Int32.Parse(words[1]);
 
                     else if (words[0] == "nr_feature")
-                        model.Dimension = Int32.Parse(words[1]);
+                        model.NumberOfInputs = Int32.Parse(words[1]);
 
                     else if (words[0] == "bias")
-                        model.Bias = Double.Parse(words[1], CultureInfo.InvariantCulture);
+                        model.Bias = Double.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture);
 
                     else if (words[0] == "w")
                         break;
@@ -410,7 +448,7 @@ namespace Accord.IO
                     }
                     else
                     {
-                        System.Diagnostics.Trace.WriteLine("Unknown field: " + words[0]);
+                        Trace.WriteLine("Unknown field: " + words[0]);
                     }
                 }
 
@@ -419,7 +457,7 @@ namespace Accord.IO
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
-                    weights.Add(Double.Parse(line, CultureInfo.InvariantCulture));
+                    weights.Add(Double.Parse(line, System.Globalization.CultureInfo.InvariantCulture));
                 }
 
                 model.Weights = weights.ToArray();
@@ -428,8 +466,40 @@ namespace Accord.IO
             return model;
         }
 
+        /// <summary>
+        ///   Creates a <see cref="LibSvmModel"/> from an existing <see cref="SupportVectorMachine{Linear}"/>.
+        /// </summary>
+        /// 
+        /// <param name="svm">The vector machine from which a libSVM model definition should be created.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="LibSvmModel"/> class representing a support vector machine in LibSVM format.
+        /// </returns>
+        /// 
+        public static LibSvmModel FromMachine(SupportVectorMachine<Linear> svm)
+        {
+            var model = new LibSvmModel()
+            {
+                Solver = LibSvmSolverType.Unknown,
+                Bias = -1,
+                NumberOfClasses = svm.NumberOfClasses,
+                NumberOfInputs = svm.NumberOfInputs + 1,
+                Labels = new[] { 1, -1 }
+            };
 
+            if (svm.SupportVectors.Length == 1)
+            {
+                model.Weights = svm.Threshold.Concatenate(svm.SupportVectors[0]);
+            }
+            else
+            {
+                model.Weights = svm.Weights;
+                model.Vectors = svm.SupportVectors.InsertColumn(svm.Threshold, index: 0);
+            }
 
+            return model;
+        }
 
     }
+
 }

@@ -24,6 +24,7 @@ namespace Accord.Collections
 {
     using Accord.Math.Distances;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Convenience class for k-dimensional tree static methods. To 
@@ -37,7 +38,10 @@ namespace Accord.Collections
     /// </remarks>
     /// 
     /// <seealso cref="KDTree{T}"/>
+    /// <seealso cref="SPTree"/>
+    /// <seealso cref="VPTree"/>
     /// 
+    [Serializable]
     public class KDTree : KDTreeBase<KDTreeNode>
     {
 

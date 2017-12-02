@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.Statistics.Filters
 {
     using System;
@@ -31,7 +32,8 @@ namespace Accord.Statistics.Filters
     ///   Principal component projection filter.
     /// </summary>
     /// 
-    public class PrincipalComponentProjection : BaseFilter<PrincipalComponentProjection.Options>, IAutoConfigurableFilter
+    public class PrincipalComponentProjection : BaseFilter<PrincipalComponentProjection.Options, PrincipalComponentProjection>, 
+        IAutoConfigurableFilter
     {
 
         private PrincipalComponentAnalysis pca;
@@ -118,8 +120,17 @@ namespace Accord.Statistics.Filters
         /// </summary>
         ///
         [Serializable]
-        public class Options : ColumnOptionsBase
+        public class Options : ColumnOptionsBase<PrincipalComponentProjection>
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Options"/> class.
+            /// </summary>
+            /// 
+            public Options()
+                : base("New column")
+            {
+            }
+
             /// <summary>
             ///   Initializes a new instance of the <see cref="Options"/> class.
             /// </summary>
@@ -136,3 +147,4 @@ namespace Accord.Statistics.Filters
 
     }
 }
+#endif

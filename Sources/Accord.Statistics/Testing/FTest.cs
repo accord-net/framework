@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Snedecor's F-Test.

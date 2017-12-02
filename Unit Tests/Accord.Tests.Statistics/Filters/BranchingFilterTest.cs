@@ -27,28 +27,11 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Filters;
     using AForge;
     using NUnit.Framework;
-    
+
     [TestFixture]
     public class BranchingFilterTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
+#if !NO_DATA_TABLE
         [Test]
         public void ApplyTest()
         {
@@ -99,7 +82,7 @@ namespace Accord.Tests.Statistics
                 double age = (double)row[2];
                 Assert.AreEqual(expected[id], age);
             }
-
         }
+#endif
     }
 }

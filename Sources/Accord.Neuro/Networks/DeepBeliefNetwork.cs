@@ -29,6 +29,7 @@ namespace Accord.Neuro.Networks
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Layers;
     using Accord.Neuro.Neurons;
+    using Accord.Compat;
 
     /// <summary>
     ///   Deep Belief Network.
@@ -426,6 +427,7 @@ namespace Accord.Neuro.Networks
             return network;
         }
 
+#if !NO_BINARY_SERIALIZATION
         /// <summary>
         ///   Saves the network to a stream.
         /// </summary>
@@ -481,6 +483,6 @@ namespace Accord.Neuro.Networks
                 return Load(fs);
             }
         }
-
+#endif
     }
 }

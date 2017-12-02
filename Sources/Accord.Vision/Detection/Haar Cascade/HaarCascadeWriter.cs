@@ -37,9 +37,22 @@ namespace Accord.Vision.Detection
     ///   which may be used to create a <see cref="HaarObjectDetector"/>.
     /// </remarks>
     /// 
-    public class HaarCascadeWriter
+    /// <code source="Unit Tests\Accord.Tests.Vision\\HaarCascadeWriterTest.cs" region="doc_write" />
+    /// 
+    public class HaarCascadeWriter : IDisposable
     {
         private TextWriter writer;
+
+        /// <summary>
+        ///   Constructs a new <see cref="HaarCascadeWriter"/> class.
+        /// </summary>
+        /// 
+        /// <param name="destinationFileName">The path of the file that should be written.</param>
+        /// 
+        public HaarCascadeWriter(string destinationFileName)
+            : this(new StreamWriter(new FileStream(destinationFileName, FileMode.Create, FileAccess.Write)))
+        {
+        }
 
         /// <summary>
         ///   Constructs a new <see cref="HaarCascadeWriter"/> class.
@@ -82,7 +95,7 @@ namespace Accord.Vision.Detection
             writer.WriteLine("    ///   to use with the Accord.NET Framework object detectors.");
             writer.WriteLine("    /// </summary>");
             writer.WriteLine("    /// ");
-            writer.WriteLine("    [GeneratedCode(\"Accord.NET HaarCascadeWriter\", \"2.7\")]");
+            writer.WriteLine("    [GeneratedCode(\"Accord.NET HaarCascadeWriter\", \"3.7\")]");
             writer.WriteLine("    public class {0} : Accord.Vision.Detection.HaarCascade", className);
             writer.WriteLine("    {");
             writer.WriteLine();
@@ -171,6 +184,14 @@ namespace Accord.Vision.Detection
                 rectangle.Width.ToString(NumberFormatInfo.InvariantInfo),
                 rectangle.Height.ToString(NumberFormatInfo.InvariantInfo),
                 rectangle.Weight.ToString("R", NumberFormatInfo.InvariantInfo));
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            ((IDisposable)writer).Dispose();
         }
     }
 }

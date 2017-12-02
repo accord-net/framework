@@ -5,6 +5,10 @@
 // Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
+// Copyright © Hashem Zawary, 2017
+// hashemzawary@gmail.com
+// https://www.linkedin.com/in/hashem-zavvari-53b01457
+//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -29,6 +33,7 @@ namespace Accord.Collections
     using Accord.Math.Comparers;
     using Accord.Math.Distances;
     using Accord.Collections;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for K-dimensional trees.
@@ -195,7 +200,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves a fixed number of nearest points to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -214,7 +219,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves the nearest point to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -228,7 +233,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves the nearest point to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -248,7 +253,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves a fixed percentage of nearest points to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -274,7 +279,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves a percentage of nearest points to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -298,7 +303,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves a percentage of nearest points to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -315,7 +320,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves a fixed number of nearest points to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -339,7 +344,7 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   Retrieves a fixed point of nearest points to a given point.
+        ///   Retrieves a fixed number of nearest points to a given point.
         /// </summary>
         ///
         /// <param name="position">The queried point.</param>
@@ -355,7 +360,60 @@ namespace Accord.Collections
             return list.Nearest;
         }
 
+        /// <summary>
+        ///   Retrieves a list of all points inside a given region.
+        /// </summary>
+        /// 
+        /// <param name="region">The region.</param>
+        /// 
+        /// <returns>A list of all nodes contained in the region.</returns>
+        /// 
+        public IList<TNode> GetNodesInsideRegion(Hyperrectangle region)
+        {
+            return getNodesInsideRegion(this.Root, region, region);
+        }
 
+        private IList<TNode> getNodesInsideRegion(TNode node, Hyperrectangle region, Hyperrectangle subRegion)
+        {
+            var result = new List<TNode>();
+
+            if (node != null && region.IntersectsWith(subRegion))
+            {
+                if (region.Contains(node.Position))
+                    result.Add(node);
+
+                result.AddRange(getNodesInsideRegion(node.Left, region, leftRect(subRegion, node)));
+                result.AddRange(getNodesInsideRegion(node.Right, region, rightRect(subRegion, node)));
+            }
+
+            return result;
+        }
+
+
+        // TODO: Optimize the two methods below. It shouldn't be necessary to make copies/clones of these arrays
+
+        private static Hyperrectangle leftRect(Hyperrectangle hyperrect, TNode node)
+        {
+            //var rect = hyperrect.ToRectangle();
+            //return (node.Axis != 0 ?
+            //    Rectangle.FromLTRB(rect.Left, rect.Top, rect.Right, (int)node.Position[1]) :
+            //    Rectangle.FromLTRB(rect.Left, rect.Top, (int)node.Position[0], rect.Bottom)).ToHyperrectangle();
+            Hyperrectangle copy = new Hyperrectangle((double[])hyperrect.Min.Clone(), (double[])hyperrect.Max.Clone());
+            copy.Max[node.Axis] = node.Position[node.Axis];
+            return copy;
+        }
+
+        // helper: get the right rectangle of node inside parent's rect
+        private static Hyperrectangle rightRect(Hyperrectangle hyperrect, TNode node)
+        {
+            //var rect = hyperrect.ToRectangle();
+            //return (node.Axis != 0 ?
+            //    Rectangle.FromLTRB(rect.Left, (int)node.Position[1], rect.Right, rect.Bottom) :
+            //    Rectangle.FromLTRB((int)node.Position[0], rect.Top, rect.Right, rect.Bottom)).ToHyperrectangle();
+            Hyperrectangle copy = new Hyperrectangle((double[])hyperrect.Min.Clone(), (double[])hyperrect.Max.Clone());
+            copy.Min[node.Axis] = node.Position[node.Axis];
+            return copy;
+        }
 
 
         #region internal methods

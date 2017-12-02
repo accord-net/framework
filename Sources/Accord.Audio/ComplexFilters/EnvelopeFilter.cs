@@ -24,6 +24,7 @@ namespace Accord.Audio.ComplexFilters
 {
     using System;
     using Accord.Audio;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -62,7 +63,7 @@ namespace Accord.Audio.ComplexFilters
             if (sourceData.Status != ComplexSignalStatus.Analytic)
                 throw new ArgumentException("Signal must be in analytic form.", "sourceData");
 
-            int samples = sourceData.Samples;
+            int samples = sourceData.NumberOfSamples;
 
             Complex* src = (Complex*)sourceData.Data.ToPointer();
             Complex* dst = (Complex*)destinationData.Data.ToPointer();

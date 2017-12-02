@@ -339,6 +339,98 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void learn_weights()
+        {
+            double[][] raw =
+            {
+                new[] { 2.5,  2.4, 1 },
+                new[] { 0.5,  0.7, 1 },
+                new[] { 2.2,  2.9, 0.5 },
+                new[] { 2.2,  2.9, 0.5 },
+                new[] { 1.9,  2.2, 1 },
+                new[] { 3.1,  3.0, 1 },
+                new[] { 2.3,  2.7, 1 },
+                new[] { 2.0,  1.6, 1 },
+                new[] { 1.0,  1.1, 0.25 },
+                new[] { 1.0,  1.1, 0.25 },
+                new[] { 1.0,  1.1, 0.25 },
+                new[] { 1.0,  1.1, 0.25 },
+                new[] { 1.5,  1.6, 1 },
+                new[] { 42.5,  7.6, 0 },
+                new[] { 743.5,  5.6, 0 },
+                new[] { 1.5,  16, 0 },
+                new[] { 1.1,  0.9, 1 }
+            };
+
+            double[][] data = raw.GetColumns(0, 1);
+            double[] weights = raw.GetColumn(2);
+
+            var method = PrincipalComponentMethod.Center;
+            var pca = new PrincipalComponentAnalysis(method);
+
+            pca.Learn(data, weights);
+
+            double[] eigenvalues = { 1.28402771, 0.0490833989 };
+
+            double[] proportion = eigenvalues.Divide(eigenvalues.Sum());
+
+            double[,] eigenvectors =
+            {
+                { -0.677873399, -0.735178656 },
+                { -0.735178656,  0.677873399 }
+            };
+
+            double[] v = eigenvectors.GetColumn(0);
+            eigenvectors.SetColumn(0, v.Multiply(-1)); 
+
+            Assert.IsTrue(eigenvectors.IsEqual(pca.ComponentMatrix, rtol: 1e-9));
+            Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
+            Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 0.1));
+
+            double[][] actual = pca.Transform(data);
+            string a = actual.ToCSharp();
+
+            /*
+             double[,] expected = new double[,]
+             {
+                {  0.827970186, -0.175115307 },
+                { -1.77758033,   0.142857227 },
+                {  0.992197494,  0.384374989 },
+                {  0.274210416,  0.130417207 },
+                {  1.67580142,  -0.209498461 },
+                {  0.912949103,  0.175282444 },
+                { -0.099109437, -0.349824698 },
+                { -1.14457216,   0.046417258 },
+                { -0.438046137,  0.017764629 },
+                { -1.22382056,  -0.162675287 },
+            };
+            */
+
+            double[][] expected = 
+            {
+                new double[] { 0.827970186201088, -0.175115307046916 },
+                new double[] { -1.77758032528043, 0.142857226544281 },
+                new double[] { 0.992197494414889, 0.384374988880413 }, // weight is 0.5
+                new double[] { 0.992197494414889, 0.384374988880413 }, // weight is 0.5
+                new double[] { 0.2742104159754, 0.130417206574127 },
+                new double[] { 1.67580141864454, -0.209498461256753 },
+                new double[] { 0.912949103158809, 0.17528244362037 },
+                new double[] { -0.0991094374984439, -0.349824698097121 },
+                new double[] { -1.14457216379866, 0.0464172581832816 }, // weight is 0.25
+                new double[] { -1.14457216379866, 0.0464172581832816 }, // weight is 0.25
+                new double[] { -1.14457216379866, 0.0464172581832816 }, // weight is 0.25
+                new double[] { -1.14457216379866, 0.0464172581832816 }, // weight is 0.25
+                new double[] { -0.43804613676245, 0.0177646296750834 },
+                new double[] { 31.7658351361525, -26.0573198564776 }, // weight is 0
+                new double[] { 505.4847301932, -542.773304190164 },   // weight is 0
+                new double[] { 10.148526503077, 9.77914156847845 },   // weight is 0
+                new double[] { -1.22382055505474, -0.162675287076762 }
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+        }
+
+        [Test]
         public void learn_whiten_success()
         {
             #region doc_learn_1
@@ -1024,6 +1116,7 @@ namespace Accord.Tests.Statistics
 
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest()
@@ -1067,5 +1160,6 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Overwrite.Equals(copy.Overwrite));
             Assert.IsTrue(target.Whiten.Equals(copy.Whiten));
         }
+#endif
     }
 }

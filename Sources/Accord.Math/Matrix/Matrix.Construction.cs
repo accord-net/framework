@@ -23,10 +23,10 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
-    using AForge;
-    using System.Runtime.CompilerServices;
     using Accord.Math.Random;
-    using System.Collections;
+    using Accord.Compat;
+    using System.Runtime.CompilerServices;
+    using System.Linq;
 
     /// <summary>
     ///   Matrix major order. The default is to use C-style Row-Major order.
@@ -99,6 +99,25 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a zero-valued rank-3 tensor.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the matrix to be created.</typeparam>
+        /// <param name="rows">The number of rows in the tensor.</param>
+        /// <param name="columns">The number of columns in the tensor.</param>
+        /// <param name="depth">The number of channels in the tensor.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,,] Zeros<T>(int rows, int columns, int depth)
+        {
+            return new T[rows, columns, depth];
+        }
+
+        /// <summary>
         ///   Creates a zero-valued matrix.
         /// </summary>
         /// 
@@ -112,10 +131,8 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Ones<T>(int rows, int columns)
-            where T : struct
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
-            return Create(rows, columns, one);
+            return Create(rows, columns, Constants.One<T>());
         }
 
         /// <summary>
@@ -134,6 +151,25 @@ namespace Accord.Math
         {
             return Zeros<double>(rows, columns);
         }
+
+        /// <summary>
+        ///   Creates a zero-valued rank-3 tensor.
+        /// </summary>
+        /// 
+        /// <param name="rows">The number of rows in the tensor.</param>
+        /// <param name="columns">The number of columns in the tensor.</param>
+        /// <param name="depth">The number of channels in the tensor.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] Zeros(int rows, int columns, int depth)
+        {
+            return Zeros<double>(rows, columns, depth);
+        }
+
 
         /// <summary>
         ///   Creates a zero-valued matrix.
@@ -195,23 +231,6 @@ namespace Accord.Math
             var result = Zeros<T>(rows, columns);
             Matrix.CopyTo(values, destination: result, transpose: transpose);
             return result;
-        }
-
-        /// <summary>
-        ///   Creates a jagged matrix with all values set to a given value.
-        /// </summary>
-        /// 
-        /// <param name="elementType">The type of the elements to be contained in the matrix.</param>
-        /// <param name="shape">The number of dimensions that the matrix should have.</param>
-        /// 
-        /// <returns>A matrix of the specified size.</returns>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Array Create(Type elementType, params int[] shape)
-        {
-            return Array.CreateInstance(elementType, shape);
         }
 
         /// <summary>
@@ -299,7 +318,7 @@ namespace Accord.Math
 #endif
         public static T[,] OneHot<T>(int[] indices)
         {
-            return OneHot<T>(indices, indices.DistinctCount());
+            return OneHot<T>(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -317,7 +336,7 @@ namespace Accord.Math
 #endif
         public static double[,] OneHot(int[] indices)
         {
-            return OneHot(indices, indices.DistinctCount());
+            return OneHot(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -378,7 +397,7 @@ namespace Accord.Math
 #endif
         public static T[,] OneHot<T>(int[] indices, T[,] result)
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            var one = Constants.One<T>();
             for (int i = 0; i < indices.Length; i++)
                 result[i, indices[i]] = one;
             return result;
@@ -465,7 +484,7 @@ namespace Accord.Math
 #endif
         public static T[,] KHot<T>(int[][] indices, T[,] result)
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            var one = Constants.One<T>();
             for (int i = 0; i < indices.Length; i++)
                 for (int j = 0; j < indices[i].Length; j++)
                     result[i, indices[i][j]] = one;
@@ -494,8 +513,46 @@ namespace Accord.Math
             return result;
         }
 
+        /// <summary>
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Array CreateAs(Array matrix, Type type)
+        {
+            int[] outputShape = GetShape(matrix, type);
 
+            // multidimensional -> multidimensional
+            return Array.CreateInstance(type.GetInnerMostType(), outputShape);
+        }
 
+        internal static int[] GetShape(Array matrix, Type type)
+        {
+            int[] outputShape = matrix.GetLength(deep: true);
+
+            if (type.IsArray)
+            {
+                int inputRank = matrix.GetRank(deep: true);
+                int outputRank = type.GetArrayRank(deep: true);
+
+                if (inputRank > outputRank)
+                {
+                    outputShape = outputShape.Where(i => i != 1).ToArray();
+                    int extra = outputRank - outputShape.Length;
+                    if (extra > 0)
+                        outputShape = outputShape.Concatenate(Accord.Math.Vector.Ones<int>(extra));
+                }
+                else if (inputRank < outputRank)
+                {
+                    int extra = outputRank - inputRank;
+                    outputShape = outputShape.Concatenate(Accord.Math.Vector.Ones<int>(extra));
+                }
+            }
+
+            return outputShape;
+        }
 
         /// <summary>
         ///   Creates a new multidimensional matrix with the same shape as another matrix.
@@ -531,6 +588,18 @@ namespace Accord.Math
         public static TOutput[,] CreateAs<TInput, TOutput>(TInput[,] matrix)
         {
             return new TOutput[matrix.GetLength(0), matrix.GetLength(1)];
+        }
+
+        /// <summary>
+        ///   Creates a new multidimensional matrix with the same shape as another matrix.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[,,] CreateAs<TInput, TOutput>(TInput[,,] matrix)
+        {
+            return new TOutput[matrix.GetLength(0), matrix.GetLength(1), matrix.GetLength(2)];
         }
 
         /// <summary>
@@ -753,7 +822,7 @@ namespace Accord.Math
         /// 
         public static T[,] Identity<T>(int size)
         {
-            return Diagonal(size, (T)System.Convert.ChangeType(1, typeof(T)));
+            return Diagonal(size, Constants.One<T>());
         }
 
         /// <summary>
@@ -1068,6 +1137,8 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Range instead.")]
         public static int[] Indices(int from, int to)
         {
+            if (from > to)
+                return Accord.Math.Vector.Range(from - 1, to - 1);
             return Accord.Math.Vector.Range(from, to);
         }
 
@@ -1078,7 +1149,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Range instead.")]
         public static int[] Indices(int to)
         {
-            return Accord.Math.Vector.Range(to);
+            return Accord.Math.Vector.Range(0, to);
         }
 
         /// <summary>
@@ -1118,6 +1189,8 @@ namespace Accord.Math
         /// 
         public static int[] GetLength(this Array array, bool deep = true, bool max = false)
         {
+            if (array == null)
+                return new int[] { -1 };
             if (array.Rank == 0)
                 return new int[0];
 
@@ -1157,6 +1230,40 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the rank of an array type.
+        /// </summary>
+        /// 
+        /// <param name="type">The type of the array.</param>
+        /// <param name="deep">Pass true to retrieve all dimensions of the array,
+        ///   even if it contains nested arrays (as in jagged matrices)</param>
+        /// 
+        public static int GetArrayRank(this Type type, bool deep = true)
+        {
+            if (type.IsArray == false || type.GetArrayRank() == 0)
+                return 0;
+
+            if (deep && IsJagged(type))
+                return type.GetArrayRank() + GetArrayRank(type.GetElementType(), deep);
+
+            return type.GetArrayRank();
+        }
+
+        /// <summary>
+        ///   Gets the rank of an array.
+        /// </summary>
+        /// 
+        /// <param name="array">The array.</param>
+        /// <param name="deep">Pass true to retrieve all dimensions of the array,
+        ///   even if it contains nested arrays (as in jagged matrices)</param>
+        /// 
+        public static int GetRank(this Array array, bool deep = true)
+        {
+            return array.GetType().GetArrayRank(deep: deep);
+        }
+
+
+
+        /// <summary>
         ///   Trims the specified array, removing zero and empty entries from arrays.
         /// </summary>
         /// 
@@ -1167,7 +1274,7 @@ namespace Accord.Math
             if (array.IsMatrix())
                 throw new Exception();
 
-            ArrayList list = new ArrayList();
+            var list = new List<object>();
             for (int i = 0; i < array.Length; i++)
             {
                 var element = array.GetValue(i);
@@ -1206,7 +1313,7 @@ namespace Accord.Math
         {
             if (array.Length == 0)
                 return array.Rank == 1;
-            return array.Rank == 1 && array.GetValue(0) is Array;
+            return array.GetType().GetElementType().IsArray;
         }
 
         /// <summary>
@@ -1288,38 +1395,17 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a bi-dimensional mesh matrix.
+        ///   Obsolete. Please specify the number of steps instead of the step size for the rows and columns.
         /// </summary>
         /// 
-        /// <example>
-        /// <code>
-        /// // The Mesh method can be used to generate all
-        /// // possible (x,y) pairs between two ranges. 
-        /// 
-        /// // We can create a grid as
-        /// double[][] grid = Matrix.Mesh
-        /// (
-        ///     rowMin: 0, rowMax: 1, rowStepSize: 0.3,
-        ///     colMin: 0, colMax: 1, colStepSize: 0.1
-        /// );
-        /// 
-        /// // Now we can plot the points on-screen
-        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
-        /// </code>
-        /// 
-        /// <para>
-        ///   The resulting image is shown below. </para>
-        ///   <img src="..\images\grid-step-size.png" /> 
-        /// </example>
-        /// 
+        [Obsolete("Please specify the number of steps instead of the step size for the rows and columns.")]
         public static double[][] Mesh(
             double rowMin, double rowMax, double rowStepSize,
             double colMin, double colMax, double colStepSize)
         {
-            double[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowMin, rowMax, rowStepSize),
-                Accord.Math.Vector.Interval(colMin, colMax, colStepSize));
-
+            double[] x = Accord.Math.Vector.Interval(rowMin, rowMax, rowStepSize);
+            double[] y = Accord.Math.Vector.Interval(colMin, colMax, colStepSize);
+            double[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 
@@ -1331,10 +1417,9 @@ namespace Accord.Math
             int rowMin, int rowMax,
             int colMin, int colMax)
         {
-            int[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowMin, rowMax),
-                Accord.Math.Vector.Interval(colMin, colMax));
-
+            int[] x = Accord.Math.Vector.Interval(rowMin, rowMax);
+            int[] y = Accord.Math.Vector.Interval(colMin, colMax);
+            int[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 
@@ -1367,10 +1452,9 @@ namespace Accord.Math
             double rowMin, double rowMax, int rowSteps,
             double colMin, double colMax, int colSteps)
         {
-            double[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowMin, rowMax, rowSteps),
-                Accord.Math.Vector.Interval(colMin, colMax, colSteps));
-
+            double[] x = Accord.Math.Vector.Interval(rowMin, rowMax, rowSteps);
+            double[] y = Accord.Math.Vector.Interval(colMin, colMax, colSteps);
+            double[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 
@@ -1386,27 +1470,41 @@ namespace Accord.Math
         /// // We can create a grid as
         /// double[][] grid = Matrix.Mesh
         /// (
-        ///     rowRange: new DoubleRange(0, 1), rowStepSize: 0.3,
-        ///     colRange: new DoubleRange(0, 1), colStepSize: 0.1
+        ///     rowMin: 0, rowMax: 1, rowSteps: 10,
+        ///     colMin: 0, colMax: 1, colSteps: 5
         /// );
-        /// 
+        ///
         /// // Now we can plot the points on-screen
-        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
+        /// ScatterplotBox.Show("Grid (fixed steps)", grid).Hold();
         /// </code>
         /// 
         /// <para>
         ///   The resulting image is shown below. </para>
-        ///   <img src="..\images\grid-step-size.png" /> 
+        ///   <img src="..\images\grid-fixed-steps.png" /> 
         /// </example>
         /// 
+        public static double[][] Mesh(
+            DoubleRange rowRange, int rowSteps,
+            DoubleRange colRange, int colSteps)
+        {
+            double[] x = Accord.Math.Vector.Interval(rowRange, rowSteps);
+            double[] y = Accord.Math.Vector.Interval(colRange, colSteps);
+            double[][] mesh = Matrix.Cartesian(x, y);
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify the number of steps instead of the step size for the rows and columns.
+        /// </summary>
+        /// 
+        [Obsolete("Please specify the number of steps instead of the step size for the rows and columns.")]
         public static double[][] Mesh(
             DoubleRange rowRange, DoubleRange colRange,
             double rowStepSize, double colStepSize)
         {
-            double[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowRange, rowStepSize),
-                Accord.Math.Vector.Interval(colRange, colStepSize));
-
+            double[] x = Accord.Math.Vector.Interval(rowRange, rowStepSize);
+            double[] y = Accord.Math.Vector.Interval(colRange, colStepSize);
+            double[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 

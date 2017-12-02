@@ -27,6 +27,7 @@ namespace Accord
 {
     using Accord;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents a double range with minimum and maximum values,

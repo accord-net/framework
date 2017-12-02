@@ -27,6 +27,7 @@ namespace Accord.Math.Random
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -182,11 +183,14 @@ namespace Accord.Math.Random
 #endif
         public uint Next()
         {
-            uint value = jsr;
-            jsr = (jsr ^ (jsr << 13));
-            jsr = (jsr ^ (jsr >> 17));
-            jsr = (jsr ^ (jsr << 5));
-            return value + jsr;
+            unchecked
+            {
+                uint value = jsr;
+                jsr = (jsr ^ (jsr << 13));
+                jsr = (jsr ^ (jsr >> 17));
+                jsr = (jsr ^ (jsr << 5));
+                return value + jsr;
+            }
         }
 
 

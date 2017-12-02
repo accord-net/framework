@@ -32,6 +32,7 @@ namespace Accord.Tests.MachineLearning
     using Accord;
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics;
+    using System.IO;
 
     [TestFixture]
     public class SequentialMinimalOptimizationTest
@@ -251,7 +252,8 @@ namespace Accord.Tests.MachineLearning
 #endif
         public void learn_gaussian_sparse_kernel2()
         {
-            var news20 = new Accord.DataSets.News20(@"C:\Temp\");
+            string tmp = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
+            var news20 = new Accord.DataSets.News20(tmp);
             Sparse<double>[] inputs = news20.Training.Item1.Get(0, 2000);
             int[] outputs = news20.Training.Item2.ToMulticlass().Get(0, 2000);
 
@@ -280,9 +282,14 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void learn_linear_sparse_kernel()
         {
-            var news20 = new Accord.DataSets.News20(@"C:\Temp\");
+            Accord.Math.Random.Generator.Seed = 0;
+
+            string tmp = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
+            var news20 = new Accord.DataSets.News20(tmp);
+
             Sparse<double>[] inputs = news20.Training.Item1.Get(0, 2000);
             int[] outputs = news20.Training.Item2.ToMulticlass().Get(0, 2000);
 
@@ -605,6 +612,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void LargeLearningTest1()
         {
             // Create large input vectors

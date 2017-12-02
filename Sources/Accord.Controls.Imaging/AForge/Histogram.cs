@@ -97,7 +97,7 @@ namespace Accord.Controls
     /// </code>
     /// 
     /// <para><b>Sample control's look:</b></para>
-    /// <img src="img/controls/histogram.jpg" width="324" height="77" />
+    /// <img src="..\images\controls\histogram.jpg" width="324" height="77" />
     /// </remarks>
     /// 
     public class Histogram : System.Windows.Forms.Control

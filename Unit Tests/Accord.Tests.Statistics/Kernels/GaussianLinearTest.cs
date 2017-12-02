@@ -31,21 +31,54 @@ namespace Accord.Tests.Statistics
     public class GaussianLinearTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void doc_test()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            #region doc_kernel
+            // Let's say we would like to create a composite Gaussian kernel 
+            // based on an underlying Polynomial kernel of the second degree
+            var gaussian = new Gaussian<Polynomial>(new Polynomial(degree: 2), sigma: 4.2);
+
+            double[] x = { 2, 4 };
+            double[] y = { 1, 3 };
+
+            // Now, we can compute the kernel function as:
+            double k = gaussian.Function(x, y); // 0.041810692337960746
+
+            // We can also obtain the distance in kernel space as:
+            double d = gaussian.Distance(x, y); // 1.9163786153240785
+
+            // Whereas the Euclidean distance in input space would be:
+            double e = Distance.Euclidean(x, y); // 1.4142135623730952
+            #endregion
+
+            Assert.AreEqual(0.041810692337960746, k, 1e-10);
+            Assert.AreEqual(1.9163786153240785, d, 1e-10);
+            Assert.AreEqual(1.4142135623730952, e, 1e-10);
         }
 
+        [Test]
+        public void doc_test_generic()
+        {
+            #region doc_kernel_generic
+            // Let's say we would like to create a composite Gaussian 
+            // kernel based on the String Subsequence Kernel (SSK):
+            var gaussian = new Gaussian<StringSubsequence, string>(
+                new StringSubsequence(k: 2), sigma: 4.2);
+
+            string x = "abba";
+            string y = "aaab";
+
+            // Now, we can compute the kernel function as:
+            double k = gaussian.Function(x, y); // 0.97588765410825273
+
+            // We can also obtain the distance in kernel space as:
+            double d = gaussian.Distance(x, y); // 0.048224691783494533
+            #endregion
+
+            Assert.AreEqual(0.97588765410825273, k, 1e-10);
+            Assert.AreEqual(0.048224691783494533, d, 1e-10);
+        }
 
         [Test]
         public void GaussianFunctionTest()
@@ -56,7 +89,6 @@ namespace Accord.Tests.Statistics
             double[] y = { 1, 1 };
 
             double actual = gaussian.Function(x, y);
-
             double expected = 1;
 
             Assert.AreEqual(expected, actual);

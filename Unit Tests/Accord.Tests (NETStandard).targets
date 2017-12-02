@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RuntimeIdentifiers>win7-x64;ubuntu.16.10-x64</RuntimeIdentifiers>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <Configurations>Debug;netstandard2.0</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <NoWarn>1701;1702;1705;0618;0612</NoWarn>
     <DebugType>none</DebugType>
   </PropertyGroup>
@@ -11,15 +11,54 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="NUnit" Version="3.7.0" />
-    <!--<PackageReference Include="NUnit3TestAdapter" Version="3.7.0" />-->
-    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0-alpha1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
     <PackageReference Include="NUnit.Console" Version="3.6.1" />
   </ItemGroup>
 
+  <!--
   <Target Name="SpicNSpan"  AfterTargets="Clean">
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
     <RemoveDir Directories="$(BaseOutputPath)" />
   </Target>
+  -->
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'
+                         OR '$(TargetFramework)'=='netcoreapp1.1'">
+    <DefineConstants>NETCORE;NO_CODE_PROVIDER;NO_EXCEL;NO_BITMAP;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
+    <DefineConstants>NO_EXPRESSIONS;NO_BINARY_SERIALIZATION;NO_DATA_TABLE;NO_DEFAULT_ENCODING;NO_CULTURE;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'">
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
+    <DefineConstants>NO_CODE_PROVIDER;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
+    <DefineConstants>NET35;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
+    <DefineConstants>NET40;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <DefineConstants>NET45;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net46'">
+    <DefineConstants>NET46;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net462'">
+    <DefineConstants>NET46;NET462;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'!='netcoreapp1.1' 
+                        AND '$(TargetFramework)'!='netcoreapp2.0'">
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />

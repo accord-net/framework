@@ -55,6 +55,7 @@ namespace Accord.Math.Optimization
     using System.Collections.Generic;
     using System.Diagnostics;
     using Accord.Math.Convergence;
+    using Accord.Compat;
 
     /// <summary>
     ///   Subplex

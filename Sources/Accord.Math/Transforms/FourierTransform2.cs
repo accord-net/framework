@@ -49,21 +49,40 @@
 
 namespace Accord.Math.Transforms
 {
-    using AForge.Math;
     using System;
-    using System.Numerics;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
+    using System.Numerics;
 
     /// <summary>
     ///   Fourier Transform (for arbitrary size matrices).
     /// </summary>
     /// 
     /// <remarks>
-    ///   This fourier transform accepts arbitrary-length matrices and is not
-    ///   restricted only to matrices that have dimensions which are powers of
-    ///   two. It also provides results which are more equivalent with other
-    ///   mathematical packages, such as MATLAB and Octave.
+    /// <para>
+    ///   The transforms in this class accept arbitrary-length matrices and are not restricted to 
+    ///   only matrices that have dimensions which are powers of two. It also provides results which 
+    ///   are more equivalent with other mathematical packages, such as MATLAB and Octave.</para>
+    /// <para>
+    ///   This class had been created as an alternative to <see cref="FourierTransform">AForge.NET's 
+    ///   original FourierTransform class</see> that would provide more expected results.</para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following examples show how to compute 1-D Discrete Fourier Transform and 
+    ///   1-D Fast Fourier Transforms, respectively:</para>
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft" />
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
+    /// 
+    /// <para>
+    ///   The next examples show how to compute 2-D Discrete Fourier Transform and 
+    ///   2-D Fast Fourier Transforms, respectively:</para>
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft2" />
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft2" />
+    /// </example>
+    /// 
+    /// <seealso cref="FourierTransform"/>
     /// 
     public static class FourierTransform2
     {
@@ -72,8 +91,12 @@ namespace Accord.Math.Transforms
         ///   1-D Discrete Fourier Transform.
         /// </summary>
         /// 
-        /// <param name="data">The data to transform..</param>
+        /// <param name="data">The data to transform.</param>
         /// <param name="direction">The transformation direction.</param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft" />
+        /// </example>
         /// 
         public static void DFT(Complex[] data, FourierTransform.Direction direction)
         {
@@ -124,41 +147,63 @@ namespace Accord.Math.Transforms
         /// <param name="data">The data to transform.</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft2" />
+        /// </example>
+        /// 
         public static void DFT2(Complex[][] data, FourierTransform.Direction direction)
         {
-            int n = data.Length;
-            int m = data[0].Length;
+            int m = data.Columns();
 
-            // process rows
-            var row = new Complex[m];
-            for (int i = 0; i < n; i++)
+            if (direction == FourierTransform.Direction.Forward)
             {
-                // copy row
-                for (int j = 0; j < row.Length; j++)
-                    row[j] = data[i][j];
+                // process rows
+                for (int i = 0; i < data.Length; i++)
+                {
+                    // transform it
+                    DFT(data[i], FourierTransform.Direction.Forward);
+                }
 
-                // transform it
-                DFT(row, direction);
+                // process columns
+                var col = new Complex[data.Length];
+                for (int j = 0; j < m; j++)
+                {
+                    // copy column
+                    for (int i = 0; i < col.Length; i++)
+                        col[i] = data[i][j];
 
-                // copy back
-                for (int j = 0; j < row.Length; j++)
-                    data[i][j] = row[j];
+                    // transform it
+                    DFT(col, FourierTransform.Direction.Forward);
+
+                    // copy back
+                    for (int i = 0; i < col.Length; i++)
+                        data[i][j] = col[i];
+                }
             }
-
-            // process columns
-            var col = new Complex[n];
-            for (int j = 0; j < n; j++)
+            else
             {
-                // copy column
-                for (int i = 0; i < col.Length; i++)
-                    col[i] = data[i][j];
+                // process columns
+                var col = new Complex[data.Length];
+                for (int j = 0; j < m; j++)
+                {
+                    // copy column
+                    for (int i = 0; i < col.Length; i++)
+                        col[i] = data[i][j];
 
-                // transform it
-                DFT(col, direction);
+                    // transform it
+                    DFT(col, FourierTransform.Direction.Backward);
 
-                // copy back
-                for (int i = 0; i < col.Length; i++)
-                    data[i][j] = col[i];
+                    // copy back
+                    for (int i = 0; i < col.Length; i++)
+                        data[i][j] = col[i];
+                }
+
+                // process rows
+                for (int i = 0; i < data.Length; i++)
+                {
+                    // transform it
+                    DFT(data[i], FourierTransform.Direction.Backward);
+                }
             }
         }
 
@@ -168,6 +213,10 @@ namespace Accord.Math.Transforms
         /// 
         /// <param name="data">The data to transform..</param>
         /// <param name="direction">The transformation direction.</param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
+        /// </example>
         /// 
         public static void FFT(Complex[] data, FourierTransform.Direction direction)
         {
@@ -212,6 +261,10 @@ namespace Accord.Math.Transforms
         /// <param name="imag">The imaginary part of the complex numbers to transform.</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
+        /// </example>
+        /// 
         public static void FFT(double[] real, double[] imag, FourierTransform.Direction direction)
         {
             if (direction == FourierTransform.Direction.Forward)
@@ -237,8 +290,12 @@ namespace Accord.Math.Transforms
         ///   2-D Fast Fourier Transform.
         /// </summary>
         /// 
-        /// <param name="data">The data to transform..</param>
+        /// <param name="data">The data to transform.</param>
         /// <param name="direction">The Transformation direction.</param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft2" />
+        /// </example>
         /// 
         public static void FFT2(Complex[][] data, FourierTransform.Direction direction)
         {
@@ -692,5 +749,119 @@ namespace Accord.Math.Transforms
             return i;
         }
 
+
+
+
+
+
+
+        /// <summary>
+        ///   Computes the Magnitude spectrum of a complex signal.
+        /// </summary>
+        /// 
+        public static double[] GetMagnitudeSpectrum(Complex[] fft)
+        {
+            if (fft == null)
+                throw new ArgumentNullException("fft");
+
+            // assumes fft is symmetric
+
+            // In a two-sided spectrum, half the energy is displayed at the positive frequency,
+            // and half the energy is displayed at the negative frequency. Therefore, to convert
+            // from a two-sided spectrum to a single-sided spectrum, discard the second half of
+            // the array and multiply every point except for DC by two.
+
+            int numUniquePts = (int)System.Math.Ceiling((fft.Length + 1) / 2.0);
+            double[] mx = new double[numUniquePts];
+
+            mx[0] = fft[0].Magnitude / fft.Length;
+            for (int i = 0; i < numUniquePts; i++)
+                mx[i] = fft[i].Magnitude * 2 / fft.Length;
+
+            return mx;
+        }
+
+        /// <summary>
+        ///   Computes the Power spectrum of a complex signal.
+        /// </summary>
+        /// 
+        public static double[] GetPowerSpectrum(Complex[] fft)
+        {
+            if (fft == null)
+                throw new ArgumentNullException("fft");
+
+            int n = (int)System.Math.Ceiling((fft.Length + 1) / 2.0);
+
+            double[] mx = new double[n];
+
+            mx[0] = fft[0].SquaredMagnitude() / fft.Length;
+
+            for (int i = 1; i < n; i++)
+                mx[i] = fft[i].SquaredMagnitude() * 2.0 / fft.Length;
+
+            return mx;
+        }
+
+        /// <summary>
+        ///   Computes the Phase spectrum of a complex signal.
+        /// </summary>
+        /// 
+        public static double[] GetPhaseSpectrum(Complex[] fft)
+        {
+            if (fft == null) throw new ArgumentNullException("fft");
+
+            int n = (int)System.Math.Ceiling((fft.Length + 1) / 2.0);
+
+            double[] mx = new double[n];
+
+            for (int i = 0; i < n; i++)
+                mx[i] = fft[i].Phase;
+
+            return mx;
+        }
+
+        /// <summary>
+        ///   Creates an evenly spaced frequency vector (assuming a symmetric FFT)
+        /// </summary>
+        /// 
+        public static double[] GetFrequencyVector(int length, int sampleRate)
+        {
+            int numUniquePts = (int)System.Math.Ceiling((length + 1) / 2.0);
+
+            double[] freq = new double[numUniquePts];
+            for (int i = 0; i < numUniquePts; i++)
+                freq[i] = i * sampleRate / (double)length;
+
+            return freq;
+        }
+
+        /// <summary>
+        ///   Gets the spectral resolution for a signal of given sampling rate and number of samples.
+        /// </summary>
+        /// 
+        public static double GetSpectralResolution(int samplingRate, int samples)
+        {
+            return samplingRate / (double)samples;
+        }
+
+        /// <summary>
+        ///   Gets the power Cepstrum for a complex signal.
+        /// </summary>
+        /// 
+        public static double[] GetPowerCepstrum(Complex[] signal)
+        {
+            if (signal == null)
+                throw new ArgumentNullException("signal");
+
+            FourierTransform.FFT(signal, FourierTransform.Direction.Backward);
+
+            Complex[] logabs = new Complex[signal.Length];
+            for (int i = 0; i < logabs.Length; i++)
+                logabs[i] = new Complex(System.Math.Log(signal[i].Magnitude), 0);
+
+            FourierTransform.FFT(logabs, FourierTransform.Direction.Forward);
+
+            return logabs.Re();
+        }
     }
 }

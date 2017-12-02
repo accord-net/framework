@@ -89,7 +89,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
 
             // 1. Eliminate unnecessary antecedents
-            for (int y = 0; y < decisionList.OutputClasses; y++)
+            for (int y = 0; y < decisionList.NumberOfClasses; y++)
             {
                 for (int i = 0; i < outputs.Length; i++)
                     expected[i] = outputs[i] == y;
@@ -175,7 +175,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
             // 2. Eliminate redundant rules from the set
 
-            for (int y = 0; y < decisionList.OutputClasses; y++)
+            for (int y = 0; y < decisionList.NumberOfClasses; y++)
             {
                 for (int i = 0; i < outputs.Length; i++)
                     expected[i] = outputs[i] == y;

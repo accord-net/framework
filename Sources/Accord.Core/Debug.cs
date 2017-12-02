@@ -27,7 +27,6 @@ namespace Accord.Diagnostics
     using System.Diagnostics;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     ///   Temporary internal framework class for handling debug assertions

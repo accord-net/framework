@@ -24,6 +24,7 @@ namespace Accord.Neuro
 {
     using System;
     using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Rectified linear activation function.
@@ -34,8 +35,8 @@ namespace Accord.Neuro
     ///   function as given by the piecewise formula:</para>
     /// 
     ///   <code lang="none">
-    ///   f(x) = 0, if x > 0
-    ///   f(x) = x, otherwise
+    ///   f(x) = x, if x > 0
+    ///   f(x) = 0, otherwise
     ///   </code>
     ///   
     /// <para>

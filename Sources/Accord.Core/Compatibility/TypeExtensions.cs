@@ -21,13 +21,13 @@
 //
 
 #if NET35 || NET40
-namespace System.Reflection
+namespace Accord.Compat
 {
     using System;
     using System.Collections.Generic;
     using System.Reflection;
 
-    internal static class TypeExtensions
+    internal static partial class TypeExtensions
     {
 
         public static object GetValue(this PropertyInfo info, object obj)

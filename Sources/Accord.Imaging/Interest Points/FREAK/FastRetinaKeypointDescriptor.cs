@@ -66,6 +66,7 @@ namespace Accord.Imaging
     /// <seealso cref="FastRetinaKeypoint"/>
     /// <seealso cref="FastRetinaKeypointDetector"/>
     ///
+    [Serializable]
     public class FastRetinaKeypointDescriptor : ICloneable
     {
         private FastRetinaKeypointPattern pattern;
@@ -345,10 +346,10 @@ namespace Accord.Imaging
             int x_right = (int)(xf + radius + 1.5);  // integral image is 1px wider
             int y_bottom = (int)(yf + radius + 1.5); // integral image is 1px higher
 
-            ret_val = (int)Integral.InternalData[y_bottom, x_right]; // bottom right corner
-            ret_val -= (int)Integral.InternalData[y_bottom, x_left];
-            ret_val += (int)Integral.InternalData[y_top, x_left];
-            ret_val -= (int)Integral.InternalData[y_top, x_right];
+            ret_val = (int)Integral.Matrix[y_bottom][x_right]; // bottom right corner
+            ret_val -= (int)Integral.Matrix[y_bottom][x_left];
+            ret_val += (int)Integral.Matrix[y_top][x_left];
+            ret_val -= (int)Integral.Matrix[y_top][x_right];
             ret_val = ret_val / ((x_right - x_left) * (y_bottom - y_top));
             return ret_val;
         }

@@ -10,7 +10,7 @@
 //
 
 #if NET35
-namespace System.Numerics
+namespace Accord.Compat
 {
     using System;
     using System.Text.RegularExpressions;
@@ -121,6 +121,17 @@ namespace System.Numerics
         {
             this.Real = c.Real;
             this.Imaginary = c.Imaginary;
+        }
+
+        /// <summary>
+        /// Complex conjugate of a complex number.
+        /// </summary>
+        /// 
+        /// <param name="complex">The complex number.</param>
+        /// 
+        public static Complex Conjugate(Complex complex)
+        {
+            return new Complex(complex.Real, -complex.Imaginary);
         }
 
         /// <summary>
@@ -510,11 +521,7 @@ namespace System.Numerics
         /// 
         public static bool ApproxEqual(Complex a, Complex b, double tolerance)
         {
-            return
-                (
-                (System.Math.Abs(a.Real - b.Real) <= tolerance) &&
-                (System.Math.Abs(a.Imaginary - b.Imaginary) <= tolerance)
-                );
+            return ((System.Math.Abs(a.Real - b.Real) <= tolerance) && (System.Math.Abs(a.Imaginary - b.Imaginary) <= tolerance));
         }
 
         #region Public Static Parse Methods
@@ -1037,7 +1044,7 @@ namespace System.Numerics
         /// <returns>Returns new <see cref="Complex"/> instance containing complex number with
         /// real part initialized to the specified value.</returns>
         /// 
-        public static explicit operator Complex(double value)
+        public static implicit operator Complex(double value)
         {
             return new Complex(value, 0);
         }
@@ -1081,6 +1088,13 @@ namespace System.Numerics
             info.AddValue("Imaginary", this.Imaginary);
         }
         #endregion
+    }
+}
+
+namespace System.Numerics
+{
+    internal class Dummy
+    {
     }
 }
 #endif

@@ -34,6 +34,8 @@ namespace Accord.MachineLearning.DecisionTrees
     using Accord.Math;
     using Learning;
     using Statistics.Filters;
+    using Accord.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Decision tree (for both discrete and continuous classification problems).
@@ -65,6 +67,10 @@ namespace Accord.MachineLearning.DecisionTrees
     ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
     ///   <para>For more examples with continuous variables, please see <see cref="C45Learning"/></para>
+    ///   
+    /// <para>
+    ///   The next example shows how to estimate the true performance of a decision tree model using cross-validation:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
     /// </example>
     /// 
     /// <seealso cref="ID3Learning"/>
@@ -136,7 +142,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public override int Decide(double[] input)
         {
-            return decide(input, Root);
+            return Decide(input, Root);
         }
 
         /// <summary>
@@ -149,10 +155,59 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public override int Decide(int[] input)
         {
-            return decide(input, Root);
+            try
+            {
+                return decideIterative(input, Root);
+            }
+            catch
+            {
+                return decideRecursive(input.ToDouble(), Root, new int[NumberOfClasses]).ArgMax();
+            }
         }
 
-        
+        /// <summary>
+        ///   Computes the tree decision for a given input.
+        /// </summary>
+        /// 
+        /// <param name="input">The input data.</param>
+        /// 
+        /// <returns>A predicted class for the given input.</returns>
+        /// 
+        public int Decide(int?[] input)
+        {
+            return Decide(input, Root);
+        }
+
+        /// <summary>
+        ///   Computes the tree decision for a given input.
+        /// </summary>
+        /// 
+        /// <param name="input">The input data.</param>
+        /// 
+        /// <returns>A predicted class for the given input.</returns>
+        /// 
+        public int[] Decide(int?[][] input)
+        {
+            return Decide(input, new int[input.Length]);
+        }
+
+        /// <summary>
+        ///   Computes the tree decision for a given input.
+        /// </summary>
+        /// 
+        /// <param name="input">The input data.</param>
+        /// <param name="result">The location to where to store the class labels.</param>
+        /// 
+        /// <returns>A predicted class for the given input.</returns>
+        /// 
+        public int[] Decide(int?[][] input, int[] result)
+        {
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Decide(input[i], Root);
+            return result;
+        }
+
+
 
         /// <summary>
         ///   Computes the tree decision for a given input.
@@ -171,10 +226,44 @@ namespace Accord.MachineLearning.DecisionTrees
             if (subtree.Owner != this)
                 throw new ArgumentException("The node does not belong to this tree.", "subtree");
 
-            return decide(input, subtree);
+            try
+            {
+                // Check the instance contains missing values
+                if (input.HasNaN())
+                {
+                    // Yes, the instance contains missing values. We will need to generate all possible 
+                    // tree paths considering the diffent values that this value could have assumed, and
+                    // take the most likely answer as the final decision for this sample.
+
+                    return decideRecursive(input, subtree, new int[NumberOfClasses]).ArgMax();
+                }
+                else
+                {
+                    // No missing values, proceed as normal:
+                    return decideIterative(input, subtree);
+                }
+            }
+            catch
+            {
+                return decideRecursive(input, subtree, new int[NumberOfClasses]).ArgMax();
+            }
         }
 
-        private static int decide(double[] input, DecisionNode subtree)
+        /// <summary>
+        ///   Computes the tree decision for a given input.
+        /// </summary>
+        /// 
+        /// <param name="input">The input data.</param>
+        /// <param name="subtree">The node where the decision starts.</param>
+        /// 
+        /// <returns>A predicted class for the given input.</returns>
+        /// 
+        public int Decide(int?[] input, DecisionNode subtree)
+        {
+            return Decide(input.Apply(x => x == null ? Double.NaN : (double)x), subtree);
+        }
+
+        private static int decideIterative(double[] input, DecisionNode subtree)
         {
             DecisionNode current = subtree;
 
@@ -202,7 +291,9 @@ namespace Accord.MachineLearning.DecisionTrees
 
                 foreach (DecisionNode branch in current.Branches)
                 {
-                    if (branch.Compute(input[attribute]))
+                    double value = input[attribute];
+
+                    if (branch.Compute(value))
                     {
                         // This is the child node responsible for dealing
                         // which this particular attribute value. Choose it
@@ -220,7 +311,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 + "the tree is expecting discrete inputs, but it was given only real values.");
         }
 
-        private static int decide(int[] input, DecisionNode subtree)
+        private static int decideIterative(int[] input, DecisionNode subtree)
         {
             DecisionNode current = subtree;
 
@@ -240,7 +331,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 // decision process following the children
 
                 // Get the next attribute to guide reasoning
-                int attribute = current.Branches.AttributeIndex;
+                double value = input[current.Branches.AttributeIndex];
 
                 // Check which child is responsible for dealing
                 // which the particular value of the attribute
@@ -248,7 +339,7 @@ namespace Accord.MachineLearning.DecisionTrees
 
                 foreach (DecisionNode branch in current.Branches)
                 {
-                    if (branch.Compute(input[attribute]))
+                    if (branch.Compute(value))
                     {
                         // This is the child node responsible for dealing
                         // which this particular attribute value. Choose it
@@ -265,6 +356,50 @@ namespace Accord.MachineLearning.DecisionTrees
             throw new InvalidOperationException("The tree is degenerated. This is often a sign that "
                 + "the tree is expecting discrete inputs, but it was given only real values.");
         }
+
+        private static int[] decideRecursive(double[] input, DecisionNode current, int[] answerCounts)
+        {
+            // Check if this is a leaf
+            if (current.IsLeaf)
+            {
+                // This is a leaf node. The decision
+                // process thus should stop here.
+                if (current.Output.HasValue)
+                    answerCounts[current.Output.Value] += 1;
+                return answerCounts;
+            }
+
+            // This node is not a leaf. Continue the
+            // decision process following the children
+
+            // Get the next attribute to guide reasoning
+            double value = input[current.Branches.AttributeIndex];
+
+            if (Double.IsNaN(value))
+            {
+                // This is a missing value. We will consider all possible branches
+                foreach (DecisionNode branch in current.Branches)
+                    decideRecursive(input, branch, answerCounts);
+                return answerCounts;
+            }
+
+            // This is not a missing value. We will find a branch that matches  
+            foreach (DecisionNode branch in current.Branches)
+            {
+                if (branch.Compute(value))
+                {
+                    // This is the child node responsible for dealing
+                    // which this particular attribute value. Choose it
+                    // to continue reasoning.
+
+                    return decideRecursive(input, branch, answerCounts);
+                }
+            }
+
+            // Normal execution should not reach here.
+            return answerCounts;
+        }
+
 
 
 
@@ -348,7 +483,7 @@ namespace Accord.MachineLearning.DecisionTrees
             return DecisionSet.FromDecisionTree(this);
         }
 
-#if !NET35
+#if !NET35 && !NETSTANDARD1_4
         /// <summary>
         ///   Creates an <see cref="Expression">Expression Tree</see> representation
         ///   of this decision tree, which can in turn be compiled into code.
@@ -416,7 +551,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         /// <returns>A string containing the generated class.</returns>
         /// 
-        public string ToCode(string className)
+        public string ToCode(string className = "MyTree")
         {
             using (MemoryStream stream = new MemoryStream())
             {
@@ -438,7 +573,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// <param name="className">The name for the generated class.</param>
         /// <param name="writer">The <see cref="TextWriter"/> where the class should be written.</param>
         /// 
-        public void ToCode(TextWriter writer, string className)
+        public void ToCode(TextWriter writer, string className = "MyTree")
         {
             var treeWriter = new DecisionTreeWriter(writer);
             treeWriter.Write(this, className);
@@ -471,6 +606,7 @@ namespace Accord.MachineLearning.DecisionTrees
 
 
         #region Obsolete
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Obsolete. Please use <see cref="Accord.IO.Serializer.Save{T}(T, string)"/> (or use it as an extension method).
         /// </summary>
@@ -510,6 +646,7 @@ namespace Accord.MachineLearning.DecisionTrees
         {
             return Accord.IO.Serializer.Load<DecisionTree>(path);
         }
+#endif
 
         /// <summary>
         ///   Deprecated. Please use the NumberOfOutputs property instead.
@@ -591,7 +728,13 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
 
-        #region Serialization backwards compatibility
+        #region Serialization
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            if (Root != null && Root.Owner == null)
+                Root.Owner = this;
+        }
 
         internal class DecisionTreeBinder : SerializationBinder
         {
@@ -620,7 +763,7 @@ namespace Accord.MachineLearning.DecisionTrees
             public DecisionNode Root { get; set; }
 
             public DecisionVariableCollection Attributes { get; private set; }
-            
+
             public int OutputClasses { get; private set; }
 
             public int InputCount { get; private set; }

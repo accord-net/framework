@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.Math;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="IMultilabelLikelihoodClassifier{TInput}">
@@ -35,7 +36,8 @@ namespace Accord.MachineLearning
     [Serializable]
     public abstract class MultilabelLikelihoodClassifierBase<TInput> :
         MultilabelScoreClassifierBase<TInput>,
-        IMultilabelLikelihoodClassifier<TInput>
+        IMultilabelLikelihoodClassifier<TInput>,
+        IMulticlassLikelihoodClassifier<TInput>
     {
 
         // Main overridable methods
@@ -64,7 +66,7 @@ namespace Accord.MachineLearning
         public virtual double[] Probabilities(TInput input, ref bool[] decision, double[] result)
         {
             LogLikelihoods(input, ref decision, result);
-            return Special.Softmax(result, result);
+            return Elementwise.Exp(result, result: result);
         }
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="result">An array where the log-likelihoods will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public virtual double[] LogLikelihoods(TInput input, double[] result)
+        public double[] LogLikelihoods(TInput input, double[] result)
         {
             var decision = new bool[NumberOfOutputs];
             return LogLikelihoods(input, ref decision, result);
@@ -124,7 +126,7 @@ namespace Accord.MachineLearning
         /// vector belongs to each of the possible classes.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public virtual double[][] LogLikelihoods(TInput[] input)
+        public double[][] LogLikelihoods(TInput[] input)
         {
             return LogLikelihoods(input, create<double>(input));
         }
@@ -136,7 +138,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="result">An array where the log-likelihoods will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public virtual double[][] LogLikelihoods(TInput[] input, double[][] result)
+        public double[][] LogLikelihoods(TInput[] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
                 result[i] = LogLikelihoods(input[i], result[i]);
@@ -244,9 +246,8 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, double[] result)
         {
-            result = LogLikelihoods(input, result);
-            Elementwise.Exp(result, result);
-            return result;
+            int decision;
+            return Probabilities(input, out decision, result);
         }
 
         /// <summary>
@@ -268,9 +269,9 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Probabilities(TInput[] input, double[][] result)
         {
-            result = LogLikelihoods(input, result);
+            bool[] decision = new bool[NumberOfOutputs];
             for (int i = 0; i < input.Length; i++)
-                Elementwise.Exp(result[i], result[i]);
+                Probabilities(input[i], ref decision, result[i]);
             return result;
         }
 
@@ -299,7 +300,7 @@ namespace Accord.MachineLearning
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// <param name="result">An array where the log-likelihoods will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public virtual double[] LogLikelihood(TInput[] input, int[] classIndex, double[] result)
+        public double[] LogLikelihood(TInput[] input, int[] classIndex, double[] result)
         {
             for (int i = 0; i < input.Length; i++)
                 result[i] = LogLikelihood(input[i], classIndex[i]);
@@ -715,8 +716,9 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, out double decision, double[] result)
         {
-            Probabilities(input, result);
-            decision = result.ArgMax();
+            var mask = new bool[NumberOfOutputs];
+            Probabilities(input, ref mask, result);
+            decision = mask.ArgMax();
             return result;
         }
 
@@ -732,8 +734,9 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, out int decision, double[] result)
         {
-            Probabilities(input, result);
-            decision = result.ArgMax();
+            var mask = new bool[NumberOfOutputs];
+            Probabilities(input, ref mask, result);
+            decision = mask.ArgMax();
             return result;
         }
 
@@ -953,19 +956,181 @@ namespace Accord.MachineLearning
             return Probabilities(input, result);
         }
 
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        new public IMulticlassLikelihoodClassifier<TInput> ToMulticlass()
+        {
+            return (IMulticlassLikelihoodClassifier<TInput>)this;
+        }
+
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        new public IMulticlassLikelihoodClassifier<TInput, T> ToMulticlass<T>()
+        {
+            return (IMulticlassLikelihoodClassifier<TInput, T>)this;
+        }
 
 
 
-        ///// <summary>
-        ///// Views this instance as a multi-class generative classifier.
-        ///// </summary>
-        ///// <returns>
-        ///// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
-        ///// </returns>
-        //new public IClassifier<TInput, int> ToMulticlass()
-        //{
-        //    return (IClassifier<TInput, int>)this;
-        //}
+
+        int IMulticlassLikelihoodClassifier<TInput>.Decide(TInput input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+        int[] IMulticlassLikelihoodClassifier<TInput>.Decide(TInput[] input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+        double IMulticlassLikelihoodClassifier<TInput>.LogLikelihood(TInput input)
+        {
+            int decision;
+            return LogLikelihoods(input, out decision)[decision];
+        }
+
+        double[] IMulticlassLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input)
+        {
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).LogLikelihood(input, new double[input.Length]);
+        }
+
+        double[] IMulticlassLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, double[] result)
+        {
+            int d;
+            for (int i = 0; i < input.Length; i++)
+                result[i] = LogLikelihoods(input[i], out d)[d];
+            return result;
+        }
+
+        IMultilabelLikelihoodClassifier<TInput> IMulticlassLikelihoodClassifier<TInput>.ToMultilabel()
+        {
+            return this;
+        }
+
+        double IMulticlassOutLikelihoodClassifier<TInput, int>.LogLikelihood(TInput input, out int decision)
+        {
+            return LogLikelihoods(input, out decision)[decision];
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision)
+        {
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).LogLikelihood(input, ref decision, new double[input.Length]);
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision, double[] result)
+        {
+            decision = createOrReuse(input, decision);
+
+            int d;
+            for (int i = 0; i < input.Length; i++)
+            {
+                result[i] = LogLikelihoods(input[i], out d)[d];
+                decision[i] = d;
+            }
+            return result;
+        }
+
+        double IMulticlassOutLikelihoodClassifier<TInput, double>.LogLikelihood(TInput input, out double decision)
+        {
+            int d;
+            double result = LogLikelihoods(input, out d)[d];
+            decision = d;
+            return result;
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision)
+        {
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).LogLikelihood(input, ref decision);
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision, double[] result)
+        {
+            decision = createOrReuse(input, decision);
+
+            int d;
+            for (int i = 0; i < input.Length; i++)
+            {
+                result[i] = LogLikelihoods(input[i], out d)[d];
+                decision[i] = d;
+            }
+            return result;
+        }
+
+        double IMulticlassLikelihoodClassifier<TInput>.Probability(TInput input)
+        {
+            int decision;
+            return Probabilities(input, out decision)[decision];
+        }
+
+        double[] IMulticlassLikelihoodClassifier<TInput>.Probability(TInput[] input)
+        {
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).Probability(input, new double[input.Length]);
+        }
+
+        double[] IMulticlassLikelihoodClassifier<TInput>.Probability(TInput[] input, double[] result)
+        {
+            int d;
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Probabilities(input[i], out d)[d];
+            return result;
+        }
+
+        double IMulticlassOutLikelihoodClassifier<TInput, int>.Probability(TInput input, out int decision)
+        {
+            return Probabilities(input, out decision)[decision];
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, int>.Probability(TInput[] input, ref int[] decision)
+        {
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).Probability(input, ref decision, new double[input.Length]);
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, int>.Probability(TInput[] input, ref int[] decision, double[] result)
+        {
+            decision = createOrReuse(input, decision);
+
+            int d;
+            for (int i = 0; i < input.Length; i++)
+            {
+                result[i] = Probabilities(input[i], out d)[d];
+                decision[i] = d;
+            }
+            return result;
+        }
+
+        double IMulticlassOutLikelihoodClassifier<TInput, double>.Probability(TInput input, out double decision)
+        {
+            int d;
+            double result = Probabilities(input, out d)[d];
+            decision = d;
+            return result;
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, double>.Probability(TInput[] input, ref double[] decision)
+        {
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).Probability(input, ref decision);
+        }
+
+        double[] IMulticlassLikelihoodClassifierBase<TInput, double>.Probability(TInput[] input, ref double[] decision, double[] result)
+        {
+            decision = createOrReuse(input, decision);
+
+            int d;
+            for (int i = 0; i < input.Length; i++)
+            {
+                result[i] = Probabilities(input[i], out d)[d];
+                decision[i] = d;
+            }
+            return result;
+        }
 
     }
 }

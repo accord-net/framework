@@ -1,30 +1,33 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>Accord.IO</AssemblyName>
     <RootNamespace>Accord.IO</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
-
-<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-
-    <ItemGroup>
+  <ItemGroup>
     <Compile Remove="Extensions.Matrix.cs" />
     <Compile Remove="Extensions.Table.cs" />
   </ItemGroup>
 
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard1.4'">
+      <ItemGroup>
+        <PackageReference Include="SharpZipLib.NETStandard" Version="0.86.0.1" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="SharpZipLib" Version="0.86.0.0" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
   <ItemGroup>
     <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
   </ItemGroup>
-  
+
 </Project>

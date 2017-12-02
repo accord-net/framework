@@ -26,24 +26,44 @@ namespace Accord.Vision.Tracking
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using AForge;
+    using System;
+    using Accord.Math;
+    using Accord.Vision.Detection;
 
     /// <summary>
     ///   Template matching object tracker.
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
     ///   The matching tracker will track the object presented in the search window
     ///   of the first frame given to the tracker. To reset the tracker and start
     ///   tracking another object, one can call the Reset method, then set the search
     ///   window around a new object of interest present the image containing the new
-    ///   object to the tracker.
+    ///   object to the tracker.</para>
+    /// <para>
+    ///   This is a very simple tracker that cannot handle size changes or occlusion.</para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to track an moving person from a video using the
+    ///   VideoFileReader class, how to mark the object positions using <see cref="RectanglesMarker"/>,
+    ///   and save those frames as individual files to the disk.</para>
+    ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\MatchingTrackerTest.cs" region="doc_track" />
+    ///   <img src="..\images\video\matching_frame_223.png" />
+    /// </example>
+    /// 
+    /// <seealso cref="Camshift"/>
+    /// <seealso cref="HslBlobTracker"/>
+    /// <seealso cref="HaarObjectDetector"/>
     /// 
     public class MatchingTracker : IObjectTracker
     {
 
         private ExhaustiveTemplateMatching matcher;
         private Rectangle searchWindow;
+        private Bitmap templateBitmap;
         private UnmanagedImage template;
         private Crop crop;
         private TrackingObject trackingObject;
@@ -51,6 +71,19 @@ namespace Accord.Vision.Tracking
 
         private int steady;
 
+        /// <summary>
+        ///   Gets or sets the template being chased by the tracker.
+        /// </summary>
+        /// 
+        public Bitmap Template
+        {
+            get { return templateBitmap; }
+            set
+            {
+                templateBitmap = value;
+                template = UnmanagedImage.FromManagedImage(value);
+            }
+        }
 
         /// <summary>
         ///   Gets or sets the current search window.
@@ -74,6 +107,7 @@ namespace Accord.Vision.Tracking
         /// <summary>
         ///   Gets or sets the similarity threshold to 
         ///   determine when the object has been lost.
+        ///   Default is 0.95. 
         /// </summary>
         /// 
         public double Threshold
@@ -81,6 +115,15 @@ namespace Accord.Vision.Tracking
             get { return threshold; }
             set { threshold = value; }
         }
+
+        /// <summary>
+        ///   Gets or sets at which similarity threshold the currently
+        ///   tracked object should be re-registered as the new template
+        ///   to look for. This can help track slowly changing objects.
+        ///   Default is 0.99.
+        /// </summary>
+        /// 
+        public double RegistrationThreshold { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating whether the tracker should
@@ -99,6 +142,7 @@ namespace Accord.Vision.Tracking
             matcher = new ExhaustiveTemplateMatching(0);
             crop = new Crop(Rectangle.Empty);
             trackingObject = new TrackingObject();
+            RegistrationThreshold = 0.99;
         }
 
 
@@ -138,7 +182,7 @@ namespace Accord.Vision.Tracking
 
             searchWindow.Intersect(new Rectangle(0, 0, frame.Width, frame.Height));
 
-            if (searchWindow.Width < template.Width || 
+            if (searchWindow.Width < template.Width ||
                 searchWindow.Height < template.Height)
             {
                 searchWindow.Inflate((int)(0.2f * searchWindow.Width),
@@ -163,20 +207,17 @@ namespace Accord.Vision.Tracking
                 Reset(); return;
             }
 
-             if (obj.Similarity >= 0.99)
-             {
-                 registerTemplate(frame, obj.Rectangle);
-             }
+            if (obj.Similarity >= RegistrationThreshold)
+            {
+                registerTemplate(frame, obj.Rectangle);
+            }
 
 
             // Compute a new window size
             searchWindow = obj.Rectangle;
 
-            if (obj.Similarity < 0.98)
-                searchWindow.Inflate((int)(0.2f * width), (int)(0.2f * height));
-
-            else
-                searchWindow.Inflate((int)(0.1f * width), (int)(0.1f * height));
+            double coef = Vector.Scale(obj.Similarity, 0.9, 1.0, 1.0, 0.0);
+            searchWindow.Inflate((int)(coef * width), (int)(coef * height));
         }
 
         private bool checkSteadiness(TemplateMatch match)

@@ -12,14 +12,28 @@
 namespace Accord.Math
 {
     using System;
+    using Accord.Compat;
     using System.Numerics;
+    using Accord.Math.Transforms;
 
     /// <summary>
-    /// Fourier transformation.
+    ///   Original Fourier transform from AForge.NET. If possible, 
+    ///   please use <see cref="FourierTransform2"/> instead.
     /// </summary>
     /// 
-    /// <remarks>The class implements one dimensional and two dimensional
-    /// Discrete and Fast Fourier Transformation.</remarks>
+    /// <remarks>
+    /// <para>
+    ///   The class implements one dimensional and two dimensional Discrete  and Fast Fourier 
+    ///   Transformation. However, this class works only with square matrices with sizes that 
+    ///   are power of 2, and implements a different form of the transform that differs from
+    ///   the implementations in other packages such as Octave and Matlab. For a more general 
+    ///   transform that should produce the same results as Octave, see <see cref="FourierTransform2"/>.</para>
+    ///   
+    /// <para>
+    ///   This class may be deprecated (marked as obsolete) in the future.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="FourierTransform2"/>
     /// 
     public static class FourierTransform
     {
@@ -292,7 +306,7 @@ namespace Accord.Math
             }
         }
 
-        #region Private Region
+#region Private Region
 
         private const int minLength = 2;
         private const int maxLength = 16384;
@@ -385,6 +399,6 @@ namespace Accord.Math
             }
         }
 
-        #endregion
+#endregion
     }
 }

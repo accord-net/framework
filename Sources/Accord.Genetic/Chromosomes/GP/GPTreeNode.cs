@@ -12,6 +12,7 @@ namespace Accord.Genetic
     using System.Collections;
     using System.Collections.Generic;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     /// Represents tree node of genetic programming tree.
@@ -25,6 +26,7 @@ namespace Accord.Genetic
     /// programming tree may represent its sub tree or even entire tree.</para>
     /// </remarks>
     /// 
+    [Serializable]
     public class GPTreeNode : ICloneable
     {
         /// <summary>

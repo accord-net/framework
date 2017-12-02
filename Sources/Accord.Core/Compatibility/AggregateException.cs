@@ -21,7 +21,7 @@
 //
 
 #if NET35
-namespace Accord
+namespace Accord.Compat
 {
     using System;
     using System.Collections.Generic;
@@ -104,6 +104,11 @@ namespace Accord
         protected AggregateException(SerializationInfo info, StreamingContext context) :
             base(info, context) { }
 
+        /// <summary>
+        /// Gets the inner exceptions.
+        /// </summary>
+        /// 
+        public List<Exception> InnerExceptions { get { return exceptions; } }
     }
 }
 #endif

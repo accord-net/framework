@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate Linear Regression.
@@ -295,9 +296,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///    The R² coefficient of determination is a statistical measure of how well the
         ///    regression line approximates the real data points. An R² of 1.0 indicates
         ///    that the regression line perfectly fits the data.</para> 
+        ///   <para>
+        ///    This method uses the <see cref="RSquaredLoss"/> class to compute the R²
+        ///    coefficient. Please see the documentation for <see cref="RSquaredLoss"/>
+        ///    for more details, including usage examples.</para>
         /// </remarks>
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
+        /// 
+        /// <seealso cref="RSquaredLoss"/>
         /// 
         public double[] CoefficientOfDetermination(double[][] inputs, double[][] outputs, double[] weights = null)
         {
@@ -319,9 +326,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///    The R² coefficient of determination is a statistical measure of how well the
         ///    regression line approximates the real data points. An R² of 1.0 indicates
         ///    that the regression line perfectly fits the data.</para> 
+        ///   <para>
+        ///    This method uses the <see cref="RSquaredLoss"/> class to compute the R²
+        ///    coefficient. Please see the documentation for <see cref="RSquaredLoss"/>
+        ///    for more details, including usage examples.</para>
         /// </remarks>
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
+        /// 
+        /// <seealso cref="RSquaredLoss"/>
         /// 
         public double[] CoefficientOfDetermination(double[][] inputs, double[][] outputs, bool adjust, double[] weights = null)
         {
@@ -443,7 +456,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         {
             input.Dot(Weights, result: result);
             if (intercepts != null)
-                result.Add(intercepts, dimension: 0, result: result);
+                result.Add(intercepts, dimension: (VectorType)0, result: result);
             return result;
         }
 

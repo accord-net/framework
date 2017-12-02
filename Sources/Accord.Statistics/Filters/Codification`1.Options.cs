@@ -20,6 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+// TODO: Uncomment the following line
+// #define USE_SORTED_ORDER
+
 namespace Accord.Statistics.Filters
 {
     using System;
@@ -28,7 +31,9 @@ namespace Accord.Statistics.Filters
     using Accord.Math;
     using Accord.Collections;
     using MachineLearning;
+    using Accord.Compat;
     using System.Threading;
+    using System.Runtime.Serialization;
 
     public partial class Codification<T>
     {
@@ -37,14 +42,20 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase,
+#if NETSTANDARD2_0
+        [SurrogateSelector(typeof(Codification.Selector))]
+#endif
+        public class Options : ColumnOptionsBase<Codification<T>>,
             ITransform<T, int>, IClassifier<T, int>,
             ITransform<T, double[]>,
             IUnsupervisedLearning<Options, T, int>,
             IUnsupervisedLearning<Options, T, double[]>
         {
-            [NonSerialized]
-            private CancellationToken token;
+
+            bool hasMissingValue;
+            T missingValue;
+
+            object missingValueReplacement;
 
             /// <summary>
             ///   Gets or sets the label mapping for translating
@@ -54,23 +65,95 @@ namespace Accord.Statistics.Filters
             public TwoWayDictionary<T, int> Mapping { get; private set; }
 
             /// <summary>
-            ///   Gets the number of symbols used to code this variable.
+            ///   Gets or sets whether the column can contain missing values.
             /// </summary>
             /// 
-            [Obsolete("Please use NumberOfSymbols instead.")]
-            public int Symbols { get { return Mapping.Count; } }
+            public bool HasMissingValue
+            {
+                get { return hasMissingValue; }
+                set { hasMissingValue = value; }
+            }
+
+            /// <summary>
+            ///   Gets or sets how missing values are represented in this column.
+            /// </summary>
+            /// 
+            public T MissingValue
+            {
+                get { return missingValue; }
+                set { missingValue = value; }
+            }
+
+            /// <summary>
+            ///   Gets or sets a value to be used to replace missing values. Default
+            ///   is to replace missing values using <c>System.DBNull.Value</c>.
+            /// </summary>
+            /// 
+            public object MissingValueReplacement
+            {
+                get
+                {
+                    if (missingValueReplacement == null)
+                        return Owner.DefaultMissingValueReplacement;
+                    return missingValueReplacement;
+                }
+                set { missingValueReplacement = value; }
+            }
 
             /// <summary>
             ///   Gets the number of symbols used to code this variable.
             /// </summary>
             /// 
+            [Obsolete("Please use NumberOfSymbols instead.")]
+            public int Symbols { get { return NumberOfSymbols; } }
+
+            /// <summary>
+            ///   Gets the number of symbols used to code this variable. See remarks for details.
+            /// </summary>
+            /// 
+            /// <remarks>
+            ///   This method returns the following table of values:
+            ///   <list type="table">  
+            ///     <listheader>  
+            ///         <term><see cref="CodificationVariable.Categorical"/></term>  
+            ///         <description>Number of elements in <see cref="Mapping"/> (number of distinct elements).</description>  
+            ///     </listheader>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.CategoricalWithBaseline"/></term>  
+            ///         <description>Number of elements in <see cref="Mapping"/> (number of distinct elements).</description>  
+            ///     </item>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.Ordinal"/></term>  
+            ///         <description>Number of elements in <see cref="Mapping"/> (number of distinct elements).</description>  
+            ///     </item>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.Continuous"/></term>  
+            ///         <description>1 (there are no symbols to be encoded).</description>  
+            ///     </item>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.Discrete"/></term>  
+            ///         <description>1 (there are no symbols to be encoded).</description>  
+            ///     </item>  
+            /// </list>  
+            /// </remarks>
+            /// 
             public int NumberOfSymbols
             {
                 get
                 {
-                    if (VariableType == CodificationVariable.Continuous || VariableType == CodificationVariable.Discrete)
-                        return 1;
-                    return Mapping.Count;
+                    switch (VariableType)
+                    {
+                        case CodificationVariable.Categorical:
+                        case CodificationVariable.Ordinal:
+                        case CodificationVariable.CategoricalWithBaseline:
+                            return Mapping.Count;
+                        case CodificationVariable.Continuous:
+                        case CodificationVariable.Discrete:
+                            return 1;
+                    }
+
+                    throw new InvalidOperationException(String.Format("Unexpected VariableType {0}." +
+                        " Execution should never have reached here.", VariableType));
                 }
             }
 
@@ -81,33 +164,68 @@ namespace Accord.Statistics.Filters
             public CodificationVariable VariableType { get; set; }
 
             /// <summary>
-            /// Gets or sets a cancellation token that can be used to
-            /// stop the learning algorithm while it is running.
-            /// </summary>
-            /// 
-            /// <value>The token.</value>
-            /// 
-            public CancellationToken Token
-            {
-                get { return token; }
-                set { token = value; }
-            }
-
-            /// <summary>
             ///   Gets the number of inputs accepted by the model (value will be 1).
             /// </summary>
             /// 
             /// <value>The number of inputs.</value>
             /// 
-            public int NumberOfInputs { get; set; }
+            public int NumberOfInputs
+            {
+                get { return 1; }
+            }
 
             /// <summary>
-            /// Gets the number of outputs generated by the model (value will be 1).
+            /// Gets the number of outputs generated by the model. See remarks for details.
             /// </summary>
             /// 
             /// <value>The number of outputs.</value>
             /// 
-            public int NumberOfOutputs { get; set; }
+            /// <remarks>
+            ///   This method returns the following table of values:
+            ///   <list type="table">  
+            ///     <listheader>  
+            ///         <term><see cref="CodificationVariable.Categorical"/></term>  
+            ///         <description>Number of elements in <see cref="Mapping"/> (number of distinct elements).</description>  
+            ///     </listheader>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.CategoricalWithBaseline"/></term>  
+            ///         <description>Number of elements in <see cref="Mapping"/> minus 1 (number of distinct elements, except the baseline, which is encoded as the absence of other values).</description>  
+            ///     </item>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.Ordinal"/></term>  
+            ///         <description>1 (there is just one single ordinal variable).</description>  
+            ///     </item>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.Continuous"/></term>  
+            ///         <description>1 (there is just one single continuous variable).</description>  
+            ///     </item>  
+            ///     <item>  
+            ///         <term><see cref="CodificationVariable.Discrete"/></term>  
+            ///         <description>1 (there is just one single discrete variable).</description>  
+            ///     </item>  
+            /// </list>  
+            /// </remarks>
+            /// 
+            public int NumberOfOutputs
+            {
+                get
+                {
+                    switch (VariableType)
+                    {
+                        case CodificationVariable.Categorical:
+                            return Mapping.Count;
+                        case CodificationVariable.CategoricalWithBaseline:
+                            return Mapping.Count - 1;
+                        case CodificationVariable.Ordinal:
+                        case CodificationVariable.Continuous:
+                        case CodificationVariable.Discrete:
+                            return 1;
+                    }
+
+                    throw new InvalidOperationException(String.Format("Unexpected VariableType {0}." +
+                        " Execution should never have reached here.", VariableType));
+                }
+            }
 
             /// <summary>
             ///   Gets the values associated with each symbol, in the order of the symbols.
@@ -137,6 +255,19 @@ namespace Accord.Statistics.Filters
 
 
             /// <summary>
+            ///   Determines whether the given object denotes a missing value.
+            /// </summary>
+            /// 
+            public bool IsMissingValue(object value)
+            {
+#if !NETSTANDARD1_4
+                return this.HasMissingValue && (value is DBNull || value == null || Object.Equals(this.MissingValue, value));
+#else
+                return this.HasMissingValue && (value == null || Object.Equals(this.MissingValue, value));
+#endif
+            }
+
+            /// <summary>
             ///   Forces the given key to have a specific symbol value.
             /// </summary>
             /// 
@@ -159,7 +290,11 @@ namespace Accord.Statistics.Filters
             /// <returns>The output generated by applying this transformation to the given input.</returns>
             public int Transform(T input)
             {
+                if (hasMissingValue && input.IsEqual(missingValue))
+                    return -1;
+#if !NETSTANDARD1_4
                 Check();
+#endif
                 return Mapping[input];
             }
 
@@ -194,6 +329,7 @@ namespace Accord.Statistics.Filters
                 return result;
             }
 
+#if !NETSTANDARD1_4
             /// <summary>
             /// Applies the transformation to an input, producing an associated output.
             /// </summary>
@@ -239,6 +375,7 @@ namespace Accord.Statistics.Filters
                     result[i] = Transform(input[i]);
                 return result;
             }
+#endif
 
             /// <summary>
             /// Reverts the transformation to a set of output vectors,
@@ -248,6 +385,8 @@ namespace Accord.Statistics.Filters
             /// the transformation should be reverted.</param>
             public T Revert(int output)
             {
+                if (hasMissingValue && output == -1)
+                    return missingValue;
                 return Mapping.Reverse[output];
             }
 
@@ -279,38 +418,6 @@ namespace Accord.Statistics.Filters
                 return result;
             }
 
-            /// <summary>
-            /// Learns a model that can map the given inputs to the desired outputs.
-            /// </summary>
-            /// <param name="x">The model inputs.</param>
-            /// <param name="weights">The weight of importance for each input sample.</param>
-            /// <returns>A model that has learned how to produce suitable outputs
-            /// given the input data <paramref name="x" />.</returns>
-            /// <exception cref="System.ArgumentException">Weights are not supported and should be null.</exception>
-            public Options Learn(T[] x, double[] weights = null)
-            {
-                if (weights != null)
-                    throw new ArgumentException("Weights are not supported and should be null.");
-
-                this.NumberOfInputs = 1;
-                this.NumberOfOutputs = 1;
-
-                if (CanBeCodified)
-                {
-                    T[] unique = x.Distinct();
-
-                    for (int i = 0; i < unique.Length; i++)
-                    {
-                        this.Mapping[unique[i]] = i;
-
-                        if (this.Token.IsCancellationRequested)
-                            return this;
-                    }
-                }
-
-                return this;
-            }
-
             private bool CanBeCodified
             {
                 get
@@ -321,6 +428,29 @@ namespace Accord.Statistics.Filters
                 }
             }
 
+
+            /// <summary>
+            /// Learns a model that can map the given inputs to the desired outputs.
+            /// </summary>
+            /// <param name="x">The model inputs.</param>
+            /// <param name="weights">The weight of importance for each input sample.</param>
+            /// <returns>A model that has learned how to produce suitable outputs
+            /// given the input data <paramref name="x" />.</returns>
+            /// <exception cref="System.ArgumentException">Weights are not supported and should be null.</exception>
+            public Options Learn(T[] x, double[] weights = null)
+            {
+                return learn(weights, () =>
+                {
+                    // Do a select distinct to get distinct values
+                    T[] unique = x.Distinct();
+#if USE_SORTED_ORDER
+                    Array.Sort(unique);
+#endif
+                    return unique;
+                });
+            }
+
+#if !NETSTANDARD1_4
             /// <summary>
             /// Learns a model that can map the given inputs to the desired outputs.
             /// </summary>
@@ -331,23 +461,18 @@ namespace Accord.Statistics.Filters
             /// <exception cref="System.ArgumentException">Weights are not supported and should be null.</exception>
             public Options Learn(DataTable x, double[] weights = null)
             {
-                if (weights != null)
-                    throw new ArgumentException("Weights are not supported and should be null.");
-
-                this.NumberOfInputs = 1;
-                this.NumberOfOutputs = 1;
-
-                if (CanBeCodified)
+                return learn(weights, () =>
                 {
                     // Do a select distinct to get distinct values
                     DataTable d = x.DefaultView.ToTable(true, ColumnName);
-
-                    // For each distinct value, create a corresponding integer
+                    object[] unique = new object[d.Rows.Count];
                     for (int i = 0; i < d.Rows.Count; i++)
-                        Mapping.Add((T)d.Rows[i][0], i); // And register the String->Integer mapping
-                }
-
-                return this;
+                        unique[i] = d.Rows[i][ColumnName];
+#if USE_SORTED_ORDER
+                    Array.Sort(unique);
+#endif
+                    return unique;
+                });
             }
 
             /// <summary>
@@ -360,7 +485,59 @@ namespace Accord.Statistics.Filters
             /// <exception cref="System.ArgumentException">Weights are not supported and should be null.</exception>
             public Options Learn(DataRow[] x, double[] weights = null)
             {
-                return Learn(x.Apply(xx => (T)xx[ColumnName]), weights);
+                return learn(weights, () =>
+                {
+                    // Do a select distinct to get distinct values
+                    object[] unique = x.Apply(xi => xi[ColumnName]).Distinct();
+#if USE_SORTED_ORDER
+                    Array.Sort(unique);
+#endif
+                    return unique;
+                });
+            }
+#endif
+            private Options learn<TObject>(double[] weights, Func<TObject[]> uniqueFunction)
+            {
+                if (weights != null)
+                    throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
+                if (CanBeCodified)
+                {
+                    TObject[] unique = uniqueFunction();
+
+                    // For each distinct value, create a corresponding integer
+                    for (int i = 0; i < unique.Length; i++)
+                    {
+                        TryAddValue(unique[i]);
+
+                        if (this.Token.IsCancellationRequested)
+                            return this;
+                    }
+                }
+
+                return this;
+            }
+
+            private void TryAddValue(object value)
+            {
+#if NETSTANDARD1_4
+                if (value == null)
+#else
+                if (value == null || value is DBNull)
+#endif
+                {
+                    if (!hasMissingValue)
+                    {
+                        hasMissingValue = true;
+                        missingValue = (T)System.Convert.ChangeType(null, typeof(T));
+                    }
+                }
+                else
+                {
+                    T key = (T)value;
+                    if (!Mapping.ContainsKey(key))
+                        Mapping.Add(key, Mapping.Count); // And register the String->Integer mapping
+                }
             }
 
             /// <summary>
@@ -400,25 +577,12 @@ namespace Accord.Statistics.Filters
                 return Transform(input, result);
             }
 
-            /// <summary>
-            /// Applies the transformation to an input, producing an associated output.
-            /// </summary>
-            /// <param name="input">The input data to which the transformation should be applied.</param>
-            /// <returns>The output generated by applying this transformation to the given input.</returns>
-            double[] ITransform<T, double[]>.Transform(T input)
+            double[] ICovariantTransform<T, double[]>.Transform(T input)
             {
                 return Vector.OneHot(Transform(input), columns: NumberOfClasses);
             }
 
-            /// <summary>
-            /// Applies the transformation to a set of input vectors,
-            /// producing an associated set of output vectors.
-            /// </summary>
-            /// <param name="input">The input data to which
-            /// the transformation should be applied.</param>
-            /// <returns>The output generated by applying this
-            /// transformation to the given input.</returns>
-            double[][] ITransform<T, double[]>.Transform(T[] input)
+            double[][] ICovariantTransform<T, double[]>.Transform(T[] input)
             {
                 return Transform(input, Jagged.Zeros(input.Length, NumberOfClasses));
             }
@@ -451,9 +615,7 @@ namespace Accord.Statistics.Filters
             ///   Constructs a new Options object for the given column.
             /// </summary>
             /// 
-            /// <param name="name">
-            ///   The name of the column to create this options for.
-            /// </param>
+            /// <param name="name">The name of the column to create this options for.</param>
             /// 
             public Options(String name)
                 : this(name, new Dictionary<T, int>())
@@ -477,9 +639,49 @@ namespace Accord.Statistics.Filters
             ///   Constructs a new Options object for the given column.
             /// </summary>
             /// 
-            /// <param name="name">
-            ///   The name of the column to create this options for.
-            /// </param>
+            /// <param name="name">The name of the column to create this options for.</param>
+            /// <param name="variableType">The type of the variable in the column.</param>
+            /// <param name="order">The order of the variables in the mapping. The first variable
+            ///   will be assigned to position (symbol) 1, the second to position 2, and so on.</param>
+            /// 
+            public Options(String name, CodificationVariable variableType, params T[] order)
+                : this(name, variableType)
+            {
+                if (variableType != CodificationVariable.Categorical && variableType != CodificationVariable.CategoricalWithBaseline && variableType != CodificationVariable.Ordinal)
+                    throw new ArgumentException("An 'order' can only be specified when 'variableType' is ordinal, categorical, or categorical with baseline.");
+
+                if (variableType == CodificationVariable.Discrete || variableType == CodificationVariable.Continuous)
+                    throw new Exception("Invalid variable type: " + variableType);
+
+                for (int i = 0; i < order.Length; i++)
+                    this.Mapping[order[i]] = i;
+            }
+
+            /// <summary>
+            ///   Constructs a new Options object for the given column.
+            /// </summary>
+            /// 
+            /// <param name="name">The name of the column to create this options for.</param>
+            /// <param name="variableType">The type of the variable in the column.</param>
+            /// <param name="baseline">The baseline value to be used in conjunction with 
+            ///   <see cref="CodificationVariable.CategoricalWithBaseline"/>. The baseline
+            ///   value will be treated as absolute zero in a otherwise one-hot representation.</param>
+            /// 
+            /// 
+            public Options(String name, CodificationVariable variableType, T baseline)
+                : this(name, variableType)
+            {
+                if (variableType != CodificationVariable.CategoricalWithBaseline)
+                    throw new ArgumentException("A 'baseline' can only be specified when 'variableType' is CodificationVariable.CategoricalWithBaseline.");
+
+                this.Mapping[baseline] = 0;
+            }
+
+            /// <summary>
+            ///   Constructs a new Options object for the given column.
+            /// </summary>
+            /// 
+            /// <param name="name">The name of the column to create this options for.</param>
             /// 
             /// <param name="map">The initial mapping for this column.</param>
             /// 
@@ -487,10 +689,21 @@ namespace Accord.Statistics.Filters
                 : base(name)
             {
                 this.Mapping = new TwoWayDictionary<T, int>(map);
-                this.NumberOfInputs = 1;
-                this.NumberOfOutputs = 1;
             }
 
+
+
+            int ITransform.NumberOfInputs
+            {
+                get { return NumberOfInputs; }
+                set { throw new InvalidOperationException("This property is read-only."); }
+            }
+
+            int ITransform.NumberOfOutputs
+            {
+                get { return NumberOfOutputs; }
+                set { throw new InvalidOperationException("This property is read-only."); }
+            }
         }
     }
 }

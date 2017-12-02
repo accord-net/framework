@@ -317,6 +317,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Slow")]
         public void KolmogorovSmirnovTestConstructorTest3_with_reestimation()
         {
             Accord.Math.Random.Generator.Seed = 1;

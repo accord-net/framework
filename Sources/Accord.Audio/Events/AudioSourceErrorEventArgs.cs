@@ -30,32 +30,61 @@ namespace Accord.Audio
     ///
     public class AudioSourceErrorEventArgs : EventArgs
     {
-        private string description;
+        private readonly string _description;
+        private readonly Exception _exception;
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="AudioSourceErrorEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="AudioSourceErrorEventArgs"/> class.
         /// </summary>
-        ///
+        /// 
         /// <param name="description">Error description.</param>
-        ///
+        /// 
         public AudioSourceErrorEventArgs(string description)
+            : this(description, null)
         {
-            this.description = description;
         }
 
         /// <summary>
-        ///   Audio source error description.
+        /// Initializes a new instance of the <see cref="AudioSourceErrorEventArgs"/> class.
         /// </summary>
-        ///
+        /// 
+        /// <param name="exception">Error exception.</param>
+        /// 
+        public AudioSourceErrorEventArgs(Exception exception)
+            : this(exception.Message, exception)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AudioSourceErrorEventArgs"/> class.
+        /// </summary>
+        /// 
+        /// <param name="description">Error description.</param>
+        /// <param name="exception">Error exception.</param>
+        /// 
+        public AudioSourceErrorEventArgs(string description, Exception exception)
+        {
+            _description = description;
+            _exception = exception;
+        }
+
+        /// <summary>
+        /// Audio source error description.
+        /// </summary>
+        /// 
         public string Description
         {
-            get { return description; }
+            get { return _description; }
         }
 
         /// <summary>
-        ///   Represents an event with no event data.
+        /// Audio source exception causing the error
         /// </summary>
-        public new static readonly AudioSourceErrorEventArgs Empty = new AudioSourceErrorEventArgs(String.Empty);
+        /// 
+        public Exception Exception
+        {
+            get { return _exception; }
+        }
 
     }
 

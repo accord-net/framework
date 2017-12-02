@@ -25,13 +25,18 @@ namespace Accord.Math.Distances
     using Accord.Math.Decompositions;
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Mahalanobis distance.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+    /// </example>
+    /// 
     [Serializable]
-    public sealed class Mahalanobis : IMetric<double[]>
+    public struct Mahalanobis : IMetric<double[]>, ICloneable
     {
         CholeskyDecomposition chol;
         SingularValueDecomposition svd;
@@ -41,19 +46,17 @@ namespace Accord.Math.Distances
         ///   Initializes a new instance of the <see cref="Mahalanobis"/> class.
         /// </summary>
         /// 
-        public Mahalanobis()
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Mahalanobis"/> class.
-        /// </summary>
-        /// 
         /// <param name="chol">A Cholesky decomposition of the covariance matrix.</param>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
         /// 
         public Mahalanobis(CholeskyDecomposition chol)
         {
             this.chol = chol;
+            this.svd = null;
+            this.precision = null;
         }
 
         /// <summary>
@@ -62,9 +65,15 @@ namespace Accord.Math.Distances
         /// 
         /// <param name="svd">A Singular Value decomposition of the covariance matrix.</param>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
+        /// 
         public Mahalanobis(SingularValueDecomposition svd)
         {
+            this.chol = null;
             this.svd = svd;
+            this.precision = null;
         }
 
         /// <summary>
@@ -73,8 +82,14 @@ namespace Accord.Math.Distances
         /// 
         /// <param name="precision">The precision matrix (the inverse of the covariance matrix).</param>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
+        /// 
         public Mahalanobis(double[,] precision)
         {
+            this.chol = null;
+            this.svd = null;
             this.precision = precision;
         }
 
@@ -91,6 +106,10 @@ namespace Accord.Math.Distances
         ///   between <paramref name="x"/> and <paramref name="y"/> according 
         ///   to the distance function implemented by this class.
         /// </returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -126,9 +145,13 @@ namespace Accord.Math.Distances
         ///   of the given covariance matrix.
         /// </returns>
         /// 
-        public static SquareMahalanobis FromCovarianceMatrix(double[,] covariance)
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
+        /// 
+        public static Mahalanobis FromCovarianceMatrix(double[,] covariance)
         {
-            return new SquareMahalanobis(new CholeskyDecomposition(covariance));
+            return new Mahalanobis(new CholeskyDecomposition(covariance));
         }
 
         /// <summary>
@@ -141,10 +164,25 @@ namespace Accord.Math.Distances
         ///   A Mahalanobis distance using the given precision matrix.
         /// </returns>
         /// 
-        public static SquareMahalanobis FromPrecisionMatrix(double[,] precision)
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
+        /// 
+        public static Mahalanobis FromPrecisionMatrix(double[,] precision)
         {
-            return new SquareMahalanobis(precision);
+            return new Mahalanobis(precision);
         }
 
+
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

@@ -24,10 +24,10 @@ namespace Accord.Statistics.Models.Regression.Fitting
 {
     using System;
     using Accord.Math;
-    using Accord.Math.Decompositions;
     using Accord.MachineLearning;
-    using System.Threading;
     using Math.Optimization;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Gradient optimization for Multinomial logistic regression fitting.

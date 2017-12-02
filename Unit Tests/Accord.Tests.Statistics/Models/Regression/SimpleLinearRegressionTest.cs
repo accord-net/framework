@@ -27,7 +27,10 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using System;
     using Accord.Statistics;
-
+    using System.Globalization;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfoEx;
+#endif
 
     [TestFixture]
     public class SimpleLinearRegressionTest
@@ -192,32 +195,32 @@ namespace Accord.Tests.Statistics
 
             {
                 string expected = "y(x) = 32x + -44";
-                expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                expected = expected.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 string actual = regression.ToString();
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 32x + -44";
-                string actual = regression.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = regression.ToString(null, CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 32.0x + -44.0";
-                string actual = regression.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = regression.ToString("N1", CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 32,00x + -44,00";
-                string actual = regression.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+                string actual = regression.ToString("N2", CultureInfo.GetCultureInfo("pt-BR"));
                 Assert.AreEqual(expected, actual);
             }
         }
 
         [Test]
-        public void weight_test()
+        public void weight_test_linear()
         {
             SimpleLinearRegression reference;
             double referenceR2;

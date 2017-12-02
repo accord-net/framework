@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Distributions;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for Hypothesis Tests.

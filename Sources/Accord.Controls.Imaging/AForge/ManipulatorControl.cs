@@ -27,13 +27,13 @@ namespace Accord.Controls
     /// further from centre (increasing distance between centre and manipulator), then higher power (speed) should be
     /// set for robot's motors. But dragging it in different directions away from centre should result in changing
     /// robot's direction: straight forward, backward, turning right or left, etc.<br />
-    /// <img src="img/controls/manipulator_round.png" width="215" height="215" />
+    /// <img src="..\images\controls\manipulator_round.png" width="215" height="215" />
     /// </para>
     /// 
     /// <para>Another possible application of the control is to control position of some device, etc.
     /// For example, the control could be used with pan-tilt camera - by dragging control away from centre,
     /// the camera may rotate in one of the directions.<br />
-    /// <img src="img/controls/manipulator_square.png" width="215" height="215" />
+    /// <img src="..\images\controls\manipulator_square.png" width="215" height="215" />
     /// </para>
     /// </remarks>
     ///

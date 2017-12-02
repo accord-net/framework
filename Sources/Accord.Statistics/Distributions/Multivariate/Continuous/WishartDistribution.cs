@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wishart Distribution.

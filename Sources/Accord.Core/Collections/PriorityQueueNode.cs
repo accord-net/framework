@@ -53,6 +53,7 @@
 namespace Accord.Collections
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents the node of a priority queue.

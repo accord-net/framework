@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Statistics;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="IBinaryLikelihoodClassifier{TInput}">
@@ -85,7 +86,7 @@ namespace Accord.MachineLearning
 
         double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int classIndex)
         {
-            return ToMulticlass().LogLikelihood(input, classIndex, new double[input.Length]);
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).LogLikelihood(input, classIndex, new double[input.Length]);
         }
 
         double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int classIndex, double[] result)
@@ -104,7 +105,7 @@ namespace Accord.MachineLearning
         // Input, classIndex[]
         double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int[] classIndex)
         {
-            return ToMulticlass().LogLikelihood(input, classIndex, new double[input.Length]);
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).LogLikelihood(input, classIndex, new double[input.Length]);
         }
 
         double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int[] classIndex, double[] result)
@@ -489,7 +490,7 @@ namespace Accord.MachineLearning
         /// <returns>System.Double[].</returns>
         public double[] LogLikelihood(TInput[] input, ref double[] decision)
         {
-            return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).LogLikelihood(input, ref decision, new double[input.Length]);
         }
 
         /// <summary>
@@ -549,7 +550,7 @@ namespace Accord.MachineLearning
         }
 
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput[] input, ref int[][] decision)
+        double[][] IMultilabelLikelihoodClassifierBase<TInput, int[]>.LogLikelihoods(TInput[] input, ref int[][] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
@@ -782,7 +783,7 @@ namespace Accord.MachineLearning
 
         double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int classIndex)
         {
-            return ToMulticlass().Probability(input, classIndex, new double[input.Length]);
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).Probability(input, classIndex, new double[input.Length]);
         }
 
 
@@ -798,7 +799,7 @@ namespace Accord.MachineLearning
         // Input, classIndex[]
         double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int[] classIndex)
         {
-            return ToMulticlass().Probability(input, classIndex, new double[input.Length]);
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).Probability(input, classIndex, new double[input.Length]);
         }
 
         double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int[] classIndex, double[] result)
@@ -1171,7 +1172,7 @@ namespace Accord.MachineLearning
         /// <returns>System.Double[].</returns>
         public double[] Probability(TInput[] input, ref double[] decision)
         {
-            return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
+            return ((IMulticlassLikelihoodClassifier<TInput>)this).Probability(input, ref decision, new double[input.Length]);
         }
 
         /// <summary>
@@ -1444,7 +1445,7 @@ namespace Accord.MachineLearning
 
         // Transform
 
-        double ITransform<TInput, double>.Transform(TInput input)
+        double ICovariantTransform<TInput, double>.Transform(TInput input)
         {
             return Probability(input);
         }
@@ -1500,6 +1501,19 @@ namespace Accord.MachineLearning
             return Probability(input, result);
         }
 
+
+        int IMulticlassLikelihoodClassifier<TInput>.Decide(TInput input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+        int[] IMulticlassLikelihoodClassifier<TInput>.Decide(TInput[] input)
+        {
+            return ((IClassifier<TInput, int>)this).Decide(input);
+        }
+
+
+
         /// <summary>
         /// Views this instance as a multi-class generative classifier,
         /// giving access to more advanced methods, such as the prediction
@@ -1511,6 +1525,19 @@ namespace Accord.MachineLearning
         new public IMulticlassLikelihoodClassifier<TInput> ToMulticlass()
         {
             return (IMulticlassLikelihoodClassifier<TInput>)this;
+        }
+
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier,
+        /// giving access to more advanced methods, such as the prediction
+        /// of integer labels.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        new public IMulticlassLikelihoodClassifier<TInput, T> ToMulticlass<T>()
+        {
+            return (IMulticlassLikelihoodClassifier<TInput, T>)this;
         }
 
         /// <summary>

@@ -28,6 +28,7 @@ namespace Accord.Math
     using System.Collections;
     using System.Reflection;
     using System.Runtime.CompilerServices;
+    using System.Linq;
 
     /// <summary>
     ///   Static class Distance. Defines a set of extension methods defining distance measures.
@@ -35,74 +36,6 @@ namespace Accord.Math
     /// 
     public static partial class Distance
     {
-
-        /// <summary>
-        ///   Computes the Euclidean distance of two vectors given in sparse representation.
-        /// </summary>
-        /// 
-        /// <param name="x">The first vector <c>x</c>.</param>
-        /// <param name="y">The second vector <c>y</c>.</param>
-        /// 
-        /// <returns>
-        ///   The squared Euclidean distance <c>d² = |x - y|²</c> between the given vectors.
-        /// </returns>
-        /// 
-        public static double Euclidean(Sparse<double> x, Sparse<double> y)
-        {
-            return Math.Sqrt(SquareEuclidean(x, y));
-        }
-
-        /// <summary>
-        ///   Computes the squared Euclidean distance of two vectors given in sparse representation.
-        /// </summary>
-        /// 
-        /// <param name="x">The first vector <c>x</c>.</param>
-        /// <param name="y">The second vector <c>y</c>.</param>
-        /// 
-        /// <returns>
-        ///   The squared Euclidean distance <c>d² = |x - y|²</c> between the given vectors.
-        /// </returns>
-        /// 
-        public static double SquareEuclidean(Sparse<double> x, Sparse<double> y)
-        {
-            double sum = 0;
-
-            int i = 0, j = 0;
-
-            while (i < x.Indices.Length && j < y.Indices.Length)
-            {
-                int posx = x.Indices[i];
-                int posy = y.Indices[j];
-
-                if (posx == posy)
-                {
-                    double d = x.Values[i] - y.Values[j];
-                    sum += d * d;
-                    i++;
-                    j++;
-                }
-                else if (posx < posy)
-                {
-                    double d = x.Values[i];
-                    sum += d * d;
-                    i++;
-                }
-                else if (posx > posy)
-                {
-                    double d = y.Values[j];
-                    sum += d * d;
-                    j++;
-                }
-            }
-
-            for (; i < x.Values.Length; i++)
-                sum += x.Values[i] * x.Values[i];
-
-            for (; j < y.Values.Length; j++)
-                sum += y.Values[j] * y.Values[j];
-
-            return sum;
-        }
 
         /// <summary>
         ///   Checks whether a function is a real metric distance, i.e. respects
@@ -194,8 +127,15 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <remarks>
-        ///   This method relies on reflection and might not work on all scenarios,
-        ///   environments, and/or platforms.
+        /// <para>
+        ///   This method is intended to be used in scenarios where you have been using any
+        ///   of the static methods in the <see cref="Distance"/> class, but now you would like
+        ///   to obtain a reference to an object that implements the same distance you have been
+        ///   using before, but in a object-oriented, polymorphic manner. Please see the example
+        ///   below for more details.</para>
+        /// <para>
+        ///   Note: This method relies on reflection and might not work 
+        ///   on all scenarios, environments, and/or platforms.</para>  
         /// </remarks>
         /// 
         /// <typeparam name="T">The type of the elements being compared in the distance function.</typeparam>
@@ -206,13 +146,25 @@ namespace Accord.Math
         ///   An object of the class that implements the given distance.
         /// </returns>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_getdistance" />
+        /// </example>
+        /// 
         public static IDistance<T> GetDistance<T>(Func<T, T, double> func)
         {
+#if NETSTANDARD1_4
+            var methods = typeof(Distance).GetTypeInfo().DeclaredMethods.Where(m=>m.IsPublic && m.IsStatic);
+#else
             var methods = typeof(Distance).GetMethods(BindingFlags.Public | BindingFlags.Static);
-
+#endif
             foreach (var method in methods)
             {
-                if (func.Method == method)
+#if NETSTANDARD1_4
+                var methodInfo = func.GetMethodInfo();
+#else
+                var methodInfo = func.Method;
+#endif
+                if (methodInfo == method)
                 {
                     var t = Type.GetType("Accord.Math.Distances." + method.Name);
 
@@ -220,7 +172,7 @@ namespace Accord.Math
                     {
                         // TODO: Remove the following special case, as it is needed only
                         // for preserving compatibility for a few next releases more.
-                        if (func.Method.Name == "BitwiseHamming")
+                        if (methodInfo.Name == "BitwiseHamming")
                             return new Hamming() as IDistance<T>;
                     }
 

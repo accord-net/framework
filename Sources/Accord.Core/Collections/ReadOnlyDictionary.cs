@@ -20,11 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Collections
+#if NET35 || NET40
+namespace Accord.Compat
 {
     using System;
     using System.Collections.Generic;
-#if !MONO
+
     /// <summary>
     ///   Read-only dictionary wrapper.
     /// </summary>
@@ -38,9 +39,6 @@ namespace Accord.Collections
     /// <typeparam name="TKey">The types of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     /// 
-#if !NET35 && !NET40
-    [Obsolete("Use System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue> instead.")]
-#endif
     [Serializable]
     public class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
@@ -262,5 +260,5 @@ namespace Accord.Collections
         }
 
     }
-#endif
 }
+#endif

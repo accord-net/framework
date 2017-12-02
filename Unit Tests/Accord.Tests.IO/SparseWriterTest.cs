@@ -29,6 +29,9 @@ namespace Accord.Tests.IO
     using Accord.Math;
     using Accord.Tests.IO.Properties;
     using NUnit.Framework;
+#if NO_DEFAULT_ENCODING
+    using Encoding = Accord.Compat.Encoding;
+#endif
 
     [TestFixture]
     public class SparseWriterTest
@@ -37,19 +40,18 @@ namespace Accord.Tests.IO
         string test_txt = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.txt");
         string test2_txt = Path.Combine(TestContext.CurrentContext.TestDirectory, "test2.txt");
         string test_txt_gz = Path.Combine(TestContext.CurrentContext.TestDirectory, "test.txt.gz");
-        
+
 
         [Test]
         public void WriteSamplesTest()
         {
             // http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#iris
 
-            MemoryStream file = new MemoryStream(
-                Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
+            MemoryStream file = new MemoryStream(Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
 
             int sampleSize = 4;
 
-            SparseReader src = new SparseReader(file, Encoding.Default, sampleSize);
+            SparseReader src = new SparseReader(stream: file, encoding: Encoding.Default, sampleSize: sampleSize);
             SparseWriter dst = new SparseWriter(test_txt, Encoding.Default);
 
             // Read a sample from the file
@@ -75,9 +77,8 @@ namespace Accord.Tests.IO
             src.Dispose();
 
 
-            file = new MemoryStream(
-                Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
-            using (SparseReader orig = new SparseReader(file, Encoding.Default, sampleSize))
+            file = new MemoryStream(Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
+            using (SparseReader orig = new SparseReader(stream: file, encoding: Encoding.Default, sampleSize: sampleSize))
             using (SparseReader copy = new SparseReader(test_txt, Encoding.Default, sampleSize))
             {
                 while (!orig.EndOfStream)
@@ -92,9 +93,8 @@ namespace Accord.Tests.IO
                 Assert.AreEqual(orig.EndOfStream, copy.EndOfStream);
             }
 
-            file = new MemoryStream(
-                Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
-            using (SparseReader orig = new SparseReader(file, Encoding.Default, sampleSize))
+            file = new MemoryStream(Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
+            using (SparseReader orig = new SparseReader(stream: file, encoding: Encoding.Default, sampleSize: sampleSize))
             using (SparseReader copy = new SparseReader(test_txt, Encoding.Default))
             {
                 while (!orig.EndOfStream)

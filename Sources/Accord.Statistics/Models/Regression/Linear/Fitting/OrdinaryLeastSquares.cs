@@ -24,13 +24,10 @@ namespace Accord.Statistics.Models.Regression.Linear
 {
     using MachineLearning;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Accord.Math;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Threading;
     using Accord.Math.Decompositions;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Least Squares learning algorithm for linear regression models.
@@ -128,7 +125,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (weights != null)
             {
                 double[] sqrtW = weights.Sqrt();
-                X = Elementwise.Multiply(X, sqrtW, dimension: 1, result: X);
+                X = Elementwise.Multiply(X, sqrtW, dimension: (VectorType)1, result: X);
                 y = Elementwise.Multiply(y, sqrtW);
             }
 
@@ -170,7 +167,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (weights != null)
             {
                 double[] sqrtW = weights.Sqrt();
-                x = Elementwise.Multiply(x, sqrtW, dimension: 1);
+                x = Elementwise.Multiply(x, sqrtW, dimension: (VectorType)1);
                 y = Elementwise.Multiply(y, sqrtW);
             }
 
@@ -211,8 +208,8 @@ namespace Accord.Statistics.Models.Regression.Linear
             if (weights != null)
             {
                 double[] sqrtW = weights.Sqrt();
-                x = Elementwise.Multiply(x, sqrtW, dimension: 1);
-                y = Elementwise.Multiply(y, sqrtW, dimension: 1);
+                x = Elementwise.Multiply(x, sqrtW, dimension: (VectorType)1);
+                y = Elementwise.Multiply(y, sqrtW, dimension: (VectorType)1);
             }
 
             decomposition = x.Decompose(leastSquares: IsRobust);

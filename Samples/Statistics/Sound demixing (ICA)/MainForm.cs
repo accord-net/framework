@@ -99,7 +99,7 @@ namespace SampleApp
         private float[] getSignal(String path)
         {
             WaveDecoder decoder = new WaveDecoder(path);
-            float[] samples = new float[decoder.Frames];
+            float[] samples = new float[decoder.NumberOfFrames];
             decoder.Decode(samples.Length).CopyTo(samples);
             return samples;
         }

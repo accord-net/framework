@@ -5,7 +5,7 @@
     <RootNamespace>Accord.MachineLearning</RootNamespace>
     <AssemblyName>Accord.MachineLearning</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -41,6 +41,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -53,12 +54,21 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Boosting\Learners\ThresholdLearning.cs" />
     <Compile Include="Clustering\CentroidCluster`3.cs" />
     <Compile Include="Clustering\CentroidCluster`4.cs" />
     <Compile Include="Clustering\IClusterCollection`3.cs" />
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
+    <Compile Include="Clustering\KMeans\MiniBatchKMeans.cs" />
+    <Compile Include="Clustering\KMedoids\KMedoidsCluster.cs" />
+    <Compile Include="Clustering\KMedoids\KMedoids.cs" />
+    <Compile Include="Clustering\KMedoids\VoronoiIteration.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="DecisionTrees\Learning\Base\DecisionTreeLearningBase.cs" />
+    <Compile Include="MiniBatches.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidation`4.cs" />
+    <Compile Include="Performance\DataSubset.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearchRange.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearch`2.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearch`3.cs" />
@@ -81,15 +91,16 @@
     <Compile Include="Performance\SplitResult.cs" />
     <Compile Include="Performance\CrossValidation\New\CrossValidation`2.cs" />
     <Compile Include="Performance\CrossValidation\New\CrossValidation`3.cs" />
-    <Compile Include="Performance\Data Splits\DataSubset.cs" />
     <Compile Include="Performance\SplitSet\New\SplitSetValidation`2.cs" />
     <Compile Include="Performance\SplitSet\New\SplitSetValidation`3.cs" />
     <Compile Include="Performance\Data Splits\TrainValDataSplit.cs" />
     <Compile Include="Performance\Data Splits\Base\TrainValSplit.cs" />
     <Compile Include="Performance\Data Splits\Base\TrainValTestSplit.cs" />
     <Compile Include="Performance\Data Splits\Base\TrainTestSplit.cs" />
+    <Compile Include="Representations\BagOfWordsStatistics.cs" />
     <Compile Include="Representations\BagOfWords`1.cs" />
     <Compile Include="Representations\BagOfWords`2.cs" />
+    <Compile Include="Representations\BaseBagOfWords`6.cs" />
     <Compile Include="Representations\BaseBagOfWords`3.cs" />
     <Compile Include="Representations\TFIDF.cs" />
     <Compile Include="Representations\BagOfWords.cs" />
@@ -233,9 +244,13 @@
     <Compile Include="VectorMachines\Learning\SequentialMinimalOptimization.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorLearningHelper.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorReduction.cs" />
+    <Compile Include="VectorMachines\MulticlassSupportVectorMachine`1.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachine.cs" />
+    <Compile Include="VectorMachines\MulticlassSupportVectorMachine`3.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachine`2.cs" />
+    <Compile Include="VectorMachines\MultilabelSupportVectorMachine`1.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorMachine.cs" />
+    <Compile Include="VectorMachines\MultilabelSupportVectorMachine`3.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorMachine`2.cs" />
     <Compile Include="VectorMachines\SupportVectorMachine.cs" />
     <Compile Include="VectorMachines\SupportVectorMachine`1.cs" />

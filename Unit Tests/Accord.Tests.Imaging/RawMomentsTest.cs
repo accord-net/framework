@@ -28,7 +28,8 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using Accord.Imaging.Converters;
     using Accord.Math;
-#if NETSTANDARD2_0
+    using Accord.Imaging;
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 
@@ -62,6 +63,7 @@ namespace Accord.Tests.Imaging
         public void RawMomentsConstructorTest2()
         {
             var hu = Accord.Imaging.Image.Clone(Resources.hu);
+            hu.SetGrayscalePalette();
 
             float[,] image;
             

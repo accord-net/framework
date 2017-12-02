@@ -23,7 +23,7 @@
 namespace Accord.Math
 {
     using System;
-    using AForge.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   3D Plane class with normal vector and distance from origin.

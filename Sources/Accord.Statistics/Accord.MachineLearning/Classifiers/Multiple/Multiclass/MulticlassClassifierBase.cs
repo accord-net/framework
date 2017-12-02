@@ -24,7 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.Math;
     using System;
-
+    using Accord.Compat;
 
     /// <summary>
     /// Base class for multi-class classifiers.
@@ -751,62 +751,62 @@ namespace Accord.MachineLearning
 
 
 
-        double[] ITransform<int[], double[]>.Transform(int[] input)
+        double[] ICovariantTransform<int[], double[]>.Transform(int[] input)
         {
             return Vector.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        double[][] ITransform<int[], double[]>.Transform(int[][] input)
+        double[][] ICovariantTransform<int[], double[]>.Transform(int[][] input)
         {
             return Jagged.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        double[] ITransform<float[], double[]>.Transform(float[] input)
+        double[] ICovariantTransform<float[], double[]>.Transform(float[] input)
         {
             return Vector.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        double[][] ITransform<float[], double[]>.Transform(float[][] input)
+        double[][] ICovariantTransform<float[], double[]>.Transform(float[][] input)
         {
             return Jagged.OneHot(Decide(input), NumberOfOutputs);
         }
 
-        bool[] ITransform<float[], bool[]>.Transform(float[] input)
+        bool[] ICovariantTransform<float[], bool[]>.Transform(float[] input)
         {
             return Vector.OneHot<bool>(Decide(input), NumberOfOutputs);
         }
 
-        bool[][] ITransform<float[], bool[]>.Transform(float[][] input)
+        bool[][] ICovariantTransform<float[], bool[]>.Transform(float[][] input)
         {
             return Jagged.OneHot<bool>(Decide(input), NumberOfOutputs);
         }
 
-        int[] ITransform<float[], int[]>.Transform(float[] input)
+        int[] ICovariantTransform<float[], int[]>.Transform(float[] input)
         {
             return Vector.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        int[][] ITransform<float[], int[]>.Transform(float[][] input)
+        int[][] ICovariantTransform<float[], int[]>.Transform(float[][] input)
         {
             return Jagged.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        int[] ITransform<int[], int[]>.Transform(int[] input)
+        int[] ICovariantTransform<int[], int[]>.Transform(int[] input)
         {
             return Vector.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        int[][] ITransform<int[], int[]>.Transform(int[][] input)
+        int[][] ICovariantTransform<int[], int[]>.Transform(int[][] input)
         {
             return Jagged.OneHot<int>(Decide(input), NumberOfOutputs);
         }
 
-        bool[] ITransform<int[], bool[]>.Transform(int[] input)
+        bool[] ICovariantTransform<int[], bool[]>.Transform(int[] input)
         {
             return Vector.OneHot<bool>(Decide(input), NumberOfOutputs);
         }
 
-        bool[][] ITransform<int[], bool[]>.Transform(int[][] input)
+        bool[][] ICovariantTransform<int[], bool[]>.Transform(int[][] input)
         {
             return Jagged.OneHot<bool>(Decide(input), NumberOfOutputs);
         }
@@ -814,36 +814,36 @@ namespace Accord.MachineLearning
 
 
 
-        int ITransform<int[], int>.Transform(int[] input)
+        int ICovariantTransform<int[], int>.Transform(int[] input)
         {
             return Decide(input);
         }
 
-        int[] ITransform<int[], int>.Transform(int[][] input)
+        int[] ICovariantTransform<int[], int>.Transform(int[][] input)
         {
             return Decide(input);
         }
 
 
 
-        double ITransform<int[], double>.Transform(int[] input)
+        double ICovariantTransform<int[], double>.Transform(int[] input)
         {
             return Decide(input);
         }
 
-        double[] ITransform<int[], double>.Transform(int[][] input)
+        double[] ICovariantTransform<int[], double>.Transform(int[][] input)
         {
             var result = new double[input.Length];
             return Decide(input, result);
         }
 
 
-        double ITransform<float[], double>.Transform(float[] input)
+        double ICovariantTransform<float[], double>.Transform(float[] input)
         {
             return Decide(input);
         }
 
-        double[] ITransform<float[], double>.Transform(float[][] input)
+        double[] ICovariantTransform<float[], double>.Transform(float[][] input)
         {
             var result = new double[input.Length];
             return Decide(input, result);

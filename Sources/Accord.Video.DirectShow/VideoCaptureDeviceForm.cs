@@ -27,7 +27,7 @@ namespace Accord.Video.DirectShow
     /// device, video size and snapshots size (if device supports snapshots and
     /// <see cref="ConfigureSnapshots">user needs them</see>).</para>
     /// 
-    /// <para><img src="img/video/VideoCaptureDeviceForm.png" width="478" height="205" /></para>
+    /// <para><img src="..\images\video\VideoCaptureDeviceForm.png" width="478" height="205" /></para>
     /// </remarks>
     /// 
     public partial class VideoCaptureDeviceForm : Form

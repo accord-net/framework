@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Rational Quadratic Kernel.
@@ -90,7 +91,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Function(double z)
         {
-            return 1.0 - (z / (z - constant));
+            return 1.0 - ((z * z) / ((z * z) - constant));
         }
 
         /// <summary>

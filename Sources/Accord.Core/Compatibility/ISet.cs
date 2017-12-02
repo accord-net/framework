@@ -21,7 +21,7 @@
 //
 
 #if NET35
-namespace Accord
+namespace Accord.Compat
 {
     using System;
     using System.Collections.Generic;
@@ -102,6 +102,17 @@ namespace Accord
         public virtual void Add(T item)
         {
             set.Add(item);
+        }
+
+        /// <summary>
+        ///   Modifies the current <see cref="ISet{T}"/> object to contain all elements 
+        ///   that are present in itself, the specified collection, or both.
+        /// </summary>
+        /// 
+        public virtual void UnionWith(IEnumerable<T> items)
+        {
+            foreach (T item in items)
+                set.Add(item);
         }
 
         /// <summary>

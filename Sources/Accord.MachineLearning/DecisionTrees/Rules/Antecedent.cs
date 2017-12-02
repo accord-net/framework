@@ -24,11 +24,13 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 {
     using System;
     using Accord.Statistics.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   Antecedent expression for <see cref="DecisionRule"/>s.
     /// </summary>
     /// 
+    [Serializable]
     public struct Antecedent : IEquatable<Antecedent>
     {
         private int index;
@@ -89,6 +91,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         public bool Match(double[] input)
         {
             double x = input[Index];
+
+            if (Double.IsNaN(x))
+                return true;
 
             switch (Comparison)
             {

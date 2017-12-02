@@ -27,6 +27,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using Accord.Math.Decompositions;
     using Accord.MachineLearning;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Stochastic Gradient Descent learning for Logistic Regression fitting.

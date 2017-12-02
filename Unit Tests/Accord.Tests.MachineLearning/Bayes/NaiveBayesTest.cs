@@ -30,11 +30,14 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
     using NUnit.Framework;
+    using System;
     using System.Data;
+    using System.IO;
     using System.Text;
 
     [TestFixture]
@@ -96,7 +99,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.6, target.Priors[1]);
         }
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void ComputeTest_Obsolete()
         {
@@ -233,7 +236,68 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(double.IsNaN(probs[0]));
             Assert.AreEqual(2, probs.Length);
         }
+#endif
 
+        [Test]
+        public void learn_no_datatable()
+        {
+            #region doc_mitchell_no_datatable
+            string[] columnNames = { "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis" };
+
+            string[][] data =
+            {
+                new string[] { "Sunny", "Hot", "High", "Weak", "No" },
+                new string[] { "Sunny", "Hot", "High", "Strong", "No" },
+                new string[] { "Overcast", "Hot", "High", "Weak", "Yes" },
+                new string[] { "Rain", "Mild", "High", "Weak", "Yes" },
+                new string[] { "Rain", "Cool", "Normal", "Weak", "Yes" },
+                new string[] { "Rain", "Cool", "Normal", "Strong", "No" },
+                new string[] { "Overcast", "Cool", "Normal", "Strong", "Yes" },
+                new string[] { "Sunny", "Mild", "High", "Weak", "No" },
+                new string[] { "Sunny", "Cool", "Normal", "Weak", "Yes" },
+                new string[] {  "Rain", "Mild", "Normal", "Weak", "Yes" },
+                new string[] {  "Sunny", "Mild", "Normal", "Strong", "Yes" },
+                new string[] {  "Overcast", "Mild", "High", "Strong", "Yes" },
+                new string[] {  "Overcast", "Hot", "Normal", "Weak", "Yes" },
+                new string[] {  "Rain", "Mild", "High", "Strong", "No" },
+            };
+
+            // Create a new codification codebook to
+            // convert strings into discrete symbols
+            Codification codebook = new Codification(columnNames, data);
+
+            // Extract input and output pairs to train
+            int[][] symbols = codebook.Transform(data);
+            int[][] inputs = symbols.Get(null, 0, -1); // Gets all rows, from 0 to the last (but not the last)
+            int[] outputs = symbols.GetColumn(-1);     // Gets only the last column
+
+            // Create a new Naive Bayes learning
+            var learner = new NaiveBayesLearning();
+
+            NaiveBayes nb = learner.Learn(inputs, outputs);
+
+            // Consider we would like to know whether one should play tennis at a
+            // sunny, cool, humid and windy day. Let us first encode this instance
+            int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
+
+            // Let us obtain the numeric output that represents the answer
+            int c = nb.Decide(instance); // answer will be 0
+
+            // Now let us convert the numeric output to an actual "Yes" or "No" answer
+            string result = codebook.Translate("PlayTennis", c); // answer will be "No"
+
+            // We can also extract the probabilities for each possible answer
+            double[] probs = nb.Probabilities(instance); // { 0.795, 0.205 }
+            #endregion
+
+            Assert.AreEqual("No", result);
+            Assert.AreEqual(0, c);
+            Assert.AreEqual(0.795, probs[0], 1e-3);
+            Assert.AreEqual(0.205, probs[1], 1e-3);
+            Assert.AreEqual(1, probs.Sum(), 1e-10);
+            Assert.IsFalse(double.IsNaN(probs[0]));
+            Assert.AreEqual(2, probs.Length);
+        }
 
         [Test]
         public void ComputeTest2()
@@ -512,6 +576,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(symbols.Length, actual.GetLength(1));
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializeTest()
         {
@@ -527,7 +592,8 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.6, target.Priors[1]);
 
             //target.Save(@"C:\Projects\Accord.NET\framework\nb2.bin");
-            target = Serializer.Load<NaiveBayes>(Properties.Resources.nb2);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "nb2.bin");
+            target = Serializer.Load<NaiveBayes>(fileName);
 
             Assert.AreEqual(2, target.NumberOfOutputs);
             Assert.AreEqual(3, target.NumberOfInputs);
@@ -535,6 +601,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.4, target.Priors[0]);
             Assert.AreEqual(0.6, target.Priors[1]);
         }
+#endif
 
         [Test]
         public void no_sample_test()
@@ -749,6 +816,429 @@ namespace Accord.Tests.MachineLearning
                 string result = classes[answer];
                 Assert.AreEqual("lorem", result);
             }
+        }
+
+        [Test]
+        public void no_samples_for_class_simple()
+        {
+            int[][] inputs =
+            {
+                new [] { 1, 1 }, // 0
+                new [] { 1, 1 }, // 0
+                new [] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+
+            var teacher = new NaiveBayesLearning();
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+               "There are no samples for class label {0}. Please make sure that class " +
+               "labels are contiguous and there is at least one training sample for each label.", 1);
+        }
+
+        [Test]
+        public void no_samples_for_class_double()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+               "There are no samples for class label {0}. Please make sure that class " +
+               "labels are contiguous and there is at least one training sample for each label.", 1);
+        }
+
+        [Test]
+        public void gh_758()
+        {
+            // Let's say we have the following data to be classified into three 
+            // non -mutually-exclusive possible classes. Those are the samples:
+            //
+            int[][] inputs =
+            {
+                //               input         output
+                new int[] { 0, 1, 1, 0 }, //  0 
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 0, 0, 1, 0 }, //  0
+                new int[] { 0, 1, 1, 0 }, //  0, 1
+                new int[] { 0, 1, 0, 0 }, //  0, 1
+                new int[] { 1, 0, 0, 0 }, //     1
+                new int[] { 1, 0, 0, 0 }, //     1
+                new int[] { 1, 0, 0, 1 }, //     1, 2
+                new int[] { 0, 0, 0, 1 }, //     1, 2
+                new int[] { 0, 0, 0, 1 }, //     1, 2
+                new int[] { 1, 1, 1, 1 }, //        2
+                new int[] { 1, 0, 1, 1 }, //        2
+                new int[] { 1, 1, 0, 1 }, //        2
+                new int[] { 0, 1, 1, 1 }, //        2
+                new int[] { 1, 1, 1, 1 }, //        2
+            };
+
+            int[][] outputs = // those are the class labels
+            {
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+            };
+
+            // Create a new Naive Bayes teacher 
+            var teacher = new NaiveBayesLearning();
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var bayes = teacher.Learn(inputs, outputs);
+
+            double[][] prediction = bayes.Probabilities(inputs);
+
+            // Teach the Naive Bayes model. The error should be zero:
+            double error = new BinaryCrossEntropyLoss(outputs).Loss(prediction);
+
+            Assert.AreEqual(11.566909963298386, error, 1e-8);
+
+            Assert.IsTrue(teacher.optimized);
+        }
+
+        [Test]
+        public void CrossValidationTest()
+        {
+            #region doc_cross_validation
+            // Ensure we have reproducible results
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            int[][] inputs =
+            {
+                //               input      output
+                new int[] { 0, 1, 1, 0 }, //  0 
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 0, 0, 1, 0 }, //  0
+                new int[] { 0, 1, 1, 0 }, //  0
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 1, 1, 1, 1 }, //  2
+                new int[] { 1, 0, 1, 1 }, //  2
+                new int[] { 1, 1, 0, 1 }, //  2
+                new int[] { 0, 1, 1, 1 }, //  2
+                new int[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Let's say we want to measure the cross-validation 
+            // performance of Naive Bayes on the above data set:
+            var cv = CrossValidation.Create(
+
+                k: 10, // We will be using 10-fold cross validation
+
+                // First we define the learning algorithm:
+                learner: (p) => new NaiveBayesLearning(),
+
+                // Now we have to specify how the n.b. performance should be measured:
+                loss: (actual, expected, p) => new ZeroOneLoss(expected).Loss(actual),
+
+                // This function can be used to perform any special
+                // operations before the actual learning is done, but
+                // here we will just leave it as simple as it can be:
+                fit: (teacher, x, y, w) => teacher.Learn(x, y, w),
+
+                // Finally, we have to pass the input and output data
+                // that will be used in cross-validation. 
+                x: inputs, y: outputs
+            );
+
+            // After the cross-validation object has been created,
+            // we can call its .Learn method with the input and 
+            // output data that will be partitioned into the folds:
+            var result = cv.Learn(inputs, outputs);
+
+            // We can grab some information about the problem:
+            int numberOfSamples = result.NumberOfSamples; // should be 15
+            int numberOfInputs = result.NumberOfInputs;   // should be 4
+            int numberOfOutputs = result.NumberOfOutputs; // should be 3
+
+            double trainingError = result.Training.Mean; // should be 0
+            double validationError = result.Validation.Mean; // should be 0.15 (+/- var. 0.11388888888888887)
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(inputs, outputs);
+            #endregion
+
+            Assert.AreEqual(15, numberOfSamples);
+            Assert.AreEqual(4, numberOfInputs);
+            Assert.AreEqual(3, numberOfOutputs);
+
+            Assert.AreEqual(10, cv.K);
+            Assert.AreEqual(0, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.15, result.Validation.Mean, 1e-10);
+
+            Assert.AreEqual(0, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.11388888888888887, result.Validation.Variance, 1e-10);
+
+            Assert.AreEqual(10, cv.Folds.Length);
+            Assert.AreEqual(10, result.Models.Length);
+
+            Assert.AreEqual(15, gcm.Samples);
+            Assert.AreEqual(0.8666666666666667, gcm.Accuracy);
+            Assert.AreEqual(0.1333333333333333, gcm.Error);
+            Assert.AreEqual(3, gcm.Classes);
+        }
+
+
+        [Test]
+        public void gh_802()
+        {
+            int[][] inputs = new int[][]
+            {
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 11 },
+                new int[] { 1, 1, 2, 3 },
+                new int[] { 1, 1, 2, 2 },
+                new int[] { 1, 1, 2, 4 },
+                new int[] { 1, 1, 2, 5 },
+                new int[] { 1, 1, 2, 6 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 4, 2 },
+                new int[] { 1, 1, 4, 5 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 1, 3, 5, 12 },
+                new int[] { 1, 3, 5, 13 },
+                new int[] { 1, 3, 5, 13 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 1, 1, 2, 3 },
+                new int[] { 1, 1, 2, 5 },
+                new int[] { 1, 1, 2, 6 },
+                new int[] { 1, 1, 2, 9 },
+                new int[] { 1, 1, 2, 3 },
+                new int[] { 1, 1, 2, 2 },
+                new int[] { 1, 1, 2, 4 },
+                new int[] { 1, 1, 2, 5 },
+                new int[] { 1, 1, 2, 6 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 2, 3 },
+                new int[] { 1, 1, 2, 2 },
+                new int[] { 1, 1, 2, 4 },
+                new int[] { 1, 1, 2, 5 },
+                new int[] { 1, 1, 2, 6 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 3, 3 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 8 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 14 },
+                new int[] { 0, 4, 6, 15 },
+                new int[] { 0, 4, 6, 15 },
+                new int[] { 0, 4, 6, 15 },
+                new int[] { 0, 5, 0, 13 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 1, 3 },
+                new int[] { 1, 1, 1, 2 },
+                new int[] { 1, 1, 1, 8 },
+                new int[] { 1, 1, 1, 5 },
+                new int[] { 1, 1, 1, 6 },
+                new int[] { 1, 1, 1, 3 },
+                new int[] { 1, 1, 1, 2 },
+                new int[] { 1, 1, 1, 8 },
+                new int[] { 1, 1, 1, 5 },
+                new int[] { 1, 1, 1, 6 },
+                new int[] { 1, 1, 4, 2 },
+                new int[] { 1, 1, 4, 4 },
+                new int[] { 1, 1, 4, 8 },
+                new int[] { 1, 1, 4, 5 },
+                new int[] { 1, 1, 4, 6 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 6, 0, 16 },
+                new int[] { 0, 4, 6, 15 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 1, 1, 4, 2 },
+                new int[] { 1, 1, 4, 4 },
+                new int[] { 1, 1, 4, 8 },
+                new int[] { 1, 1, 4, 5 },
+                new int[] { 1, 1, 4, 6 },
+                new int[] { 1, 1, 3, 2 },
+                new int[] { 1, 1, 3, 4 },
+                new int[] { 1, 1, 3, 6 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 1, 2, 0, 10 },
+                new int[] { 1, 2, 0, 10 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 1, 1, 7, 5 },
+                new int[] { 1, 1, 1, 3 },
+                new int[] { 1, 1, 1, 2 },
+                new int[] { 1, 1, 1, 8 },
+                new int[] { 1, 1, 1, 5 },
+                new int[] { 1, 1, 1, 6 },
+                new int[] { 0, 2, 0, 10 },
+                new int[] { 1, 2, 0, 10 },
+                new int[] { 0, 6, 0, 16 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 0 },
+                new int[] { 0, 0, 0, 1 },
+                new int[] { 1, 1, 1, 3 },
+                new int[] { 1, 1, 1, 2 },
+                new int[] { 1, 1, 1, 8 },
+                new int[] { 1, 1, 1, 5 },
+                new int[] { 1, 1, 1, 6 },
+                new int[] { 0, 2, 0, 10 }
+            };
+
+
+            int[] outputs = new int[] { 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
+
+            // Create a new Naive Bayes teacher 
+            var teacher = new NaiveBayesLearning()
+            {
+                Model = new NaiveBayes(2, 2, 7, 8, 17)
+            };
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var bayes = teacher.Learn(inputs, outputs);
+
+            double[][] prediction = bayes.Probabilities(inputs);
+
+            // Teach the Naive Bayes model. The error should be zero:
+            double error = new BinaryCrossEntropyLoss(outputs).Loss(prediction);
+
+            Assert.AreEqual(53.346248364202573, error, 1e-8);
+
+        }
+
+
+
+        [Test]
+        public void gh_811()
+        {
+            // https://github.com/accord-net/framework/issues/811
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 1, 1 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("There are no samples for class label 0. Please make sure that class labels are contiguous and there is at least one training sample for each label."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 0 }),
+                Throws.TypeOf<ArgumentOutOfRangeException>().With.Message.EqualTo(@"The number of classses should be higher than 1 (currently detected: 1).
+Parameter name: classes"));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 1, 2 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("There are no samples for class label 0. Please make sure that class labels are contiguous and there is at least one training sample for each label."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 0 }),
+                Throws.TypeOf<ArgumentOutOfRangeException>().With.Message.EqualTo(@"The number of classses should be higher than 1 (currently detected: 1).
+Parameter name: classes"));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 3 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("There are no samples for class label 1. Please make sure that class labels are contiguous and there is at least one training sample for each label."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, -1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 1, 1 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("The input vector ad index 0 contains a negative value at position 1, which is not supported by this algorithm."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, -42, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 1 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("The input vector ad index 0 contains a negative value at position 2, which is not supported by this algorithm."));
         }
 
     }

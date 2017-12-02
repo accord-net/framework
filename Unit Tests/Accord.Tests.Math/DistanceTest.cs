@@ -39,7 +39,7 @@ namespace Accord.Tests.Math
             // Example from Statistical Distance Calculator
             // http://maplepark.com/~drf5n/cgi-bin/dist.cgi
 
-            double[,] cov = 
+            double[,] cov =
             {
                 { 1.030303, 2.132728, 0.576716 },
                 { 2.132728, 4.510515, 1.185771 },
@@ -71,7 +71,7 @@ namespace Accord.Tests.Math
             // Example from Statistical Distance Calculator
             // http://maplepark.com/~drf5n/cgi-bin/dist.cgi
 
-            double[,] cov = 
+            double[,] cov =
             {
                 { 1.030303, 2.132728, 0.576716 },
                 { 2.132728, 4.510515, 1.185771 },
@@ -201,11 +201,11 @@ namespace Accord.Tests.Math
             double[] x = { -1, 0, 0 };
             double[] y = { 0, 0, 0 };
 
-            double[,] covX = 
+            double[,] covX =
             {
                 { 2, 3, 0 },
                 { 3, 1, 0 },
-                { 0, 0, 0 } 
+                { 0, 0, 0 }
             };
 
             var pinv = covX.PseudoInverse();
@@ -216,6 +216,104 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(expected, actual, 1e-6);
             Assert.IsFalse(Double.IsNaN(actual));
+        }
+
+        [Test]
+        public void doc_mahalanobis()
+        {
+            #region doc_mahalanobis_3
+            // Let's say we would like to compute the Mahalanobis
+            // distance between the two vectors x and y below:
+            double[] x = { 2, 5, 1 };
+            double[] y = { 4, 2, 2 };
+
+            // Using the covariance
+            double[,] covariance =
+            {
+                { 4, 3, 0 },
+                { 3, 5, 2 },
+                { 0, 2, 6 }
+            };
+
+            // There are multiple ways to create a Mahalanobis 
+            // distance. The easiest method by far is by using:
+            var mahalanobis = Mahalanobis.FromCovarianceMatrix(covariance);
+
+            // Then, you can compute the distance using:
+            double distance = mahalanobis.Distance(x, y);
+
+            // However, if you need more control over how the covariance matrix
+            // should be inverted, or if you have the precision matrix instead of
+            // the covariance, you can use any of the alternative methods:
+
+            var fromCholesky = new Mahalanobis(new CholeskyDecomposition(covariance));
+            var fromSVD = new Mahalanobis(new SingularValueDecomposition(covariance));
+            var fromPrecision1 = new Mahalanobis(covariance.Inverse());
+            var fromPrecision2 = Mahalanobis.FromPrecisionMatrix(covariance.Inverse());
+
+            // They all should produce equivalent results:
+            double a = fromCholesky.Distance(x, y);
+            double b = fromSVD.Distance(x, y);
+            double c = fromPrecision1.Distance(x, y);
+            double d = fromPrecision2.Distance(x, y);
+            #endregion
+
+            double expected = Distance.Mahalanobis(x, y, new CholeskyDecomposition(covariance));
+            Assert.AreEqual(3.5185224171518357, expected, 1e-10);
+            Assert.AreEqual(expected, distance, 1e-10);
+            Assert.AreEqual(distance, a, 1e-10);
+            Assert.AreEqual(distance, b, 1e-10);
+            Assert.AreEqual(distance, c, 1e-10);
+            Assert.AreEqual(distance, d, 1e-10);
+        }
+
+        [Test]
+        public void doc_square_mahalanobis()
+        {
+            #region doc_square_mahalanobis_3
+            // Let's say we would like to compute the Squared 
+            // Mahalanobis distance between the vectors below:
+            double[] x = { 2, 5, 1 };
+            double[] y = { 4, 2, 2 };
+
+            // Using the covariance
+            double[,] covariance =
+            {
+                { 4, 3, 0 },
+                { 3, 5, 2 },
+                { 0, 2, 6 }
+            };
+
+            // There are multiple ways to create a Mahalanobis 
+            // distance. The easiest method by far is by using:
+            var mahalanobis = SquareMahalanobis.FromCovarianceMatrix(covariance);
+
+            // Then, you can compute the distance using:
+            double distance = mahalanobis.Distance(x, y);
+
+            // However, if you need more control over how the covariance matrix
+            // should be inverted, or if you have the precision matrix instead of
+            // the covariance, you can use any of the alternative methods:
+
+            var fromCholesky = new SquareMahalanobis(new CholeskyDecomposition(covariance));
+            var fromSVD = new SquareMahalanobis(new SingularValueDecomposition(covariance));
+            var fromPrecision1 = new SquareMahalanobis(covariance.Inverse());
+            var fromPrecision2 = SquareMahalanobis.FromPrecisionMatrix(covariance.Inverse());
+
+            // They all should produce equivalent results:
+            double a = fromCholesky.Distance(x, y);
+            double b = fromSVD.Distance(x, y);
+            double c = fromPrecision1.Distance(x, y);
+            double d = fromPrecision2.Distance(x, y);
+            #endregion
+
+            double expected = Math.Pow(Distance.SquareMahalanobis(x, y, new CholeskyDecomposition(covariance)), 2);
+            Assert.AreEqual(12.379999999999997, distance, 1e-10);
+            Assert.AreEqual(3.5185224171518357 * 3.5185224171518357, distance, 1e-10);
+            Assert.AreEqual(distance, a, 1e-10);
+            Assert.AreEqual(distance, b, 1e-10);
+            Assert.AreEqual(distance, c, 1e-10);
+            Assert.AreEqual(distance, d, 1e-10);
         }
 
         [Test]
@@ -263,17 +361,45 @@ namespace Accord.Tests.Math
         [Test]
         public void EuclideanTest1()
         {
+            #region doc_euclidean_4
+            // Let's say the coordinates of the first 2D vector are
             double x1 = 1.5;
             double y1 = -2.1;
 
+            // And then the coordinates of the second 2D vector are:
             double x2 = 4;
             double y2 = 1;
 
-            double actual = Distance.Euclidean(x1, y1, x2, y2);
+            // The euclidean distance between (x1, y1) and (x2, y2) are:
+            double a = Distance.Euclidean(x1, y1, x2, y2); // should be ~3.9824615503479754
 
-            Assert.AreEqual(3.9824615503479754, actual, 1e-10);
-            Assert.IsFalse(double.IsNaN(actual));
+            // This is equivalent to 
+            double b = Distance.Euclidean(new[] { x1, y1 }, new[] { x2, y2 });
+            #endregion
+
+            Assert.AreEqual(3.9824615503479754, a, 1e-10);
+            Assert.AreEqual(a, b);
+            Assert.IsFalse(double.IsNaN(a));
+            Assert.IsFalse(double.IsNaN(b));
         }
+
+        [Test]
+        public void CosineTest1()
+        {
+            #region doc_cosine_2
+            // The Cosine distance between (0, 2, 4) and (2, 5, 1) can be directly computed as:
+            double a = Distance.Cosine(new[] { 0.0, 2.0, 4.0 }, new[] { 2.0, 5.0, 1.0 }); // ~0.42845239335059182d
+
+            // Or could also be computed by instantiating the Cosine class beforehand as:
+            Cosine cos = new Cosine();
+            double b = cos.Distance(new[] { 0.0, 2.0, 4.0 }, new[] { 2.0, 5.0, 1.0 }); // ~0.42845239335059182d
+            #endregion
+
+            Assert.AreEqual(0.42845239335059182d, a, 1e-10);
+            Assert.AreEqual(a, b);
+        }
+
+
 
         [Test]
         public void LevenshteinTest1()
@@ -288,7 +414,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0, Distance.Levenshtein(null, ""));
             Assert.AreEqual(5, Distance.Levenshtein("apple", "banana"));
 
-            Assert.AreEqual(0, Distance.Levenshtein(new int [] { }, new int[] { }));
+            Assert.AreEqual(0, Distance.Levenshtein(new int[] { }, new int[] { }));
             Assert.AreEqual(1, Distance.Levenshtein(new int[] { }, new int[] { 1 }));
             Assert.AreEqual(1, Distance.Levenshtein(new int[] { 1 }, new int[] { }));
             Assert.AreEqual(0, Distance.Levenshtein(new int[] { 1 }, new int[] { 1 }));
@@ -351,6 +477,32 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Distance.IsMetric<double[]>(new Dice()));
 
             // Assert.IsFalse(Distance.IsMetric(Dissimilarity.RusselRao));
+        }
+
+        [Test]
+        public void getdistance_test()
+        {
+            #region doc_getdistance
+            // Let's say you have been using the static Distance.Euclidean() method in 
+            // your code, and now you would like to obtain a reference to a class that 
+            // implements the IDistance interface for this same distance, such that you 
+            // could pass it to some other method in the framework:
+
+            double[] x = new double[] { 2, 4, 1 };
+            double[] y = new double[] { 0, 0, 0 };
+
+            double a = Distance.Euclidean(x, y); // should be 4.58257569495584
+
+            // Use the GetDistance method to obtain an IDistance that implements it:
+            IDistance<double[]> obj = Distance.GetDistance<double[]>(Distance.Euclidean);
+
+            // We can continue computing the same distances as before using:
+            double b = obj.Distance(x, y); // should be 4.58257569495584
+            #endregion
+
+            double expected = 4.58257569495584;
+            Assert.AreEqual(a, expected);
+            Assert.AreEqual(b, expected);
         }
     }
 }

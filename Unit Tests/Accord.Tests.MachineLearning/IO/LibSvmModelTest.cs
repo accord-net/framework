@@ -30,10 +30,97 @@ namespace Accord.Tests.IO
     using NUnit.Framework;
     using Accord.Math;
     using System.Globalization;
+    using Accord.MachineLearning.VectorMachines;
+    using Accord.Tests.MachineLearning;
+    using Accord.DataSets;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Statistics.Kernels;
+
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfoEx;
+#endif
+
+#if NO_DEFAULT_ENCODING
+    using Encoding = Accord.Compat.Encoding;
+#endif
 
     [TestFixture]
     public class LibSvmModelTest
     {
+
+        [Test]
+        public void read_test()
+        {
+            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+
+            MemoryStream file = new MemoryStream(Encoding.Default.GetBytes(Resources.L1R_LR_a9a));
+            TextReader reader = new StreamReader(file);
+            File.WriteAllText(Path.Combine(basePath, "svm.txt"), reader.ReadToEnd());
+
+            #region doc_read
+            // Let's say we have used LIBLINEAR to learn a linear SVM model that has
+            // been stored in a text file named "svm.txt". We would like to load this
+            // same model in .NET and use it to make predictions using C#.
+            // 
+            // First, we use LibSvmModel.Load to load the LIBLINEAR model from disk:
+            LibSvmModel model = LibSvmModel.Load(Path.Combine(basePath, "svm.txt"));
+
+            // Now, we can use the model class to create the equivalent Accord.NET SVM:
+            SupportVectorMachine svm = model.CreateMachine();
+
+            // Now, we can use this machine normally, like as shown in the 
+            // examples in the Support Vector Machine documentation page.
+            #endregion
+
+            Assert.AreEqual(2, svm.NumberOfClasses);
+            Assert.AreEqual(122, svm.NumberOfInputs);
+            Assert.AreEqual(1, svm.Weights.Length);
+            Assert.AreEqual(1, svm.SupportVectors.Length);
+        }
+
+        [Test]
+        public void ReadWriteTest_a9a()
+        {
+            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+
+            MemoryStream file = new MemoryStream(Encoding.Default.GetBytes(Resources.L1R_LR_a9a));
+
+            LibSvmModel model1 = LibSvmModel.Load(file);
+            string savePath = Path.Combine(basePath, "svm.txt");
+
+            var svm1 = model1.CreateMachine();
+            model1.Save(savePath);
+
+            LibSvmModel model2 = LibSvmModel.Load(savePath);
+            var svm2 = model2.CreateMachine();
+
+            LibSvmModel model3 = LibSvmModel.FromMachine(svm1);
+            var svm3 = model3.CreateMachine();
+            model3.Solver = LibSvmSolverType.L1RegularizedLogisticRegression;
+
+            string aPath = Path.Combine(basePath, "a.txt");
+            string bPath = Path.Combine(basePath, "b.txt");
+            string cPath = Path.Combine(basePath, "c.txt");
+            model1.Save(aPath);
+            model2.Save(bPath);
+            model3.Save(cPath);
+
+            string a = File.ReadAllText(aPath);
+            string b = File.ReadAllText(bPath);
+            string c = File.ReadAllText(cPath);
+
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(a, c);
+
+
+            Assert.AreEqual(svm1.Weights, svm2.Weights);
+            Assert.AreEqual(svm1.SupportVectors, svm2.SupportVectors);
+            Assert.AreEqual(svm1.Threshold, svm2.Threshold);
+
+            Assert.AreEqual(svm1.Weights, svm3.Weights);
+            Assert.AreEqual(svm1.SupportVectors, svm3.SupportVectors);
+            Assert.AreEqual(svm1.Threshold, svm3.Threshold);
+        }
 
         [Test]
         public void ReadLinearMachineTest()
@@ -76,12 +163,12 @@ namespace Accord.Tests.IO
 
             var model = new LibSvmModel()
             {
-                 Bias = -1,
-                 Classes = 2, 
-                 Dimension = 123,
-                 Labels = new[] { +1, -1 },
-                 Solver = LibSvmSolverType.L1RegularizedLogisticRegression,
-                 Weights = a9a_weights
+                Bias = -1,
+                Classes = 2,
+                Dimension = 123,
+                Labels = new[] { +1, -1 },
+                Solver = LibSvmSolverType.L1RegularizedLogisticRegression,
+                Weights = a9a_weights
             };
 
             model.Save(destination);
@@ -153,7 +240,7 @@ namespace Accord.Tests.IO
         }
 
 
-        private static double[] a9a_weights = 
+        private static double[] a9a_weights =
         {
             -1.582078049646382,   -0.642353059177759,   -0.03749159485897963,  0.2771411674145598,
              0.2653433548837567,   0.3415826259468487,  -0.05175901290550707,  0.664475778321269,
@@ -185,7 +272,7 @@ namespace Accord.Tests.IO
              0,                    0.1703791693215565,   0.2216059824256973,  -2.031437061283596,
              0,                   -0.4399798222194601,  -0.0728251038840361,   0,
              0,                    0.480264506314448,   -0.3699822088077383,  -0.1089542718979226,
-            -1.247016957015914,    0,                    0, 
+            -1.247016957015914,    0,                    0,
         };
     }
 }

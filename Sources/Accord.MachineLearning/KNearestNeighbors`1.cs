@@ -23,12 +23,13 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Linq;
     using Accord.Math;
     using Accord.Math.Distances;
-    using System.Threading;
-    using System.Runtime.CompilerServices;
+    using Accord.Compat;
     using System.Threading.Tasks;
+    using System.Runtime.CompilerServices;
+    using System.Threading;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.
@@ -58,23 +59,21 @@ namespace Accord.MachineLearning
     /// 
     /// <example>
     /// <para>
-    ///  The following example shows how to create and use a k-Nearest Neighbor algorithm to classify
-    ///   a set of numeric vectors.</para>
-    /// 
-    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn" />
+    ///   The first example shows how to create and use a k-Nearest Neighbor algorithm to classify
+    ///   a set of numeric vectors in a multi-class decision problem involving 3 classes. It also shows
+    ///   how to compute class decisions for a new sample and how to measure the performance of a classifier.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_serialization" />
     /// 
     /// <para>
-    ///   The following example show how to use a different distance metric when computing k-NN:</para>
-    ///   
-    ///   <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_distance" />
-    /// 
+    ///   The second example show how to use a different distance metric when computing k-NN:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn_distance" />
     /// 
     /// <para>
     ///   The k-Nearest neighbor algorithm implementation in the framework can also be used with any instance 
-    ///   data type. For such cases, the framework offers a generic version of the classifier, as shown in the 
-    ///   example below:</para>
-    /// 
-    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_text" />
+    ///   data type. For such cases, the framework offers a generic version of the classifier. The third example
+    ///   shows how to use the generic kNN classifier to perform the direct classification of actual text samples:</para>
+    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn_text" />
     /// </example>
     /// 
     /// <seealso cref="KNearestNeighbors"/>
@@ -85,7 +84,7 @@ namespace Accord.MachineLearning
         IParallel
     {
         [NonSerialized]
-        private ThreadLocal<double[]> distances = new ThreadLocal<double[]>();
+        private ThreadLocal<double[]> distanceCache = new ThreadLocal<double[]>();
 
         [NonSerialized]
         private ParallelOptions parallelOptions = new ParallelOptions();
@@ -131,7 +130,7 @@ namespace Accord.MachineLearning
         public override double[] Scores(TInput input, double[] result)
         {
             double[] distances;
-            int[] idx = GetNearestIndices(input, out distances);
+            int[] idx = getNearestIndices(input, out distances);
 
             // Compute the scores for these points
             for (int i = 0; i < idx.Length; i++)
@@ -161,7 +160,7 @@ namespace Accord.MachineLearning
             for (int k = 0; k < input.Length; k++)
             {
                 double[] distances;
-                int[] idx = GetNearestIndices(input[k], out distances);
+                int[] idx = getNearestIndices(input[k], out distances);
 
                 // Compute the scores for these points
                 for (int i = 0; i < idx.Length; i++)
@@ -182,9 +181,9 @@ namespace Accord.MachineLearning
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        private int[] GetNearestIndices(TInput input, out double[] distances)
+        private int[] getNearestIndices(TInput input, out double[] distances)
         {
-            double[] d = this.distances.Value;
+            double[] d = this.distanceCache.Value;
 
             if (this.parallelOptions.MaxDegreeOfParallelism == 1)
             {
@@ -223,7 +222,7 @@ namespace Accord.MachineLearning
         public override TInput[] GetNearestNeighbors(TInput input, out int[] labels)
         {
             double[] distances;
-            int[] idx = GetNearestIndices(input, out distances);
+            int[] idx = getNearestIndices(input, out distances);
 
             labels = this.Outputs.Get(idx);
             return this.Inputs.Get(idx);
@@ -251,7 +250,7 @@ namespace Accord.MachineLearning
             this.NumberOfInputs = GetNumberOfInputs(x);
             this.NumberOfOutputs = y.DistinctCount();
             this.NumberOfClasses = this.NumberOfOutputs;
-            this.distances.Value = new double[x.Length];
+            this.distanceCache = new ThreadLocal<double[]>(() => new double[Inputs.Length]);
 
             return this;
         }
@@ -279,9 +278,12 @@ namespace Accord.MachineLearning
                 throw new ArgumentNullException("distance");
         }
 
-
-
-
+        [OnDeserialized]
+        private void SetValuesOnDeserialized(StreamingContext context)
+        {
+            this.distanceCache = new ThreadLocal<double[]>(() => new double[Inputs.Length]);
+            this.parallelOptions = new ParallelOptions();
+        }
 
 
 

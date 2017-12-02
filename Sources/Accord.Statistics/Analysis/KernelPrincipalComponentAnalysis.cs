@@ -24,12 +24,12 @@ namespace Accord.Statistics.Analysis
 {
     using System;
     using Accord.Math;
-    using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
     using Accord.MachineLearning;
     using Accord.Statistics.Analysis.Base;
     using Accord.Statistics.Models.Regression;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kernel Principal Component Analysis.
@@ -325,12 +325,12 @@ namespace Accord.Statistics.Analysis
                 this.NumberOfInputs = x.Columns();
                 this.Means = x.Mean(dimension: 0);
                 this.sourceCentered = Overwrite ? x : Jagged.CreateAs(x);
-                x.Subtract(Means, dimension: 0, result: sourceCentered);
+                x.Subtract(Means, dimension: (VectorType)0, result: sourceCentered);
 
                 if (Method == PrincipalComponentMethod.Standardize)
                 {
                     this.StandardDeviations = x.StandardDeviation(Means);
-                    sourceCentered.Divide(StandardDeviations, dimension: 0, result: sourceCentered);
+                    sourceCentered.Divide(StandardDeviations, dimension: (VectorType)0, result: sourceCentered);
                 }
 
                 // Create the Gram (Kernel) Matrix
@@ -360,10 +360,10 @@ namespace Accord.Statistics.Analysis
 
             // Normalize eigenvectors
             if (centerFeatureSpace)
-                eigs.Divide(evals.Sqrt(), dimension: 0, result: eigs);
+                eigs.Divide(evals.Sqrt(), dimension: (VectorType)0, result: eigs);
 
             if (Whiten)
-                eigs.Divide(evals.Sqrt(), dimension: 0, result: eigs);
+                eigs.Divide(evals.Sqrt(), dimension: (VectorType)0, result: eigs);
 
             //this.Eigenvalues = evals.Divide(numberOfSamples - 1);
             this.Eigenvalues = evals;
@@ -441,9 +441,9 @@ namespace Accord.Statistics.Analysis
                     throw new DimensionMismatchException("data",
                         "The input data should have the same number of columns as the original data.");
 
-                data = data.Subtract(Means, dimension: 0);
+                data = data.Subtract(Means, dimension: (VectorType)0);
                 if (Method == PrincipalComponentMethod.Standardize)
-                    data.Divide(StandardDeviations, dimension: 0, result: data);
+                    data.Divide(StandardDeviations, dimension: (VectorType)0, result: data);
 
                 // Create the Kernel matrix
                 newK = kernel.ToJagged2(x: data, y: sourceCentered);
@@ -453,7 +453,18 @@ namespace Accord.Statistics.Analysis
             }
 
             // Project into the kernel principal components
-            return Matrix.DotWithTransposed(newK, ComponentVectors, result: result);
+            if (NumberOfOutputs == ComponentVectors.Length)
+            {
+                return newK.DotWithTransposed(ComponentVectors, result: result);
+            }
+
+            if (NumberOfOutputs < ComponentVectors.Length)
+            {
+                var selectedComponents = ComponentVectors.Get(0, NumberOfOutputs);
+                return newK.DotWithTransposed(selectedComponents, result: result);
+            }
+
+            throw new DimensionMismatchException("Number of outputs cannot exceed the number of principal components.");
         }
 
         
@@ -633,13 +644,13 @@ namespace Accord.Statistics.Analysis
             if (this.Method == PrincipalComponentMethod.Standardize)
             {
                 // multiply by standard deviation and add the mean
-                reversion.Multiply(StandardDeviations, dimension: 0, result: reversion)
-                    .Add(Means, dimension: 0, result: reversion);
+                reversion.Multiply(StandardDeviations, dimension: (VectorType)0, result: reversion)
+                    .Add(Means, dimension: (VectorType)0, result: reversion);
             }
             else if (this.Method == PrincipalComponentMethod.Center)
             {
                 // only add the mean
-                reversion.Add(Means, dimension: 0, result: reversion);
+                reversion.Add(Means, dimension: (VectorType)0, result: reversion);
             }
 
 

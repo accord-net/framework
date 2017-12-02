@@ -59,6 +59,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<int, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this int[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<int, short>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a short integer.
         /// </summary>
@@ -108,6 +120,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this int[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this int[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -206,6 +240,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<int, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this int[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<int, float>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a single-precision floating point.
         /// </summary>
@@ -255,6 +301,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this int[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this int[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -353,6 +421,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<int, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this int[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<int, double>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a double-precision floating point.
         /// </summary>
@@ -402,6 +482,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this int[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this int[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -500,6 +602,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<int, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this int[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<int, long>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a long integer.
         /// </summary>
@@ -549,6 +663,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this int[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this int[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -647,6 +783,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<int, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this int[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<int, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a 8-bit byte.
         /// </summary>
@@ -696,6 +844,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this int[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this int[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -794,6 +964,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<int, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this int[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<int, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a signed 7-bit byte.
         /// </summary>
@@ -843,6 +1025,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this int[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this int[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -941,6 +1145,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<int, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this int[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<int, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a decimal fixed-point.
         /// </summary>
@@ -990,6 +1206,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this int[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this int[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -1088,6 +1326,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<int, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this int[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<int, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a boolean.
         /// </summary>
@@ -1137,6 +1387,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this int[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this int[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -1235,6 +1507,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<int, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this int[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<int, object>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a object.
         /// </summary>
@@ -1285,9 +1569,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this int[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this int[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -1376,6 +1682,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<int, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this int[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<int, string>(value));
+        }
+
         /// <summary>
         ///   Converts a integer to a string.
         /// </summary>
@@ -1426,9 +1744,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this int[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this int[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -1517,6 +1857,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<short, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this short[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<short, int>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a integer.
         /// </summary>
@@ -1566,6 +1918,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this short[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this short[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -1664,6 +2038,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<short, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this short[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<short, float>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a single-precision floating point.
         /// </summary>
@@ -1713,6 +2099,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this short[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this short[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -1811,6 +2219,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<short, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this short[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<short, double>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a double-precision floating point.
         /// </summary>
@@ -1860,6 +2280,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this short[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this short[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -1958,6 +2400,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<short, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this short[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<short, long>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a long integer.
         /// </summary>
@@ -2007,6 +2461,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this short[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this short[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -2105,6 +2581,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<short, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this short[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<short, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a 8-bit byte.
         /// </summary>
@@ -2154,6 +2642,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this short[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this short[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -2252,6 +2762,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<short, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this short[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<short, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a signed 7-bit byte.
         /// </summary>
@@ -2301,6 +2823,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this short[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this short[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -2399,6 +2943,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<short, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this short[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<short, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a decimal fixed-point.
         /// </summary>
@@ -2448,6 +3004,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this short[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this short[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -2546,6 +3124,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<short, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this short[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<short, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a boolean.
         /// </summary>
@@ -2595,6 +3185,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this short[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this short[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -2693,6 +3305,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<short, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this short[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<short, object>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a object.
         /// </summary>
@@ -2743,9 +3367,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this short[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this short[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -2834,6 +3480,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<short, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a short integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this short[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<short, string>(value));
+        }
+
         /// <summary>
         ///   Converts a short integer to a string.
         /// </summary>
@@ -2884,9 +3542,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this short[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this short[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -2975,6 +3655,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<float, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this float[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<float, int>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a integer.
         /// </summary>
@@ -3024,6 +3716,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this float[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this float[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -3122,6 +3836,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<float, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this float[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<float, short>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a short integer.
         /// </summary>
@@ -3171,6 +3897,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this float[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this float[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -3269,6 +4017,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<float, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this float[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<float, double>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a double-precision floating point.
         /// </summary>
@@ -3318,6 +4078,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this float[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this float[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -3416,6 +4198,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<float, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this float[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<float, long>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a long integer.
         /// </summary>
@@ -3465,6 +4259,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this float[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this float[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -3563,6 +4379,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<float, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this float[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<float, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a 8-bit byte.
         /// </summary>
@@ -3612,6 +4440,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this float[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this float[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -3710,6 +4560,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<float, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this float[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<float, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a signed 7-bit byte.
         /// </summary>
@@ -3759,6 +4621,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this float[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this float[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -3857,6 +4741,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<float, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this float[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<float, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a decimal fixed-point.
         /// </summary>
@@ -3906,6 +4802,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this float[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this float[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -4004,6 +4922,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<float, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this float[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<float, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a boolean.
         /// </summary>
@@ -4053,6 +4983,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this float[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this float[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -4151,6 +5103,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<float, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this float[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<float, object>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a object.
         /// </summary>
@@ -4201,9 +5165,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this float[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this float[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -4292,6 +5278,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<float, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a single-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this float[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<float, string>(value));
+        }
+
         /// <summary>
         ///   Converts a single-precision floating point to a string.
         /// </summary>
@@ -4342,9 +5340,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this float[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this float[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -4433,6 +5453,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<double, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this double[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<double, int>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a integer.
         /// </summary>
@@ -4482,6 +5514,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this double[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this double[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -4580,6 +5634,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<double, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this double[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<double, short>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a short integer.
         /// </summary>
@@ -4629,6 +5695,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this double[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this double[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -4727,6 +5815,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<double, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this double[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<double, float>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a single-precision floating point.
         /// </summary>
@@ -4776,6 +5876,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this double[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this double[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -4874,6 +5996,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<double, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this double[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<double, long>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a long integer.
         /// </summary>
@@ -4923,6 +6057,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this double[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this double[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -5021,6 +6177,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<double, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this double[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<double, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a 8-bit byte.
         /// </summary>
@@ -5070,6 +6238,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this double[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this double[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -5168,6 +6358,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<double, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this double[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<double, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a signed 7-bit byte.
         /// </summary>
@@ -5217,6 +6419,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this double[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this double[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -5315,6 +6539,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<double, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this double[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<double, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a decimal fixed-point.
         /// </summary>
@@ -5364,6 +6600,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this double[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this double[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -5462,6 +6720,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<double, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this double[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<double, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a boolean.
         /// </summary>
@@ -5511,6 +6781,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this double[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this double[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -5609,6 +6901,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<double, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this double[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<double, object>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a object.
         /// </summary>
@@ -5659,9 +6963,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this double[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this double[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -5750,6 +7076,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<double, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a double-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this double[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<double, string>(value));
+        }
+
         /// <summary>
         ///   Converts a double-precision floating point to a string.
         /// </summary>
@@ -5800,9 +7138,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this double[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this double[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -5891,6 +7251,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<long, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this long[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<long, int>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a integer.
         /// </summary>
@@ -5940,6 +7312,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this long[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this long[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -6038,6 +7432,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<long, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this long[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<long, short>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a short integer.
         /// </summary>
@@ -6087,6 +7493,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this long[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this long[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -6185,6 +7613,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<long, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this long[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<long, float>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a single-precision floating point.
         /// </summary>
@@ -6234,6 +7674,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this long[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this long[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -6332,6 +7794,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<long, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this long[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<long, double>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a double-precision floating point.
         /// </summary>
@@ -6381,6 +7855,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this long[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this long[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -6479,6 +7975,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<long, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this long[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<long, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a 8-bit byte.
         /// </summary>
@@ -6528,6 +8036,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this long[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this long[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -6626,6 +8156,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<long, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this long[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<long, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a signed 7-bit byte.
         /// </summary>
@@ -6675,6 +8217,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this long[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this long[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -6773,6 +8337,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<long, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this long[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<long, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a decimal fixed-point.
         /// </summary>
@@ -6822,6 +8398,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this long[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this long[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -6920,6 +8518,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<long, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this long[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<long, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a boolean.
         /// </summary>
@@ -6969,6 +8579,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this long[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this long[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -7067,6 +8699,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<long, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this long[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<long, object>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a object.
         /// </summary>
@@ -7117,9 +8761,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this long[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this long[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -7208,6 +8874,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<long, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a long integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this long[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<long, string>(value));
+        }
+
         /// <summary>
         ///   Converts a long integer to a string.
         /// </summary>
@@ -7258,9 +8936,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this long[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this long[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -7349,6 +9049,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<byte, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this byte[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<byte, int>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a integer.
         /// </summary>
@@ -7398,6 +9110,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this byte[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this byte[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -7496,6 +9230,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<byte, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this byte[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<byte, short>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a short integer.
         /// </summary>
@@ -7545,6 +9291,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this byte[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this byte[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -7643,6 +9411,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<byte, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this byte[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<byte, float>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a single-precision floating point.
         /// </summary>
@@ -7692,6 +9472,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this byte[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this byte[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -7790,6 +9592,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<byte, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this byte[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<byte, double>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a double-precision floating point.
         /// </summary>
@@ -7839,6 +9653,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this byte[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this byte[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -7937,6 +9773,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<byte, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this byte[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<byte, long>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a long integer.
         /// </summary>
@@ -7986,6 +9834,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this byte[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this byte[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -8084,6 +9954,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<byte, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this byte[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<byte, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a signed 7-bit byte.
         /// </summary>
@@ -8133,6 +10015,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this byte[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this byte[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -8231,6 +10135,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<byte, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this byte[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<byte, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a decimal fixed-point.
         /// </summary>
@@ -8280,6 +10196,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this byte[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this byte[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -8378,6 +10316,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<byte, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this byte[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<byte, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a boolean.
         /// </summary>
@@ -8427,6 +10377,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this byte[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this byte[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -8525,6 +10497,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<byte, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this byte[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<byte, object>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a object.
         /// </summary>
@@ -8575,9 +10559,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this byte[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this byte[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -8666,6 +10672,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<byte, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a 8-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this byte[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<byte, string>(value));
+        }
+
         /// <summary>
         ///   Converts a 8-bit byte to a string.
         /// </summary>
@@ -8716,9 +10734,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this byte[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this byte[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -8807,6 +10847,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<sbyte, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this sbyte[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<sbyte, int>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a integer.
         /// </summary>
@@ -8856,6 +10908,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this sbyte[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this sbyte[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -8954,6 +11028,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<sbyte, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this sbyte[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<sbyte, short>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a short integer.
         /// </summary>
@@ -9003,6 +11089,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this sbyte[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this sbyte[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -9101,6 +11209,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<sbyte, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this sbyte[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<sbyte, float>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a single-precision floating point.
         /// </summary>
@@ -9150,6 +11270,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this sbyte[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this sbyte[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -9248,6 +11390,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<sbyte, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this sbyte[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<sbyte, double>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a double-precision floating point.
         /// </summary>
@@ -9297,6 +11451,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this sbyte[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this sbyte[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -9395,6 +11571,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<sbyte, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this sbyte[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<sbyte, long>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a long integer.
         /// </summary>
@@ -9444,6 +11632,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this sbyte[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this sbyte[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -9542,6 +11752,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<sbyte, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this sbyte[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<sbyte, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a 8-bit byte.
         /// </summary>
@@ -9591,6 +11813,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this sbyte[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this sbyte[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -9689,6 +11933,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<sbyte, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this sbyte[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<sbyte, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a decimal fixed-point.
         /// </summary>
@@ -9738,6 +11994,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this sbyte[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this sbyte[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -9836,6 +12114,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<sbyte, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this sbyte[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<sbyte, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a boolean.
         /// </summary>
@@ -9885,6 +12175,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this sbyte[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this sbyte[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -9983,6 +12295,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<sbyte, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this sbyte[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<sbyte, object>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a object.
         /// </summary>
@@ -10033,9 +12357,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this sbyte[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this sbyte[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -10124,6 +12470,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<sbyte, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this sbyte[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<sbyte, string>(value));
+        }
+
         /// <summary>
         ///   Converts a signed 7-bit byte to a string.
         /// </summary>
@@ -10174,9 +12532,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this sbyte[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this sbyte[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -10265,6 +12645,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<decimal, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this decimal[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<decimal, int>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a integer.
         /// </summary>
@@ -10314,6 +12706,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this decimal[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this decimal[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -10412,6 +12826,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<decimal, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this decimal[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<decimal, short>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a short integer.
         /// </summary>
@@ -10461,6 +12887,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this decimal[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this decimal[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -10559,6 +13007,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<decimal, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this decimal[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<decimal, float>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a single-precision floating point.
         /// </summary>
@@ -10608,6 +13068,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this decimal[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this decimal[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -10706,6 +13188,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<decimal, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this decimal[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<decimal, double>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a double-precision floating point.
         /// </summary>
@@ -10755,6 +13249,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this decimal[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this decimal[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -10853,6 +13369,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<decimal, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this decimal[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<decimal, long>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a long integer.
         /// </summary>
@@ -10902,6 +13430,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this decimal[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this decimal[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -11000,6 +13550,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<decimal, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this decimal[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<decimal, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a 8-bit byte.
         /// </summary>
@@ -11049,6 +13611,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this decimal[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this decimal[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -11147,6 +13731,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<decimal, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this decimal[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<decimal, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a signed 7-bit byte.
         /// </summary>
@@ -11196,6 +13792,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this decimal[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this decimal[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -11294,6 +13912,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<decimal, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this decimal[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<decimal, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a boolean.
         /// </summary>
@@ -11343,6 +13973,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool[,] ToBoolean(this decimal[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this decimal[,,] value, bool[,,] result)
         {
 					unsafe
 			{
@@ -11441,6 +14093,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<decimal, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this decimal[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<decimal, object>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a object.
         /// </summary>
@@ -11491,9 +14155,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this decimal[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)value[i, j];
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this decimal[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
         }
@@ -11582,6 +14268,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<decimal, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a decimal fixed-point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this decimal[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<decimal, string>(value));
+        }
+
         /// <summary>
         ///   Converts a decimal fixed-point to a string.
         /// </summary>
@@ -11632,9 +14330,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this decimal[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this decimal[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -11723,6 +14443,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<bool, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this bool[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<bool, int>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a integer.
         /// </summary>
@@ -11772,6 +14504,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] ToInt32(this bool[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Int32)1 : (Int32)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this bool[,,] value, int[,,] result)
         {
 					unsafe
 			{
@@ -11870,6 +14624,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<bool, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this bool[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<bool, short>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a short integer.
         /// </summary>
@@ -11919,6 +14685,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] ToInt16(this bool[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Int16)1 : (Int16)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this bool[,,] value, short[,,] result)
         {
 					unsafe
 			{
@@ -12017,6 +14805,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<bool, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this bool[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<bool, float>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a single-precision floating point.
         /// </summary>
@@ -12066,6 +14866,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] ToSingle(this bool[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Single)1 : (Single)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this bool[,,] value, float[,,] result)
         {
 					unsafe
 			{
@@ -12164,6 +14986,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<bool, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this bool[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<bool, double>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a double-precision floating point.
         /// </summary>
@@ -12213,6 +15047,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] ToDouble(this bool[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Double)1 : (Double)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this bool[,,] value, double[,,] result)
         {
 					unsafe
 			{
@@ -12311,6 +15167,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<bool, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this bool[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<bool, long>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a long integer.
         /// </summary>
@@ -12360,6 +15228,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] ToInt64(this bool[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Int64)1 : (Int64)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this bool[,,] value, long[,,] result)
         {
 					unsafe
 			{
@@ -12458,6 +15348,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<bool, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this bool[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<bool, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a 8-bit byte.
         /// </summary>
@@ -12507,6 +15409,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] ToByte(this bool[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Byte)1 : (Byte)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this bool[,,] value, byte[,,] result)
         {
 					unsafe
 			{
@@ -12605,6 +15529,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<bool, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this bool[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<bool, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a signed 7-bit byte.
         /// </summary>
@@ -12654,6 +15590,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static sbyte[,] ToSByte(this bool[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (SByte)1 : (SByte)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this bool[,,] value, sbyte[,,] result)
         {
 					unsafe
 			{
@@ -12752,6 +15710,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<bool, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this bool[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<bool, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a decimal fixed-point.
         /// </summary>
@@ -12801,6 +15771,28 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] ToDecimal(this bool[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Decimal)1 : (Decimal)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this bool[,,] value, decimal[,,] result)
         {
 					unsafe
 			{
@@ -12899,6 +15891,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<bool, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this bool[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<bool, object>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a object.
         /// </summary>
@@ -12949,9 +15953,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this bool[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j] ? (Object)1 : (Object)0;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this bool[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k] ? (Object)1 : (Object)0;
 		
             return result;
         }
@@ -13040,6 +16066,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<bool, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a boolean to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this bool[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<bool, string>(value));
+        }
+
         /// <summary>
         ///   Converts a boolean to a string.
         /// </summary>
@@ -13090,9 +16128,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this bool[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this bool[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();;
 		
             return result;
         }
@@ -13181,6 +16241,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<object, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this object[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<object, int>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a integer.
         /// </summary>
@@ -13231,9 +16303,31 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this object[,] value, int[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Int32)System.Convert.ChangeType(value[i, j], typeof(Int32));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this object[,,] value, int[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Int32)System.Convert.ChangeType(value[i, j, k], typeof(Int32));
 		
             return result;
         }
@@ -13322,6 +16416,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<object, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this object[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<object, short>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a short integer.
         /// </summary>
@@ -13372,9 +16478,31 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this object[,] value, short[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Int16)System.Convert.ChangeType(value[i, j], typeof(Int16));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this object[,,] value, short[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Int16)System.Convert.ChangeType(value[i, j, k], typeof(Int16));
 		
             return result;
         }
@@ -13463,6 +16591,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<object, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this object[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<object, float>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a single-precision floating point.
         /// </summary>
@@ -13513,9 +16653,31 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this object[,] value, float[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Single)System.Convert.ChangeType(value[i, j], typeof(Single));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this object[,,] value, float[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Single)System.Convert.ChangeType(value[i, j, k], typeof(Single));
 		
             return result;
         }
@@ -13604,6 +16766,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<object, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this object[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<object, double>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a double-precision floating point.
         /// </summary>
@@ -13654,9 +16828,31 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this object[,] value, double[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Double)System.Convert.ChangeType(value[i, j], typeof(Double));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this object[,,] value, double[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Double)System.Convert.ChangeType(value[i, j, k], typeof(Double));
 		
             return result;
         }
@@ -13745,6 +16941,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<object, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this object[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<object, long>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a long integer.
         /// </summary>
@@ -13795,9 +17003,31 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this object[,] value, long[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Int64)System.Convert.ChangeType(value[i, j], typeof(Int64));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this object[,,] value, long[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Int64)System.Convert.ChangeType(value[i, j, k], typeof(Int64));
 		
             return result;
         }
@@ -13886,6 +17116,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<object, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this object[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<object, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a 8-bit byte.
         /// </summary>
@@ -13936,9 +17178,31 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this object[,] value, byte[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Byte)System.Convert.ChangeType(value[i, j], typeof(Byte));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this object[,,] value, byte[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Byte)System.Convert.ChangeType(value[i, j, k], typeof(Byte));
 		
             return result;
         }
@@ -14027,6 +17291,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<object, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this object[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<object, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a signed 7-bit byte.
         /// </summary>
@@ -14077,9 +17353,31 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this object[,] value, sbyte[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (SByte)System.Convert.ChangeType(value[i, j], typeof(SByte));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this object[,,] value, sbyte[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (SByte)System.Convert.ChangeType(value[i, j, k], typeof(SByte));
 		
             return result;
         }
@@ -14168,6 +17466,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<object, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this object[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<object, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a decimal fixed-point.
         /// </summary>
@@ -14218,9 +17528,31 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this object[,] value, decimal[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Decimal)System.Convert.ChangeType(value[i, j], typeof(Decimal));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this object[,,] value, decimal[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Decimal)System.Convert.ChangeType(value[i, j, k], typeof(Decimal));
 		
             return result;
         }
@@ -14309,6 +17641,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<object, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this object[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<object, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a boolean.
         /// </summary>
@@ -14359,9 +17703,31 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this object[,] value, bool[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Boolean)System.Convert.ChangeType(value[i, j], typeof(Boolean));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this object[,,] value, bool[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Boolean)System.Convert.ChangeType(value[i, j, k], typeof(Boolean));
 		
             return result;
         }
@@ -14450,6 +17816,18 @@ namespace Accord.Math
             return ToString(value, Matrix.CreateAs<object, string>(value));
         }
 
+		/// <summary>
+        ///   Converts a object to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this object[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<object, string>(value));
+        }
+
         /// <summary>
         ///   Converts a object to a string.
         /// </summary>
@@ -14500,9 +17878,31 @@ namespace Accord.Math
 #endif
         public static string[,] ToString(this object[,] value, string[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (String)System.Convert.ChangeType(value[i, j], typeof(String));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this object[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (String)System.Convert.ChangeType(value[i, j, k], typeof(String));
 		
             return result;
         }
@@ -14591,6 +17991,18 @@ namespace Accord.Math
             return ToInt32(value, Matrix.CreateAs<string, int>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this string[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<string, int>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a integer.
         /// </summary>
@@ -14641,9 +18053,31 @@ namespace Accord.Math
 #endif
         public static int[,] ToInt32(this string[,] value, int[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Int32.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this string[,,] value, int[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Int32.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -14732,6 +18166,18 @@ namespace Accord.Math
             return ToInt16(value, Matrix.CreateAs<string, short>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this string[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<string, short>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a short integer.
         /// </summary>
@@ -14782,9 +18228,31 @@ namespace Accord.Math
 #endif
         public static short[,] ToInt16(this string[,] value, short[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Int16.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this string[,,] value, short[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Int16.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -14873,6 +18341,18 @@ namespace Accord.Math
             return ToSingle(value, Matrix.CreateAs<string, float>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this string[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<string, float>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a single-precision floating point.
         /// </summary>
@@ -14923,9 +18403,31 @@ namespace Accord.Math
 #endif
         public static float[,] ToSingle(this string[,] value, float[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Single.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this string[,,] value, float[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Single.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -15014,6 +18516,18 @@ namespace Accord.Math
             return ToDouble(value, Matrix.CreateAs<string, double>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this string[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<string, double>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a double-precision floating point.
         /// </summary>
@@ -15064,9 +18578,31 @@ namespace Accord.Math
 #endif
         public static double[,] ToDouble(this string[,] value, double[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Double.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this string[,,] value, double[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Double.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -15155,6 +18691,18 @@ namespace Accord.Math
             return ToInt64(value, Matrix.CreateAs<string, long>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this string[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<string, long>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a long integer.
         /// </summary>
@@ -15205,9 +18753,31 @@ namespace Accord.Math
 #endif
         public static long[,] ToInt64(this string[,] value, long[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Int64.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this string[,,] value, long[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Int64.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -15296,6 +18866,18 @@ namespace Accord.Math
             return ToByte(value, Matrix.CreateAs<string, byte>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this string[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<string, byte>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a 8-bit byte.
         /// </summary>
@@ -15346,9 +18928,31 @@ namespace Accord.Math
 #endif
         public static byte[,] ToByte(this string[,] value, byte[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Byte.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this string[,,] value, byte[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Byte.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -15437,6 +19041,18 @@ namespace Accord.Math
             return ToSByte(value, Matrix.CreateAs<string, sbyte>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this string[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<string, sbyte>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a signed 7-bit byte.
         /// </summary>
@@ -15487,9 +19103,31 @@ namespace Accord.Math
 #endif
         public static sbyte[,] ToSByte(this string[,] value, sbyte[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = SByte.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this string[,,] value, sbyte[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = SByte.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -15578,6 +19216,18 @@ namespace Accord.Math
             return ToDecimal(value, Matrix.CreateAs<string, decimal>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this string[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<string, decimal>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a decimal fixed-point.
         /// </summary>
@@ -15628,9 +19278,31 @@ namespace Accord.Math
 #endif
         public static decimal[,] ToDecimal(this string[,] value, decimal[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Decimal.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this string[,,] value, decimal[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Decimal.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -15719,6 +19391,18 @@ namespace Accord.Math
             return ToBoolean(value, Matrix.CreateAs<string, bool>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this string[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<string, bool>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a boolean.
         /// </summary>
@@ -15769,9 +19453,31 @@ namespace Accord.Math
 #endif
         public static bool[,] ToBoolean(this string[,] value, bool[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = Boolean.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this string[,,] value, bool[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = Boolean.Parse(value[i, j, k]);;
 		
             return result;
         }
@@ -15860,6 +19566,18 @@ namespace Accord.Math
             return ToObject(value, Matrix.CreateAs<string, object>(value));
         }
 
+		/// <summary>
+        ///   Converts a string to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this string[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<string, object>(value));
+        }
+
         /// <summary>
         ///   Converts a string to a object.
         /// </summary>
@@ -15910,9 +19628,31 @@ namespace Accord.Math
 #endif
         public static object[,] ToObject(this string[,] value, object[,] result)
         {
-					for (int i = 0; i < value.Rows(); i++)
-				for (int j = 0; j < value.Columns(); j++)
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
 					result[i, j] = (Object)System.Convert.ChangeType(value[i, j], typeof(Object));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional string array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this string[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)System.Convert.ChangeType(value[i, j, k], typeof(Object));
 		
             return result;
         }

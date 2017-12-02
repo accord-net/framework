@@ -27,11 +27,12 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
-    using AForge;
     using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using Accord.Compat;
     using System.Threading;
+    using Accord.Statistics.Filters;
 
     /// <summary>
     ///   Multinomial Logistic Regression Analysis
@@ -60,7 +61,21 @@ namespace Accord.Statistics.Analysis
     ///  </list></para>  
     /// </remarks>
     /// 
-    /// // TODO: Write example
+    /// <example>
+    /// <para>
+    ///   The first example shows how to reproduce a textbook example using categorical and categorical-with-baseline
+    ///   variables. Those variables can be transformed/factored to their respective representations using the 
+    ///   <see cref="Codification"/> class. However, please note that while this example uses features from the 
+    ///   <see cref="Codification"/> class, the use of this class is not required when learning a <see cref="MultinomialLogisticRegression"/>
+    ///   modoel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultinomialLogisticRegressionAnalysisTest.cs" region="doc_learn_1" />
+    ///   
+    /// <para>
+    ///   The second example shows how to learn a <see cref="MultinomialLogisticRegressionAnalysis"/> from the 
+    ///   famous Fisher's Iris dataset. This example should demonstrate that <see cref="Codification"/> filters
+    ///   are not required to successfully learn multinomial logistic regression analyses.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultinomialLogisticRegressionAnalysisTest.cs" region="doc_learn_2" />
+    /// </example>
     /// 
     [Serializable]
     public class MultinomialLogisticRegressionAnalysis : TransformBase<double[], int>,
@@ -260,10 +275,21 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Obsolete. Please use <see cref="InputNames"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use InputNames instead.")]
+        public String[] Inputs
+        {
+            get { return InputNames; }
+            set { InputNames = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the name of the input variables for the model.
         /// </summary>
         /// 
-        public String[] Inputs
+        public String[] InputNames
         {
             get { return inputNames; }
             set { inputNames = value; }
@@ -493,6 +519,20 @@ namespace Accord.Statistics.Analysis
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
+        public MultinomialLogisticRegression Learn(int[][] x, int[][] y, double[] weights = null)
+        {
+            return Learn(x.ToDouble(), y.ToDouble(), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
         public MultinomialLogisticRegression Learn(double[][] x, double[][] y, double[] weights = null)
         {
             init(x, y);
@@ -680,7 +720,7 @@ namespace Accord.Statistics.Analysis
 
                 if (index == 0)
                     return "Intercept";
-                return analysis.Inputs[index - 1];
+                return analysis.InputNames[index - 1];
             }
         }
 

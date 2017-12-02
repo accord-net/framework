@@ -21,7 +21,7 @@
 //
 
 #if NET35
-namespace Accord
+namespace Accord.Compat
 {
     using System;
     using System.Collections;
@@ -132,4 +132,13 @@ namespace Accord
         }
     }
 }
+
+namespace System.Collections.Concurrent
+{
+    internal class Dummy
+    {
+
+    }
+}
+
 #endif

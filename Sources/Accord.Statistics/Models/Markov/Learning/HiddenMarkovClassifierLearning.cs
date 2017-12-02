@@ -25,11 +25,12 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Learning algorithm for discrete-density <see cref="HiddenMarkovClassifier">
@@ -199,6 +200,8 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public double ComputeError(int[][] inputs, int[] outputs)
         {
+            // TODO: Mark as obsolete?
+
             int errors = 0;
             Parallel.For(0, inputs.Length, i =>
             {

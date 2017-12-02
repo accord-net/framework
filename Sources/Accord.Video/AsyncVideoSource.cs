@@ -1,13 +1,35 @@
-﻿// AForge Video Library
+﻿// Accord Video Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+// AForge Video Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © AForge.NET, 2005-2011
 // contacts@aforgenet.com
 //
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 namespace Accord.Video
 {
+    using Accord.Imaging;
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -396,9 +418,7 @@ namespace Accord.Video
                 }
 
                 if (NewFrame != null)
-                {
                     NewFrame(this, new NewFrameEventArgs(lastVideoFrame));
-                }
 
                 lastVideoFrame.Dispose();
                 lastVideoFrame = null;
@@ -415,9 +435,7 @@ namespace Accord.Video
         private static Bitmap CloneImage(Bitmap source)
         {
             // lock source bitmap data
-            BitmapData sourceData = source.LockBits(
-                new Rectangle(0, 0, source.Width, source.Height),
-                ImageLockMode.ReadOnly, source.PixelFormat);
+            BitmapData sourceData = source.LockBits(ImageLockMode.ReadOnly);
 
             // create new image
             Bitmap destination = CloneImage(sourceData);
@@ -435,13 +453,9 @@ namespace Accord.Video
                 ColorPalette srcPalette = source.Palette;
                 ColorPalette dstPalette = destination.Palette;
 
-                int n = srcPalette.Entries.Length;
-
                 // copy pallete
-                for (int i = 0; i < n; i++)
-                {
+                for (int i = 0; i < srcPalette.Entries.Length; i++)
                     dstPalette.Entries[i] = srcPalette.Entries[i];
-                }
 
                 destination.Palette = dstPalette;
             }
@@ -459,9 +473,7 @@ namespace Accord.Video
             Bitmap destination = new Bitmap(width, height, sourceData.PixelFormat);
 
             // lock destination bitmap data
-            BitmapData destinationData = destination.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, destination.PixelFormat);
+            BitmapData destinationData = destination.LockBits(ImageLockMode.ReadWrite);
 
             Accord.SystemTools.CopyUnmanagedMemory(destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
 

@@ -32,11 +32,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System;
     using Accord.Math;
     using System.Diagnostics;
-    using System.Threading;
-    using Statistics.Models.Regression.Linear;
-    using Math.Optimization;
     using System.Collections;
     using Math.Optimization.Losses;
+    using Accord.Compat;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Runtime.CompilerServices;
 
@@ -45,9 +44,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+    /// </example>
     /// 
     public sealed class AveragedStochasticGradientDescent :
         BaseAveragedStochasticGradientDescent<
@@ -79,9 +84,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+    /// </example>
     /// 
     public sealed class AveragedStochasticGradientDescent<TKernel> :
         BaseAveragedStochasticGradientDescent<
@@ -115,7 +126,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
@@ -123,13 +133,23 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseAveragedStochasticGradientDescent<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput, HingeLoss>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
         /// of this abstract class must define this method so new models
         /// can be created from the training data.
         /// </summary>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+        ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+        ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+        /// </example>
+        /// 
         protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
         {
             return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
@@ -152,15 +172,23 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+    /// </example>
     /// 
     public sealed class AveragedStochasticGradientDescent<TKernel, TInput, TLoss> :
         BaseAveragedStochasticGradientDescent<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput, TLoss>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
         where TLoss : struct, IDifferentiableLoss<bool, double, double>
     {
         /// <summary>
@@ -209,7 +237,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BinaryLearningBase<TModel, TInput>, ICloneable
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
         where TLoss : struct, IDifferentiableLoss<bool, double, double>
     {
 
@@ -255,7 +286,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Gets or sets the loss function to be used. 
-        ///   Default is to use the <see cref="HingeLoss"/>.
+        ///   Default is to use the <see cref="LogisticLoss"/>.
         /// </summary>
         /// 
         public TLoss Loss

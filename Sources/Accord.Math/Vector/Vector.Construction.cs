@@ -60,10 +60,9 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[] Ones<T>(int size) where T : struct
+        public static T[] Ones<T>(int size) 
         {
-            var one = (T)Convert.ChangeType(1, typeof(T));
-            return Create(size, one);
+            return Create(size, Constants.One<T>());
         }
 
         /// <summary>
@@ -79,10 +78,9 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T[] Ones<T>(bool[] mask) where T : struct
+        public static T[] Ones<T>(bool[] mask) 
         {
-            var one = (T)Convert.ChangeType(1, typeof(T));
-            return Create(one, mask);
+            return Create(Constants.One<T>(), mask);
         }
 
         /// <summary>
@@ -306,8 +304,7 @@ namespace Accord.Math
 #endif
         public static T[] OneHot<T>(int index, T[] result)
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
-            result[index] = one;
+            result[index] = Constants.One<T>();
             return result;
         }
 
@@ -401,7 +398,7 @@ namespace Accord.Math
 #endif
         public static T[] KHot<T>(int[] indices, T[] result)
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            var one = Constants.One<T>();
             for (int i = 0; i < indices.Length; i++)
                 result[indices[i]] = one;
             return result;
@@ -422,7 +419,7 @@ namespace Accord.Math
 #endif
         public static T[] KHot<T>(bool[] mask, T[] result)
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            var one = Constants.One<T>();
             for (int i = 0; i < mask.Length; i++)
             {
                 if (mask[i])

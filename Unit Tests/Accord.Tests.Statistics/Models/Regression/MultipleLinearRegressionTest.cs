@@ -27,6 +27,12 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Math;
     using Accord.Tests.Statistics.Properties;
+    using System.Globalization;
+    using Accord.DataSets;
+    using Accord.Statistics.Filters;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfoEx;
+#endif
 
     [TestFixture]
     public class MultipleLinearRegressionTest
@@ -64,7 +70,7 @@ namespace Accord.Tests.Statistics
             double r = target.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(0.23823529, r, 1e-6);
 
-            string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+            string str = target.ToString(null, CultureInfo.GetCultureInfo("pt-BR"));
 
             Assert.AreEqual("y(x0) = -0,264705882352941*x0 + 50,5882352941176", str);
         }
@@ -102,7 +108,7 @@ namespace Accord.Tests.Statistics
             double r = target.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(0.23823529, r, 1e-6);
 
-            string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+            string str = target.ToString(null, CultureInfo.GetCultureInfo("en-US"));
 
             Assert.AreEqual("y(x0, x1) = -0.264705882352941*x0 + 50.5882352941176*x1", str);
         }
@@ -191,7 +197,7 @@ namespace Accord.Tests.Statistics
             // As result, we will be given the following:
             double a = regression.Weights[0]; // a = 0
             double b = regression.Weights[1]; // b = 0
-            double c = regression.Intercept; // c = 1
+            double c = regression.Intercept;  // c = 1
 
             // This is the plane described by the equation
             // ax + by + c = z => 0x + 0y + 1 = z => 1 = z.
@@ -201,6 +207,21 @@ namespace Accord.Tests.Statistics
 
             // And the squared error loss using 
             double error = new SquareLoss(outputs).Loss(predicted);
+
+            // We can also compute other measures, such as the coefficient of determination r²
+            double r2 = new RSquaredLoss(numberOfInputs: 2, expected: outputs).Loss(predicted); // should be 1
+
+            // We can also compute the adjusted or weighted versions of r² using
+            var r2loss = new RSquaredLoss(numberOfInputs: 2, expected: outputs)
+            {
+                Adjust = true,
+                // Weights = weights; // (if you have a weighted problem)
+            };
+
+            double ar2 = r2loss.Loss(predicted); // should be 1
+
+            // Alternatively, we can also use the less generic, but maybe more user-friendly method directly:
+            double ur2 = regression.CoefficientOfDetermination(inputs, outputs, adjust: true); // should be 1
             #endregion
 
             Assert.AreEqual(2, regression.NumberOfInputs);
@@ -216,9 +237,98 @@ namespace Accord.Tests.Statistics
             double[] actual = regression.Transform(inputs);
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
 
-            double r = regression.CoefficientOfDetermination(inputs, outputs);
-            Assert.AreEqual(1.0, r);
+            Assert.AreEqual(1.0, r2);
+            Assert.AreEqual(1.0, ar2);
+            Assert.AreEqual(1.0, ur2);
         }
+
+        [Test]
+        public void learn_test_2()
+        {
+            #region doc_learn_2
+            // Let's say we would like predict a continuous number from a set 
+            // of discrete and continuous input variables. For this, we will 
+            // be using the Servo dataset from UCI's Machine Learning repository 
+            // as an example: http://archive.ics.uci.edu/ml/datasets/Servo
+
+            // Create a Servo dataset
+            Servo servo = new Servo();
+            object[][] instances = servo.Instances; // 167 x 4 
+            double[] outputs = servo.Output;        // 167 x 1
+
+            // This dataset contains 4 columns, where the first two are 
+            // symbolic (having possible values A, B, C, D, E), and the
+            // last two are continuous.
+
+            // We will use a codification filter to transform the symbolic 
+            // variables into one-hot vectors, while keeping the other two
+            // continuous variables intact:
+            var codebook = new Codification<object>()
+            {
+                { "motor", CodificationVariable.Categorical },
+                { "screw", CodificationVariable.Categorical },
+                { "pgain", CodificationVariable.Continuous },
+                { "vgain", CodificationVariable.Continuous },
+            };
+
+            // Learn the codebook
+            codebook.Learn(instances);
+
+            // We can gather some info about the problem:
+            int numberOfInputs = codebook.NumberOfInputs;   // should be 4 (since there are 4 variables)
+            int numberOfOutputs = codebook.NumberOfOutputs; // should be 12 (due their one-hot encodings)
+
+            // Now we can use it to obtain double[] vectors:
+            double[][] inputs = codebook.ToDouble().Transform(instances);
+
+            // We will use Ordinary Least Squares to create a
+            // linear regression model with an intercept term
+            var ols = new OrdinaryLeastSquares()
+            {
+                UseIntercept = true
+            };
+
+            // Use Ordinary Least Squares to estimate a regression model:
+            MultipleLinearRegression regression = ols.Learn(inputs, outputs);
+
+            // We can compute the predicted points using:
+            double[] predicted = regression.Transform(inputs);
+
+            // And the squared error using the SquareLoss class:
+            double error = new SquareLoss(outputs).Loss(predicted);
+
+            // We can also compute other measures, such as the coefficient of determination r² using:
+            double r2 = new RSquaredLoss(numberOfOutputs, outputs).Loss(predicted); // should be 0.55086630162967354
+
+            // Or the adjusted or weighted versions of r² using:
+            var r2loss = new RSquaredLoss(numberOfOutputs, outputs)
+            {
+                Adjust = true,        
+                // Weights = weights; // (uncomment if you have a weighted problem)
+            };
+
+            double ar2 = r2loss.Loss(predicted); // should be 0.51586887058782993
+
+            // Alternatively, we can also use the less generic, but maybe more user-friendly method directly:
+            double ur2 = regression.CoefficientOfDetermination(inputs, outputs, adjust: true); // should be 0.51586887058782993
+            #endregion
+
+            Assert.AreEqual(4, numberOfInputs);
+            Assert.AreEqual(12, numberOfOutputs);
+            Assert.AreEqual(12, regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs);
+
+            Assert.AreEqual(1.0859586717266123, error, 1e-6);
+
+            double[] expected = regression.Compute(inputs);
+            double[] actual = regression.Transform(inputs);
+            Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+
+            Assert.AreEqual(0.55086630162967354, r2);
+            Assert.AreEqual(0.51586887058782993, ar2);
+            Assert.AreEqual(0.51586887058782993, ur2);
+        }
+
 
         [Test]
         public void issue_602()
@@ -374,14 +484,19 @@ namespace Accord.Tests.Statistics
             double r = target.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(-8, r, 1e-6);
 
-            string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+            string str = target.ToString(null, CultureInfo.GetCultureInfo("pt-BR"));
 
             Assert.AreEqual("y(x0, x1) = 0*x0 + 0*x1", str);
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void prediction_test()
         {
+#if NETCORE
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+#endif
+
             // Example from http://www.real-statistics.com/multiple-regression/confidence-and-prediction-intervals/
             var dt = Accord.IO.CsvReader.FromText(Resources.linreg, true).ToTable();
 
@@ -434,6 +549,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(pi.Min, 7.8428783761994554, 1e-5);
             Assert.AreEqual(pi.Max, 17.892482376434273, 1e-5);
         }
+#endif
 
         [Test]
         public void weight_test()

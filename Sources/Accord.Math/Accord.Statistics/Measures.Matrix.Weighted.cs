@@ -88,7 +88,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[][] matrix, double[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[][] matrix, double[] weights, int dimension = 0)
         {
             int rows = matrix.Length;
 
@@ -182,7 +182,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[,] matrix, double[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[,] matrix, double[] weights, int dimension = 0)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -271,7 +271,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[][] matrix, int[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[][] matrix, int[] weights, int dimension = 0)
         {
             int rows = matrix.Length;
 
@@ -365,7 +365,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[,] matrix, int[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[,] matrix, int[] weights, int dimension = 0)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -425,6 +425,179 @@ namespace Accord.Statistics
                     mean[i] /= weightSum;
 
             return mean;
+        }
+
+        /// <summary>
+        ///   Calculates the exponentially weighted mean vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW mean vector will be calculated. It is assumed 
+        ///   that the matrix is ordered with the most recent observations at the bottom of 
+        ///   the matrix.
+        /// </param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW mean.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example1" />
+        /// </example>
+        public static double[] ExponentialWeightedMean(this double[][] matrix, double alpha = 0)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix", "The matrix cannot be null.");
+
+            return matrix.ExponentialWeightedMean(matrix.Rows(), alpha);
+        }
+
+        /// <summary>
+        ///   Calculates the exponentially weighted mean vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW mean vector will be calculated. It is assumed 
+        ///   that the matrix is ordered with the most recent observations at the bottom of 
+        ///   the matrix.
+        /// </param>
+        /// <param name="window">The number of rows to be used in the calculation.</param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW mean.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example1" />
+        /// </example>
+        public static double[] ExponentialWeightedMean(this double[][] matrix, int window, double alpha = 0)
+        {
+            // Perform some basic error validation
+            Validate(matrix, window, alpha);
+
+            // Handle the trivial case
+            if (alpha == 1)
+                return matrix.GetRow(-1);
+
+            double[][] truncatedSeries = window == matrix.Rows()
+                ? truncatedSeries = matrix
+                : truncatedSeries = matrix.Get(-window, 0);
+
+            if (alpha == 0)
+                return truncatedSeries.Mean(0);
+
+            // Now we create the weights
+            double[] decayWeights = GetDecayWeights(window, alpha);
+
+            return truncatedSeries.WeightedMean(decayWeights);
+        }
+
+        /// <summary>
+        ///   Calculates the exponentially weighted covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW covariance matrix will be calculated. It 
+        ///   is assumed that the matrix is ordered with the most recent observations at 
+        ///   the bottom of the matrix.
+        /// </param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// <param name="unbiased">Use a standard estimation bias correction.</param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW covariance matrix.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example2" />
+        /// </example>
+        public static double[,] ExponentialWeightedCovariance(
+            this double[][] matrix, double alpha = 0, bool unbiased = false)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix", "The matrix cannot be null.");
+
+            return matrix.ExponentialWeightedCovariance(matrix.Rows(), alpha, unbiased);
+        }
+
+        /// <summary>
+        ///   Calculates the exponentially weighted covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW covariance matrix will be calculated. It 
+        ///   is assumed that the matrix is ordered with the most recent observations at 
+        ///   the bottom of the matrix.
+        /// </param>
+        /// <param name="window">The number of rows to be used in the calculation.</param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// <param name="unbiased">Use a standard estimation bias correction.</param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW covariance matrix.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example2" />
+        /// </example>
+        public static double[,] ExponentialWeightedCovariance(
+            this double[][] matrix, int window, double alpha = 0, bool unbiased = false)
+        {
+            // Perform some basic error validation
+            Validate(matrix, window, alpha);
+
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            // Handle the trivial case
+            if (alpha == 1)
+                return Matrix.Zeros(cols, cols);
+
+            // Now we create the weights
+            double[] decayWeights = GetDecayWeights(window, alpha);
+
+            double[][] truncatedSeries = window == rows
+                ? truncatedSeries = matrix
+                : truncatedSeries = matrix.Get(-window, 0);
+
+            if (unbiased)
+                return truncatedSeries.WeightedCovariance(decayWeights);
+
+            double[] weightedMeans = truncatedSeries.WeightedMean(decayWeights);
+
+            double effectiveNumObs = alpha == 0 ? window : ((1 - Math.Pow(1 - alpha, window)) / alpha);
+
+            return truncatedSeries.WeightedScatter(decayWeights, weightedMeans, 1 / effectiveNumObs, 0);
         }
 
         /// <summary>
@@ -648,14 +821,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
@@ -664,20 +831,14 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means)
+        public static double[,] WeightedCovariance(this double[][] matrix, double[] weights, double[] means)
         {
             return WeightedCovariance(matrix, weights, means, dimension: 0);
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="dimension">
@@ -688,45 +849,33 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, double[] weights, int dimension = 0)
+        public static double[,] WeightedCovariance(this double[][] matrix, double[] weights, int dimension = 0)
         {
             double[] mean = WeightedMean(matrix, weights, dimension);
             return WeightedCovariance(matrix, weights, mean, dimension);
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
-        /// 
-        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
+        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, int[] weights, int dimension = 0)
+        public static double[,] WeightedCovariance(this double[][] matrix, int[] weights, int dimension = 0)
         {
             double[] mean = WeightedMean(matrix, weights, dimension);
             return WeightedCovariance(matrix, weights, mean, dimension);
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
@@ -738,7 +887,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means, int dimension)
+        public static double[,] WeightedCovariance(this double[][] matrix, double[] weights, double[] means, int dimension)
         {
             double s1 = 0, s2 = 0;
             for (int i = 0; i < weights.Length; i++)
@@ -752,17 +901,11 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
-        /// 
-        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
+        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
@@ -770,7 +913,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, int[] weights, double[] means, int dimension)
+        public static double[,] WeightedCovariance(this double[][] matrix, int[] weights, double[] means, int dimension)
         {
             double s1 = 0, s2 = 0;
             for (int i = 0; i < weights.Length; i++)
@@ -804,7 +947,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedScatter(double[][] matrix, double[] weights,
+        public static double[,] WeightedScatter(this double[][] matrix, double[] weights,
             double[] means, double factor, int dimension)
         {
             int rows = matrix.Length;
@@ -896,7 +1039,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedScatter(double[][] matrix, int[] weights,
+        public static double[,] WeightedScatter(this double[][] matrix, int[] weights,
             double[] means, double factor, int dimension)
         {
             int rows = matrix.Length;
@@ -968,6 +1111,52 @@ namespace Accord.Statistics
             return cov;
         }
 
+        private static double[] GetDecayWeights(int window, double alpha)
+        {
+            if (alpha == 0)
+                return Vector.Ones(window);
+
+            double decay = 1 - alpha;
+            double[] decayWeights = new double[window];
+
+            double decayRow = 1;
+            for (int i = window - 1; i >= 0; i--)
+            {
+                decayWeights[i] = decayRow;
+                decayRow *= decay;
+            }
+
+            return decayWeights;
+        }
+
+        private static void Validate(double[][] matrix, int window, double alpha)
+        {
+            // Perform some basic error validation
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix", "The matrix cannot be null.");
+            }
+
+            if (alpha < 0 || alpha > 1)
+            {
+                string message = string.Format(
+                    "Alpha must lie in the interval [0, 1] but was {0}", alpha);
+
+                throw new ArgumentOutOfRangeException("alpha", message);
+            }
+
+            int rows = matrix.Rows();
+
+            if (window <= 0 || window > rows)
+            {
+                string message = string.Format(
+                    "Window size ({0}) must be less than or equal to the total number of samples ({1})",
+                    window,
+                    rows);
+
+                throw new ArgumentOutOfRangeException("window", message);
+            }
+        }
 
         private static double correct(bool unbiased, WeightType weightType, double sum, double weightSum, double squareSum)
         {

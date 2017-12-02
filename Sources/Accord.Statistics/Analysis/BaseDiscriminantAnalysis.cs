@@ -23,12 +23,9 @@
 namespace Accord.Statistics.Analysis
 {
     using System;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using Accord.Math;
-    using Accord.Math.Comparers;
-    using Accord.Math.Decompositions;
     using Accord.MachineLearning;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

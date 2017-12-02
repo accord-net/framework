@@ -29,7 +29,6 @@ namespace Accord.Tests.MachineLearning
     using System.Data;
     using Accord.Statistics.Filters;
     using Accord.Math;
-    using Accord.Tests.MachineLearning.Properties;
     using Accord.MachineLearning.DecisionTrees.Learning;
 
 
@@ -37,7 +36,7 @@ namespace Accord.Tests.MachineLearning
     public class ErrorBasedPruningTest
     {
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void RunTest()
         {
@@ -130,5 +129,6 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
         }
+#endif
     }
 }

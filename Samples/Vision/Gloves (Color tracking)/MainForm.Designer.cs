@@ -193,7 +193,7 @@ namespace SampleApp
             this.videoSourcePlayer.Size = new System.Drawing.Size(322, 242);
             this.videoSourcePlayer.TabIndex = 0;
             this.videoSourcePlayer.VideoSource = null;
-            this.videoSourcePlayer.NewFrame += new Accord.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
+            this.videoSourcePlayer.NewFrameReceived += new Accord.Video.NewFrameEventHandler(this.videoSourcePlayer_NewFrame);
             // 
             // cbContour
             // 

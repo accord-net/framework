@@ -25,6 +25,7 @@ namespace Accord.Collections
     using System;
     using System.Linq;
     using System.Collections.Generic;
+    using Accord.Compat;
 #if !MONO
     /// <summary>
     ///   Node of a <see cref="VPTree"/>.
@@ -32,6 +33,7 @@ namespace Accord.Collections
     /// 
     /// <typeparam name="TPoint">The type for the position vector (e.g. double[]).</typeparam>
     /// 
+    [Serializable]
     public class VPTreeNode<TPoint> : VPTreeNodeBase<TPoint, VPTreeNode<TPoint>>
     {
 

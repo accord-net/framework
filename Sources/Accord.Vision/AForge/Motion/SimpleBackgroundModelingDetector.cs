@@ -1,9 +1,30 @@
-﻿// AForge Vision Library
+﻿// Accord Vision Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+// AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2005-2011
+// Copyright © AForge.NET, 2005-2010
 // contacts@aforgenet.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Vision.Motion
@@ -93,11 +114,11 @@ namespace Accord.Vision.Motion
         private int pixelsChanged;
 
         // suppress noise
-        private bool suppressNoise   = true;
+        private bool suppressNoise = true;
         private bool keepObjectEdges = false;
 
         // threshold values
-        private int differenceThreshold    =  15;
+        private int differenceThreshold = 15;
         private int differenceThresholdNeg = -15;
 
         private int framesPerBackgroundUpdate = 2;
@@ -108,12 +129,12 @@ namespace Accord.Vision.Motion
         private DateTime lastTimeMeasurment;
 
         // binary erosion filter
-        private BinaryErosion3x3 erosionFilter = new BinaryErosion3x3( );
-        // binary dilatation filter
-        private BinaryDilatation3x3 dilatationFilter = new BinaryDilatation3x3( );
+        private BinaryErosion3x3 erosionFilter = new BinaryErosion3x3();
+        // binary dilation filter
+        private BinaryDilation3x3 dilationFilter = new BinaryDilation3x3();
 
         // dummy object to lock for synchronization
-        private object sync = new object( );
+        private object sync = new object();
 
         /// <summary>
         /// Difference threshold value, [1, 255].
@@ -130,9 +151,9 @@ namespace Accord.Vision.Motion
             get { return differenceThreshold; }
             set
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    differenceThreshold = Math.Max( 1, Math.Min( 255, value ) );
+                    differenceThreshold = Math.Max(1, Math.Min(255, value));
                     differenceThresholdNeg = -differenceThreshold;
                 }
             }
@@ -151,9 +172,9 @@ namespace Accord.Vision.Motion
         {
             get
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    return (float) pixelsChanged / ( width * height );
+                    return (float)pixelsChanged / (width * height);
                 }
             }
         }
@@ -174,7 +195,7 @@ namespace Accord.Vision.Motion
         {
             get
             {
-                lock ( sync )
+                lock (sync)
                 {
                     return motionFrame;
                 }
@@ -200,20 +221,20 @@ namespace Accord.Vision.Motion
             get { return suppressNoise; }
             set
             {
-                lock ( sync )
+                lock (sync)
                 {
                     suppressNoise = value;
 
                     // allocate temporary frame if required
-                    if ( ( suppressNoise ) && ( tempFrame == null ) && ( motionFrame != null ) )
+                    if ((suppressNoise) && (tempFrame == null) && (motionFrame != null))
                     {
-                        tempFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                        tempFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
                     }
 
                     // check if temporary frame is not required
-                    if ( ( !suppressNoise ) && ( tempFrame != null ) )
+                    if ((!suppressNoise) && (tempFrame != null))
                     {
-                        tempFrame.Dispose( );
+                        tempFrame.Dispose();
                         tempFrame = null;
                     }
                 }
@@ -225,7 +246,7 @@ namespace Accord.Vision.Motion
         /// </summary>
         /// 
         /// <remarks><para>The value specifies if additional filtering should be done
-        /// to restore objects' edges after noise suppression by applying 3x3 dilatation
+        /// to restore objects' edges after noise suppression by applying 3x3 dilation
         /// image processing filter.</para>
         /// 
         /// <para>Default value is set to <see langword="false"/>.</para>
@@ -238,7 +259,7 @@ namespace Accord.Vision.Motion
             get { return keepObjectEdges; }
             set
             {
-                lock ( sync )
+                lock (sync)
                 {
                     keepObjectEdges = value;
                 }
@@ -264,7 +285,7 @@ namespace Accord.Vision.Motion
         public int FramesPerBackgroundUpdate
         {
             get { return framesPerBackgroundUpdate; }
-            set { framesPerBackgroundUpdate = Math.Max( 1, Math.Min( 50, value ) ); }
+            set { framesPerBackgroundUpdate = Math.Max(1, Math.Min(50, value)); }
         }
 
         /// <summary>
@@ -304,13 +325,13 @@ namespace Accord.Vision.Motion
         public int MillisecondsPerBackgroundUpdate
         {
             get { return millisecondsPerBackgroundUpdate; }
-            set { millisecondsPerBackgroundUpdate = Math.Max( 0, Math.Min( 5000, value ) ); }
+            set { millisecondsPerBackgroundUpdate = Math.Max(0, Math.Min(5000, value)); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleBackgroundModelingDetector"/> class.
         /// </summary>
-        public SimpleBackgroundModelingDetector( ) { }
+        public SimpleBackgroundModelingDetector() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleBackgroundModelingDetector"/> class.
@@ -318,7 +339,7 @@ namespace Accord.Vision.Motion
         /// 
         /// <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="SuppressNoise"/> property).</param>
         /// 
-        public SimpleBackgroundModelingDetector( bool suppressNoise )
+        public SimpleBackgroundModelingDetector(bool suppressNoise)
         {
             this.suppressNoise = suppressNoise;
         }
@@ -330,9 +351,9 @@ namespace Accord.Vision.Motion
         /// <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="SuppressNoise"/> property).</param>
         /// <param name="keepObjectEdges">Restore objects edges after noise suppression or not (see <see cref="KeepObjectsEdges"/> property).</param>
         /// 
-        public SimpleBackgroundModelingDetector( bool suppressNoise, bool keepObjectEdges )
+        public SimpleBackgroundModelingDetector(bool suppressNoise, bool keepObjectEdges)
         {
-            this.suppressNoise   = suppressNoise;
+            this.suppressNoise = suppressNoise;
             this.keepObjectEdges = keepObjectEdges;
         }
 
@@ -348,29 +369,29 @@ namespace Accord.Vision.Motion
         /// (changes) in the processed frame.</para>
         /// </remarks>
         ///
-        public void ProcessFrame( UnmanagedImage videoFrame )
+        public void ProcessFrame(UnmanagedImage videoFrame)
         {
-            lock ( sync )
+            lock (sync)
             {
                 // check background frame
-                if ( backgroundFrame == null )
+                if (backgroundFrame == null)
                 {
                     lastTimeMeasurment = DateTime.Now;
 
                     // save image dimension
-                    width  = videoFrame.Width;
+                    width = videoFrame.Width;
                     height = videoFrame.Height;
 
                     // alocate memory for previous and current frames
-                    backgroundFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
-                    motionFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                    backgroundFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
+                    motionFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
 
                     frameSize = motionFrame.Stride * height;
 
                     // temporary buffer
-                    if ( suppressNoise )
+                    if (suppressNoise)
                     {
-                        tempFrame = UnmanagedImage.Create( width, height, PixelFormat.Format8bppIndexed );
+                        tempFrame = UnmanagedImage.Create(width, height, PixelFormat.Format8bppIndexed);
                     }
 
                     // convert source frame to grayscale
@@ -380,7 +401,7 @@ namespace Accord.Vision.Motion
                 }
 
                 // check image dimension
-                if ( ( videoFrame.Width != width ) || ( videoFrame.Height != height ) )
+                if ((videoFrame.Width != width) || (videoFrame.Height != height))
                     return;
 
                 // convert current image to grayscale
@@ -394,26 +415,26 @@ namespace Accord.Vision.Motion
                     int diff;
 
                     // update background frame
-                    if ( millisecondsPerBackgroundUpdate == 0 )
+                    if (millisecondsPerBackgroundUpdate == 0)
                     {
                         // update background frame using frame counter as a base
-                        if ( ++framesCounter == framesPerBackgroundUpdate )
+                        if (++framesCounter == framesPerBackgroundUpdate)
                         {
                             framesCounter = 0;
 
-                            backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
-                            currFrame = (byte*) motionFrame.ImageData.ToPointer( );
+                            backFrame = (byte*)backgroundFrame.ImageData.ToPointer();
+                            currFrame = (byte*)motionFrame.ImageData.ToPointer();
 
-                            for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
+                            for (int i = 0; i < frameSize; i++, backFrame++, currFrame++)
                             {
                                 diff = *currFrame - *backFrame;
-                                if ( diff > 0 )
+                                if (diff > 0)
                                 {
-                                    ( *backFrame )++;
+                                    (*backFrame)++;
                                 }
-                                else if ( diff < 0 )
+                                else if (diff < 0)
                                 {
-                                    ( *backFrame )--;
+                                    (*backFrame)--;
                                 }
                             }
                         }
@@ -428,63 +449,63 @@ namespace Accord.Vision.Motion
                         // save current time as the last measurment
                         lastTimeMeasurment = currentTime;
 
-                        int millisonds = (int) timeDff.TotalMilliseconds + millisecondsLeftUnprocessed;
+                        int millisonds = (int)timeDff.TotalMilliseconds + millisecondsLeftUnprocessed;
 
                         // save remainder so it could be taken into account in the future
                         millisecondsLeftUnprocessed = millisonds % millisecondsPerBackgroundUpdate;
                         // get amount for background update 
-                        int updateAmount = (int) ( millisonds / millisecondsPerBackgroundUpdate );
+                        int updateAmount = (int)(millisonds / millisecondsPerBackgroundUpdate);
 
-                        backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
-                        currFrame = (byte*) motionFrame.ImageData.ToPointer( );
+                        backFrame = (byte*)backgroundFrame.ImageData.ToPointer();
+                        currFrame = (byte*)motionFrame.ImageData.ToPointer();
 
-                        for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
+                        for (int i = 0; i < frameSize; i++, backFrame++, currFrame++)
                         {
                             diff = *currFrame - *backFrame;
-                            if ( diff > 0 )
+                            if (diff > 0)
                             {
-                                ( *backFrame ) += (byte) ( (  diff < updateAmount ) ? diff :  updateAmount );
+                                (*backFrame) += (byte)((diff < updateAmount) ? diff : updateAmount);
                             }
-                            else if ( diff < 0 )
+                            else if (diff < 0)
                             {
-                                ( *backFrame ) += (byte) ( ( -diff < updateAmount ) ? diff : -updateAmount );
+                                (*backFrame) += (byte)((-diff < updateAmount) ? diff : -updateAmount);
                             }
                         }
                     }
 
-                    backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
-                    currFrame = (byte*) motionFrame.ImageData.ToPointer( );
+                    backFrame = (byte*)backgroundFrame.ImageData.ToPointer();
+                    currFrame = (byte*)motionFrame.ImageData.ToPointer();
 
                     // 1 - get difference between frames
                     // 2 - threshold the difference
-                    for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
+                    for (int i = 0; i < frameSize; i++, backFrame++, currFrame++)
                     {
                         // difference
-                        diff = (int) *currFrame - (int) *backFrame;
+                        diff = (int)*currFrame - (int)*backFrame;
                         // treshold
-                        *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
+                        *currFrame = ((diff >= differenceThreshold) || (diff <= differenceThresholdNeg)) ? (byte)255 : (byte)0;
                     }
 
-                    if ( suppressNoise )
+                    if (suppressNoise)
                     {
                         // suppress noise and calculate motion amount
-                        Accord.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                        erosionFilter.Apply( tempFrame, motionFrame );
+                        Accord.SystemTools.CopyUnmanagedMemory(tempFrame.ImageData, motionFrame.ImageData, frameSize);
+                        erosionFilter.Apply(tempFrame, motionFrame);
 
-                        if ( keepObjectEdges )
+                        if (keepObjectEdges)
                         {
-                            Accord.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                            dilatationFilter.Apply( tempFrame, motionFrame );
+                            Accord.SystemTools.CopyUnmanagedMemory(tempFrame.ImageData, motionFrame.ImageData, frameSize);
+                            dilationFilter.Apply(tempFrame, motionFrame);
                         }
                     }
 
                     // calculate amount of motion pixels
                     pixelsChanged = 0;
-                    byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+                    byte* motion = (byte*)motionFrame.ImageData.ToPointer();
 
-                    for ( int i = 0; i < frameSize; i++, motion++ )
+                    for (int i = 0; i < frameSize; i++, motion++)
                     {
-                        pixelsChanged += ( *motion & 1 );
+                        pixelsChanged += (*motion & 1);
                     }
                 }
             }
@@ -499,25 +520,25 @@ namespace Accord.Vision.Motion
         /// may be also done at any time to restart motion detection algorithm.</para>
         /// </remarks>
         /// 
-        public void Reset( )
+        public void Reset()
         {
-            lock ( sync )
+            lock (sync)
             {
-                if ( backgroundFrame != null )
+                if (backgroundFrame != null)
                 {
-                    backgroundFrame.Dispose( );
+                    backgroundFrame.Dispose();
                     backgroundFrame = null;
                 }
 
-                if ( motionFrame != null )
+                if (motionFrame != null)
                 {
-                    motionFrame.Dispose( );
+                    motionFrame.Dispose();
                     motionFrame = null;
                 }
 
-                if ( tempFrame != null )
+                if (tempFrame != null)
                 {
-                    tempFrame.Dispose( );
+                    tempFrame.Dispose();
                     tempFrame = null;
                 }
 

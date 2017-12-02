@@ -36,6 +36,9 @@ namespace Accord.Tests.MachineLearning
     using System.Text;
     using Math.Optimization.Losses;
     using Accord.Statistics.Models.Regression.Linear;
+#if NO_DEFAULT_ENCODING
+    using Encoding = Accord.Compat.Encoding;
+#endif
 
     [TestFixture]
     public class LinearDualCoordinateDescentTest

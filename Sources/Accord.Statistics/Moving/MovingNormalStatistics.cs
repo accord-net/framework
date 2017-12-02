@@ -25,10 +25,21 @@ namespace Accord.Statistics.Moving
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Moving-window statistics.
     /// </summary>
+    /// 
+    /// <remarks>
+    ///   Provides statistics derived from successive segments of constant, overlapping size ('windowSize') 
+    ///   of a series of values. Values are added one at a time to a MovingNormalStatistics instance through 
+    ///   <see cref="Push(double)"/> method and are actually kept inside the instance.
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\MovingNormalStatisticsTest.cs" region="doc_example" />
+    /// </example>
     /// 
     [Serializable]
     public class MovingNormalStatistics : IMovingStatistics, IEnumerable<double>

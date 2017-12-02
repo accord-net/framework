@@ -26,6 +26,7 @@ namespace Accord.Math.Random
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Framework-wide random number generator. If you would like to always generate 
@@ -60,6 +61,8 @@ namespace Accord.Math.Random
         private static int sourceLastUpdateTicks;
         private static readonly object sourceSeedLock = new Object();
 
+        private static bool accessed = false;
+
 
         [ThreadStatic]
         private static int threadLastUpdateTicks;
@@ -73,6 +76,20 @@ namespace Accord.Math.Random
         [ThreadStatic]
         private static Random threadRandom;
 
+
+        /// <summary>
+        ///   Gets a value indicating whether the random number generator has been used 
+        ///   during the execution of any past code. This can be useful to determine whether
+        ///   a method or learning algorithm is fully deterministic or not. Note that it is
+        ///   also possible for a method to be non-deterministic even if it uses the random
+        ///   number generator if it use multiple threads.
+        /// </summary>
+        /// 
+        public static bool HasBeenAccessed
+        {
+            get { return accessed; }
+            set { accessed = value; }
+        }
 
 
         private static int GetRandomSeed()
@@ -150,7 +167,6 @@ namespace Accord.Math.Random
                     Generator.threadOverriden = true;
                     Generator.threadLastUpdateTicks = Environment.TickCount;
                     Generator.threadRandom = (value.HasValue) ? new Random(threadSeed.Value) : new Random();
-                    Thread.Sleep(100);
                 }
                 else
                 {
@@ -170,6 +186,8 @@ namespace Accord.Math.Random
         {
             get
             {
+                Generator.accessed = true;
+
                 if (Generator.threadOverriden)
                     return threadRandom;
 
@@ -195,11 +213,16 @@ namespace Accord.Math.Random
         /// </summary>
         /// 
         /// <remarks>
+        /// <para>
         ///   Adjusting the global generator seed causes the calling thread to sleep for 100ms
         ///   so new threads spawned in a short time span after the call can be properly initialized
         ///   with the new random seeds. In order to better control the random behavior of different 
         ///   algorithms, please consider specifying random generators directly using appropriate 
-        ///   interfaces for these algorithms in case they are available.
+        ///   interfaces for these algorithms in case they are available.</para>
+        /// <para>
+        ///   If you do not need to change the seed number for threads other than the current,
+        ///   you can adjust the random seed for the current thread using <see cref="ThreadSeed"/>
+        ///   instead. Setting <see cref="ThreadSeed"/> should not introduce delays.</para>
         /// </remarks>
         /// 
         public static int? Seed

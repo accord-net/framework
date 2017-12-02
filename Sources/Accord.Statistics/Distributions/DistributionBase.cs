@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions
     using Accord.Math.Random;
     using System;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for statistical distribution implementations.

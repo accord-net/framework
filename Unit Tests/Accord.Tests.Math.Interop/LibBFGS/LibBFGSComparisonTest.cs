@@ -128,6 +128,7 @@ namespace Accord.Tests.Interop.Math
         }
 
         [Test]
+        [Category("Slow")]
         public void ParameterBatchTest()
         {
             for (var past = 0; past < 10; past += 3)
@@ -138,6 +139,7 @@ namespace Accord.Tests.Interop.Math
         }
 
         [Test]
+        [Category("Slow")]
         public void ParameterBatchTest2()
         {
             for (var m = 2; m < 10; m++)

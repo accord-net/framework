@@ -14,6 +14,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using AForge;
     using System.Net;
+    using Accord.Imaging.Formats;
 
     /// <summary>
     /// Core image relatad methods.
@@ -37,6 +38,8 @@ namespace Accord.Imaging
         /// <see cref="System.Drawing.Imaging.PixelFormat">Format8bppIndexed</see>
         /// and then it examines its palette to check if the image is grayscale or not.</remarks>
         /// 
+        /// <seealso cref="IsColor8bpp(Bitmap)"/>
+        /// 
         public static bool IsGrayscale(this Bitmap image)
         {
             // check pixel format
@@ -57,6 +60,24 @@ namespace Accord.Imaging
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Check if specified 8 bpp image is contains color-indexed pixels instead of intensity values.
+        /// </summary>
+        /// 
+        /// <param name="image">Image to check.</param>
+        /// 
+        /// <returns>Returns <b>true</b> if the image is color-indexed or <b>false</b> otherwise.</returns>
+        /// 
+        /// <seealso cref="IsGrayscale(Bitmap)"/>
+        /// 
+        public static bool IsColor8bpp(this Bitmap image)
+        {
+            if (image.PixelFormat != PixelFormat.Format8bppIndexed)
+                return false;
+
+            return !image.IsGrayscale();
         }
 
         /// <summary>
@@ -138,13 +159,33 @@ namespace Accord.Imaging
             int height = source.Height;
 
             // create new image with desired pixel format
-            Bitmap bitmap = new Bitmap(width, height, format);
+            Bitmap destination = new Bitmap(width, height, format);
+
+            return Copy(source, destination);
+        }
+
+        /// <summary>
+        /// Copy image.
+        /// </summary>
+        /// 
+        /// <param name="source">Source image.</param>
+        /// <param name="destination">Destination image. If set to null, a new image will be created.</param>
+        /// 
+        /// <returns>Returns clone of the source image with specified pixel format.</returns>
+        ///
+        public static Bitmap Copy(this Bitmap source, Bitmap destination)
+        {
+            int width = source.Width;
+            int height = source.Height;
+
+            if (destination == null)
+                destination = new Bitmap(width, height, source.PixelFormat);
 
             // draw source image on the new one using Graphics
-            using (Graphics g = Graphics.FromImage(bitmap))
+            using (Graphics g = Graphics.FromImage(destination))
                 g.DrawImage(source, 0, 0, width, height);
 
-            return bitmap;
+            return destination;
         }
 
         /// <summary>
@@ -214,6 +255,59 @@ namespace Accord.Imaging
         }
 
         /// <summary>
+        ///   Converts a 8-bpp color image into a 8-bpp grayscale image, setting its color 
+        ///   palette to grayscale and replacing palette indices with their grayscale values.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">The bitmap to be converted.</param>
+        /// 
+        public static void ConvertColor8bppToGrayscale8bpp(this Bitmap bitmap)
+        {
+            if (bitmap.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new UnsupportedImageFormatException("Only 8-bpp images are supported.");
+
+            // lock source bitmap data
+            BitmapData sourceData = bitmap.LockBits(ImageLockMode.ReadWrite);
+            ColorPalette palette = bitmap.Palette;
+
+            int height = bitmap.Height;
+            int width = bitmap.Width;
+            int stride = sourceData.Stride;
+            int offset = stride - width;
+
+            try
+            {
+                unsafe
+                {
+                    // base pointers
+                    byte* src = (byte*)sourceData.Scan0.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    { 
+                        for (int x = 0; x < width; x++, src++)
+                        {
+                            Color entry = palette.Entries[*src];
+#if DEBUG
+                            if (entry.R != entry.G || entry.R != entry.B)
+                                throw new Exception();
+#endif
+                            *src = entry.R;
+                        }
+
+                        src += offset;
+                    }
+                }
+            }
+            finally
+            {
+                // unlock source image
+                bitmap.UnlockBits(sourceData);
+            }
+
+            SetGrayscalePalette(bitmap);
+        }
+
+        /// <summary>
         /// Clone image.
         /// </summary>
         /// 
@@ -224,20 +318,27 @@ namespace Accord.Imaging
         /// 
         public static Bitmap Clone(this BitmapData sourceData)
         {
+            return Copy(sourceData, null);
+        }
+
+        private static Bitmap Copy(this BitmapData sourceData, Bitmap destination)
+        {
+            if (destination == null)
+            {
+                // create new image
+                destination = new Bitmap(sourceData.Width, sourceData.Height, sourceData.PixelFormat);
+            }
+
             // get source image size
             int width = sourceData.Width;
             int height = sourceData.Height;
 
-            // create new image
-            Bitmap destination = new Bitmap(width, height, sourceData.PixelFormat);
-
             // lock destination bitmap data
-            BitmapData destinationData = destination.LockBits(ImageLockMode.ReadWrite);
+            BitmapData destinationData = destination.LockBits(ImageLockMode.WriteOnly);
 
             System.Diagnostics.Debug.Assert(destinationData.Stride == sourceData.Stride);
 
-            Accord.SystemTools.CopyUnmanagedMemory(
-                destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
+            SystemTools.CopyUnmanagedMemory(destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
 
             // unlock destination image
             destination.UnlockBits(destinationData);
@@ -302,51 +403,19 @@ namespace Accord.Imaging
         /// method to solve the issues of locked file. The standard .NET's method locks the source file until
         /// image's object is disposed, so the file can not be deleted or overwritten. This method workarounds the issue and
         /// does not lock the source file.</para>
-        /// 
-        /// <para>Sample usage:</para>
-        /// <code>
-        /// Bitmap image = Accord.Imaging.Image.FromFile( "test.jpg" );
-        /// </code>
         /// </remarks>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Imaging\Formats\PNMCodecTest.cs" region="doc_load" />
+        /// </example>
         /// 
         public static System.Drawing.Bitmap FromFile(string fileName)
         {
-            Bitmap loadedImage = null;
-            FileStream stream = null;
-
-            try
-            {
-                // read image to temporary memory stream
-                stream = File.OpenRead(fileName);
-                MemoryStream memoryStream = new MemoryStream();
-                byte[] buffer = new byte[10000];
-
-                while (true)
-                {
-                    int read = stream.Read(buffer, 0, 10000);
-
-                    if (read == 0)
-                        break;
-
-                    memoryStream.Write(buffer, 0, read);
-                }
-
-                loadedImage = (Bitmap)Bitmap.FromStream(memoryStream);
-            }
-            finally
-            {
-                if (stream != null)
-                {
-                    stream.Close();
-                    stream.Dispose();
-                }
-            }
-
-            return loadedImage;
+            return ImageDecoder.DecodeFromFile(fileName);
         }
 
         /// <summary>
-        /// Convert bitmap with 16 bits per plane to a bitmap with 8 bits per plane.
+        /// Converts a bitmap with 16 bits per plane to a bitmap with 8 bits per plane.
         /// </summary>
         /// 
         /// <param name="bitmap">Source image to convert.</param>
@@ -371,7 +440,6 @@ namespace Accord.Imaging
         public static Bitmap Convert16bppTo8bpp(this Bitmap bitmap)
         {
             Bitmap newImage = null;
-            int layers = 0;
 
             // get image size
             int width = bitmap.Width;
@@ -383,34 +451,64 @@ namespace Accord.Imaging
                 case PixelFormat.Format16bppGrayScale:
                     // create new grayscale image
                     newImage = CreateGrayscaleImage(width, height);
-                    layers = 1;
                     break;
 
                 case PixelFormat.Format48bppRgb:
                     // create new color 24 bpp image
                     newImage = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-                    layers = 3;
                     break;
 
                 case PixelFormat.Format64bppArgb:
                     // create new color 32 bpp image
                     newImage = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-                    layers = 4;
                     break;
 
                 case PixelFormat.Format64bppPArgb:
                     // create new color 32 bpp image
                     newImage = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
-                    layers = 4;
                     break;
 
                 default:
                     throw new UnsupportedImageFormatException("Invalid pixel format of the source image.");
             }
 
+            return Convert16bppTo8bpp(bitmap, newImage);
+        }
+
+        /// <summary>
+        /// Converts a bitmap with 16 bits per plane to a bitmap with 8 bits per plane.
+        /// </summary>
+        /// 
+        /// <param name="source">Source image to convert.</param>
+        /// <param name="destination">Destination image to store the conversion. If set to null, a new image will be created.</param>
+        /// 
+        /// <returns>Returns new image which is a copy of the source image but with 8 bits per plane.</returns>
+        /// 
+        /// <remarks><para>The routine does the next pixel format conversions:
+        /// <list type="bullet">
+        /// <item><see cref="PixelFormat.Format16bppGrayScale">Format16bppGrayScale</see> to
+        /// <see cref="PixelFormat.Format8bppIndexed">Format8bppIndexed</see> with grayscale palette;</item>
+        /// <item><see cref="PixelFormat.Format48bppRgb">Format48bppRgb</see> to
+        /// <see cref="PixelFormat.Format24bppRgb">Format24bppRgb</see>;</item>
+        /// <item><see cref="PixelFormat.Format64bppArgb">Format64bppArgb</see> to
+        /// <see cref="PixelFormat.Format32bppArgb">Format32bppArgb</see>;</item>
+        /// <item><see cref="PixelFormat.Format64bppPArgb">Format64bppPArgb</see> to
+        /// <see cref="PixelFormat.Format32bppPArgb">Format32bppPArgb</see>.</item>
+        /// </list>
+        /// </para></remarks>
+        /// 
+        /// <exception cref="UnsupportedImageFormatException">Invalid pixel format of the source image.</exception>
+        /// 
+        public static Bitmap Convert16bppTo8bpp(this Bitmap source, Bitmap destination)
+        {
+            // get image size
+            int width = source.Width;
+            int height = source.Height;
+            int layers = GetPixelFormatSizeInBytes(destination);
+
             // lock both images
-            BitmapData sourceData = bitmap.LockBits(ImageLockMode.ReadOnly);
-            BitmapData newData = newImage.LockBits(ImageLockMode.ReadWrite);
+            BitmapData sourceData = source.LockBits(ImageLockMode.ReadOnly);
+            BitmapData newData = destination.LockBits(ImageLockMode.ReadWrite);
 
             unsafe
             {
@@ -433,10 +531,10 @@ namespace Accord.Imaging
             }
 
             // unlock both image
-            bitmap.UnlockBits(sourceData);
-            newImage.UnlockBits(newData);
+            source.UnlockBits(sourceData);
+            destination.UnlockBits(newData);
 
-            return newImage;
+            return destination;
         }
 
         /// <summary>
@@ -475,11 +573,12 @@ namespace Accord.Imaging
 #endif
                     Directory.CreateDirectory(localPath);
 
-                using (var client = new WebClient())
-                    client.DownloadFile(url, downloadedFileName);
+                Console.WriteLine("Downloading {0}", url);
+                using (var client = ExtensionMethods.NewWebClient())
+                    client.DownloadFileWithRetry(url, downloadedFileName);
             }
 
-            return Image.FromFile(downloadedFileName);
+            return FromFile(downloadedFileName);
         }
 
         /// <summary>

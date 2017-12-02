@@ -19,7 +19,7 @@ namespace Accord.Tests.Statistics.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -39,7 +39,11 @@ namespace Accord.Tests.Statistics.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
+#if NETCORE
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.Statistics.Properties.Resources", System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(Resources)).Assembly);
+#else
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.Statistics.Properties.Resources", typeof(Resources).Assembly);
+#endif
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,16 +65,6 @@ namespace Accord.Tests.Statistics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] CircleWithWeights {
-            get {
-                object obj = ResourceManager.GetObject("CircleWithWeights", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to id,female,ses,schtyp,prog,read,write,math,science,socst,honors,awards,cid
         ///45,&quot;female&quot;,&quot;low&quot;,&quot;public&quot;,&quot;vocation&quot;,34,35,41,29,26,&quot;not enrolled&quot;,0,1
         ///108,&quot;male&quot;,&quot;middle&quot;,&quot;public&quot;,&quot;general&quot;,34,33,41,36,36,&quot;not enrolled&quot;,0,1
@@ -87,12 +81,11 @@ namespace Accord.Tests.Statistics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to 4, 13, 7, 28, 26, 6, 14, 28, 3, 18, 17, 7, 8, 6, 9, 2, 10, 2, 13, 7, 26, 26, 7, 19, 28, 1, 18, 27, 8, 1, 8, 10, 9, 7, 2, 13, 7, 26, 26, 7, 28, 28, 4, 18, 27, 8, 1, 8, 10, 10, 5, 2, 13, 7, 26, 26, 7, 28, 28, 2, 18, 27, 8, 1, 4, 2, 10, 8, 4, 13, 7, 29, 26, 6, 14, 21, 7, 18, 17, 7, 6, 6, 6, 10, 4, 4, 13, 5, 25, 14, 13, 17, 17, 10, 18, 28, 7, 3, 6, 5, 8, 2, 2, 13, 7, 26, 26, 7, 28, 28, 2, 18, 27, 8, 2, 4, 9, 10, 2, 2, 16, 28, 15, 31, 2, 15, 17, 10, 18, 20, 14, 2, 1, 9, 10, 2, 2, 16, 28, 15, 31, 2, 15, 17, 2, 18 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] ica_data {
+        internal static string labels {
             get {
-                object obj = ResourceManager.GetObject("ica_data", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("labels", resourceCulture);
             }
         }
         
@@ -167,17 +160,7 @@ namespace Accord.Tests.Statistics.Properties {
                 return ResourceManager.GetString("logreg", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] lr_3_2_3 {
-            get {
-                object obj = ResourceManager.GetObject("lr_3_2_3", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
+  
         /// <summary>
         ///   Looks up a localized string similar to In1,In2,Out
         ///15.3,0,1
@@ -242,24 +225,5 @@ namespace Accord.Tests.Statistics.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] sample {
-            get {
-                object obj = ResourceManager.GetObject("sample", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] sample1 {
-            get {
-                object obj = ResourceManager.GetObject("sample1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

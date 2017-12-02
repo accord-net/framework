@@ -29,9 +29,10 @@ namespace Accord.Imaging
     using Accord.Math;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Compat;
 
     /// <summary>
-    ///   Histograms of Oriented Gradients.
+    ///   Histograms of Oriented Gradients (HOG) descriptor extractor.
     /// </summary>
     /// 
     /// <remarks>
@@ -45,8 +46,20 @@ namespace Accord.Imaging
     ///   </list></para>
     /// </remarks>
     /// 
-    public class HistogramsOfOrientedGradients : IFeatureDetector<FeatureDescriptor>,
-        IFeatureDetector<IFeatureDescriptor<double[]>>
+    /// <example>
+    /// <para>
+    ///   The first example shows how to extract HOG descriptors from a standard test image:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\HistogramsOfOrientedGradientsTest.cs" region="doc_apply" />
+    ///   
+    /// <para>
+    ///   The second example shows how to use HOG descriptors as part of a BagOfVisualWords (BoW) pipeline 
+    ///   for image classification:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_lbp" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_lbp" />
+    /// </example>
+    /// 
+    [Serializable]
+    public class HistogramsOfOrientedGradients : BaseFeatureExtractor<FeatureDescriptor>
     {
 
         int numberOfBins = 9;
@@ -63,33 +76,59 @@ namespace Accord.Imaging
 
 
         /// <summary>
-        ///   Gets the size of a cell, in pixels.
+        ///   Gets the size of a cell, in pixels. Default is 6.
         /// </summary>
         /// 
-        public int CellSize { get { return cellSize; } }
+        public int CellSize
+        {
+            get { return cellSize; }
+            set { cellSize = value; }
+        }
 
         /// <summary>
-        ///   Gets the size of a block, in pixels.
+        ///   Gets the size of a block, in pixels. Default is 3.
         /// </summary>
         /// 
-        public int BlockSize { get { return blockSize; } }
+        public int BlockSize
+        {
+            get { return blockSize; }
+            set { blockSize = value; }
+        }
 
         /// <summary>
-        ///   Gets the number of histogram bins.
+        ///   Gets the number of histogram bins. Default is 9.
         /// </summary>
         /// 
-        public int NumberOfBins { get { return numberOfBins; } }
+        public int NumberOfBins
+        {
+            get { return numberOfBins; }
+            set
+            {
+                this.numberOfBins = value;
+                this.binWidth = (2.0 * System.Math.PI) / numberOfBins; // 0 to 360}
+            }
+        }
+
+        /// <summary>
+        ///   Gets the width of the histogram bin. This property is 
+        ///   computed as <c>(2.0 * System.Math.PI) / numberOfBins</c>.
+        /// </summary>
+        /// 
+        public double BinWidth
+        {
+            get { return this.binWidth; }
+        }
 
         /// <summary>
         ///   Gets the matrix of orientations generated in 
-        ///   the last call to <see cref="ProcessImage(Bitmap)"/>.
+        ///   the last call to <see cref="BaseFeatureExtractor{TFeature}.Transform(Bitmap)"/>.
         /// </summary>
         /// 
         public float[,] Direction { get { return direction; } }
 
         /// <summary>
         ///   Gets the matrix of magnitudes generated in 
-        ///   the last call to <see cref="ProcessImage(Bitmap)"/>.
+        ///   the last call to <see cref="BaseFeatureExtractor{TFeature}.Transform(Bitmap)"/>.
         /// </summary>
         /// 
         public float[,] Magnitude { get { return magnitude; } }
@@ -117,7 +156,7 @@ namespace Accord.Imaging
         /// 
         public HistogramsOfOrientedGradients()
         {
-            this.binWidth = (2.0 * System.Math.PI) / numberOfBins; // 0 to 360
+            init(numberOfBins, blockSize, cellSize);
         }
 
         /// <summary>
@@ -130,39 +169,29 @@ namespace Accord.Imaging
         /// 
         public HistogramsOfOrientedGradients(int numberOfBins = 9, int blockSize = 3, int cellSize = 6)
         {
-            this.numberOfBins = numberOfBins;
-            this.cellSize = cellSize;
-            this.blockSize = blockSize;
-            this.binWidth = (2.0 * System.Math.PI) / numberOfBins; // 0 to 360
+            init(numberOfBins, blockSize, cellSize);
         }
 
+        private void init(int numberOfBins, int blockSize, int cellSize)
+        {
+            this.NumberOfBins = numberOfBins;
+            this.CellSize = cellSize;
+            this.BlockSize = blockSize;
+
+            base.SupportedFormats.UnionWith(new[] {
+                PixelFormat.Format8bppIndexed,
+                PixelFormat.Format24bppRgb,
+                PixelFormat.Format32bppRgb,
+                PixelFormat.Format32bppArgb });
+        }
 
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   This method should be implemented by inheriting classes to implement the 
+        ///   actual feature extraction, transforming the input image into a list of features.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(UnmanagedImage image)
+        protected override IEnumerable<FeatureDescriptor> InnerTransform(UnmanagedImage image)
         {
-
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
             // make sure we have grayscale image
             UnmanagedImage grayImage = null;
 
@@ -293,7 +322,7 @@ namespace Accord.Imaging
             int blocksCountX = (int)Math.Floor(cellCountX / (double)blockSize);
             int blocksCountY = (int)Math.Floor(cellCountY / (double)blockSize);
 
-            var blocks = new List<double[]>();
+            var blocks = new List<FeatureDescriptor>();
 
             for (int i = 0; i < blocksCountX; i++)
             {
@@ -318,6 +347,8 @@ namespace Accord.Imaging
                         }
                     }
 
+                    // TODO: Remove this block and instead propose a general architecture 
+                    //       for applying normalizations to descriptor blocks
                     if (normalize)
                         block.Divide(block.Euclidean() + epsilon, result: block);
 
@@ -328,138 +359,18 @@ namespace Accord.Imaging
             return blocks;
         }
 
-
-
         /// <summary>
-        ///   Process image looking for interest points.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(new UnmanagedImage(imageData));
-        }
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(Bitmap image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
-
-            try
-            {
-                // process the image
-                return ProcessImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-        }
-
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        ///
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
             var clone = new HistogramsOfOrientedGradients(numberOfBins, blockSize, cellSize);
+            clone.SupportedFormats = supportedFormats;
             clone.epsilon = epsilon;
             clone.normalize = normalize;
             return clone;
         }
 
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, 
-        ///   or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged
-        ///   resources; <c>false</c> to release only unmanaged resources.</param>
-        /// 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-            }
-
-            // free native resources if there are any.
-        }
     }
 }

@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Math;
     using Accord.Statistics.Analysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   Stuart-Maxwell test of homogeneity for <c>K x K</c> contingency tables.
@@ -100,8 +101,8 @@ namespace Accord.Statistics.Testing
         /// 
         public StuartMaxwellTest(GeneralConfusionMatrix matrix)
         {
-            int classes = matrix.Classes;
-            int samples = matrix.Samples;
+            int classes = matrix.NumberOfClasses;
+            int samples = matrix.NumberOfSamples;
 
             int df = classes - 1;
 

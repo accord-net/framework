@@ -24,6 +24,7 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Cosine distance. For a proper distance metric, see <see cref="Angular"/>.
@@ -31,8 +32,12 @@ namespace Accord.Math.Distances
     /// 
     /// <seealso cref="Angular"/>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_cosine_2" />
+    /// </example>
+    /// 
     [Serializable]
-    public struct Cosine : IDistance<double[]>, ISimilarity<double[]>
+    public struct Cosine : IDistance<double[]>, ISimilarity<double[]>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -47,6 +52,10 @@ namespace Accord.Math.Distances
         ///   between <paramref name="x"/> and <paramref name="y"/> according 
         ///   to the distance function implemented by this class.
         /// </returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_cosine_2" />
+        /// </example>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -95,6 +104,18 @@ namespace Accord.Math.Distances
 
             double den = Math.Sqrt(p) * Math.Sqrt(q);
             return (sum == 0) ? 0 : sum / den;
+        }
+
+
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Cosine();
         }
     }
 }

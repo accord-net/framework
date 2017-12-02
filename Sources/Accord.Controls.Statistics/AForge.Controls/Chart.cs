@@ -12,9 +12,7 @@ namespace Accord.Controls
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
-    using System.Data;
     using System.Windows.Forms;
-    using AForge;
     using Accord;
 
     /// <summary>

@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
     using System;
     using System.Runtime.Serialization;
     using Accord.Statistics.Models.Fields.Features;
+    using Accord.Compat;
 
     /// <summary>
     ///   Normal-density Markov Factor Potential (Clique Potential) function.
@@ -33,8 +34,6 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
     [Serializable]
     public class MarkovNormalFactor : FactorPotential<double>
     {
-
-
         /// <summary>
         ///   Creates a new factor (clique) potential function.
         /// </summary>

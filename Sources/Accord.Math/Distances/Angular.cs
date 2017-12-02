@@ -24,6 +24,7 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     /// Angular distance, or the proper distance metric version of <see cref="Cosine" /> distance.
@@ -32,7 +33,7 @@ namespace Accord.Math.Distances
     /// <seealso cref="Accord.Math.Distances.Cosine"/>
     /// 
     [Serializable]
-    public struct Angular : IMetric<double[]>, ISimilarity<double[]>
+    public struct Angular : IMetric<double[]>, ISimilarity<double[]>, ICloneable
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -99,6 +100,17 @@ namespace Accord.Math.Distances
             double similarity = num == 0 ? 1.0 : 1.0 - (num / den);
 
             return 1 - Math.Acos(similarity);
+        }
+
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            return new Angular();
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.Rules
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -38,7 +39,9 @@ namespace Accord.MachineLearning.Rules
     [Serializable]
     public class AssociationRuleMatcher<T> :
         IMulticlassRefScoreClassifier<T[], T[][]>,
-        IMulticlassRefScoreClassifier<SortedSet<T>, SortedSet<T>[]>
+        IMulticlassRefScoreClassifier<SortedSet<T>, SortedSet<T>[]>,
+        ITransform<T[], T[][]>,
+        ITransform<SortedSet<T>, SortedSet<T>[]>
     {
         int items;
         AssociationRule<T>[] rules;
@@ -120,22 +123,37 @@ namespace Accord.MachineLearning.Rules
         /// will create a new array.</param>
         public double[] Scores(SortedSet<T> input, ref SortedSet<T>[] decision)
         {
-            var matchs = new List<SortedSet<T>>();
-            var scores = new List<double>();
+            var matches = new Dictionary<SortedSet<T>, double>(new Apriori<T>.SetComparer());
             foreach (var rule in rules)
             {
                 if (rule.Matches(input))
                 {
-                    if (rule.Confidence > threshold)
+                    if (!rule.Y.IsSubsetOf(input) && rule.Confidence > threshold)
                     {
-                        matchs.Add(rule.Y);
-                        scores.Add(rule.Confidence);
+                        if (matches.ContainsKey(rule.Y))
+                            matches[rule.Y] += rule.Confidence;
+                        else
+                            matches[rule.Y] = rule.Confidence;
                     }
                 }
             }
 
-            decision = matchs.ToArray();
-            return scores.ToArray();
+            decision = new SortedSet<T>[matches.Count];
+            double[] scores = new double[matches.Count];
+
+            int i = 0;
+            foreach (var pair in matches)
+            {
+                decision[i] = pair.Key;
+                scores[i] = pair.Value;
+                i++;
+            }
+
+            Array.Sort(scores, decision);
+            Array.Reverse(scores);
+            Array.Reverse(decision);
+
+            return scores;
         }
 
         /// <summary>
@@ -168,13 +186,9 @@ namespace Accord.MachineLearning.Rules
         /// </returns>
         public SortedSet<T>[] Decide(SortedSet<T> input)
         {
-            var matchs = new List<SortedSet<T>>();
-            foreach (var rule in rules)
-                if (rule.Matches(input))
-                    if (rule.Confidence > threshold)
-                        matchs.Add(rule.Y);
-
-            return matchs.ToArray();
+            SortedSet<T>[] decision = null;
+            Scores(input, ref decision);
+            return decision;
         }
 
         // TODO: Move the below functionality to a base class in the

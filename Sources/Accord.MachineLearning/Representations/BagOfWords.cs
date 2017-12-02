@@ -26,16 +26,10 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.MachineLearning.VectorMachines;
-
-#if !NET35 && !NET40
+    using System.Threading.Tasks;
     using System.Collections.ObjectModel;
-    using System.Text.RegularExpressions;
-#else
-    using Accord.Collections;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Bag of words.
@@ -203,7 +197,7 @@ namespace Accord.MachineLearning
         private static void checkArgs(string[][] texts, double[] weights)
         {
             if (weights != null)
-                throw new ArgumentException("Weights are not supported.");
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
             if (texts == null)
                 throw new ArgumentNullException("texts");
@@ -300,7 +294,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        int[] ITransform<string[], int[]>.Transform(string[] input)
+        int[] ICovariantTransform<string[], int[]>.Transform(string[] input)
         {
             return Transform(input, new int[NumberOfWords]);
         }
@@ -362,7 +356,7 @@ namespace Accord.MachineLearning
             return Transform(input, Jagged.Zeros<double>(input.Length, NumberOfWords));
         }
 
-        int[][] ITransform<string[], int[]>.Transform(string[][] input)
+        int[][] ICovariantTransform<string[], int[]>.Transform(string[][] input)
         {
             return Transform(input, Jagged.Zeros<int>(input.Length, NumberOfWords));
         }
@@ -437,12 +431,12 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        Sparse<double> ITransform<string[], Sparse<double>>.Transform(string[] input)
+        Sparse<double> ICovariantTransform<string[], Sparse<double>>.Transform(string[] input)
         {
             return Sparse.FromDense(Transform(input));
         }
 
-        Sparse<double>[] ITransform<string[], Sparse<double>>.Transform(string[][] input)
+        Sparse<double>[] ICovariantTransform<string[], Sparse<double>>.Transform(string[][] input)
         {
             return Transform(input, new Sparse<double>[input.Length]);
         }
@@ -465,6 +459,23 @@ namespace Accord.MachineLearning
                 result[i] = t.Transform(input[i]);
             });
             return result;
+        }
+
+
+
+        /// <summary>
+        ///   Creates the default clustering algorithm for Bag-of-Words models (<see cref="KMeans"/>).
+        /// </summary>
+        /// 
+        /// <param name="numberOfWords">The number of clusters for k-means.</param>
+        /// 
+        public static KMeans GetDefaultClusteringAlgorithm(int numberOfWords)
+        {
+            return new KMeans(numberOfWords)
+            {
+                ComputeCovariances = false,
+                UseSeeding = Seeding.KMeansPlusPlus,
+            };
         }
     }
 }

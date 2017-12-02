@@ -30,6 +30,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Univariate;
     using System.Runtime.CompilerServices;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate Normal (Gaussian) distribution.
@@ -205,6 +206,18 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public MultivariateNormalDistribution(double[] mean, double[][] covariance)
             : this(mean, covariance.ToMatrix())
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a multivariate Gaussian distribution
+        ///   with given mean vector and covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
+        /// 
+        public MultivariateNormalDistribution(double[] mean)
+            : this(mean, Matrix.Identity(mean.Length))
         {
         }
 

@@ -29,10 +29,12 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+	using Accord.Compat;
 
     /// <summary>
-    ///   LU decomposition of a rectangular matrix.
+    ///   LU decomposition of a jagged rectangular matrix.
     /// </summary>
+	///
     /// <remarks>
     ///   <para>
     ///     For an m-by-n matrix <c>A</c> with <c>m >= n</c>, the LU decomposition is an m-by-n
@@ -44,9 +46,23 @@ namespace Accord.Math.Decompositions
     ///     singular, so the constructor will never fail.  The primary use of the
     ///     LU decomposition is in the solution of square systems of simultaneous
     ///     linear equations. This will fail if <see cref="Nonsingular"/> returns
-    ///     <see langword="false"/>.
-    ///   </para>
+    ///     <see langword="false"/>.</para>
+	///   <para>
+	///     If you need to compute a LU decomposition for matrices with data types other than
+	///     double, see <see cref="JaggedLuDecompositionF"/>, <see cref="JaggedLuDecompositionD"/>. If you
+	///     need to compute a LU decomposition for a multidimensional matrix, see <see cref="LuDecomposition"/>,
+	///     <see cref="LuDecompositionF"/>, and <see cref="LuDecompositionD"/>.</para>
     /// </remarks>
+	/// 
+	/// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Math\Decompositions\JaggedLuDecompositionFTest.cs" region="doc_ctor" />
+	/// </example>
+	///
+	/// <seealso cref="CholeskyDecomposition"/>
+	/// <seealso cref="EigenvalueDecomposition"/>
+    /// <seealso cref="SingularValueDecomposition"/>
+    /// <seealso cref="JaggedEigenvalueDecomposition"/>
+    /// <seealso cref="JaggedSingularValueDecomposition"/>
     /// 
     public sealed class JaggedLuDecomposition : ICloneable, ISolverArrayDecomposition<Double>
     {

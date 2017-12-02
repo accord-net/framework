@@ -530,9 +530,7 @@ namespace Accord.Imaging
                         new Bitmap(width, height, pixelFormat);
 
                     // lock destination bitmap data
-                    BitmapData dstData = dstImage.LockBits(
-                        new Rectangle(0, 0, width, height),
-                        ImageLockMode.ReadWrite, pixelFormat);
+                    BitmapData dstData = dstImage.LockBits(ImageLockMode.ReadWrite);
 
                     int dstStride = dstData.Stride;
                     int lineSize = Math.Min(stride, dstStride);
@@ -674,12 +672,17 @@ namespace Accord.Imaging
                 throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
-            // allocate memory for the image
-            IntPtr dstImageData = System.Runtime.InteropServices.Marshal.AllocHGlobal(imageData.Stride * imageData.Height);
-            System.GC.AddMemoryPressure(imageData.Stride * imageData.Height);
+            return FromUnmanagedData(imageData.Scan0, imageData.Width, imageData.Height, imageData.Stride, pixelFormat);
+        }
 
-            UnmanagedImage image = new UnmanagedImage(dstImageData, imageData.Width, imageData.Height, imageData.Stride, pixelFormat);
-            Accord.SystemTools.CopyUnmanagedMemory(dstImageData, imageData.Scan0, imageData.Stride * imageData.Height);
+        private static UnmanagedImage FromUnmanagedData(IntPtr imageData, int width, int height, int stride, PixelFormat pixelFormat)
+        {
+            // allocate memory for the image
+            IntPtr dstImageData = Marshal.AllocHGlobal(stride * height);
+            System.GC.AddMemoryPressure(stride * height);
+
+            UnmanagedImage image = new UnmanagedImage(dstImageData, width, height, stride, pixelFormat);
+            Accord.SystemTools.CopyUnmanagedMemory(dstImageData, imageData, stride * height);
             image.mustBeDisposed = true;
 
             return image;

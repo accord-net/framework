@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Source of variation in an <see cref="IAnova">ANOVA experiment</see>.

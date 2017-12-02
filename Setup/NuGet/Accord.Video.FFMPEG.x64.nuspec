@@ -19,6 +19,7 @@
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
       <dependency id="Accord.Video"           version="$version$" />
+      <dependency id="Accord.Audio"           version="$version$" />
     </dependencies>
   </metadata>
   <files>

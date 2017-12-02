@@ -2,8 +2,8 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
+// Copyright © 2009-2017 César Souza <cesarsouza at gmail.com>
+// and other contrinbutors.
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -24,9 +24,8 @@ namespace Accord.Statistics
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Accord.Math;
-    using Accord.Math.Decompositions;
-    using AForge;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -36,7 +35,6 @@ namespace Accord.Statistics
     /// 
     public static partial class Measures
     {
-
 
         /// <summary>
         ///   Computes the mean of the given values.
@@ -410,201 +408,6 @@ namespace Accord.Statistics
             return StandardError(values.Length, StandardDeviation(values));
         }
 
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// <param name="values">A double array containing the vector members.</param>
-        /// <returns>The median of the given data.</returns>
-        public static double Median(this double[] values)
-        {
-            return Median(values, false);
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// <param name="values">A double array containing the vector members.</param>
-        /// <returns>The median of the given data.</returns>
-        public static double Median(this int[] values)
-        {
-            return Median(values, false);
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this double[] values, bool alreadySorted)
-        {
-            return Median(values, 0, values.Length, alreadySorted);
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this int[] values, bool alreadySorted)
-        {
-            return Median(values, 0, values.Length, alreadySorted);
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <param name="length">The length of the subarray, starting at <paramref name="startIndex"/>.</param>
-        /// <param name="startIndex">The starting index of the array.</param>
-        /// 
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this double[] values, int startIndex, int length, bool alreadySorted)
-        {
-            if (values.Length == 1)
-                return values[0];
-
-            if (!alreadySorted)
-            {
-                values = (double[])values.Clone();
-                Array.Sort(values);
-            }
-
-            int half = startIndex + length / 2;
-
-            if (length % 2 == 0)
-                return (values[half - 1] + values[half]) * 0.5; // N is even 
-            else return values[half];                           // N is odd
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <param name="length">The length of the subarray, starting at <paramref name="startIndex"/>.</param>
-        /// <param name="startIndex">The starting index of the array.</param>
-        /// 
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this int[] values, int startIndex, int length, bool alreadySorted)
-        {
-            // TODO: Re-implement using nth_element
-            if (values.Length == 1)
-                return values[0];
-
-            if (!alreadySorted)
-            {
-                values = (int[])values.Clone();
-                Array.Sort(values);
-            }
-
-            int half = startIndex + length / 2;
-
-            if (length % 2 == 0)
-                return (values[half - 1] + values[half]) * 0.5; // N is even 
-            else return values[half];                           // N is odd
-        }
-
-        /// <summary>
-        ///   Computes the Quartiles of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <param name="range">The inter-quartile range for the values.</param>
-        /// <returns>The second quartile, the median of the given data.</returns>
-        /// 
-        public static double Quartiles(this double[] values, out DoubleRange range, bool alreadySorted)
-        {
-            double q1, q3;
-            double median = Quartiles(values, out q1, out q3, alreadySorted);
-            range = new DoubleRange(q1, q3);
-            return median;
-        }
-
-        /// <summary>
-        ///   Computes the Quartiles of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="q1">The first quartile.</param>
-        /// <param name="q3">The third quartile.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <returns>The second quartile, the median of the given data.</returns>
-        /// 
-        public static double Quartiles(this double[] values, out double q1, out double q3, bool alreadySorted)
-        {
-            // TODO: Re-implement using nth_element
-            double median;
-
-            if (values.Length == 1)
-            {
-                q1 = q3 = values[0];
-                return values[0];
-            }
-            else if (values.Length == 2)
-            {
-                median = values[0] + values[1];
-                q1 = (values[0] + median) / 2.0;
-                q3 = (median + values[1]) / 2.0;
-                return median;
-            }
-
-            if (!alreadySorted)
-            {
-                values = (double[])values.Clone();
-                Array.Sort(values);
-            }
-
-            int N = values.Length;
-            int half = N / 2;
-
-
-            if (N % 2 == 0)
-            {
-                // N is even 
-                median = (values[half - 1] + values[half]) * 0.5;
-
-                // Separate data in half. Do not include data[half]
-                // and data[half - 1] in the halves. 
-
-                int lowerStart = 0;
-                int lowerLength = half - 1;
-                int upperStart = half;
-                int upperLength = N - upperStart;
-
-                q1 = Median(values, lowerStart, lowerLength, alreadySorted: true);
-                q3 = Median(values, upperStart, upperLength, alreadySorted: true);
-            }
-            else
-            {
-                // N is odd
-                median = values[N / 2];
-
-                // Separate data in half. Do not include data[half]
-                // in the halves. 
-
-                int lowerStart = 0;
-                int lowerLength = half;
-                int upperStart = half + 1;
-                int upperLength = N - upperStart;
-
-                q1 = Median(values, lowerStart, lowerLength, alreadySorted: true);
-                q3 = Median(values, upperStart, upperLength, alreadySorted: true);
-            }
-
-            return median;
-        }
 
         /// <summary>
         ///   Computes the Variance of the given values.
@@ -1395,6 +1198,29 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">A number array containing the vector values.</param>
         /// <param name="pdf">A probability distribution function.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The distribution's entropy for the given values.</returns>
+        /// 
+        public static double Entropy(this double[] values, double[] weights, Func<double, double> pdf)
+        {
+            double sum = 0;
+            for (int i = 0; i < values.Length; i++)
+            {
+                double p = pdf(values[i]) * weights[i];
+                sum += p * Math.Log(p);
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        ///   Computes the entropy function for a set of numerical values in a 
+        ///   given Probability Density Function (pdf).
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector values.</param>
+        /// <param name="pdf">A probability distribution function.</param>
         /// 
         /// <returns>The distribution's entropy for the given values.</returns>
         /// 
@@ -1456,8 +1282,8 @@ namespace Accord.Statistics
             double sum = 0;
             for (int i = 0; i < values.Length; i++)
             {
-                double p = pdf(values[i]);
-                sum += p * Math.Log(p) * weights[i];
+                double p = pdf(values[i]) * weights[i];
+                sum += p * Math.Log(p);
             }
 
             return sum;
@@ -1576,14 +1402,92 @@ namespace Accord.Statistics
 
                 // Count the number of instances inside
                 for (int i = 0; i < values.Length; i++)
-                    if (values[i] == c) count++;
+                    if (values[i] == c)
+                        count++;
 
                 if (count > 0)
                 {
                     // Avoid situations limiting situations
                     //  by forcing 0 * Math.Log(0) to be 0.
 
-                    double p = (double)count / values.Length;
+                    double p = count / (double)values.Length;
+                    entropy -= p * Math.Log(p, 2);
+                }
+            }
+
+            return entropy;
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="startValue">The starting symbol.</param>
+        /// <param name="endValue">The ending symbol.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(int[] values, double[] weights, int startValue, int endValue)
+        {
+            double entropy = 0;
+
+            // For each class
+            for (int c = startValue; c <= endValue; c++)
+            {
+                double count = 0;
+
+                // Count the number of instances inside
+                for (int i = 0; i < values.Length; i++)
+                    if (values[i] == c)
+                        count += weights[i];
+
+                if (count > 0)
+                {
+                    // Avoid situations limiting situations
+                    //  by forcing 0 * Math.Log(0) to be 0.
+
+                    double p = count / (double)values.Length;
+                    entropy -= p * Math.Log(p, 2);
+                }
+            }
+
+            return entropy;
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="startValue">The starting symbol.</param>
+        /// <param name="endValue">The ending symbol.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(double[] values, double[] weights, int startValue, int endValue)
+        {
+            double entropy = 0;
+            double totalWeightSum = weights.Sum();
+
+            // For each class
+            for (int c = startValue; c <= endValue; c++)
+            {
+                double classWeightSum = 0;
+
+                // Count the number of instances inside
+                for (int i = 0; i < values.Length; i++)
+                    if (values[i] == c)
+                        classWeightSum += weights[i];
+
+                if (classWeightSum > 0)
+                {
+                    // Avoid situations limiting situations
+                    //  by forcing 0 * Math.Log(0) to be 0.
+
+                    double p = classWeightSum / totalWeightSum;
                     entropy -= p * Math.Log(p, 2);
                 }
             }
@@ -1632,12 +1536,81 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">An array of integer symbols.</param>
+        /// <param name="startValue">The starting symbol.</param>
+        /// <param name="endValue">The ending symbol.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(IList<int> values, IList<double> weights, int startValue, int endValue)
+        {
+            double entropy = 0;
+            double totalWeightSum = weights.Sum();
+
+            // For each class
+            for (int c = startValue; c <= endValue; c++)
+            {
+                double classWeightSum = 0;
+
+                // Count the number of instances inside
+                for (int i = 0; i < values.Count; i++)
+                    if (values[i] == c)
+                        classWeightSum += weights[i];
+
+                if (classWeightSum > 0)
+                {
+                    // Avoid situations limiting situations
+                    //  by forcing 0 * Math.Log(0) to be 0.
+
+                    double p = classWeightSum / totalWeightSum;
+                    entropy -= p * Math.Log(p, 2);
+                }
+            }
+
+            return entropy;
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
         /// <param name="valueRange">The range of symbols.</param>
         /// <returns>The evaluated entropy.</returns>
         /// 
         public static double Entropy(int[] values, IntRange valueRange)
         {
             return Entropy(values, valueRange.Min, valueRange.Max);
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="classes">The number of distinct classes.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(int[] values, double[] weights, int classes)
+        {
+            return WeightedEntropy(values, weights, 0, classes - 1);
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="classes">The number of distinct classes.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(double[] values, double[] weights, int classes)
+        {
+            return WeightedEntropy(values, weights, 0, classes - 1);
         }
 
         /// <summary>
@@ -1664,6 +1637,21 @@ namespace Accord.Statistics
         public static double Entropy(IList<int> values, int classes)
         {
             return Entropy(values, 0, classes - 1);
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="classes">The number of distinct classes.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(IList<int> values, IList<double> weights, int classes)
+        {
+            return WeightedEntropy(values, weights, 0, classes - 1);
         }
 
     }

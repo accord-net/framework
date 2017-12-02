@@ -28,6 +28,7 @@
 namespace Accord.Math.Decompositions
 {
     using System;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

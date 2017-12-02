@@ -121,8 +121,8 @@ namespace SampleApp
             // related frequency vector to plot our spectrometer.
 
             Complex[] channel = signal.GetChannel(0);
-            double[] power = Accord.Audio.Tools.GetPowerSpectrum(channel);
-            double[] freqv = Accord.Audio.Tools.GetFrequencyVector(signal.Length, signal.SampleRate);
+            double[] power = Accord.Math.Transforms.FourierTransform2.GetPowerSpectrum(channel);
+            double[] freqv = Accord.Math.Transforms.FourierTransform2.GetFrequencyVector(signal.Length, signal.SampleRate);
 
             power[0] = 0; // zero DC
             float[] g = new float[power.Length];

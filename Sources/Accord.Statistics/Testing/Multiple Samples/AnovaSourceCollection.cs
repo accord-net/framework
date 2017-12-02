@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   ANOVA's result table.

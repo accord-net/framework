@@ -26,11 +26,11 @@ namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
     using System.ComponentModel;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning;
-    using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Compat;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Resilient Gradient Learning.
@@ -415,7 +415,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         ///   Raises the <see cref="E:ProgressChanged"/> event.
         /// </summary>
         /// 
-        /// <param name="args">The <see cref="System.ComponentModel.ProgressChangedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The ProgressChangedEventArgs instance containing the event data.</param>
         /// 
         protected void OnProgressChanged(ProgressChangedEventArgs args)
         {

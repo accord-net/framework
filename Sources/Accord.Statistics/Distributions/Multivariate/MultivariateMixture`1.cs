@@ -29,6 +29,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents one component distribution in a 

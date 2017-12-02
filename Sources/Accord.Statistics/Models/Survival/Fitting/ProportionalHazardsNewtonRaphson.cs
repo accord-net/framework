@@ -28,8 +28,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions;
-    using Accord.Math.Comparers;
     using Accord.MachineLearning;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

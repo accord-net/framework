@@ -22,12 +22,8 @@
 
 namespace Accord.MachineLearning
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Accord.Compat;
     using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     ///   Common interface for unsupervised learning algorithms.

@@ -23,11 +23,13 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using Accord.Statistics.Filters;
-    using AForge;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Accord.Math;
+    using System.Linq;
+    using Accord.Compat;
+    using Accord.Collections;
 
     /// <summary>
     ///   Attribute category.
@@ -188,6 +190,31 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
         /// <summary>
+        ///   Creates a set of decision variables from a <see cref="OrderedDictionary{TKey, TValue}"/> codebook.
+        /// </summary>
+        /// 
+        /// <param name="columns">The ordered dictionary containing information about the variables.</param>
+        /// 
+        /// <returns>An array of <see cref="DecisionVariable"/> objects 
+        ///   initialized with the values from the codebook.</returns>
+        /// 
+        public static DecisionVariable[] FromDictionary(OrderedDictionary<string, string[]> columns)
+        {
+            if (columns.Count == 0)
+                throw new ArgumentException("List of columns is empty.");
+
+            var variables = new DecisionVariable[columns.Count];
+
+            for (int i = 0; i < variables.Length; i++)
+            {
+                string name = columns.GetKeyByIndex(i);
+                variables[i] = new DecisionVariable(name, columns[name].Length);
+            }
+
+            return variables;
+        }
+
+        /// <summary>
         ///   Creates a set of decision variables from a <see cref="Codification"/> codebook.
         /// </summary>
         /// 
@@ -197,9 +224,12 @@ namespace Accord.MachineLearning.DecisionTrees
         /// <returns>An array of <see cref="DecisionVariable"/> objects 
         /// initialized with the values from the codebook.</returns>
         /// 
-        public static DecisionVariable[] FromCodebook(Codification codebook, params string[] columns)
+        public static DecisionVariable[] FromCodebook(Codification<string> codebook, params string[] columns)
         {
-            DecisionVariable[] variables = new DecisionVariable[columns.Length];
+            if (columns.Length == 0)
+                throw new ArgumentException("List of columns is empty.");
+
+            var variables = new DecisionVariable[columns.Length];
 
             for (int i = 0; i < variables.Length; i++)
             {
@@ -230,7 +260,8 @@ namespace Accord.MachineLearning.DecisionTrees
             int cols = inputs.Columns();
             var variables = new DecisionVariable[cols];
             for (int i = 0; i < variables.Length; i++)
-                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i).GetRange());
+                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i)
+                    .Where(x => !Double.IsNaN(x)).ToArray().GetRange());
             return variables;
         }
 
@@ -249,6 +280,25 @@ namespace Accord.MachineLearning.DecisionTrees
             var variables = new DecisionVariable[cols];
             for (int i = 0; i < variables.Length; i++)
                 variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i).GetRange());
+            return variables;
+        }
+
+        /// <summary>
+        ///   Creates a set of decision variables from input data.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// 
+        /// <returns>An array of <see cref="DecisionVariable"/> objects 
+        /// initialized with the values from the codebook.</returns>
+        /// 
+        public static DecisionVariable[] FromData(int?[][] inputs)
+        {
+            int cols = inputs.Columns();
+            var variables = new DecisionVariable[cols];
+            for (int i = 0; i < variables.Length; i++)
+                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i)
+                    .Where(x => x.HasValue).Select(x => x.Value).ToArray().GetRange());
             return variables;
         }
     }

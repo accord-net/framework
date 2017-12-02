@@ -23,12 +23,14 @@
 namespace Accord.Imaging
 {
     using AForge;
+    using System;
 
     /// <summary>
     ///   Corner feature point.
     /// </summary>
     /// 
-    public class CornerFeaturePoint : IFeaturePoint
+    [Serializable]
+    public class CornerFeaturePoint : IFeaturePoint<double[]>
     {
 
         /// <summary>

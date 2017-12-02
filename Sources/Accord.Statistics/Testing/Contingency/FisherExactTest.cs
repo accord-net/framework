@@ -25,6 +25,8 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Fisher's exact test for contingency tables.
@@ -38,6 +40,11 @@ namespace Accord.Statistics.Testing
     /// 
     /// <seealso cref="HypergeometricDistribution"/>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\Contingency\FisherExactTestTest.cs" region="doc_test" />
+    /// </example>
+    /// 
+    [Serializable]
     public class FisherExactTest : HypothesisTest<HypergeometricDistribution>
     {
 
@@ -67,14 +74,16 @@ namespace Accord.Statistics.Testing
             int a = mat[0, 0];
             int b = mat[0, 1];
             int c = mat[1, 0];
+            int d = mat[1, 1];
 
+            int N = matrix.NumberOfSamples; // total number in population
+            int k = a;                      // number of success in sample
+            int m = a + b;                  // number of success in population
+            int n = a + c;                  // sample size
 
-            int N = matrix.Samples; // total number in population
-            int k = a;              // number of success in sample
-            int m = a + b;          // number of success in population
-            int n = a + c;          // sample size
+            Debug.Assert(a + b + c + d == N);
 
-            Compute(k, N, n, m, alternate);
+            Compute(statistic: k, populationSize: N, n: n, m: m, alternate: alternate);
         }
 
         /// <summary>

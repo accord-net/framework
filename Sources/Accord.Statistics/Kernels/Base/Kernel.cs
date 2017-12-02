@@ -25,9 +25,7 @@ namespace Accord.Statistics.Kernels
     using Accord.Math;
     using Accord.Math.Distances;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -265,7 +263,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="samples">The number of samples.</param>
         /// 
         public static double[] Distances<T>(this T kernel, double[][] inputs, int samples)
-            where T : IDistance, ICloneable
+            where T : IDistance<double[]>, ICloneable
         {
             int[] idx = Vector.Sample(samples, inputs.Length);
             int[] idy = Vector.Sample(samples, inputs.Length);

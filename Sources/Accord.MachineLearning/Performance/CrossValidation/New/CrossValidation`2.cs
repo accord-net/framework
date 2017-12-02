@@ -25,7 +25,6 @@ namespace Accord.MachineLearning.Performance
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Analysis;
@@ -65,6 +64,8 @@ namespace Accord.MachineLearning.Performance
     /// <example>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_cross_validation" />
     /// </example>
     /// 
     /// <seealso cref="Bootstrap{TModel, TInput, TOutput}"/>
@@ -93,7 +94,7 @@ namespace Accord.MachineLearning.Performance
         {
             this.Loss = (expected, actual, r) =>
             {
-                return new GeneralConfusionMatrix(r.Model.NumberOfClasses, expected, actual).Accuracy;
+                return new GeneralConfusionMatrix(r.Model.NumberOfClasses, expected, actual).Error;
             };
         }
 

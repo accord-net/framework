@@ -30,22 +30,6 @@ namespace Accord.Tests.Math
     public class SubplexTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void ConstructorTest1()
         {

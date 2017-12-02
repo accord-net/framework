@@ -49,11 +49,11 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/icon.png" width="128" height="128" />
+    /// <img src="..\images\imaging\icon.png" width="128" height="128" />
     /// <para><b>Destination image:</b></para>
-    /// <img src="img/imaging/sample18.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\sample18.jpg" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/backward_quadrilateral.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\backward_quadrilateral.jpg" width="320" height="240" />
     /// </remarks>
     /// 
     /// <seealso cref="QuadrilateralTransformation"/>

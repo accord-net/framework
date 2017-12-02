@@ -30,6 +30,7 @@ namespace Accord.Statistics.Analysis
     using Accord.MachineLearning;
     using System.Threading;
     using Models.Regression;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kernel (Fisher) Discriminant Analysis.

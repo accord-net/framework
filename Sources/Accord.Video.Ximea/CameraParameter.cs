@@ -246,7 +246,7 @@ namespace Accord.Video.Ximea
         /// Set/Get maximum number of images to store in queue. Type integer. By default 4.
         /// </summary>
         /// 
-        /// <remarks><para><img src="img/video/HW_SW_buffers.png" width="500" height="317" />
+        /// <remarks><para><img src="..\images\video\HW_SW_buffers.png" width="500" height="317" />
         /// </para>
         /// 
         /// <para>See also <see cref="AcquisitionBufferSize"/> for additional information.</para>

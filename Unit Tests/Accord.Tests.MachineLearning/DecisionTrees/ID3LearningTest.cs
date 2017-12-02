@@ -36,7 +36,7 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class ID3LearningTest
     {
-
+#if !NO_DATA_TABLE
         public static void CreateMitchellExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
@@ -115,6 +115,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual("No", answer);
             }
         }
+#endif
 
         public static void CreateXORExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
@@ -345,7 +346,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void RunTest2()
         {
@@ -389,6 +390,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, tree.Root.Branches[2].Branches[1].Value); // Wind = Strong
             Assert.IsTrue(tree.Root.Branches[2].Branches[1].IsLeaf);
         }
+#endif
 
         [Test]
         public void RunTest3()
@@ -425,7 +427,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(tree.Root.Branches[0].Branches[0].Branches[1].IsLeaf);
         }
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void ConstantDiscreteVariableTest()
         {
@@ -562,6 +564,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(outputs[i], y);
             }
         }
+#endif
 
         [Test]
         public void ArgumentCheck1()
@@ -592,6 +595,41 @@ namespace Accord.Tests.MachineLearning
             catch (ArgumentNullException) { thrown = true; }
 
             Assert.IsTrue(thrown);
+        }
+
+
+        [Test]
+        public void not_seen_before_test()
+        {
+            // DecisionTree chokes on variable values it has never seen before #689
+            int[][] training =
+            {
+                new [] { 0, 2, 4 },
+                new [] { 1, 5, 2 },
+                new [] { 1, 5, 6 },
+            };
+
+            int[][] testing =
+            {
+                new [] { 99, 2, 4 },
+                new [] { 1, 5, 17 },
+                new [] { 1, 15, 6 },
+            };
+
+            int[] outputs =
+            {
+                1, 1, 0
+            };
+
+            ID3Learning teacher = new ID3Learning();
+
+            DecisionTree tree =  teacher.Learn(training, outputs);
+
+            int[] train = tree.Decide(training);
+            int[] test = tree.Decide(testing);
+
+            Assert.IsTrue(train.IsEqual(new int[] { 1, 1, 0 }));
+            Assert.IsTrue(test.IsEqual(new int[] { 1, 0, 0 }));
         }
 
         [Test]
@@ -794,6 +832,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, predicted[3]);
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void learn_doc2()
         {
@@ -807,7 +846,7 @@ namespace Accord.Tests.MachineLearning
             // behavior of the person has been registered and annotated, pretty much building our set of 
             // observation instances for learning:
 
-            // Note: this example uses DataTables to represent the inputdata , but this is not required.
+            // Note: this example uses DataTables to represent the input data , but this is not required.
             DataTable data = new DataTable("Mitchell's Tennis Example");
 
             data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
@@ -830,7 +869,7 @@ namespace Accord.Tests.MachineLearning
             // representation. Since all variables are categories, it does not matter if they are represented
             // as strings, or numbers, since both are just symbols for the event they represent. Since numbers
             // are more easily representable than text string, we will convert the problem to use a discrete 
-            // alphabet through the use of a <see cref="Accord.Statistics.Filters.Codification">codebook</see>.</para>
+            // alphabet through the use of a Accord.Statistics.Filters.Codification codebook.</para>
 
             // A codebook effectively transforms any distinct possible value for a variable into an integer 
             // symbol. For example, “Sunny” could as well be represented by the integer label 0, “Overcast” 
@@ -876,7 +915,7 @@ namespace Accord.Tests.MachineLearning
             // The tree can now be queried for new examples through 
             // its decide method. For example, we can create a query
 
-            int[] query = codebook.Transform(new [,]
+            int[] query = codebook.Transform(new[,]
             {
                 { "Outlook",     "Sunny"  },
                 { "Temperature", "Hot"    },
@@ -895,5 +934,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual("No", answer);
             Assert.AreEqual(0, error);
         }
+#endif
     }
 }

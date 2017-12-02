@@ -1,8 +1,29 @@
-﻿// AForge Image Formats Library
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// AForge Image Formats Library
 // AForge.NET framework
 //
 // Copyright © Andrew Kirillov, 2005-2008
 // andrew.kirillov@gmail.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Formats
@@ -13,6 +34,9 @@ namespace Accord.Imaging.Formats
     using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
+    using Accord.Compat;
+    using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// Image decoder to decode different custom image file formats.
@@ -23,62 +47,37 @@ namespace Accord.Imaging.Formats
     /// image decoders). Instead of using required image decoder directly, users may use this
     /// class, which will find required decoder by file's extension.</para>
     /// 
-    /// <para>By default the class registers on its own all decoders, which are available in
-    /// AForge.Imaging.Formats library. If user has implementation of his own image decoders, he
-    /// needs to register them using <see cref="RegisterDecoder"/> method to be able to use them through
-    /// the <see cref="ImageDecoder"/> class.</para>
+    /// <para>
+    ///   By default the class will query all referenced assemblies for types that are marked
+    ///   with the <see cref="FormatDecoderAttribute"/>. If the user would like to implement
+    ///   a new decoder, all that is necessary is to mark a new class with the <see cref="FormatDecoderAttribute"/>
+    ///   and make it implement the <see cref="IImageDecoder"/> interface.</para>
     /// 
-    /// <para><note>If the class can not find appropriate decode in the list of registered
-    /// decoders, it passes file to .NET's image decoder for decoding.</note></para>
-    /// 
-    /// <para>Sample usage:</para>
-    /// <code>
-    /// // sample file name
-    /// string fileName = "myFile.pnm";
-    /// // decode image file
-    /// Bitmap = ImageDecoder.DecodeFromFile( fileName );
-    /// </code>
+    /// <para><note>If the class can not find the appropriate decoder, it will delegate
+    ///   the file decoding to .NET's internal image decoders.</note></para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\Formats\PNMCodecTest.cs" region="doc_load" />
+    /// </example>
     /// 
     /// <seealso cref="PNMCodec"/>
     /// <seealso cref="FITSCodec"/>
     /// 
-    public class ImageDecoder
+    public static class ImageDecoder
     {
-        private static Dictionary<string, IImageDecoder> decoders = new Dictionary<string, IImageDecoder>();
-
-        static ImageDecoder()
-        {
-            // register PNM file format
-            IImageDecoder decoder = new PNMCodec();
-
-            RegisterDecoder("pbm", decoder);
-            RegisterDecoder("pgm", decoder);
-            RegisterDecoder("pnm", decoder);
-            RegisterDecoder("ppm", decoder);
-
-            // register FITS file format
-            decoder = new FITSCodec();
-
-            RegisterDecoder("fit", decoder);
-            RegisterDecoder("fits", decoder);
-        }
+        private static Dictionary<string, Type> decoderTypes = new Dictionary<string, Type>();
+        private static ThreadLocal<Dictionary<string, IImageDecoder>> decoders = 
+            new ThreadLocal<Dictionary<string, IImageDecoder>>(() => new Dictionary<string, IImageDecoder>());
 
         /// <summary>
-        /// Register image decoder for a specified file extension.
+        ///   Obsolete. Please mark your decoder class with the <see cref="FormatDecoderAttribute"/> instead.
         /// </summary>
         /// 
-        /// <param name="fileExtension">File extension to register decoder for ("bmp", for example).</param>
-        /// <param name="decoder">Image decoder to use for the specified file extension.</param>
-        /// 
-        /// <remarks><para>The method allows to register image decoder object, which should be used
-        /// to decode images from files with the specified extension.</para></remarks>
-        /// 
+        [Obsolete("Please mark your decoder class with the FormatDecoderAttribute instead.")]
         public static void RegisterDecoder(string fileExtension, IImageDecoder decoder)
         {
-            System.Diagnostics.Debug.WriteLine("Registering decoder: " + fileExtension);
-
-            decoders.Add(fileExtension.ToUpperInvariant(), decoder);
+            decoderTypes.Add(fileExtension.ToUpperInvariant(), decoder.GetType());
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace Accord.Imaging.Formats
         /// <remarks><para>The method uses table of registered image decoders to find the one,
         /// which should be used for the specified file. If there is not appropriate decoder
         /// found, the method uses default .NET's image decoding routine (see
-        /// <see cref="System.Drawing.Image.FromFile( string )"/>).</para></remarks>
+        /// <see cref="System.Drawing.Image.FromFile(string)"/>).</para></remarks>
         /// 
         public static Bitmap DecodeFromFile(string fileName)
         {
@@ -115,77 +114,53 @@ namespace Accord.Imaging.Formats
         /// <remarks><para>The method uses table of registered image decoders to find the one,
         /// which should be used for the specified file. If there is not appropriate decoder
         /// found, the method uses default .NET's image decoding routine (see
-        /// <see cref="System.Drawing.Image.FromFile( string )"/>).</para></remarks>
+        /// <see cref="System.Drawing.Image.FromFile(string)"/>).</para></remarks>
         /// 
         public static Bitmap DecodeFromFile(string fileName, out ImageInfo imageInfo)
         {
-            Bitmap bitmap = null;
+            string fileExtension = FormatDecoderAttribute.GetNormalizedExtension(fileName);
 
-            string fileExtension = Path.GetExtension(fileName).ToUpperInvariant();
+            IImageDecoder decoder = FormatDecoderAttribute.GetDecoders(fileExtension, decoderTypes, decoders.Value);
 
-            if ((fileExtension != string.Empty) && (fileExtension.Length != 0))
+            if (decoder != null)
             {
-                fileExtension = fileExtension.Substring(1);
-
-                if (decoders.ContainsKey(fileExtension))
+                // open stream
+                using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    IImageDecoder decoder = decoders[fileExtension];
+                    // open decoder
+                    decoder.Open(stream);
 
-                    // open stream
-                    using (FileStream stream = new FileStream(fileName, FileMode.Open))
-                    {
-                        // open decoder
-                        decoder.Open(stream);
+                    // read the first frame from the image
+                    Bitmap bitmap = decoder.DecodeFrame(0, out imageInfo);
 
-                        // read the first frame
-                        bitmap = decoder.DecodeFrame(0, out imageInfo);
-
-                        decoder.Close();
-                    }
-
+                    // close the decoder and return the bitmap
+                    decoder.Close();
                     return bitmap;
                 }
             }
+            else
+            {
+                // use default .NET's image decoding routine
+                Bitmap bitmap = FromFile(fileName);
 
-            // use default .NET's image decoding routine
-            bitmap = FromFile(fileName);
+                decoderTypes[fileExtension] = null; // mark that the file could be loaded using default .NET decoders
 
-            imageInfo = new ImageInfo(bitmap.Width, bitmap.Height, Image.GetPixelFormatSize(bitmap.PixelFormat), 0, 1);
+                imageInfo = new ImageInfo(bitmap.Width, bitmap.Height, Image.GetPixelFormatSize(bitmap.PixelFormat), 0, 1);
 
-            return bitmap;
+                return bitmap;
+            }
         }
 
         private static System.Drawing.Bitmap FromFile(string fileName)
         {
             Bitmap loadedImage = null;
-            FileStream stream = null;
 
-            try
+            // read image to temporary memory stream
+            using (FileStream stream = File.OpenRead(fileName))
             {
-                // read image to temporary memory stream
-                stream = File.OpenRead(fileName);
                 MemoryStream memoryStream = new MemoryStream();
-
-                byte[] buffer = new byte[10000];
-                while (true)
-                {
-                    int read = stream.Read(buffer, 0, 10000);
-
-                    if (read == 0)
-                        break;
-
-                    memoryStream.Write(buffer, 0, read);
-                }
-
+                stream.CopyTo(memoryStream);
                 loadedImage = (Bitmap)Bitmap.FromStream(memoryStream);
-            }
-            finally
-            {
-                if (stream != null)
-                {
-                    stream.Close();
-                    stream.Dispose();
-                }
             }
 
             return loadedImage;

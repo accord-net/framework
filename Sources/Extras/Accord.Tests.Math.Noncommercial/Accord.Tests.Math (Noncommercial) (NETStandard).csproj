@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Accord.Tests.Math</RootNamespace>
+    <AssemblyName>Accord.Tests.Math.Noncommercial</AssemblyName>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1<!--;net462--></TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp1.1'">
+      <ItemGroup>
+        <Compile Remove="Properties\Resources.Designer.cs" />
+        <EmbeddedResource Remove="Properties\Resources.resx" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <EmbeddedResource Remove="Properties\Resources.Standard.cs" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Math.Noncommercial\Accord.Math (Noncommercial) (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Update="NUnit" Version="3.8.1" />
+    <PackageReference Update="NUnit.Console" Version="3.7.0" />
+  </ItemGroup>
+
+</Project>

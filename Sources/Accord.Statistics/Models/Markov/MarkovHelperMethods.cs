@@ -24,6 +24,8 @@ namespace Accord.Statistics.Models.Markov
 {
     using Accord.Math;
     using System;
+    using System.Collections;
+    using Accord.Statistics.Distributions;
 
     /// <summary>
     ///   Internal methods for validation and other shared functions.
@@ -125,6 +127,16 @@ namespace Accord.Statistics.Models.Markov
                     "multivariate observation).", "observations");
         }
 
+        internal static void CheckObservationDimensions<TObservation, TDistribution>(TObservation[][] x, HiddenMarkovModel<TDistribution, TObservation> hmm) where TDistribution : IFittableDistribution<TObservation>
+        {
+            int expected = MarkovHelperMethods.GetObservationDimensions(x);
+            int actual = hmm.NumberOfInputs;
+
+            if (actual != expected)
+                throw new InvalidOperationException(String.Format("The specified emission distributions do not model observations with the same name of dimensions " +
+                    "as the training data. The training data has {0}-dimensional observations, but the emissions can model up to {1} dimensions.", expected, actual));
+        }
+
         internal static void checkArgs(int[][] observations, int symbols)
         {
             if (observations == null)
@@ -146,6 +158,14 @@ namespace Accord.Statistics.Models.Markov
                     }
                 }
             }
+        }
+
+        public static int GetObservationDimensions<T>(T[][] x)
+        {
+            IList arr = x[0][0] as IList;
+            if (arr != null)
+                return arr.Count;
+            return 1;
         }
     }
 }

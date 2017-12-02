@@ -25,9 +25,10 @@ namespace Accord.Imaging
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
     using System.Security;
-
+    using System.Threading.Tasks;
     using size_t = System.Int64;
 
     /// <summary>
@@ -35,11 +36,26 @@ namespace Accord.Imaging
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
+    ///   This class provides a unified representation for both <see cref="IntegralImage">
+    ///   integral images</see>, squared integral images and tilted integral images under
+    ///   the same class. This class can be used to provide more efficient transformations
+    ///   whenever all those representations are required at the same time, such as when
+    ///   using the Viola-Jones (Haar Cascade) object detector.</para>
+    ///   
+    /// <para>
     ///   Using this representation, both structures can be created in a single pass
     ///   over the data. This is interesting for real time applications. This class
     ///   also accepts a channel parameter indicating the Integral Image should be
-    ///   computed using a specified color channel. This avoids costly conversions.
+    ///   computed using a specified color channel. This avoids costly conversions.</para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\IntegralImage2Test.cs" region="doc_sum" />
+    /// <code source="Unit Tests\Accord.Tests.Imaging\IntegralImage2Test.cs" region="doc_lena" />
+    /// </example>
+    /// 
+    /// <seealso cref="IntegralImage"/>
     /// 
     [SecurityCritical]
     public unsafe class IntegralImage2 : IDisposable
@@ -367,7 +383,6 @@ namespace Accord.Imaging
         /// 
         public static IntegralImage2 FromBitmap(UnmanagedImage image, int channel, bool computeTilted)
         {
-
             // check image format
             if (!(image.PixelFormat == PixelFormat.Format8bppIndexed ||
                 image.PixelFormat == PixelFormat.Format24bppRgb ||
@@ -377,21 +392,37 @@ namespace Accord.Imaging
                 throw new UnsupportedImageFormatException("Only grayscale, 24 and 32 bpp RGB images are supported.");
             }
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
-
             // get source image size
             int width = image.Width;
             int height = image.Height;
+            IntegralImage2 im = new IntegralImage2(width, height, computeTilted);
+
+            im.Update(image, channel);
+
+            return im;
+        }
+
+        /// <summary>
+        ///   Computes the integral image representation from the given image.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Update(UnmanagedImage image, int channel)
+        {
+            int width = image.Width;
+            int height = image.Height;
             int offset = image.Offset;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             // create integral image
-            IntegralImage2 im = new IntegralImage2(width, height, computeTilted);
-            long* nSum = im.nSum;
-            long* sSum = im.sSum;
-            long* tSum = im.tSum;
+            long* nSum = this.nSum;
+            long* sSum = this.sSum;
+            long* tSum = this.tSum;
 
-            size_t nWidth = im.nWidth;
-            size_t tWidth = im.tWidth;
+            size_t nWidth = this.nWidth;
+            size_t tWidth = this.tWidth;
 
             if (image.PixelFormat == PixelFormat.Format8bppIndexed && channel != 0)
                 throw new ArgumentException("Only the first channel is available for 8 bpp images.", "channel");
@@ -401,8 +432,10 @@ namespace Accord.Imaging
             // do the job
             byte* src = srcStart;
 
+            //var t1 = Task.Factory.StartNew(() =>
+            //{
             // for each line
-            for (int y = 1; y <= height; y++)
+            for (int y = 1; y <= height; y++, src += offset)
             {
                 size_t yy = nWidth * (y);
                 size_t y1 = nWidth * (y - 1);
@@ -423,11 +456,12 @@ namespace Accord.Imaging
                     nSum[r] = p1 + nSum[a] + nSum[b] - nSum[c];
                     sSum[r] = p2 + sSum[a] + sSum[b] - sSum[c];
                 }
-                src += offset;
             }
+            //});
 
-
-            if (computeTilted)
+            //var t2 = Task.Factory.StartNew(() =>
+            //{
+            if (this.tSumImage != null)
             {
                 src = srcStart;
 
@@ -494,9 +528,9 @@ namespace Accord.Imaging
                     }
                 }
             }
+            //});
 
-
-            return im;
+            //Task.WaitAll(t1, t2);
         }
 
         /// <summary>
@@ -511,6 +545,9 @@ namespace Accord.Imaging
         /// <returns>The sum of all pixels contained in the rectangle, computed
         ///   as I[y, x] + I[y + h, x + w] - I[y + h, x] - I[y, x + w].</returns>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public long GetSum(int x, int y, int width, int height)
         {
             size_t a = nWidth * (y) + (x);
@@ -533,6 +570,9 @@ namespace Accord.Imaging
         /// <returns>The sum of all pixels contained in the rectangle, computed
         ///   as I²[y, x] + I²[y + h, x + w] - I²[y + h, x] - I²[y, x + w].</returns>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public long GetSum2(int x, int y, int width, int height)
         {
             size_t a = nWidth * (y) + (x);
@@ -556,6 +596,9 @@ namespace Accord.Imaging
         /// <returns>The sum of all pixels contained in the rectangle, computed
         ///   as T[y + w, x + w + 1] + T[y + h, x - h + 1] - T[y, x + 1] - T[y + w + h, x + w - h + 1].</returns>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public long GetSumT(int x, int y, int width, int height)
         {
             size_t a = tWidth * (y + width) + (x + width + 1);

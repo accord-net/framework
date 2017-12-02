@@ -36,9 +36,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample1.jpg" width="480" height="361" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/ycbcr_linear.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\ycbcr_linear.jpg" width="480" height="361" />
     /// </remarks>
     /// 
     /// <seealso cref="HSLLinear"/>
@@ -211,7 +211,7 @@ namespace Accord.Imaging.Filters
                     rgb.Blue = ptr[RGB.B];
 
                     // convert to YCbCr
-                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ref ycbcr);
 
                     // correct Y
                     if (ycbcr.Y >= inY.Max)
@@ -238,7 +238,7 @@ namespace Accord.Imaging.Filters
                         ycbcr.Cr = kcr * ycbcr.Cr + bcr;
 
                     // convert back to RGB
-                    Accord.Imaging.YCbCr.ToRGB(ycbcr, rgb);
+                    Accord.Imaging.YCbCr.ToRGB(ycbcr, ref rgb);
 
                     ptr[RGB.R] = rgb.Red;
                     ptr[RGB.G] = rgb.Green;

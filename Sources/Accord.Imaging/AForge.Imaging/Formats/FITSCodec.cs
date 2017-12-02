@@ -172,6 +172,8 @@ namespace Accord.Imaging.Formats
     /// or [0, 65535] for 16 bpp grayscale image).</note></para>
     /// </remarks>
     ///
+    [FormatDecoder("fit")]
+    [FormatDecoder("fits")]
     public class FITSCodec : IImageDecoder
     {
         // stream with FITS encoded data
