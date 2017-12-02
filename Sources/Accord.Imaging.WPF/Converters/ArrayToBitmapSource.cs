@@ -273,9 +273,6 @@ namespace Accord.Imaging.Converters
 
         /// <summary>
         ///   Converts an image from one representation to another.
-        ///   For byte transformations, the Min and Max properties are ignored. The 
-        ///   resulting image from upon calling this method will always be <see cref=
-        ///   "PixelFormat.Format32bppArgb">32-bit ARGB</see>.
         /// </summary>
         /// 
         /// <param name="input">The input image to be converted.</param>

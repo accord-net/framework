@@ -126,6 +126,14 @@ namespace Accord.Imaging.Converters
         /// <summary>
         ///   Initializes a new instance of the <see cref="ImageToMatrix"/> class.
         /// </summary>
+        ///   
+        public BitmapSourceToMatrix()
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ImageToMatrix"/> class.
+        /// </summary>
         /// 
         /// <param name="channel">The channel to extract. Default is 0.</param>
         ///   

@@ -1568,6 +1568,13 @@ namespace Accord.Imaging
         }
         #endregion
 
+
+
+        public static UnmanagedImage ToUnmanagedImage(this Bitmap bitmap)
+        {
+            return UnmanagedImage.FromManagedImage(bitmap);
+        }
+
         #endregion
 
 

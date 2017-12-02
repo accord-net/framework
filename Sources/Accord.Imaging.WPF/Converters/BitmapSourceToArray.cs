@@ -62,7 +62,7 @@ namespace Accord.Imaging.Converters
     /// 
     /// </example>
     /// 
-    public class ImageSourceToArray :
+    public class BitmapSourceToArray :
         IConverter<BitmapSource, byte[]>,
         IConverter<BitmapSource, byte[][]>,
         IConverter<BitmapSource, double[]>,
@@ -83,9 +83,17 @@ namespace Accord.Imaging.Converters
         /// 
         /// <param name="channel">The channel to extract. Default is 0.</param>
         ///   
-        public ImageSourceToArray(int channel)
+        public BitmapSourceToArray(int channel)
         {
             this.Channel = channel;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ImageToArray"/> class.
+        /// </summary>
+        /// 
+        public BitmapSourceToArray()
+        {
         }
 
         /// <summary>
