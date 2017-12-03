@@ -55,7 +55,7 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a Support Vector Machine for the given inputs
-            KernelSupportVectorMachine machine = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
+            var machine = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
 
             // Instantiate a new learning algorithm for SVMs
             var smo = new SequentialMinimalOptimization(machine, inputs, labels);
@@ -100,10 +100,10 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a Support Vector Machine for the given inputs
-            KernelSupportVectorMachine machine = new KernelSupportVectorMachine(new Linear(), inputs[0].Length);
+            var machine = new KernelSupportVectorMachine(new Linear(), inputs[0].Length);
 
             // Instantiate a new learning algorithm for SVMs
-            SequentialMinimalOptimization smo = new SequentialMinimalOptimization(machine, inputs, labels);
+            var smo = new SequentialMinimalOptimization(machine, inputs, labels);
 
             // Set up the learning algorithm
             smo.Complexity = 100000.0;
@@ -195,8 +195,8 @@ namespace Accord.Tests.MachineLearning
                 -1
             };
 
-            KernelSupportVectorMachine machine = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-            SequentialMinimalOptimization smo = new SequentialMinimalOptimization(machine, inputs, labels);
+            var machine = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
+            var smo = new SequentialMinimalOptimization(machine, inputs, labels);
 
             smo.Complexity = 1;
             double error = smo.Run();
