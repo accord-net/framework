@@ -26,6 +26,7 @@ namespace Accord.Imaging.Converters
     using System.Drawing.Imaging;
     using Accord.Imaging;
     using Accord.Math;
+    using System;
 
     /// <summary>
     ///   Multidimensional array to Bitmap converter.
@@ -90,7 +91,11 @@ namespace Accord.Imaging.Converters
         IConverter<float[][], Bitmap>,
         IConverter<float[][], UnmanagedImage>,
         IConverter<byte[][], Bitmap>,
-        IConverter<byte[][], UnmanagedImage>
+        IConverter<byte[][], UnmanagedImage>,
+        IConverter<byte[][][], Bitmap>,
+        IConverter<byte[][][], UnmanagedImage>,
+        IConverter<byte[,,], Bitmap>,
+        IConverter<byte[,,], UnmanagedImage>
     {
 
         /// <summary>
@@ -231,6 +236,38 @@ namespace Accord.Imaging.Converters
         /// <param name="output">The converted image.</param>
         /// 
         public void Convert(byte[][] input, out UnmanagedImage output)
+        {
+            Bitmap image;
+
+            Convert(input, out image);
+
+            output = UnmanagedImage.FromManagedImage(image);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[,,] input, out UnmanagedImage output)
+        {
+            Bitmap image;
+
+            Convert(input, out image);
+
+            output = UnmanagedImage.FromManagedImage(image);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[][][] input, out UnmanagedImage output)
         {
             Bitmap image;
 
@@ -587,6 +624,46 @@ namespace Accord.Imaging.Converters
             output.UnlockBits(data);
         }
 
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[,,] input, out Bitmap output)
+        {
+            int width = input.Columns();
+            int height = input.Rows();
+            int depth = input.Depth();
+
+            if (depth == 1)
+                output = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
+            else if (depth == 3)
+                output = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            else if (depth == 4)
+                output = new Bitmap(width, height, PixelFormat.Format32bppRgb);
+            else throw new ArgumentException("input");
+
+            int pixelSize = output.GetPixelFormatSizeInBytes();
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
+            int offset = data.Stride - width * pixelSize;
+
+            unsafe
+            {
+                byte* dst = (byte*)data.Scan0.ToPointer();
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                        for (int c = 0; c < depth; c++, dst++)
+                            *dst = input[y, x, c];
+                    dst += offset;
+                }
+            }
+
+            output.UnlockBits(data);
+        }
+
 
         /// <summary>
         ///   Converts an image from one representation to another.
@@ -637,6 +714,46 @@ namespace Accord.Imaging.Converters
                             dst[RGB.A] = 0;
                         dst += offset;
                     }
+                }
+            }
+
+            output.UnlockBits(data);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[][][] input, out Bitmap output)
+        {
+            int width = input.Columns();
+            int height = input.Rows();
+            int depth = input.Depth();
+
+            if (depth == 1)
+                output = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
+            else if (depth == 3)
+                output = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            else if (depth == 4)
+                output = new Bitmap(width, height, PixelFormat.Format32bppRgb);
+            else throw new ArgumentException("input");
+
+            int pixelSize = output.GetPixelFormatSizeInBytes();
+            BitmapData data = output.LockBits(ImageLockMode.WriteOnly);
+            int offset = data.Stride - width * pixelSize;
+
+            unsafe
+            {
+                byte* dst = (byte*)data.Scan0.ToPointer();
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                        for (int c = 0; c < depth; c++, dst++)
+                            *dst = input[y][x][c];
+                    dst += offset;
                 }
             }
 
