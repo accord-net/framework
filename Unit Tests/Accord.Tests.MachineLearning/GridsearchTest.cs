@@ -352,7 +352,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test_strongly_typed()
         {
-        #region doc_learn_strongly_typed
+            #region doc_learn_strongly_typed
             // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -431,7 +431,7 @@ namespace Accord.Tests.MachineLearning
             double bestC = result.BestParameters.Complexity;
             double bestTolerance = result.BestParameters.Tolerance;
             IKernel bestKernel = result.BestParameters.Kernel.Value;
-        #endregion
+            #endregion
 
             Assert.IsNotNull(svm);
             Assert.AreEqual(1e-8, bestC, 1e-10);
@@ -547,7 +547,7 @@ namespace Accord.Tests.MachineLearning
         [Category("Slow")]
         public void cross_validation_decision_tree()
         {
-        #region doc_learn_tree_cv
+            #region doc_learn_tree_cv
             // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -622,7 +622,7 @@ namespace Accord.Tests.MachineLearning
 
             // Use the best parameters to create the final tree model:
             DecisionTree finalTree = bestTeacher.Learn(input, output);
-        #endregion
+            #endregion
 
             int height = finalTree.GetHeight();
             Assert.AreEqual(5, height);
@@ -850,6 +850,90 @@ namespace Accord.Tests.MachineLearning
                     Assert.AreEqual(parameters[i].Parameter3.Values, parameters[j].Parameter3.Values);
                 }
             }
+        }
+
+        [Test]
+        public void learn_test_exception()
+        {
+            // https://github.com/accord-net/framework/issues/1052
+
+            Accord.Math.Random.Generator.Seed = 0;
+
+            double[][] inputs =
+            {
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+            };
+
+            int[] xor = // result of xor for the sample input data
+            {
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+            };
+
+            var gridsearch = GridSearch<double[], int>.Create(
+
+                ranges: new
+                {
+                    Kernel = GridSearch.Values<IKernel>(new Linear()),
+                    Complexity = GridSearch.Values(100000000000),
+                    Tolerance = GridSearch.Range(1e-10, 1.0, stepSize: 0.05)
+                },
+
+                learner: (p) => new SequentialMinimalOptimization<IKernel>
+                {
+                    Complexity = p.Complexity,
+                    Kernel = p.Kernel.Value,
+                    Tolerance = p.Tolerance
+                },
+
+                fit: (teacher, x, y, w) =>
+                {
+                    try
+                    {
+                        return teacher.Learn(x, y, w);
+                    }
+                    finally
+                    {
+                        throw new Exception("abacaxi");
+                    }
+                },
+
+                loss: (actual, expected, m) => new ZeroOneLoss(expected).Loss(actual)
+            );
+
+            var result = gridsearch.Learn(inputs, xor);
+
+            SupportVectorMachine<IKernel> svm = result.BestModel;
+
+            double bestError = result.BestModelError;
+
+            double bestC = result.BestParameters.Complexity;
+            double bestTolerance = result.BestParameters.Tolerance;
+            IKernel bestKernel = result.BestParameters.Kernel.Value;
+
+            Assert.IsNull(svm);
+            Assert.AreEqual(20, result.Exceptions.Length);
+
+            foreach (Exception ex in result.Exceptions)
+                Assert.AreEqual("abacaxi", ex.Message);
+
+            Assert.AreEqual(100000000000, bestC, 1e-10);
+            Assert.AreEqual(Double.PositiveInfinity, bestError, 1e-8);
+            Assert.AreEqual(1E-10, bestTolerance, 1e-8);
+            Assert.AreEqual(typeof(Linear), bestKernel.GetType());
         }
     }
 }
