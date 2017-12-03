@@ -33,25 +33,11 @@ namespace Accord.Audio.Formats
     /// </summary>
     /// 
     /// <example>
-    /// <code>
-    /// // Let's decode a Wave audio file
-    /// UnmanagedMemoryStream sourceStream = ...
-    /// 
-    /// // Create a decoder for the source stream
-    /// WaveDecoder sourceDecoder = new WaveDecoder(sourceStream);
-    /// 
-    /// // At this point, we can query some properties of the audio file:
-    /// int channels =  sourceDecoder.Channels;
-    /// int samples  =  sourceDecoder.Samples;
-    /// int frames   =  sourceDecoder.Frames;
-    /// int duration =  sourceDecoder.Duration;
-    /// int rate     =  sourceDecoder.SampleRate;
-    /// int bps      =  sourceDecoder.BitsPerSample;
-    /// 
-    /// // Decode the signal in the source stream
-    /// Signal sourceSignal = sourceDecoder.Decode();
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
     /// </example>
+    /// 
+    /// <seealso cref="WaveEncoder"/>
+    /// <seealso cref="Signal"/>
     /// 
     [FormatDecoder("wav")]
     public class WaveDecoder : IAudioDecoder
@@ -91,6 +77,10 @@ namespace Accord.Audio.Formats
         ///   Gets the number of channels of the underlying Wave stream.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
+        /// 
         public int NumberOfChannels { get { return numberOfChannels; } }
 
         /// <summary>
@@ -103,6 +93,10 @@ namespace Accord.Audio.Formats
         /// <summary>
         ///   Gets the number of frames of the underlying Wave stream.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
         /// 
         public int NumberOfFrames { get { return totalNumberOfFrames; } }
 
@@ -117,11 +111,19 @@ namespace Accord.Audio.Formats
         ///   Gets the number of samples of the underlying Wave stream.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
+        /// 
         public int NumberOfSamples { get { return totalNumberOfSamples; } }
 
         /// <summary>
         ///   Gets the sample rate for the underlying Wave stream.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
         /// 
         public int SampleRate { get { return sampleRate; } }
 
@@ -148,6 +150,10 @@ namespace Accord.Audio.Formats
         ///   Gets the total number of bytes read by this Wave decoder.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
+        /// 
         public int NumberOfBytesRead
         {
             get { return bytesRead; }
@@ -156,6 +162,10 @@ namespace Accord.Audio.Formats
         /// <summary>
         ///   Gets the total time span duration (in milliseconds) read by this encoder.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
         /// 
         public int Duration
         {
@@ -166,6 +176,10 @@ namespace Accord.Audio.Formats
         ///   Gets the average bits per second of the underlying Wave stream.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
+        /// 
         public int AverageBitsPerSecond
         {
             get { return averageBitsPerSecond; }
@@ -174,6 +188,10 @@ namespace Accord.Audio.Formats
         /// <summary>
         ///   Gets the bits per sample of the underlying Wave stream.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Audio\WaveEncoderTest.cs" region="doc_properties" />
+        /// </example>
         /// 
         public int BitsPerSample
         {
@@ -187,6 +205,7 @@ namespace Accord.Audio.Formats
         /// <summary>
         ///   Constructs a new Wave decoder.
         /// </summary>
+        /// 
         public WaveDecoder()
         {
         }
@@ -194,6 +213,9 @@ namespace Accord.Audio.Formats
         /// <summary>
         ///   Constructs a new Wave decoder.
         /// </summary>
+        /// 
+        /// <param name="stream">Stream to open.</param>
+        /// 
         public WaveDecoder(Stream stream)
         {
             Open(stream);
@@ -202,6 +224,9 @@ namespace Accord.Audio.Formats
         /// <summary>
         ///   Constructs a new Wave decoder.
         /// </summary>
+        /// 
+        /// <param name="path">Path of file to open as stream.</param>
+        /// 
         public WaveDecoder(string path)
         {
             Open(path);
@@ -256,7 +281,7 @@ namespace Accord.Audio.Formats
         /// 
         public int Open(string path)
         {
-            return Open(new SoundStream(File.OpenRead(path)));
+            return Open(new SoundStream(new FileStream(path, FileMode.Open, FileAccess.Read)));
         }
 
         /// <summary>

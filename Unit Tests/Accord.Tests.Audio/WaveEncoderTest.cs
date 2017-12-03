@@ -28,6 +28,7 @@ namespace Accord.Tests.Audio
     using Accord.Audio.Formats;
     using System.IO;
     using Accord.Math;
+    using System;
 
     [TestFixture]
     public class WaveEncoderTest
@@ -36,7 +37,13 @@ namespace Accord.Tests.Audio
         [Test]
         public void WaveEncoderConstructorTest()
         {
-            // Load a file in PCM 16bpp format
+            string basePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
+
+            #region doc_properties
+            // Let's say we would like to decode a wave file: 
+            string fileName = Path.Combine(basePath, "a.wav");
+
+            // File is in PCM 16bpp format:
             // Number of samples: 352.800
             // Number of frames:  176.400
             // Sample rate:        44.100 Hz
@@ -46,33 +53,52 @@ namespace Accord.Tests.Audio
             // Bytes:             705.644 
             // Bitrate:           1411kbps
 
-            // sizeof(float) = 4
-            // sizeof(int)   = 4
-            // sizeof(short) = 2
+            // First, create a decoder for the file stream:
+            var sourceDecoder = new WaveDecoder(fileName);
 
-            var sourceStream = SignalTest.GetSignal("a.wav");
-            MemoryStream destinationStream = new MemoryStream();
-
-            // Create a decoder for the source stream
-            WaveDecoder sourceDecoder = new WaveDecoder(sourceStream);
-            Assert.AreEqual(2, sourceDecoder.Channels);
-            Assert.AreEqual(352800, sourceDecoder.Samples);
-            Assert.AreEqual(176400, sourceDecoder.Frames);
-            Assert.AreEqual(4000, sourceDecoder.Duration);
-            Assert.AreEqual(44100, sourceDecoder.SampleRate);
-            Assert.AreEqual(16, sourceDecoder.BitsPerSample);
-            Assert.AreEqual(1411200, sourceDecoder.AverageBitsPerSecond);
-
-            // Decode the signal in the source stream
+            // Now we can use it to check some of the the stream properties:
+            int numberOfChannels = sourceDecoder.NumberOfChannels; // 2
+            int numberOfSamples = sourceDecoder.NumberOfSamples;   // 352800
+            int numberOfFrames = sourceDecoder.NumberOfFrames;     // 176400
+            int durationMilliseconds = sourceDecoder.Duration;     // 4000
+            int sampleRate = sourceDecoder.SampleRate;             // 44100
+            int bitsPerSample = sourceDecoder.BitsPerSample;       // 16
+            int bps = sourceDecoder.AverageBitsPerSecond;          // 141200
+            
+            // Decode the signal in the source stream:
             Signal sourceSignal = sourceDecoder.Decode();
-            Assert.AreEqual(352800, sourceSignal.Samples);
-            Assert.AreEqual(176400, sourceSignal.Length);
-            Assert.AreEqual(4000, sourceSignal.Duration.TotalMilliseconds);
-            Assert.AreEqual(2, sourceSignal.Channels);
-            Assert.AreEqual(44100, sourceSignal.SampleRate);
-            Assert.AreEqual(sizeof(float) * 352800, sourceSignal.NumberOfBytes);
-            Assert.AreEqual(sizeof(short) * 352800, sourceDecoder.Bytes);
 
+            // As we can see, all properties are kept in the signal:
+            int signalChannels = sourceSignal.NumberOfChannels; // 2
+            int signalSamples = sourceSignal.NumberOfSamples;   // 352800
+            int signalFrames = sourceSignal.NumberOfFrames;     // 176400
+            TimeSpan signalDuration = sourceSignal.Duration;    // {00:00:04}
+            int signalLength = sourceSignal.Length;             // 176400
+            int signalSampleRate = sourceSignal.SampleRate;     // 44100
+            int signalBytes = sourceSignal.NumberOfBytes;       // 1411200
+
+            // And this is the total number of bytes that have been read:
+            int numberOfBytes = sourceDecoder.NumberOfBytesRead; // 705600
+            #endregion
+
+
+            Assert.AreEqual(2, numberOfChannels);
+            Assert.AreEqual(352800, numberOfSamples);
+            Assert.AreEqual(176400, numberOfFrames);
+            Assert.AreEqual(4000, durationMilliseconds);
+            Assert.AreEqual(44100, sampleRate);
+            Assert.AreEqual(16, bitsPerSample);
+            Assert.AreEqual(1411200, bps);
+            Assert.AreEqual(sizeof(short) * 352800, numberOfBytes);
+
+            Assert.AreEqual(352800, signalSamples);
+            Assert.AreEqual(176400, signalLength);
+            Assert.AreEqual(4000, signalDuration.TotalMilliseconds);
+            Assert.AreEqual(2, signalChannels);
+            Assert.AreEqual(44100, signalSampleRate);
+            Assert.AreEqual(sizeof(float) * 352800, signalBytes);
+
+            MemoryStream destinationStream = new MemoryStream();
 
             // Create a encoder for the destination stream
             WaveEncoder encoder = new WaveEncoder(destinationStream);
@@ -90,7 +116,6 @@ namespace Accord.Tests.Audio
 
 
             // Rewind both streams, them attempt to read the destination
-            sourceStream.Seek(0, SeekOrigin.Begin);
             destinationStream.Seek(0, SeekOrigin.Begin);
 
             // Create a decoder to read the destination stream
