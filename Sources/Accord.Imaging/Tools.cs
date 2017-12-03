@@ -1394,6 +1394,9 @@ namespace Accord.Imaging
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
@@ -1413,6 +1416,9 @@ namespace Accord.Imaging
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
@@ -1432,6 +1438,9 @@ namespace Accord.Imaging
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
@@ -1451,6 +1460,9 @@ namespace Accord.Imaging
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
@@ -1470,6 +1482,13 @@ namespace Accord.Imaging
         /// 
         /// <param name="pixels">A matrix containing the grayscale pixel
         /// values as <see cref="System.Double">bytes</see>.</param>
+        /// <param name="min">
+        ///   The minimum value in the array associated with the darkest color. 
+        /// </param>
+        /// <param name="max">
+        ///   The maximum value in the array associated with the brightest color. 
+        /// </param>
+        /// 
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
@@ -1512,6 +1531,12 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">
+        ///   The minimum value in the array associated with the darkest color. 
+        /// </param>
+        /// <param name="max">
+        ///   The maximum value in the array associated with the brightest color. 
+        /// </param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1530,6 +1555,8 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1549,6 +1576,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
         /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1571,6 +1600,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
         /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1594,6 +1625,8 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1612,6 +1645,8 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1631,6 +1666,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
         /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1653,6 +1690,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
         /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1679,6 +1718,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
         /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 
@@ -1697,6 +1738,8 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
         /// 
         /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
         /// 

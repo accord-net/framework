@@ -131,12 +131,10 @@ namespace Accord.Imaging.Converters
         /// </summary>
         /// 
         /// <param name="min">
-        ///   The minimum double value in the double array
-        ///   associated with the darkest color. Default is 0.
+        ///   The minimum double value in the double array associated with the darkest color. Default is 0.
         /// </param>
         /// <param name="max">
-        ///   The maximum double value in the double array
-        ///   associated with the brightest color. Default is 1.
+        ///   The maximum double value in the double array associated with the brightest color. Default is 1.
         /// </param>
         ///   
         public ImageToArray(double min, double max) 

@@ -678,7 +678,7 @@ namespace Accord.Imaging
         /// <summary>
         /// Gets the color depth used in a pixel format, in number of bytes per pixel.
         /// </summary>
-        /// <param name="image">The pixel format.</param>
+        /// <param name="format">The pixel format.</param>
         public static int GetPixelFormatSizeInBytes(this PixelFormat format)
         {
             return System.Drawing.Image.GetPixelFormatSize(format) / 8;
@@ -687,7 +687,7 @@ namespace Accord.Imaging
         /// <summary>
         /// Gets the color depth used in a pixel format, in number of bits per pixel.
         /// </summary>
-        /// <param name="image">The pixel format.</param>
+        /// <param name="format">The pixel format.</param>
         public static int GetPixelFormatSize(this PixelFormat format)
         {
             return System.Drawing.Image.GetPixelFormatSize(format);
