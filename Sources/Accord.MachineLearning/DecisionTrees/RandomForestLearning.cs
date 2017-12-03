@@ -192,7 +192,7 @@ namespace Accord.MachineLearning.DecisionTrees
             {
                 if (this.attributes == null)
                     this.attributes = DecisionVariable.FromData(x);
-                this.forest = new RandomForest(x[0].Length, this.attributes, y.Max() + 1);
+                this.forest = CreateTree(y);
             }
 
             run(x, y);
@@ -218,11 +218,16 @@ namespace Accord.MachineLearning.DecisionTrees
             {
                 if (this.attributes == null)
                     this.attributes = DecisionVariable.FromData(x);
-                this.forest = new RandomForest(x[0].Length, this.attributes, y.Max() + 1);
+                this.forest = CreateTree(y);
             }
 
             run(x, y);
             return this.forest;
+        }
+
+        private RandomForest CreateTree(int[] y)
+        {
+            return new RandomForest(NumberOfTrees, this.attributes, y.Max() + 1);
         }
 
 
