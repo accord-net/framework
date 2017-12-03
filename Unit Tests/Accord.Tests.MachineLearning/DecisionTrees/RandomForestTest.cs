@@ -219,8 +219,8 @@ namespace Accord.Tests.MachineLearning
 
             error = new ZeroOneLoss(outputs).Loss(forest.Decide(inputs));
 
-            Assert.AreEqual(1, forest.Trees.Length, 1e-10);
-            Assert.AreEqual(0.0220679012345679, error, 1e-10);
+            Assert.AreEqual(100, forest.Trees.Length, 1e-10);
+            Assert.AreEqual(0.00015432098765432099, error, 1e-10);
         }
 #endif
 
