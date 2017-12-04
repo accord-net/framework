@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
+    using Accord.DataSets;
     using Accord.IO;
     using Accord.MachineLearning;
     using Accord.MachineLearning.VectorMachines;
@@ -29,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
     using System;
@@ -575,6 +577,55 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(0, error);
             Assert.IsTrue(predicted.ArgMax(dimension: 1).IsEqual(outputs));
+        }
+
+
+        [Test]
+        public void multilabel_linear_mnist()
+        {
+            string pathToTemporaryDir = Path.Combine(NUnit.Framework.TestContext.CurrentContext.WorkDirectory, "mnist");
+
+            #region doc_learn_mnist
+            // Download the MNIST dataset to a temporary dir:
+            var mnist = new MNIST(path: pathToTemporaryDir);
+
+            // Get the training inputs and expected outputs:
+            Sparse<double>[] xTrain = mnist.Training.Item1;
+            int[] yTrain = mnist.Training.Item2.ToInt32();
+
+            // Create a one-vs-one multi-class SVM learning algorithm 
+            var teacher = new MultilabelSupportVectorLearning<Linear, Sparse<double>>()
+            {
+                // using LIBLINEAR's L2-loss SVC dual for each SVM
+                Learner = (p) => new LinearDualCoordinateDescent<Linear, Sparse<double>>()
+                {
+                    Loss = Loss.L2
+                }
+            };
+
+            // Learn a linear machine on the training set
+            var machine = teacher.Learn(xTrain, yTrain);
+
+            // Compute classification error using mean accuracy (mAcc) for the training set:
+            double trainError = GeneralConfusionMatrix.Estimate(machine, xTrain, yTrain).Error; // 0.084
+
+            // Get the testing inputs and expected outputs
+            Sparse<double>[] xTest = mnist.Testing.Item1;
+            int[] yTest = mnist.Testing.Item2.ToInt32();
+
+            // Compute classification error using mean accuracy (mAcc) for the testing set:
+            double testError = GeneralConfusionMatrix.Estimate(machine, xTest, yTest).Error; // 0.0849
+            #endregion
+
+            Assert.AreEqual(60000, xTrain.Length);
+            Assert.AreEqual(60000, yTrain.Length);
+            Assert.AreEqual(10000, xTest.Length);
+            Assert.AreEqual(10000, yTest.Length);
+            Assert.AreEqual(0, machine.NumberOfInputs);
+            Assert.AreEqual(10, machine.NumberOfOutputs);
+            Assert.AreEqual(10, machine.NumberOfClasses);
+            Assert.AreEqual(0.084016666666666628, trainError, 1e-5);
+            Assert.AreEqual(0.084899999999999975, testError, 1e-3);
         }
 
         [Test]
