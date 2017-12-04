@@ -543,7 +543,6 @@
     <Compile Include="Testing\ZTest.cs" />
     <Compile Include="Testing\Base\HypothesisTypes.cs" />
     <Compile Include="Measures\Tools.cs" />
-    <Compile Include="TimeSeries\StatTools.cs" />
     <Compile Include="Visualizations\ScatterplotClassValueCollection.cs" />
     <Compile Include="Visualizations\HistogramBinCollection.cs" />
     <Compile Include="Visualizations\HistogramBin.cs" />
@@ -610,6 +609,7 @@
     <Folder Include="Accord.Math\Optimization\" />
     <Folder Include="Models\Regression\Linear\Fitting\Base\" />
     <Folder Include="Running\Markov\Base\" />
+    <Folder Include="TimeSeries\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

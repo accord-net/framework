@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Fitting
     using Multivariate;
     using Univariate;
     using Accord.Compat;
+    using Accord.Math.Decompositions;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.NormalDistribution">
@@ -55,9 +56,10 @@ namespace Accord.Statistics.Distributions.Fitting
         public bool Diagonal { get; set; }
 
         /// <summary>
-        ///   Gets or sets whether the estimation function should allow non-positive definite 
-        ///   covariance matrices by using the Singular Value Decomposition Function. Enabling
-        ///   this property can significantly increase learning times.
+        ///   Gets or sets whether the estimation function should allow non-positive definite covariance 
+        ///   matrices by using the <see cref="SingularValueDecomposition">Singular Value Decomposition</see>
+        ///   instead of the default <see cref="CholeskyDecomposition">Cholesky</see>. Enabling this property 
+        ///   can significantly increase learning times.
         /// </summary>
         /// 
         public bool Robust { get; set; }
