@@ -217,6 +217,10 @@ namespace Accord.Tests.Statistics
             //   fictional and for demonstration purposes only).
             double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
 
+            // We can also obtain confidence intervals for the odd ratios:
+            DoubleRange ageRange = regression.GetConfidenceInterval(1);   // { 0.955442466180864, 1.09075592717851 }
+            DoubleRange smokeRange = regression.GetConfidenceInterval(2); // { 0.326598216009923, 105.088535240304 }
+
             // If we would like to use the model to predict a probability for
             // each patient regarding whether they are at risk of cancer or not,
             // we can use the Probability function:
@@ -250,6 +254,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0], 1e-8);
             Assert.AreEqual(0.020645118265359252, regression.Coefficients[1], 1e-10);
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
+
+            Assert.IsTrue(new[] { 0.955442466180864, 1.09075592717851 }.IsEqual(ageRange, atol: 1e-10));
+            Assert.IsTrue(new[] { 0.326598216009923, 105.088535240304 }.IsEqual(smokeRange, atol: 1e-10));
 
             Assert.IsFalse(actual[0]);
             Assert.IsFalse(actual[1]);

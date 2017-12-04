@@ -370,7 +370,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Scale instead.")]
         public static double[] Scale(DoubleRange from, DoubleRange to, double[] x)
         {
-            return Accord.Math.Vector.Scale(x, from, to);
+            return Accord.Math.Vector.Scale(values: x, fromRange: from, toRange: to);
         }
 
         /// <summary>
