@@ -83,7 +83,7 @@ namespace Accord.Tests.Statistics
                 mean: new double[] { 4, 2 },
 
                 // covariance matrix sigma
-                covariance: new double[,] 
+                covariance: new double[,]
                 {
                     { 0.3, 0.1 },
                     { 0.1, 0.7 }
@@ -136,7 +136,7 @@ namespace Accord.Tests.Statistics
         public void ProbabilityDensityFunctionTest()
         {
             double[] mean = { 1, -1 };
-            double[,] covariance = 
+            double[,] covariance =
             {
                 { 0.9, 0.4 },
                 { 0.4, 0.3 },
@@ -155,7 +155,7 @@ namespace Accord.Tests.Statistics
         public void LogProbabilityDensityFunctionTest()
         {
             double[] mean = { 1, -1 };
-            double[,] covariance = 
+            double[,] covariance =
             {
                 { 0.9, 0.4 },
                 { 0.4, 0.3 },
@@ -247,11 +247,11 @@ namespace Accord.Tests.Statistics
             double[] d = Matrix.Vector(0.03, 0.13, 0.01);
             double[] actual = new double[d.Length];
 
-            double[] expected = 
+            double[] expected =
             {
-                  0.07736363146686682512598, 0.95791683037271524447931, 6.94400533773376249513376, 
-                  29.47023331179536498325433, 73.22314665629953367442795, 106.51345886810220520146686, 
-                  90.70931216253406148553040, 45.22624649290145271152142, 13.20141558295499173425469,  
+                  0.07736363146686682512598, 0.95791683037271524447931, 6.94400533773376249513376,
+                  29.47023331179536498325433, 73.22314665629953367442795, 106.51345886810220520146686,
+                  90.70931216253406148553040, 45.22624649290145271152142, 13.20141558295499173425469,
                   2.25601377127287250345944, 0.22571180597171525139544, 0.2257118059717152513954
             };
 
@@ -281,7 +281,7 @@ namespace Accord.Tests.Statistics
 
             double[] mean = { 1, -1 };
 
-            double[,] covariance = 
+            double[,] covariance =
             {
                 { 0.9, 0.4 },
                 { 0.4, 0.3 },
@@ -343,7 +343,7 @@ namespace Accord.Tests.Statistics
         public void ConstructorTest()
         {
             double[] mean = { 1, -1 };
-            double[,] covariance = 
+            double[,] covariance =
             {
                 { 2, 1 },
                 { 1, 3 }
@@ -377,7 +377,7 @@ namespace Accord.Tests.Statistics
         public void ConstructorTest3()
         {
             double[] mean = { 0, 0 };
-            double[,] covariance = 
+            double[,] covariance =
             {
                 { 0, 1 },
                 { 1, 0 }
@@ -395,7 +395,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest()
         {
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 0.1000, -0.2000 },
                 new double[] { 0.4000,  0.6000 },
@@ -432,7 +432,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest2()
         {
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 1, 2 },
                 new double[] { 1, 2 },
@@ -458,7 +458,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest4()
         {
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 1, 2 },
                 new double[] { 1, 2 },
@@ -536,7 +536,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest5()
         {
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 1, 2 },
                 new double[] { 1, 2 },
@@ -565,7 +565,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest3()
         {
-            double[][] observations = 
+            double[][] observations =
             {
                 new double[] { 1, 2 },
                 new double[] { 2, 4 },
@@ -613,6 +613,38 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, cov[0][1], 1e-2);
             Assert.AreEqual(1, cov[1][0], 1e-2);
             Assert.AreEqual(5, cov[1][1], 2e-2);
+        }
+
+        [Test]
+        public void RobustGenerateTest()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            Assert.Throws<NonPositiveDefiniteMatrixException>(() =>
+            {
+                new MultivariateNormalDistribution(new double[] { 2, 6, 5 },
+                    new double[,] { { 2, 1, 0 }, { 1, 5, 0 }, { 0, 0, 0 } });
+            });
+
+            var normal = new MultivariateNormalDistribution(new double[] { 2, 6, 5 },
+                    new double[,] { { 2, 1, 0 }, { 1, 5, 0 }, { 0, 0, 0 } }, robust: true);
+
+            double[][] sample = normal.Generate(1000000);
+
+            double[] mean = sample.Mean(dimension: 0);
+            double[][] cov = sample.Covariance(dimension: 0);
+
+            Assert.AreEqual(2, mean[0], 1e-2);
+            Assert.AreEqual(6, mean[1], 1e-2);
+            Assert.AreEqual(5, mean[2], 1e-2);
+
+            Assert.AreEqual(2, cov[0][0], 1e-2);
+            Assert.AreEqual(1, cov[0][1], 1e-2);
+            Assert.AreEqual(0, cov[0][2], 1e-2);
+            Assert.AreEqual(1, cov[1][0], 1e-2);
+            Assert.AreEqual(5, cov[1][1], 2e-2);
+            Assert.AreEqual(0, cov[1][2], 1e-2);
+            Assert.AreEqual(0, cov[2][2], 1e-2);
         }
 
         [Test]

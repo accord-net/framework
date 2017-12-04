@@ -170,6 +170,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
         // Derived measures
         private double[] variance;
+        private double[,] leftTriangularFactor;
 
 
         /// <summary>
@@ -228,12 +229,15 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
         /// <param name="covariance">The covariance matrix Σ (sigma) for the distribution.</param>
+        /// <param name="robust">Wether to allow non-positive definite covariance matrices by using the 
+        ///   <see cref = "SingularValueDecomposition" > Singular Value Decomposition</see> instead of the
+        ///   default <see cref="CholeskyDecomposition">Cholesky</see>. Default is false.</param>
         /// 
-        public MultivariateNormalDistribution(double[] mean, double[,] covariance)
+        public MultivariateNormalDistribution(double[] mean, double[,] covariance, bool robust = false)
             : base(mean.Length)
         {
-            int rows = covariance.GetLength(0);
-            int cols = covariance.GetLength(1);
+            int rows = covariance.Rows();
+            int cols = covariance.Columns();
 
             if (rows != cols)
                 throw new DimensionMismatchException("covariance",
@@ -243,13 +247,26 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new DimensionMismatchException("covariance",
                     "Covariance matrix should have the same dimensions as mean vector's length.");
 
-            var chol = new CholeskyDecomposition(covariance);
+            if (!robust)
+            {
+                var chol = new CholeskyDecomposition(covariance);
 
-            if (!chol.IsPositiveDefinite)
-                throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite." +
-                    " If are trying to estimate a distribution from data, please try using the Estimate method.");
+                if (!chol.IsPositiveDefinite)
+                {
+                    throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite." +
+                        " If are trying to estimate a distribution from data, please try using the Estimate method." +
+                        " If you would like to force the creation of this distribution, please pass 'true' to the" +
+                        " 'robust' argument of this constructor.");
+                }
 
-            initialize(mean, covariance, chol, svd: null);
+                initialize(mean, covariance, cd: chol, svd: null);
+            }
+            else
+            {
+                var svd = new SingularValueDecomposition(covariance, true, true, true);
+
+                initialize(mean, covariance, cd: null, svd: svd);
+            }
         }
 
         private void initialize(double[] m, double[,] cov, CholeskyDecomposition cd, SingularValueDecomposition svd)
@@ -260,6 +277,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             this.covariance = cov;
             this.chol = cd;
             this.svd = svd;
+            this.leftTriangularFactor = null;
 
             if (chol != null || svd != null)
             {
@@ -478,7 +496,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override void Fit(double[][] observations, double[] weights, IFittingOptions options)
         {
-            NormalOptions normalOptions = options as NormalOptions;
+            var normalOptions = options as NormalOptions;
             if (options != null && normalOptions == null)
                 throw new ArgumentException("The specified options' type is invalid.", "options");
 
@@ -662,7 +680,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public static MultivariateNormalDistribution Estimate(double[][] observations, double[] weights)
         {
-            MultivariateNormalDistribution n = new MultivariateNormalDistribution(observations[0].Length);
+            var n = new MultivariateNormalDistribution(observations[0].Length);
             n.Fit(observations, weights, null);
             return n;
         }
@@ -677,7 +695,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public static MultivariateNormalDistribution Estimate(double[][] observations, double[] weights, NormalOptions options)
         {
-            MultivariateNormalDistribution n = new MultivariateNormalDistribution(observations[0].Length);
+            var n = new MultivariateNormalDistribution(observations[0].Length);
             n.Fit(observations, weights, options);
             return n;
         }
@@ -720,7 +738,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public Independent<NormalDistribution> ToIndependentNormalDistribution()
         {
-            NormalDistribution[] components = new NormalDistribution[this.Dimension];
+            var components = new NormalDistribution[this.Dimension];
             for (int i = 0; i < components.Length; i++)
                 components[i] = new NormalDistribution(this.Mean[i], Math.Sqrt(this.Variance[i]));
             return new Independent<NormalDistribution>(components);
@@ -733,28 +751,44 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
         /// <param name="source">The random number generator to use as a source of randomness. 
-        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+		///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
         public override double[][] Generate(int samples, double[][] result, Random source)
         {
-            if (chol == null)
-                throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
-
-            double[,] A = chol.LeftTriangularFactor;
             double[] z = new double[Dimension];
             double[] u = Mean;
+
+            if (leftTriangularFactor == null)
+            {
+                if (svd != null)
+                {
+                    leftTriangularFactor = new double[Dimension, Dimension];
+                    double[,] V = svd.RightSingularVectors;
+                    for (int i = 0; i < svd.Diagonal.Length; i++)
+                    {
+                        double d = Math.Sqrt(svd.Diagonal[i]);
+                        for (int j = 0; j < Dimension; j++)
+                            leftTriangularFactor[j, i] = d * V[j, i];
+                    }
+                }
+                else
+                {
+                    leftTriangularFactor = chol.LeftTriangularFactor;
+                }
+            }
 
             for (int i = 0; i < samples; i++)
             {
                 NormalDistribution.Random(Dimension, result: z, source: source);
-                Matrix.Dot(A, z, result: result[i]);
-                Elementwise.Add(result[i], u, result: result[i]);
+                leftTriangularFactor.Dot(z, result: result[i]);
+                result[i].Add(u, result: result[i]);
             }
 
             return result;
         }
+
 
         /// <summary>
         ///   Creates a new univariate Normal distribution.
