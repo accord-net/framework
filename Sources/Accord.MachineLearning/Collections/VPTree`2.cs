@@ -66,9 +66,31 @@ namespace Accord.Collections
     ///   Vantage-Point Tree.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   A vantage-point tree (or VP tree) is a metric tree that segregates data in a metric space by choosing
+    ///   a position in the space (the "vantage point") and partitioning the data points into two parts: those 
+    ///   points that are nearer to the vantage point than a threshold, and those points that are not. By 
+    ///   recursively applying this procedure to partition the data into smaller and smaller sets, a tree data
+    ///   structure is created where neighbors in the tree are likely to be neighbors in the space.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Wikipedia, The Free Encyclopedia. Vantage-point tree. Available on:
+    ///       https://en.wikipedia.org/wiki/Vantage-point_tree </description></item>
+    ///   </list></para>
+    /// </remarks>
+    /// 
     /// <typeparam name="TPoint">The type for the position vector of each node.</typeparam>
     /// <typeparam name="TData">The type for the value stored at each node.</typeparam>
     /// 
+    /// <example>
+    /// 
+    /// </example>
+    /// 
+    [Serializable]
     public class VPTree<TPoint, TData> : VPTreeBase<TPoint, VPTreeNode<TPoint, TData>>
     {
         /// <summary>

@@ -61,6 +61,7 @@ namespace Accord.Collections
     ///   Space-Partitioning Tree.
     /// </summary>
     /// 
+    [Serializable]
     public class SPTree : Tree<SPTreeNode>
     {
         private int dimension;

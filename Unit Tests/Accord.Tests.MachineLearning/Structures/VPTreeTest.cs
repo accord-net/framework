@@ -79,6 +79,9 @@ namespace Accord.Tests.MachineLearning
         {
             Accord.Math.Random.Generator.Seed = 0;
 
+            #region doc_create
+            // Let's say we would like to create a VP tree
+            // from a set of multidimensional data points:
             double[][] points =
             {
                 new double[] { 2, 3 },
@@ -89,10 +92,46 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 7, 2 },
             };
 
-
+            // We will create it using the Manhattan distance:
             var tree = VPTree.FromData(points, new Manhattan());
 
-            foreach (var n in tree)
+            // Now, we can query whether a point belongs to the tree
+            double[] query = new double[] { 5, 3 };
+
+            // Find the top-3 closest points within the tree:
+            var neighbors = tree.Nearest(query, neighbors: 3);
+
+            // Results will be:
+            NodeDistance<VPTreeNode<double[]>>[] result = neighbors.ToArray();
+            double d1 = result[0].Distance;
+            double[] p1 = result[0].Node.Position;
+
+            double d2 = result[0].Distance;
+            double[] p2 = result[0].Node.Position;
+
+            double d3 = result[0].Distance;
+            double[] p3 = result[0].Node.Position;
+
+
+            // We can also navigate the tree using:
+            foreach (VPTreeNode<double[]> n in tree)
+            {
+                // We can extract information from its nodes:
+                double[] location = n.Position; // should always have length 2
+                double threshold = n.Threshold; // the node's threshold radius
+                bool isLeaf = n.IsLeaf; // whether the node is a leaf or not
+            }
+            #endregion
+
+            Assert.AreEqual(0, d1);
+            Assert.AreEqual(0, d2);
+            Assert.AreEqual(0, d3);
+
+            Assert.AreEqual(0, p1);
+            Assert.AreEqual(0, p2);
+            Assert.AreEqual(0, p3);
+
+            foreach (VPTreeNode<double[]> n in tree)
             {
                 double[] location = n.Position;
                 Assert.AreEqual(2, location.Length);
@@ -103,10 +142,6 @@ namespace Accord.Tests.MachineLearning
             {
                 Assert.IsTrue(nodes.Select(x => x.Position).Contains(p, new ArrayComparer<double>()));
             }
-
-            var query = new double[] { 5, 3 };
-
-            var neighbors = tree.Nearest(query, neighbors: 3);
 
             Assert.IsFalse(tree.Root.IsLeaf);
 
