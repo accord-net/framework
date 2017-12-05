@@ -29,6 +29,7 @@
 
 namespace Accord.Imaging
 {
+    using Accord.Math.Geometry;
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -49,23 +50,28 @@ namespace Accord.Imaging
     /// with <see cref="RecursiveBlobCounter"/>.
     /// See documentation about <see cref="BlobCounterBase"/> for information about which
     /// pixel formats are supported for extraction of blobs.</para>
-    /// 
-    /// <para>Sample usage:</para>
-    /// 
-    /// <code>
-    /// // create an instance of blob counter algorithm
-    /// BlobCounter bc = new BlobCounter();
-    /// 
-    /// // process binary image
-    /// bc.ProcessImage(image);
-    /// 
-    /// // process blobs
-    /// foreach (Rectangle rect in bc.GetObjectsRectangles())
-    /// {
-    ///     // ...
-    /// }
-    /// </code>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   For a more complete example, please take a look at the 
+    ///   <a href="https://github.com/accord-net/framework/wiki/Sample-applications#blobs-detection">
+    ///   Blob detection sample application</a>.</para>
+    /// 
+    /// <para>
+    ///   A simplified code example is shown below:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Controls\BlobCounterTest.cs" region="doc_process" />
+    /// <para>
+    ///   The input image is shown below:</para>
+    ///   <img src="..\images\imaging\blobs\blobs-input.png" />
+    /// <para>
+    ///   And the output image should be:</para>
+    ///   <img src="..\images\imaging\blobs\blobs-output.png" />
+    /// </example>
+    /// 
+    /// <seealso cref="GrahamConvexHull"/>
+    /// <seealso cref="PointsCloud"/>
     /// 
     public class BlobCounter : BlobCounterBase
     {

@@ -164,6 +164,12 @@
     <None Include="Resources\image1.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Blobs\blob-input.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Blobs\blob-output.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\large8bpp.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

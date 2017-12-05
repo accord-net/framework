@@ -57,6 +57,7 @@ namespace Accord.Imaging
     using AForge.Math;
     using System.IO;
     using Accord.Imaging.Converters;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Static tool functions for imaging.

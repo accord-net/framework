@@ -69,7 +69,7 @@ namespace Accord.Imaging.Filters
         private Color markerColor = Color.White;
         private IEnumerable<IntPoint> points;
         private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
-
+        private bool connect;
 
         /// <summary>
         ///   Format translations dictionary.
@@ -98,6 +98,17 @@ namespace Accord.Imaging.Filters
         {
             get { return points; }
             set { points = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the points 
+        /// should be connected by line segments. Default is false.
+        /// </summary>
+        /// 
+        public bool Connect
+        {
+            get { return connect; }
+            set { connect = value; }
         }
 
         /// <summary>
@@ -209,10 +220,17 @@ namespace Accord.Imaging.Filters
         ///
         protected override unsafe void ProcessFilter(UnmanagedImage image)
         {
-            // mark all points
-            foreach (IntPoint p in points)
+            if (Connect)
             {
-                Drawing.FillRectangle(image, new Rectangle(p.X - width / 2, p.Y - width / 2, width, width), markerColor);
+                Drawing.Polygon(image, points.ToList(), markerColor);
+            }
+            else
+            {
+                // mark all points
+                foreach (IntPoint p in points)
+                {
+                    Drawing.FillRectangle(image, new Rectangle(p.X - width / 2, p.Y - width / 2, width, width), markerColor);
+                }
             }
         }
     }
