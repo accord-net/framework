@@ -140,6 +140,33 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the conjugate of every complex number in an array.
+        /// </summary>
+        /// 
+        public static Complex[] Conjugate(this Complex[] c)
+        {
+            return c.Apply((x, i) => Complex.Conjugate(x));
+        }
+
+        /// <summary>
+        ///   Gets the conjugate of every complex number in a matrix.
+        /// </summary>
+        /// 
+        public static Complex[,] Conjugate(this Complex[,] c)
+        {
+            return c.Apply((x, i, j) => Complex.Conjugate(x));
+        }
+
+        /// <summary>
+        ///   Gets the conjugate of every complex number in a matrix.
+        /// </summary>
+        /// 
+        public static Complex[][] Conjugate(this Complex[][] c)
+        {
+            return c.Apply((x, i, j) => Complex.Conjugate(x));
+        }
+
+        /// <summary>
         ///   Returns the real vector part of the complex vector c.
         /// </summary>
         /// 
