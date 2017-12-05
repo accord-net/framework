@@ -65,7 +65,7 @@ namespace Accord.DataSets.Base
         /// 
         /// <returns>System.Tuple&lt;Accord.Math.Sparse&lt;System.Double&gt;[], System.Double[]&gt;.</returns>
         /// 
-        protected Tuple<Sparse<double>[], double[]> Download(string url)
+        protected new Tuple<Sparse<double>[], double[]> Download(string url)
         {
             string uncompressedFileName;
             Download(url, Path, out uncompressedFileName);
