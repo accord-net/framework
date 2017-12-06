@@ -62,7 +62,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
-    <Compile Include="DataSets\Cifar10.cs" />
+    <Compile Include="DataSets\Cifar10Test.cs" />
     <Compile Include="HaarCascadeWriterTest.cs" />
     <Compile Include="HaarCascadeTest.cs" />
     <Compile Include="HaarDataParserTest.cs" />
