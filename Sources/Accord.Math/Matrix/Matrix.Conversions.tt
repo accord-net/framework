@@ -35,6 +35,7 @@ namespace Accord.Math
     using System.CodeDom.Compiler;
     using Accord.Math;
     using System.Runtime.CompilerServices;
+	using System.Numerics;
 
     // [GeneratedCode("Accord.NET T4 Templates", "3.1")]
     public static partial class Matrix
@@ -53,6 +54,7 @@ namespace Accord.Math
         new string[] { "bool", "Boolean", "boolean" },
 		new string[] { "object", "Object", "object" },
 		new string[] { "string", "String", "string" },
+		new string[] { "Complex", "Complex", "128-bit complex" },
     };
 
     foreach (string[] a in types)
@@ -96,6 +98,10 @@ namespace Accord.Math
 
 			if (a_type == "string")
             {
+				if (b_type == "Complex")
+				{
+					continue;
+				}
 				if (b_type == "object")
 				{
 					begin = String.Format("({0})System.Convert.ChangeType(", b_name);
@@ -108,10 +114,22 @@ namespace Accord.Math
 				}
             }
 
+			if (a_type == "Complex")
+            {
+                begin = String.Format("({0})", b_name);
+                end = ".Real";
+
+				if (b_type == "bool")
+				{
+					begin = "";
+					end = ".Real != 0";
+				}
+            }
+
 			if (b_type == "string")
             {
                 begin = "";
-                end = ".ToString();";
+                end = ".ToString()";
             }
 
 			if (a_type == "object")

@@ -261,29 +261,6 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a vector of real numbers to complex numbers.
-        /// </summary>
-        /// 
-        /// <param name="real">The real numbers to be converted.</param>
-        /// 
-        /// <returns>
-        ///   A vector of complex number with the given 
-        ///   real numbers as their real components.
-        /// </returns>
-        /// 
-        public static Complex[] ToComplex(this double[] real)
-        {
-            if (real == null)
-                throw new ArgumentNullException("real");
-
-            Complex[] arr = new Complex[real.Length];
-            for (int i = 0; i < arr.Length; i++)
-                arr[i] = new Complex(real[i], 0);
-
-            return arr;
-        }
-
-        /// <summary>
         ///   Combines a vector of real and a vector of
         ///   imaginary numbers to form complex numbers.
         /// </summary>
@@ -383,7 +360,7 @@ namespace Accord.Math
             if (objB == null) throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
-            { 
+            {
                 double xr = objA[i].Real;
                 double yr = objB[i].Real;
                 double xi = objA[i].Imaginary;

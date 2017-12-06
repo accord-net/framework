@@ -25,6 +25,7 @@ namespace Accord.Imaging.Converters
     using Accord.Math;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Numerics;
 
     /// <summary>
     ///   Bitmap to jagged array converter.
@@ -75,7 +76,9 @@ namespace Accord.Imaging.Converters
         IConverter<Bitmap, float[][]>,
         IConverter<UnmanagedImage, float[][]>,
         IConverter<Bitmap, Color[]>,
-        IConverter<UnmanagedImage, Color[]>
+        IConverter<UnmanagedImage, Color[]>,
+        IConverter<Bitmap, Complex[]>,
+        IConverter<UnmanagedImage, Complex[]>
     {
 
         /// <summary>
@@ -201,6 +204,24 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
+        public void Convert(Bitmap input, out Complex[] output)
+        {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
+
+            Convert(new UnmanagedImage(bitmapData), out output);
+
+            input.UnlockBits(bitmapData);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(Bitmap input, out float[] output)
         {
             Accord.Imaging.Tools.CheckGrayscale(input);
@@ -271,6 +292,40 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
+        public void Convert(UnmanagedImage input, out Complex[][] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = new Complex[width * height][];
+
+            unsafe
+            {
+                byte* src = (byte*)input.ImageData.ToPointer();
+                int dst = 0;
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++, dst++)
+                    {
+                        Complex[] pixel = output[dst] = new Complex[pixelSize];
+                        for (int i = pixel.Length - 1; i >= 0; i--, src++)
+                            pixel[i] = Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
+                    }
+                    src += offset;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out float[][] output)
         {
             int width = input.Width;
@@ -316,6 +371,53 @@ namespace Accord.Imaging.Converters
             int offset = input.Offset;
 
             output = new double[width * height];
+
+            unsafe
+            {
+                if (input.PixelFormat == PixelFormat.Format16bppGrayScale)
+                {
+                    short* src = (short*)input.ImageData.ToPointer();
+                    int dst = 0;
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, dst++, src++)
+                            output[dst] = Vector.Scale(*src, 0, 65535, Min, Max);
+
+                        src += offset;
+                    }
+                }
+                else
+                {
+                    byte* src = (byte*)input.ImageData.ToPointer() + Channel;
+                    int dst = 0;
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, dst++, src += pixelSize)
+                            output[dst] = Vector.Scale(*src, (byte)0, (byte)255, Min, Max);
+
+                        src += offset;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(UnmanagedImage input, out Complex[] output)
+        {
+            int width = input.Width;
+            int height = input.Height;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
+
+            output = new Complex[width * height];
 
             unsafe
             {

@@ -31,6 +31,7 @@ namespace Accord.Math
     using System.CodeDom.Compiler;
     using Accord.Math;
     using System.Runtime.CompilerServices;
+	using System.Numerics;
 
     // [GeneratedCode("Accord.NET T4 Templates", "3.1")]
     public static partial class Matrix
@@ -1731,7 +1732,7 @@ namespace Accord.Math
         public static string[] ToString(this int[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -1748,7 +1749,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -1768,7 +1769,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -1784,7 +1785,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -1799,7 +1800,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -1815,7 +1816,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -1830,7 +1831,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this int[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this int[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<int, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this int[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<int, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this int[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<int, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this int[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<int, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a integer array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this int[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this int[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this int[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (int* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this int[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this int[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this int[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this int[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -3529,7 +3711,7 @@ namespace Accord.Math
         public static string[] ToString(this short[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -3546,7 +3728,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -3566,7 +3748,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -3582,7 +3764,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -3597,7 +3779,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -3613,7 +3795,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -3628,7 +3810,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a short integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this short[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this short[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<short, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a short integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this short[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<short, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this short[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<short, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this short[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<short, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a short integer array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this short[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this short[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this short[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (short* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this short[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this short[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this short[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this short[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -5327,7 +5690,7 @@ namespace Accord.Math
         public static string[] ToString(this float[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -5344,7 +5707,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -5364,7 +5727,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -5380,7 +5743,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -5395,7 +5758,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -5411,7 +5774,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -5426,7 +5789,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a single-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this float[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this float[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<float, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a single-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this float[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<float, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this float[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<float, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this float[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<float, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a single-precision floating point array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this float[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this float[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this float[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (float* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this float[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this float[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this float[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this float[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -7125,7 +7669,7 @@ namespace Accord.Math
         public static string[] ToString(this double[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -7142,7 +7686,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -7162,7 +7706,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -7178,7 +7722,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -7193,7 +7737,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -7209,7 +7753,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -7224,7 +7768,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a double-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this double[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this double[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<double, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a double-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this double[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<double, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this double[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<double, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this double[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<double, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a double-precision floating point array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this double[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this double[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this double[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (double* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this double[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this double[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this double[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this double[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -8923,7 +9648,7 @@ namespace Accord.Math
         public static string[] ToString(this long[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -8940,7 +9665,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -8960,7 +9685,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -8976,7 +9701,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -8991,7 +9716,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -9007,7 +9732,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -9022,7 +9747,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a long integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this long[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this long[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<long, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a long integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this long[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<long, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this long[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<long, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this long[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<long, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a long integer array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this long[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this long[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this long[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (long* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this long[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this long[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this long[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this long[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -10721,7 +11627,7 @@ namespace Accord.Math
         public static string[] ToString(this byte[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -10738,7 +11644,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -10758,7 +11664,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -10774,7 +11680,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -10789,7 +11695,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -10805,7 +11711,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -10820,7 +11726,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 8-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this byte[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this byte[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<byte, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 8-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this byte[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<byte, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this byte[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<byte, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this byte[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<byte, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 8-bit byte array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this byte[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this byte[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this byte[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (byte* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this byte[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this byte[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this byte[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this byte[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -12519,7 +13606,7 @@ namespace Accord.Math
         public static string[] ToString(this sbyte[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -12536,7 +13623,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -12556,7 +13643,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -12572,7 +13659,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -12587,7 +13674,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -12603,7 +13690,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -12618,7 +13705,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this sbyte[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this sbyte[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<sbyte, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a signed 7-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this sbyte[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<sbyte, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this sbyte[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<sbyte, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this sbyte[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<sbyte, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this sbyte[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this sbyte[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this sbyte[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (sbyte* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this sbyte[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this sbyte[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this sbyte[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this sbyte[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -14317,7 +15585,7 @@ namespace Accord.Math
         public static string[] ToString(this decimal[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -14334,7 +15602,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -14354,7 +15622,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -14370,7 +15638,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -14385,7 +15653,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -14401,7 +15669,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -14416,7 +15684,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a decimal fixed-point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this decimal[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this decimal[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<decimal, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a decimal fixed-point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this decimal[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<decimal, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this decimal[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<decimal, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this decimal[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<decimal, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a decimal fixed-point array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this decimal[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)value[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this decimal[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this decimal[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (decimal* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Complex)src[i];
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this decimal[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)value[i, j];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this decimal[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)value[i][j];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this decimal[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)value[i][j][k];
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this decimal[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)value[i][j];
             return result;            
         }
         /// <summary>
@@ -16115,7 +17564,7 @@ namespace Accord.Math
         public static string[] ToString(this bool[] value, string[] result)
         {
             for (int i = 0; i < value.Length; i++)
-                result[i] = value[i].ToString();;
+                result[i] = value[i].ToString();
             return result;
         }
 
@@ -16132,7 +17581,7 @@ namespace Accord.Math
 			int c = value.GetLength(1);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					result[i, j] = value[i, j].ToString();;
+					result[i, j] = value[i, j].ToString();
 		
             return result;
         }
@@ -16152,7 +17601,7 @@ namespace Accord.Math
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
 					for (int k = 0; j < d; j++)
-					result[i, j, k] = value[i, j, k].ToString();;
+					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
         }
@@ -16168,7 +17617,7 @@ namespace Accord.Math
         {
                         for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = value[i, j].ToString();;
+                    result[i][j] = value[i, j].ToString();
             return result;
         }
 
@@ -16183,7 +17632,7 @@ namespace Accord.Math
         {
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i][j] = value[i][j].ToString();;
+                    result[i][j] = value[i][j].ToString();
             return result;            
         }
 
@@ -16199,7 +17648,7 @@ namespace Accord.Math
             for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     for (int k = 0; k < value[i][j].Length; k++)
-                        result[i][j][k] = value[i][j][k].ToString();;
+                        result[i][j][k] = value[i][j][k].ToString();
             return result;            
         }
 
@@ -16214,7 +17663,188 @@ namespace Accord.Math
         {
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
-                    result[i, j] = value[i][j].ToString();;
+                    result[i, j] = value[i][j].ToString();
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a boolean to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this bool[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this bool[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<bool, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a boolean to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this bool[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<bool, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this bool[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<bool, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this bool[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<bool, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this bool[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i] ? (Complex)1 : (Complex)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this bool[,] value, Complex[,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Complex)1 : (Complex)0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this bool[,,] value, Complex[,,] result)
+        {
+					unsafe
+			{
+				fixed (bool* src = value)
+				fixed (Complex* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i] ? (Complex)1 : (Complex)0;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this bool[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j] ? (Complex)1 : (Complex)0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this bool[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j] ? (Complex)1 : (Complex)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this bool[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k] ? (Complex)1 : (Complex)0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this bool[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j] ? (Complex)1 : (Complex)0;
             return result;            
         }
         /// <summary>
@@ -17968,6 +19598,181 @@ namespace Accord.Math
             return result;            
         }
         /// <summary>
+        ///   Converts a object to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this object[] value)
+        {
+            return ToComplex(value, new Complex[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this object[,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<object, Complex>(value));
+        }
+
+		/// <summary>
+        ///   Converts a object to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this object[,,] value)
+        {
+            return ToComplex(value, Matrix.CreateAs<object, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this object[][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<object, Complex>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a 128-bit complex.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this object[][][] value)
+        {
+            return ToComplex(value, Jagged.CreateAs<object, Complex>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[] ToComplex(this object[] value, Complex[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Complex)System.Convert.ChangeType(value[i], typeof(Complex));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this object[,] value, Complex[,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					result[i, j] = (Complex)System.Convert.ChangeType(value[i, j], typeof(Complex));
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional object array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,,] ToComplex(this object[,,] value, Complex[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Complex)System.Convert.ChangeType(value[i, j, k], typeof(Complex));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this object[,] value, Complex[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Complex)System.Convert.ChangeType(value[i, j], typeof(Complex));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][] ToComplex(this object[][] value, Complex[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Complex)System.Convert.ChangeType(value[i][j], typeof(Complex));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[][][] ToComplex(this object[][][] value, Complex[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Complex)System.Convert.ChangeType(value[i][j][k], typeof(Complex));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional 128-bit complex array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Complex[,] ToComplex(this object[][] value, Complex[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Complex)System.Convert.ChangeType(value[i][j], typeof(Complex));
+            return result;            
+        }
+        /// <summary>
         ///   Converts a string to a integer.
         /// </summary>
         /// 
@@ -19715,6 +21520,1985 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Object)System.Convert.ChangeType(value[i][j], typeof(Object));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this Complex[] value)
+        {
+            return ToInt32(value, new int[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this Complex[,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<Complex, int>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this Complex[,,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<Complex, int>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this Complex[][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<Complex, int>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this Complex[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<Complex, int>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this Complex[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Int32)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this Complex[,] value, int[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,,] ToInt32(this Complex[,,] value, int[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (int* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int32)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this Complex[,] value, int[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Int32)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this Complex[][] value, int[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Int32)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this Complex[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int32)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this Complex[][] value, int[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Int32)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this Complex[] value)
+        {
+            return ToInt16(value, new short[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this Complex[,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<Complex, short>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this Complex[,,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<Complex, short>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this Complex[][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<Complex, short>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this Complex[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<Complex, short>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this Complex[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Int16)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this Complex[,] value, short[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,,] ToInt16(this Complex[,,] value, short[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (short* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int16)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this Complex[,] value, short[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Int16)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this Complex[][] value, short[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Int16)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this Complex[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int16)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this Complex[][] value, short[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Int16)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this Complex[] value)
+        {
+            return ToSingle(value, new float[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this Complex[,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<Complex, float>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this Complex[,,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<Complex, float>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this Complex[][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<Complex, float>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this Complex[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<Complex, float>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this Complex[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Single)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this Complex[,] value, float[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,,] ToSingle(this Complex[,,] value, float[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (float* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Single)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this Complex[,] value, float[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Single)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this Complex[][] value, float[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Single)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this Complex[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Single)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this Complex[][] value, float[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Single)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this Complex[] value)
+        {
+            return ToDouble(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this Complex[,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<Complex, double>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this Complex[,,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<Complex, double>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this Complex[][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<Complex, double>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this Complex[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<Complex, double>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this Complex[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Double)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this Complex[,] value, double[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,,] ToDouble(this Complex[,,] value, double[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (double* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Double)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this Complex[,] value, double[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Double)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this Complex[][] value, double[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Double)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this Complex[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Double)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this Complex[][] value, double[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Double)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this Complex[] value)
+        {
+            return ToInt64(value, new long[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this Complex[,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<Complex, long>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this Complex[,,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<Complex, long>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this Complex[][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<Complex, long>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this Complex[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<Complex, long>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this Complex[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Int64)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this Complex[,] value, long[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,,] ToInt64(this Complex[,,] value, long[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (long* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Int64)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this Complex[,] value, long[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Int64)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this Complex[][] value, long[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Int64)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this Complex[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Int64)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this Complex[][] value, long[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Int64)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this Complex[] value)
+        {
+            return ToByte(value, new byte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this Complex[,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<Complex, byte>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this Complex[,,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<Complex, byte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this Complex[][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<Complex, byte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this Complex[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<Complex, byte>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this Complex[] value, byte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Byte)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this Complex[,] value, byte[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,,] ToByte(this Complex[,,] value, byte[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (byte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Byte)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this Complex[,] value, byte[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Byte)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this Complex[][] value, byte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Byte)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this Complex[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Byte)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this Complex[][] value, byte[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Byte)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this Complex[] value)
+        {
+            return ToSByte(value, new sbyte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this Complex[,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<Complex, sbyte>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this Complex[,,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<Complex, sbyte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this Complex[][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<Complex, sbyte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this Complex[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<Complex, sbyte>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this Complex[] value, sbyte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (SByte)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this Complex[,] value, sbyte[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,,] ToSByte(this Complex[,,] value, sbyte[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (sbyte* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (SByte)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this Complex[,] value, sbyte[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (SByte)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this Complex[][] value, sbyte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (SByte)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this Complex[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (SByte)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this Complex[][] value, sbyte[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (SByte)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this Complex[] value)
+        {
+            return ToDecimal(value, new decimal[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this Complex[,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<Complex, decimal>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this Complex[,,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<Complex, decimal>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this Complex[][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<Complex, decimal>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this Complex[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<Complex, decimal>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this Complex[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Decimal)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this Complex[,] value, decimal[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,,] ToDecimal(this Complex[,,] value, decimal[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (decimal* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = (Decimal)src[i].Real;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this Complex[,] value, decimal[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Decimal)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this Complex[][] value, decimal[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Decimal)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this Complex[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Decimal)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this Complex[][] value, decimal[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Decimal)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this Complex[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this Complex[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<Complex, bool>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this Complex[,,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<Complex, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this Complex[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<Complex, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this Complex[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<Complex, bool>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this Complex[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].Real != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this Complex[,] value, bool[,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i].Real != 0;
+				}
+			}
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,,] ToBoolean(this Complex[,,] value, bool[,,] result)
+        {
+					unsafe
+			{
+				fixed (Complex* src = value)
+				fixed (bool* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = src[i].Real != 0;
+				}
+			}
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this Complex[,] value, bool[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].Real != 0;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this Complex[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].Real != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this Complex[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].Real != 0;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this Complex[][] value, bool[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].Real != 0;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this Complex[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this Complex[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<Complex, object>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this Complex[,,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<Complex, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this Complex[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<Complex, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this Complex[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<Complex, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this Complex[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)value[i].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this Complex[,] value, object[,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					result[i, j] = (Object)value[i, j].Real;
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,,] ToObject(this Complex[,,] value, object[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = (Object)value[i, j, k].Real;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this Complex[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)value[i, j].Real;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this Complex[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)value[i][j].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this Complex[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)value[i][j][k].Real;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this Complex[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)value[i][j].Real;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 128-bit complex to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this Complex[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this Complex[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<Complex, string>(value));
+        }
+
+		/// <summary>
+        ///   Converts a 128-bit complex to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this Complex[,,] value)
+        {
+            return ToString(value, Matrix.CreateAs<Complex, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this Complex[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<Complex, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 128-bit complex to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this Complex[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<Complex, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 128-bit complex array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this Complex[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this Complex[,] value, string[,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					result[i, j] = value[i, j].ToString();
+		
+            return result;
+        }
+
+		/// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,,] ToString(this Complex[,,] value, string[,,] result)
+        {
+					int r = value.GetLength(0);
+			int c = value.GetLength(1);
+			int d = value.GetLength(2);
+			for (int i = 0; i < r; i++)
+				for (int j = 0; j < c; j++)
+					for (int k = 0; j < d; j++)
+					result[i, j, k] = value[i, j, k].ToString();
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 128-bit complex array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this Complex[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this Complex[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this Complex[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 128-bit complex array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this Complex[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();
             return result;            
         }
     }
