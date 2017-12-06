@@ -46,12 +46,14 @@ namespace Accord.MachineLearning
     /// <seealso cref="BoltzmannExploration"/>
     /// <seealso cref="TabuSearchExploration"/>
     /// 
+    [Serializable]
     public class EpsilonGreedyExploration : IExplorationPolicy
     {
         // exploration rate
         private double epsilon;
 
         // random number generator
+        [NonSerialized]
         private Random rand = Accord.Math.Random.Generator.Random;
 
         /// <summary>

@@ -55,6 +55,7 @@ namespace Accord.MachineLearning
     /// 
     /// <seealso cref="Sarsa"/>
     /// 
+    [Serializable]
     public class QLearning
     {
         // amount of possible states

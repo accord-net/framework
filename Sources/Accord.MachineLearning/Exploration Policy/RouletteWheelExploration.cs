@@ -52,9 +52,11 @@ namespace Accord.MachineLearning
     /// <seealso cref="EpsilonGreedyExploration"/>
     /// <seealso cref="TabuSearchExploration"/>
     /// 
+    [Serializable]
     public class RouletteWheelExploration : IExplorationPolicy
     {
         // random number generator
+        [NonSerialized]
         private Random rand = Accord.Math.Random.Generator.Random;
 
         /// <summary>

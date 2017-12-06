@@ -43,6 +43,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="EpsilonGreedyExploration"/>
     /// <seealso cref="RouletteWheelExploration"/>
     /// 
+    [Serializable]
     public class TabuSearchExploration : IExplorationPolicy
     {
         // total actions count
