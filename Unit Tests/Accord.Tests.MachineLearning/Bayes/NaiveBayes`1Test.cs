@@ -672,6 +672,7 @@ namespace Accord.Tests.MachineLearning
         }
 #endif
 
+#if !NO_EXCEL
         [Test]
         [Category("Office")]
         public void gh1056()
@@ -718,6 +719,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs));
         }
+#endif
     }
 #endif
 }

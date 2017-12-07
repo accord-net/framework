@@ -56,6 +56,7 @@ namespace Accord.Collections
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Space-Partitioning Tree.

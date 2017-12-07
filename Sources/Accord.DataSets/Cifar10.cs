@@ -26,7 +26,6 @@ namespace Accord.DataSets
     using Accord.Math;
     using System;
     using Accord.Compat;
-    using System.Drawing;
     using System.IO;
     using ICSharpCode.SharpZipLib.Tar;
     using System.Collections.Generic;

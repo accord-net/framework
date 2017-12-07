@@ -198,7 +198,6 @@ namespace Accord.Math
 
 
         #region Type conversions
-
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
         /// </summary>
