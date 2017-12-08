@@ -90,7 +90,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QLearning_Revisited\QLearning_FDGS.cs" />
     <EmbeddedResource Include="CellWorld.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CellWorld.cs</DependentUpon>

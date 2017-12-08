@@ -13,7 +13,7 @@ using System.IO;
 using System.Threading;
 
 using Accord.MachineLearning;
-using SampleApp.QLearning_Revisited;
+using Accord.Math;
 
 namespace SampleApp
 {
@@ -58,8 +58,6 @@ namespace SampleApp
         private QLearning qLearning = null;
         // Sarsa algorithm
         private Sarsa sarsa = null;
-        // self implemented Q-Learning
-        private QLearning_FDGS qLearning_FDGS = null;
 
         // Form constructor
         public MainForm()
@@ -328,24 +326,34 @@ namespace SampleApp
             // destroy algorithms
             qLearning = null;
             sarsa = null;
-            qLearning_FDGS = null;
 
             if (algorithmCombo.SelectedIndex == 0)
             {
-                // create new QLearning algorithm's instance
-                qLearning = new QLearning(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                if (cbGlobal.Checked)
+                {
+                    // create new QLearning algorithm's instance
+                    qLearning = new QLearning(mapWidth * mapHeight, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
+                else
+                {
+                    // create new QLearning algorithm's instance
+                    qLearning = new QLearning(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
                 workerThread = new Thread(new ThreadStart(QLearningThread));
             }
             else if (algorithmCombo.SelectedIndex == 1)
             {
-                // create new Sarsa algorithm's instance
-                sarsa = new Sarsa(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                if (cbGlobal.Checked)
+                {
+                    // create new Sarsa algorithm's instance
+                    sarsa = new Sarsa(mapWidth * mapHeight, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
+                else
+                {
+                    // create new Sarsa algorithm's instance
+                    sarsa = new Sarsa(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
                 workerThread = new Thread(new ThreadStart(SarsaThread));
-            }
-            else
-            {
-                qLearning_FDGS = new QLearning_FDGS(4, agentStopX, agentStopY, map, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
-                workerThread = new Thread(new ThreadStart(QLearningThread_FDGS));
             }
 
             // disable all settings controls except "Stop" button
@@ -371,14 +379,13 @@ namespace SampleApp
             // reset learning class values
             qLearning = null;
             sarsa = null;
-            qLearning_FDGS = null;
         }
 
         // On "Show Solution" button
         private void showSolutionButton_Click(object sender, EventArgs e)
         {
             // check if learning algorithm was run before
-            if ((qLearning == null) && (sarsa == null) && (qLearning_FDGS == null))
+            if ((qLearning == null) && (sarsa == null))
                 return;
 
             // disable all settings controls except "Stop" button
@@ -518,60 +525,6 @@ namespace SampleApp
             EnableControls(true);
         }
 
-        // self implemented Q-Learning thread
-        private void QLearningThread_FDGS()
-        {
-            int iteration = 0;
-
-            // exploration policy
-            TabuSearchExploration tabuPolicy = (TabuSearchExploration)qLearning_FDGS.ExplorationPolicy;
-            EpsilonGreedyExploration explorationPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
-
-            // loop
-            while ((!needToStop) && (iteration < learningIterations))
-            {
-                // set exploration rate for this iteration
-                explorationPolicy.Epsilon = explorationRate - ((double)iteration / learningIterations) * explorationRate;
-                // set learning rate for this iteration
-                qLearning_FDGS.LearningRate = learningRate - ((double)iteration / learningIterations) * learningRate;
-                // clear tabu list
-                tabuPolicy.ResetTabuList();
-
-                // reset agent's coordinates to the starting position
-                agentCurrX = agentStartX;
-                agentCurrY = agentStartY;
-
-                // steps performed by agent to get to the goal
-                int steps = 0;
-
-                while ((!needToStop) && ((agentCurrX != agentStopX) || (agentCurrY != agentStopY)))
-                {
-                    steps++;
-                    // get agent's current state
-                    int currentState = qLearning_FDGS.GetStateFromCoordinates(agentCurrX, agentCurrY);
-                    // get the action for this state
-                    int action = qLearning_FDGS.GetAction(currentState);
-                    // update agent and get next state
-                    int nextState = UpdateAgentPosition(currentState, action);
-                    // do learning of the agent - update his Q-function
-                    qLearning_FDGS.LearnStep(currentState, action, nextState);
-
-                    // set tabu action (prevent going back for the next iteration)
-                    tabuPolicy.SetTabuAction((action + 2) % 4, 1);
-                }
-
-                System.Diagnostics.Debug.WriteLine(steps);
-
-                iteration++;
-
-                // show current iteration
-                SetText(iterationBox, iteration.ToString());
-            }
-
-            // enable settings controls
-            EnableControls(true);
-        }
-
         // Show solution thread
         private void ShowSolutionThread()
         {
@@ -584,7 +537,7 @@ namespace SampleApp
             else if (sarsa != null)
                 tabuPolicy = (TabuSearchExploration)sarsa.ExplorationPolicy;
             else
-                tabuPolicy = (TabuSearchExploration)qLearning_FDGS.ExplorationPolicy;
+                throw new Exception();
 
             exploratioPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
 
@@ -623,27 +576,12 @@ namespace SampleApp
                 // remove agent from current position
                 mapToDisplay[agentCurrentY, agentCurrentX] = 0;
 
-                if ((qLearning != null) || (sarsa != null))
-                {
-                    // get agent's current state
-                    int currentState = GetStateNumber(agentCurrentX, agentCurrentY);
-                    // get the action for this state
-                    int action = (qLearning != null) ? qLearning.GetAction(currentState) : sarsa.GetAction(currentState);
-                    // update agent's current position and get his reward
-                    double reward = UpdateAgentPosition(ref agentCurrentX, ref agentCurrentY, action);
-                }
-                else
-                {
-                    // get agent's current state
-                    int currentState = qLearning_FDGS.GetStateFromCoordinates(agentCurrentX, agentCurrentY);
-                    // get the action for this state
-                    int action = qLearning_FDGS.GetLearnedAction(currentState);
-                    // update agent's current position
-                    UpdateAgentPosition(currentState, action);
-                    // update current positions (due to current Animat implementation)
-                    agentCurrentX = agentCurrX;
-                    agentCurrentY = agentCurrY;
-                }
+                // get agent's current state
+                int currentState = GetStateNumber(agentCurrentX, agentCurrentY);
+                // get the action for this state
+                int action = (qLearning != null) ? qLearning.GetAction(currentState) : sarsa.GetAction(currentState);
+                // update agent's current position and get his reward
+                double reward = UpdateAgentPosition(ref agentCurrentX, ref agentCurrentY, action);
 
                 // put agent to the new position
                 mapToDisplay[agentCurrentY, agentCurrentX] = 2;
@@ -651,48 +589,6 @@ namespace SampleApp
 
             // enable settings controls
             EnableControls(true);
-        }
-
-        // Update agent position without reward calculation (will be done during learning step)
-        private int UpdateAgentPosition(int state, int action)
-        {
-            // moving direction
-            int dx = 0, dy = 0;
-
-            switch (action)
-            {
-                case 0:         // go to north (up)
-                    dy = -1;
-                    break;
-                case 1:         // go to east (right)
-                    dx = 1;
-                    break;
-                case 2:         // go to south (down)
-                    dy = 1;
-                    break;
-                case 3:         // go to west (left)
-                    dx = -1;
-                    break;
-            }
-
-            var currentCoordinates = qLearning_FDGS.GetCoordinatesFromState(state);
-            agentNextX = currentCoordinates.Item1 + dx; // calc new X
-            agentNextY = currentCoordinates.Item2 + dy; // calc new Y
-
-            // check new agent's coordinates and set if not hitting a wall
-            // or going out of bounds
-            if (!((map[agentNextY, agentNextX] != 0) ||
-                (agentNextX < 0) || (agentNextX >= mapWidth) ||
-                (agentNextY < 0) || (agentNextY >= mapHeight)))
-            {
-
-                agentCurrX = agentNextX;
-                agentCurrY = agentNextY;
-
-                return qLearning_FDGS.GetStateFromCoordinates(agentNextX, agentNextY);
-            }
-
-            return qLearning_FDGS.GetStateFromCoordinates(currentCoordinates.Item1, currentCoordinates.Item2);
         }
 
         // Update agent position and return reward for the move
@@ -748,23 +644,33 @@ namespace SampleApp
         // Get state number from agent's receptors in the specified position
         private int GetStateNumber(int x, int y)
         {
-            int c1 = (map[y - 1, x - 1] != 0) ? 1 : 0;
-            int c2 = (map[y - 1, x] != 0) ? 1 : 0;
-            int c3 = (map[y - 1, x + 1] != 0) ? 1 : 0;
-            int c4 = (map[y, x + 1] != 0) ? 1 : 0;
-            int c5 = (map[y + 1, x + 1] != 0) ? 1 : 0;
-            int c6 = (map[y + 1, x] != 0) ? 1 : 0;
-            int c7 = (map[y + 1, x - 1] != 0) ? 1 : 0;
-            int c8 = (map[y, x - 1] != 0) ? 1 : 0;
+            if (cbGlobal.Checked)
+            {
+                // Treat each possible (x,y) position as a different state
+                return y * mapWidth + x;
+            }
+            else
+            {
+                // Consider the presence or absence of the blocks 
+                // in the local vicinity of the robot as the state
+                int c1 = (map[y - 1, x - 1] != 0) ? 1 : 0;
+                int c2 = (map[y - 1, x] != 0) ? 1 : 0;
+                int c3 = (map[y - 1, x + 1] != 0) ? 1 : 0;
+                int c4 = (map[y, x + 1] != 0) ? 1 : 0;
+                int c5 = (map[y + 1, x + 1] != 0) ? 1 : 0;
+                int c6 = (map[y + 1, x] != 0) ? 1 : 0;
+                int c7 = (map[y + 1, x - 1] != 0) ? 1 : 0;
+                int c8 = (map[y, x - 1] != 0) ? 1 : 0;
 
-            return c1 |
-                (c2 << 1) |
-                (c3 << 2) |
-                (c4 << 3) |
-                (c5 << 4) |
-                (c6 << 5) |
-                (c7 << 6) |
-                (c8 << 7);
+                return c1 |
+                    (c2 << 1) |
+                    (c3 << 2) |
+                    (c4 << 3) |
+                    (c5 << 4) |
+                    (c6 << 5) |
+                    (c7 << 6) |
+                    (c8 << 7);
+            }
         }
     }
 }
