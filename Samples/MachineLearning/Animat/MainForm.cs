@@ -31,10 +31,6 @@ namespace SampleApp
         private int agentStopX;
         private int agentStopY;
 
-        // agent's current position
-        private int agentCurrX;
-        private int agentCurrY;
-
         // temp next state coordinates of the agent
         private int agentNextX;
         private int agentNextY;
