@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Video.FFMPEG</RootNamespace>
     <AssemblyName>Accord.Tests.Video.FFMPEG.GPL</AssemblyName>
-    <TargetFrameworks>net462</TargetFrameworks>
+    <TargetFrameworks>net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />

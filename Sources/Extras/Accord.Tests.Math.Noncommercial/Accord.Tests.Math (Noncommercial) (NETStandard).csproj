@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Math</RootNamespace>
     <AssemblyName>Accord.Tests.Math.Noncommercial</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1<!--;net462--></TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1;net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />

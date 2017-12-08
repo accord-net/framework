@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Accord.Imaging.WPF</AssemblyName>
     <RootNamespace>Accord.Imaging</RootNamespace>
-    <TargetFrameworks>netstandard2.0<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />

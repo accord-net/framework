@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Accord.Controls.Audio</AssemblyName>
     <RootNamespace>Accord.Controls.Audio</RootNamespace>
-    <TargetFrameworks><!--net462;net46;net45;net40;net35--></TargetFrameworks>
+    <TargetFrameworks>net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Accord.Audio\Accord.Audio (NETStandard).csproj" />
-    <ProjectReference Include="..\Accord.Controls.Statistics\Accord.Controls (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Controls\Accord.Controls (NETStandard).csproj" />
   </ItemGroup>
 
   <ItemGroup>

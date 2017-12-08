@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Accord.Math.Noncommercial</AssemblyName>
     <RootNamespace>Accord.Math</RootNamespace>
-    <TargetFrameworks>netstandard2.0;netstandard1.4<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.4;net47</TargetFrameworks>
     <OutputPath>bin\$(Configuration)\$(TargetFramework)\Noncommercial</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>

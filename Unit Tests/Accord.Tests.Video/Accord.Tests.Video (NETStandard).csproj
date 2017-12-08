@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Video</RootNamespace>
     <AssemblyName>Accord.Tests.Video</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0<!--;net462--></TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />

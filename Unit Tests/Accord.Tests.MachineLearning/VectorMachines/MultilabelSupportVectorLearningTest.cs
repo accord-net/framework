@@ -624,7 +624,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, machine.NumberOfInputs);
             Assert.AreEqual(10, machine.NumberOfOutputs);
             Assert.AreEqual(10, machine.NumberOfClasses);
-            Assert.AreEqual(0.084016666666666628, trainError, 1e-5);
+            Assert.AreEqual(0.084016666666666628, trainError, 1e-4);
             Assert.AreEqual(0.084899999999999975, testError, 1e-3);
         }
 

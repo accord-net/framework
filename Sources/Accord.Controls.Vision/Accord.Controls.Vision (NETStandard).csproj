@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Accord.Controls.Vision</AssemblyName>
     <RootNamespace>Accord.Controls.Vision</RootNamespace>
-    <TargetFrameworks><!--net462;net46;net45;net40;net35--></TargetFrameworks>
+    <TargetFrameworks>net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
