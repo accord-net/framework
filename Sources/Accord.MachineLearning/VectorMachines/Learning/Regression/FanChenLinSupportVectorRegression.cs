@@ -102,7 +102,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private double[] alpha;
 
-        double eps = 0.001;
+        double eps = 1e-3;
         bool shrinking = true;
         double rho = 1e-3;
 
@@ -134,11 +134,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public double[] Lagrange { get { return alpha; } }
 
         /// <summary>
-        ///   Convergence tolerance. Default value is 1e-2.
+        ///   Convergence tolerance. Default value is 1e-3.
         /// </summary>
         /// 
         /// <remarks>
-        ///   The criterion for completing the model training process. The default is 0.01.
+        ///   The criterion for completing the model training process. The default is 0.001.
         /// </remarks>
         /// 
         public double Tolerance
