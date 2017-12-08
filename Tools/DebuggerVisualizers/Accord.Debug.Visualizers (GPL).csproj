@@ -175,10 +175,6 @@
       <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
       <Name>Accord.Controls.Imaging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
-      <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
-      <Name>Accord.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Controls.Vision\Accord.Controls.Vision.csproj">
       <Project>{6158e759-fe2b-4308-ba29-11c9e4a07812}</Project>
       <Name>Accord.Controls.Vision</Name>
