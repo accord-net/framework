@@ -2,8 +2,10 @@
 using System;
 using System.Linq;
 
-namespace SampleApp.QLearning_Revisited {
-    public class QLearning_FDGS {
+namespace SampleApp.QLearning_Revisited
+{
+    public class QLearning_FDGS
+    {
 
         private double[][] _qLearningTable;
         private double[][] _rewardTable;
@@ -18,34 +20,44 @@ namespace SampleApp.QLearning_Revisited {
 
         private double _maxQValueForNextStateActions;
 
-        public IExplorationPolicy ExplorationPolicy {
-            get {
+        public IExplorationPolicy ExplorationPolicy
+        {
+            get
+            {
                 return _explorationPolicy;
             }
-            set {
+            set
+            {
                 _explorationPolicy = value;
             }
         }
 
-        public double LearningRate {
-            get {
+        public double LearningRate
+        {
+            get
+            {
                 return _learningRate;
             }
-            set {
+            set
+            {
                 _learningRate = Math.Max(0.0, Math.Min(1.0, value));
             }
         }
 
-        public double DiscountFactor {
-            get {
+        public double DiscountFactor
+        {
+            get
+            {
                 return _discountFactor;
             }
-            set {
+            set
+            {
                 _discountFactor = Math.Max(0.0, Math.Min(1.0, value));
             }
         }
 
-        public QLearning_FDGS(int actions, int goalX, int goalY, int[,] map, IExplorationPolicy explorationPolicy) {
+        public QLearning_FDGS(int actions, int goalX, int goalY, int[,] map, IExplorationPolicy explorationPolicy)
+        {
 
             _actions = actions;
             _mapWidth = map.GetLength(1);
@@ -56,7 +68,8 @@ namespace SampleApp.QLearning_Revisited {
             _qLearningTable = new double[_mapHeight * _mapWidth][];
             _rewardTable = new double[_mapHeight * _mapWidth][];
 
-            for (int i = 0; i < _qLearningTable.Length; i++) {
+            for (int i = 0; i < _qLearningTable.Length; i++)
+            {
                 _qLearningTable[i] = new double[actions];
                 _rewardTable[i] = new double[actions];
             }
@@ -64,8 +77,10 @@ namespace SampleApp.QLearning_Revisited {
             InitRewardMatrix();
             InitQLearningMatrix();
 
-            for (int i = 1; i < (_mapWidth - 1); i++) {
-                for (int j = 1; j < (_mapHeight - 1); j++) {
+            for (int i = 1; i < (_mapWidth - 1); i++)
+            {
+                for (int j = 1; j < (_mapHeight - 1); j++)
+                {
 
                     // get current state for setting rewards
                     var state = GetStateFromCoordinates(i, j);
@@ -77,7 +92,8 @@ namespace SampleApp.QLearning_Revisited {
                     _rewardTable[state][3] = (map[j, i - 1] == 0) && (_rewardTable[state][3] != 1) ? 0 : _rewardTable[state][3];
 
                     // check for goal -> every state before reaching the goal will be rewarded
-                    if ((i == goalX) && (j == goalY)) {
+                    if ((i == goalX) && (j == goalY))
+                    {
                         // above goal and moving down
                         _rewardTable[GetStateFromCoordinates(i, j - 1)][2] = map[j - 1, i] == 1 ? -1 : 1;
                         // right from goal and moving left
@@ -91,23 +107,30 @@ namespace SampleApp.QLearning_Revisited {
             }
         }
 
-        private void InitRewardMatrix() {
-            for (int i = 0; i < _rewardTable.Length; i++) {
-                for (int j = 0; j < _rewardTable[i].Length; j++) {
+        private void InitRewardMatrix()
+        {
+            for (int i = 0; i < _rewardTable.Length; i++)
+            {
+                for (int j = 0; j < _rewardTable[i].Length; j++)
+                {
                     _rewardTable[i][j] = -1;
                 }
             }
         }
 
-        private void InitQLearningMatrix() {
-            for (int i = 0; i < _qLearningTable.Length; i++) {
-                for (int j = 0; j < _qLearningTable[i].Length; j++) {
+        private void InitQLearningMatrix()
+        {
+            for (int i = 0; i < _qLearningTable.Length; i++)
+            {
+                for (int j = 0; j < _qLearningTable[i].Length; j++)
+                {
                     _qLearningTable[i][j] = 0;
                 }
             }
         }
 
-        public void LearnStep(int currentState, int currentAction, int nextState) {
+        public void LearnStep(int currentState, int currentAction, int nextState)
+        {
             // get maximum of all possible actions, for the next state
             _maxQValueForNextStateActions = GetMaxQValue(nextState);
 
@@ -117,26 +140,31 @@ namespace SampleApp.QLearning_Revisited {
             _qLearningTable[currentState][currentAction] += _learningRate * (_rewardTable[currentState][currentAction] + _discountFactor * _maxQValueForNextStateActions);
         }
 
-        public int GetStateFromCoordinates(int x, int y) {
+        public int GetStateFromCoordinates(int x, int y)
+        {
             return x + (y * _mapWidth);
         }
 
-        public Tuple<int, int> GetCoordinatesFromState(int state) {
+        public Tuple<int, int> GetCoordinatesFromState(int state)
+        {
             int x = state % _mapWidth;
             int y = state / _mapWidth;
             return Tuple.Create(x, y);
         }
 
-        public int GetAction(int state) {
+        public int GetAction(int state)
+        {
             return _explorationPolicy.ChooseAction(_rewardTable[state]);
         }
 
-        public int GetLearnedAction(int state) {
+        public int GetLearnedAction(int state)
+        {
             var maxValue = _qLearningTable[state].Max();
             return Array.IndexOf(_qLearningTable[state], maxValue);
         }
 
-        public double GetMaxQValue(int state) {
+        public double GetMaxQValue(int state)
+        {
             return _qLearningTable[state].Max();
         }
     }

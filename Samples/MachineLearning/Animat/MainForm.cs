@@ -15,8 +15,10 @@ using System.Threading;
 using Accord.MachineLearning;
 using SampleApp.QLearning_Revisited;
 
-namespace SampleApp {
-    public partial class MainForm : Form {
+namespace SampleApp
+{
+    public partial class MainForm : Form
+    {
         // map and its dimension
         private int[,] map = null;
         private int[,] mapToDisplay = null;
@@ -60,7 +62,8 @@ namespace SampleApp {
         private QLearning_FDGS qLearning_FDGS = null;
 
         // Form constructor
-        public MainForm() {
+        public MainForm()
+        {
             InitializeComponent();
 
             // set world colors
@@ -74,9 +77,11 @@ namespace SampleApp {
         }
 
         // Form is closing
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
             // check if worker thread is running
-            if ((workerThread != null) && (workerThread.IsAlive)) {
+            if ((workerThread != null) && (workerThread.IsAlive))
+            {
                 needToStop = true;
                 while (!workerThread.Join(100))
                     Application.DoEvents();
@@ -87,11 +92,15 @@ namespace SampleApp {
         private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
         // Thread safe updating of control's text property
-        private void SetText(System.Windows.Forms.Control control, string text) {
-            if (control.InvokeRequired) {
+        private void SetText(System.Windows.Forms.Control control, string text)
+        {
+            if (control.InvokeRequired)
+            {
                 SetTextCallback d = new SetTextCallback(SetText);
                 Invoke(d, new object[] { control, text });
-            } else {
+            }
+            else
+            {
                 control.Text = text;
             }
         }
@@ -100,11 +109,15 @@ namespace SampleApp {
         private delegate void EnableCallback(bool enable);
 
         // Enable/disale controls (safe for threading)
-        private void EnableControls(bool enable) {
-            if (InvokeRequired) {
+        private void EnableControls(bool enable)
+        {
+            if (InvokeRequired)
+            {
                 EnableCallback d = new EnableCallback(EnableControls);
                 Invoke(d, new object[] { enable });
-            } else {
+            }
+            else
+            {
                 loadButton.Enabled = enable;
 
                 algorithmCombo.Enabled = enable;
@@ -123,7 +136,8 @@ namespace SampleApp {
         }
 
         // Show settings
-        private void ShowSettings() {
+        private void ShowSettings()
+        {
             explorationRateBox.Text = explorationRate.ToString();
             learningRateBox.Text = learningRate.ToString();
             iterationsBox.Text = learningIterations.ToString();
@@ -134,53 +148,75 @@ namespace SampleApp {
         }
 
         // Get settings
-        private void GetSettings() {
+        private void GetSettings()
+        {
             // explortion rate
-            try {
+            try
+            {
                 explorationRate = Math.Max(0.0, Math.Min(1.0, double.Parse(explorationRateBox.Text)));
-            } catch {
+            }
+            catch
+            {
                 explorationRate = 0.5;
             }
             // learning rate
-            try {
+            try
+            {
                 learningRate = Math.Max(0.0, Math.Min(1.0, double.Parse(learningRateBox.Text)));
-            } catch {
+            }
+            catch
+            {
                 learningRate = 0.5;
             }
             // learning iterations
-            try {
+            try
+            {
                 learningIterations = Math.Max(10, Math.Min(100000, int.Parse(iterationsBox.Text)));
-            } catch {
+            }
+            catch
+            {
                 learningIterations = 100;
             }
 
             // move reward
-            try {
+            try
+            {
                 moveReward = Math.Max(-100, Math.Min(100, double.Parse(moveRewardBox.Text)));
-            } catch {
+            }
+            catch
+            {
                 moveReward = 0;
             }
             // wall reward
-            try {
+            try
+            {
                 wallReward = Math.Max(-100, Math.Min(100, double.Parse(wallRewardBox.Text)));
-            } catch {
+            }
+            catch
+            {
                 wallReward = -1;
             }
             // goal reward
-            try {
+            try
+            {
                 goalReward = Math.Max(-100, Math.Min(100, double.Parse(goalRewardBox.Text)));
-            } catch {
+            }
+            catch
+            {
                 goalReward = 1;
             }
         }
 
         // On "Load" button click
-        private void loadButton_Click(object sender, EventArgs e) {
+        private void loadButton_Click(object sender, EventArgs e)
+        {
             // show file selection dialog
-            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
                 StreamReader reader = null;
 
-                try {
+                try
+                {
                     // open selected file
                     reader = File.OpenText(openFileDialog.FileName);
                     string str = null;
@@ -189,7 +225,8 @@ namespace SampleApp {
                     int j = 0;
 
                     // read the file
-                    while ((str = reader.ReadLine()) != null) {
+                    while ((str = reader.ReadLine()) != null)
+                    {
                         str = str.Trim();
 
                         // skip comments and empty lines
@@ -200,18 +237,24 @@ namespace SampleApp {
                         string[] strs = str.Split(' ');
 
                         // check the line
-                        if (lines == 0) {
+                        if (lines == 0)
+                        {
                             // get world size
                             mapWidth = int.Parse(strs[0]);
                             mapHeight = int.Parse(strs[1]);
                             map = new int[mapHeight, mapWidth];
-                        } else if (lines == 1) {
+                        }
+                        else if (lines == 1)
+                        {
                             // get agents count
-                            if (int.Parse(strs[0]) != 1) {
+                            if (int.Parse(strs[0]) != 1)
+                            {
                                 MessageBox.Show("The application supports only 1 agent in the worlds", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
                             }
-                        } else if (lines == 2) {
+                        }
+                        else if (lines == 2)
+                        {
                             // agent position
                             agentStartX = int.Parse(strs[0]);
                             agentStartY = int.Parse(strs[1]);
@@ -224,14 +267,19 @@ namespace SampleApp {
                                 (agentStartY < 0) || (agentStartY >= mapHeight) ||
                                 (agentStopX < 0) || (agentStopX >= mapWidth) ||
                                 (agentStopY < 0) || (agentStopY >= mapHeight)
-                                ) {
+                                )
+                            {
                                 MessageBox.Show("Agent's start and stop coordinates should be inside the world area ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
                             }
-                        } else if (lines > 2) {
+                        }
+                        else if (lines > 2)
+                        {
                             // map lines
-                            if (j < mapHeight) {
-                                for (int i = 0; i < mapWidth; i++) {
+                            if (j < mapHeight)
+                            {
+                                for (int i = 0; i < mapWidth; i++)
+                                {
                                     map[j, i] = int.Parse(strs[i]);
                                     if (map[j, i] > 1)
                                         map[j, i] = 1;
@@ -253,10 +301,14 @@ namespace SampleApp {
 
                     // enable learning button
                     startLearningButton.Enabled = true;
-                } catch (Exception) {
+                }
+                catch (Exception)
+                {
                     MessageBox.Show("Failed reading the map file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
-                } finally {
+                }
+                finally
+                {
                     // close file
                     if (reader != null)
                         reader.Close();
@@ -265,7 +317,8 @@ namespace SampleApp {
         }
 
         // On "Start" learning button click
-        private void startLearningButton_Click(object sender, EventArgs e) {
+        private void startLearningButton_Click(object sender, EventArgs e)
+        {
             // get settings
             GetSettings();
             ShowSettings();
@@ -277,15 +330,20 @@ namespace SampleApp {
             sarsa = null;
             qLearning_FDGS = null;
 
-            if (algorithmCombo.SelectedIndex == 0) {
+            if (algorithmCombo.SelectedIndex == 0)
+            {
                 // create new QLearning algorithm's instance
                 qLearning = new QLearning(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
                 workerThread = new Thread(new ThreadStart(QLearningThread));
-            } else if (algorithmCombo.SelectedIndex == 1) {
+            }
+            else if (algorithmCombo.SelectedIndex == 1)
+            {
                 // create new Sarsa algorithm's instance
                 sarsa = new Sarsa(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
                 workerThread = new Thread(new ThreadStart(SarsaThread));
-            } else {
+            }
+            else
+            {
                 qLearning_FDGS = new QLearning_FDGS(4, agentStopX, agentStopY, map, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
                 workerThread = new Thread(new ThreadStart(QLearningThread_FDGS));
             }
@@ -299,8 +357,10 @@ namespace SampleApp {
         }
 
         // On "Stop" button click
-        private void stopButton_Click(object sender, EventArgs e) {
-            if (workerThread != null) {
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            if (workerThread != null)
+            {
                 // stop worker thread
                 needToStop = true;
                 while (!workerThread.Join(100))
@@ -315,7 +375,8 @@ namespace SampleApp {
         }
 
         // On "Show Solution" button
-        private void showSolutionButton_Click(object sender, EventArgs e) {
+        private void showSolutionButton_Click(object sender, EventArgs e)
+        {
             // check if learning algorithm was run before
             if ((qLearning == null) && (sarsa == null) && (qLearning_FDGS == null))
                 return;
@@ -330,7 +391,8 @@ namespace SampleApp {
         }
 
         // Q-Learning thread
-        private void QLearningThread() {
+        private void QLearningThread()
+        {
             int iteration = 0;
             // current coordinates of the agent
             int agentCurrentX, agentCurrentY;
@@ -339,7 +401,8 @@ namespace SampleApp {
             EpsilonGreedyExploration explorationPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
 
             // loop
-            while ((!needToStop) && (iteration < learningIterations)) {
+            while ((!needToStop) && (iteration < learningIterations))
+            {
                 // set exploration rate for this iteration
                 explorationPolicy.Epsilon = explorationRate - ((double)iteration / learningIterations) * explorationRate;
                 // set learning rate for this iteration
@@ -354,7 +417,8 @@ namespace SampleApp {
                 // steps performed by agent to get to the goal
                 int steps = 0;
 
-                while ((!needToStop) && ((agentCurrentX != agentStopX) || (agentCurrentY != agentStopY))) {
+                while ((!needToStop) && ((agentCurrentX != agentStopX) || (agentCurrentY != agentStopY)))
+                {
                     steps++;
                     // get agent's current state
                     int currentState = GetStateNumber(agentCurrentX, agentCurrentY);
@@ -384,7 +448,8 @@ namespace SampleApp {
         }
 
         // Sarsa thread
-        private void SarsaThread() {
+        private void SarsaThread()
+        {
             int iteration = 0;
             // curent coordinates of the agent
             int agentCurrentX, agentCurrentY;
@@ -393,7 +458,8 @@ namespace SampleApp {
             EpsilonGreedyExploration explorationPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
 
             // loop
-            while ((!needToStop) && (iteration < learningIterations)) {
+            while ((!needToStop) && (iteration < learningIterations))
+            {
                 // set exploration rate for this iteration
                 explorationPolicy.Epsilon = explorationRate - ((double)iteration / learningIterations) * explorationRate;
                 // set learning rate for this iteration
@@ -413,7 +479,8 @@ namespace SampleApp {
                 // update agent's current position and get his reward
                 double reward = UpdateAgentPosition(ref agentCurrentX, ref agentCurrentY, previousAction);
 
-                while ((!needToStop) && ((agentCurrentX != agentStopX) || (agentCurrentY != agentStopY))) {
+                while ((!needToStop) && ((agentCurrentX != agentStopX) || (agentCurrentY != agentStopY)))
+                {
                     steps++;
 
                     // set tabu action
@@ -433,7 +500,8 @@ namespace SampleApp {
                     previousAction = nextAction;
                 }
 
-                if (!needToStop) {
+                if (!needToStop)
+                {
                     // update Q-function if terminal state was reached
                     sarsa.UpdateState(previousState, previousAction, reward);
                 }
@@ -451,7 +519,8 @@ namespace SampleApp {
         }
 
         // self implemented Q-Learning thread
-        private void QLearningThread_FDGS() {
+        private void QLearningThread_FDGS()
+        {
             int iteration = 0;
 
             // exploration policy
@@ -459,7 +528,8 @@ namespace SampleApp {
             EpsilonGreedyExploration explorationPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
 
             // loop
-            while ((!needToStop) && (iteration < learningIterations)) {
+            while ((!needToStop) && (iteration < learningIterations))
+            {
                 // set exploration rate for this iteration
                 explorationPolicy.Epsilon = explorationRate - ((double)iteration / learningIterations) * explorationRate;
                 // set learning rate for this iteration
@@ -474,7 +544,8 @@ namespace SampleApp {
                 // steps performed by agent to get to the goal
                 int steps = 0;
 
-                while ((!needToStop) && ((agentCurrX != agentStopX) || (agentCurrY != agentStopY))) {
+                while ((!needToStop) && ((agentCurrX != agentStopX) || (agentCurrY != agentStopY)))
+                {
                     steps++;
                     // get agent's current state
                     int currentState = qLearning_FDGS.GetStateFromCoordinates(agentCurrX, agentCurrY);
@@ -502,7 +573,8 @@ namespace SampleApp {
         }
 
         // Show solution thread
-        private void ShowSolutionThread() {
+        private void ShowSolutionThread()
+        {
             // set exploration rate to 0, so agent uses only what he learnt
             TabuSearchExploration tabuPolicy = null;
             EpsilonGreedyExploration exploratioPolicy = null;
@@ -527,14 +599,16 @@ namespace SampleApp {
             mapToDisplay[agentStartY, agentStartX] = 2;
             mapToDisplay[agentStopY, agentStopX] = 3;
 
-            while (!needToStop) {
+            while (!needToStop)
+            {
                 // dispay the map
                 cellWorld.Map = mapToDisplay;
                 // sleep for a while
                 Thread.Sleep(200);
 
                 // check if we have reached the end point
-                if ((agentCurrentX == agentStopX) && (agentCurrentY == agentStopY)) {
+                if ((agentCurrentX == agentStopX) && (agentCurrentY == agentStopY))
+                {
                     // restore the map
                     mapToDisplay[agentStartY, agentStartX] = 2;
                     mapToDisplay[agentStopY, agentStopX] = 3;
@@ -549,14 +623,17 @@ namespace SampleApp {
                 // remove agent from current position
                 mapToDisplay[agentCurrentY, agentCurrentX] = 0;
 
-                if ((qLearning != null) || (sarsa != null)) {
+                if ((qLearning != null) || (sarsa != null))
+                {
                     // get agent's current state
                     int currentState = GetStateNumber(agentCurrentX, agentCurrentY);
                     // get the action for this state
                     int action = (qLearning != null) ? qLearning.GetAction(currentState) : sarsa.GetAction(currentState);
                     // update agent's current position and get his reward
                     double reward = UpdateAgentPosition(ref agentCurrentX, ref agentCurrentY, action);
-                } else {
+                }
+                else
+                {
                     // get agent's current state
                     int currentState = qLearning_FDGS.GetStateFromCoordinates(agentCurrentX, agentCurrentY);
                     // get the action for this state
@@ -577,11 +654,13 @@ namespace SampleApp {
         }
 
         // Update agent position without reward calculation (will be done during learning step)
-        private int UpdateAgentPosition(int state, int action) {
+        private int UpdateAgentPosition(int state, int action)
+        {
             // moving direction
             int dx = 0, dy = 0;
 
-            switch (action) {
+            switch (action)
+            {
                 case 0:         // go to north (up)
                     dy = -1;
                     break;
@@ -604,7 +683,8 @@ namespace SampleApp {
             // or going out of bounds
             if (!((map[agentNextY, agentNextX] != 0) ||
                 (agentNextX < 0) || (agentNextX >= mapWidth) ||
-                (agentNextY < 0) || (agentNextY >= mapHeight))) {
+                (agentNextY < 0) || (agentNextY >= mapHeight)))
+            {
 
                 agentCurrX = agentNextX;
                 agentCurrY = agentNextY;
@@ -616,13 +696,15 @@ namespace SampleApp {
         }
 
         // Update agent position and return reward for the move
-        private double UpdateAgentPosition(ref int currentX, ref int currentY, int action) {
+        private double UpdateAgentPosition(ref int currentX, ref int currentY, int action)
+        {
             // default reward is equal to moving reward
             double reward = moveReward;
             // moving direction
             int dx = 0, dy = 0;
 
-            switch (action) {
+            switch (action)
+            {
                 case 0:         // go to north (up)
                     dy = -1;
                     break;
@@ -645,10 +727,13 @@ namespace SampleApp {
                 (map[agentNextY, agentNextX] != 0) ||
                 (agentNextX < 0) || (agentNextX >= mapWidth) ||
                 (agentNextY < 0) || (agentNextY >= mapHeight)
-                ) {
+                )
+            {
                 // we found a wall or got outside of the world
                 reward = wallReward;
-            } else {
+            }
+            else
+            {
                 currentX = agentNextX;
                 currentY = agentNextY;
 
@@ -661,7 +746,8 @@ namespace SampleApp {
         }
 
         // Get state number from agent's receptors in the specified position
-        private int GetStateNumber(int x, int y) {
+        private int GetStateNumber(int x, int y)
+        {
             int c1 = (map[y - 1, x - 1] != 0) ? 1 : 0;
             int c2 = (map[y - 1, x] != 0) ? 1 : 0;
             int c3 = (map[y - 1, x + 1] != 0) ? 1 : 0;
