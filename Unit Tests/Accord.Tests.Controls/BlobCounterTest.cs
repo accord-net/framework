@@ -85,7 +85,7 @@ namespace Accord.Tests.Imaging
             image.Save(Path.Combine(basePath, "test.png"));
             #endregion
 
-            Assert.AreEqual(0, blobs.Length);
+            Assert.AreEqual(25, blobs.Length);
         }
     }
 }

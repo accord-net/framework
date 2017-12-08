@@ -103,14 +103,14 @@ namespace Accord.Tests.MachineLearning
 
             // Results will be:
             NodeDistance<VPTreeNode<double[]>>[] result = neighbors.ToArray();
-            double d1 = result[0].Distance;
-            double[] p1 = result[0].Node.Position;
+            double d1 = result[0].Distance; // 1
+            double[] p1 = result[0].Node.Position; // { 5, 4 } 
 
-            double d2 = result[0].Distance;
-            double[] p2 = result[0].Node.Position;
+            double d2 = result[1].Distance; // 3
+            double[] p2 = result[1].Node.Position; // { 2, 3 } 
 
-            double d3 = result[0].Distance;
-            double[] p3 = result[0].Node.Position;
+            double d3 = result[2].Distance; // 3
+            double[] p3 = result[2].Node.Position; // { 7, 2 } 
 
 
             // We can also navigate the tree using:
@@ -123,13 +123,13 @@ namespace Accord.Tests.MachineLearning
             }
             #endregion
 
-            Assert.AreEqual(0, d1);
-            Assert.AreEqual(0, d2);
-            Assert.AreEqual(0, d3);
+            Assert.AreEqual(1, d1);
+            Assert.AreEqual(3, d2);
+            Assert.AreEqual(3, d3);
 
-            Assert.AreEqual(0, p1);
-            Assert.AreEqual(0, p2);
-            Assert.AreEqual(0, p3);
+            Assert.AreEqual(new[] { 5.0, 4.0 }, p1);
+            Assert.AreEqual(new[] { 2.0, 3.0 }, p2);
+            Assert.AreEqual(new[] { 7.0, 2.0 }, p3);
 
             foreach (VPTreeNode<double[]> n in tree)
             {
