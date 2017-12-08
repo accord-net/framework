@@ -9,6 +9,10 @@
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Video\Accord.Video (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />

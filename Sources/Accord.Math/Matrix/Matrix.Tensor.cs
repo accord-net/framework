@@ -62,8 +62,12 @@ namespace Accord.Math
             Array res;
             if (array.IsJagged())
             {
+#if NETSTANDARD1_4
+                throw new NotSupportedException("Squeeze with jagged arrays is not supported in .NET Standard 1.4.");
+#else
                 res = Jagged.Zeros(array.GetInnerMostType(), dimensions);
                 Copy(array, res);
+#endif
             }
             else
             {
@@ -147,7 +151,7 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
         /// </example>
         /// 
-        public static Array Convert<TOutput>(this Array array) 
+        public static Array Convert<TOutput>(this Array array)
         {
             return Convert(array, typeof(TOutput));
         }

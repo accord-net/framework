@@ -206,7 +206,7 @@ namespace Accord.Math
         {
             Type arrayType = elementType.MakeArrayType(shape.Length - dimension - 1, jagged: true);
             Array array = Array.CreateInstance(arrayType, shape[dimension]);
-            
+
             if (dimension < shape.Length - 1)
             {
                 for (int i = 0; i < array.Length; i++)
@@ -252,8 +252,13 @@ namespace Accord.Math
 #endif
         public static Array Zeros(Type elementType, params int[] shape)
         {
+#if !NETSTANDARD1_4
             return Create(elementType, shape, elementType.GetDefaultValue());
+#else
+            return Create(elementType, shape, 0);
+#endif
         }
+
 
         /// <summary>
         ///   Creates a jagged matrix with all values set to zero.
@@ -695,8 +700,12 @@ namespace Accord.Math
         {
             int[] outputShape = Matrix.GetShape(matrix, type);
 
+#if !NETSTANDARD1_4
             // multidimensional or jagged -> jagged
             return Jagged.Create(elementType: type.GetInnerMostType(), shape: outputShape, value: type.GetDefaultValue());
+#else
+            return Jagged.Create(elementType: type.GetInnerMostType(), shape: outputShape, value: 0);
+#endif
         }
 
         /// <summary>

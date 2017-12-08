@@ -212,8 +212,7 @@ namespace Accord.Math
         /// 
         public static TOutput[] Convert<TInput, TOutput>(this TInput[] vector)
         {
-            Converter<TInput, TOutput> converter = x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput));
-            return Convert(vector, converter);
+            return Convert(vector, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
         }
 
         /// <summary>
@@ -230,8 +229,7 @@ namespace Accord.Math
         /// 
         public static TOutput[,] Convert<TInput, TOutput>(this TInput[,] matrix)
         {
-            Converter<TInput, TOutput> converter = x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput));
-            return Convert(matrix, converter);
+            return Convert(matrix, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
         }
 
         /// <summary>
@@ -248,11 +246,9 @@ namespace Accord.Math
         /// 
         public static TOutput[,] Convert<TInput, TOutput>(TInput[][] matrix)
         {
-            Converter<TInput, TOutput> converter = x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput));
-            return Convert(matrix, converter);
+            return Convert<TInput, TOutput>(matrix, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
         }
 
-#if !NETSTANDARD1_4
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
         /// </summary>
@@ -266,9 +262,19 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
         /// </example>
         /// 
-        public static TOutput[] Convert<TInput, TOutput>(this TInput[] vector, Converter<TInput, TOutput> converter)
+        public static TOutput[] Convert<TInput, TOutput>(this TInput[] vector,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput>
+#else
+            Func<TInput, TOutput>
+#endif 
+            converter)
         {
+#if !NETSTANDARD1_4
             return Array.ConvertAll(vector, converter);
+#else
+            return vector.Apply(converter);
+#endif
         }
 
         /// <summary>
@@ -284,7 +290,13 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
         /// </example>
         /// 
-        public static TOutput[,] Convert<TInput, TOutput>(this TInput[][] matrix, Converter<TInput, TOutput> converter)
+        public static TOutput[,] Convert<TInput, TOutput>(this TInput[][] matrix,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput>
+#else
+            Func<TInput, TOutput>
+#endif 
+            converter)
         {
             var result = Matrix.CreateAs<TInput, TOutput>(matrix);
 
@@ -308,12 +320,18 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
         /// </example>
         /// 
-        public static TOutput[,] Convert<TInput, TOutput>(this TInput[,] matrix, Converter<TInput, TOutput> converter)
+        public static TOutput[,] Convert<TInput, TOutput>(this TInput[,] matrix,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput>
+#else
+            Func<TInput, TOutput>
+#endif 
+            converter)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
-            TOutput[,] result = new TOutput[rows, cols];
+            var result = new TOutput[rows, cols];
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
                     result[i, j] = converter(matrix[i, j]);
@@ -398,6 +416,7 @@ namespace Accord.Math
         {
             Type outputElementType = destination.GetInnerMostType();
 
+#if !NETSTANDARD1_4
             if (source.GetType() == destination.GetType() && source.IsMatrix() && destination.IsMatrix())
             {
                 if (outputElementType.IsPrimitive)
@@ -410,7 +429,9 @@ namespace Accord.Math
                 }
             }
             else
+#endif
             {
+
                 bool deep = true;
 
                 if (destination.GetLength().Contains(-1))
@@ -440,7 +461,6 @@ namespace Accord.Math
                 }
             }
         }
-#endif
 
 
         /// <summary>
@@ -560,7 +580,6 @@ namespace Accord.Math
             }
         }
 
-#if !NETSTANDARD1_4
         private static object convertValue(Type outputElementType, object inputValue)
         {
             Array inputArray = inputValue as Array;
@@ -568,9 +587,6 @@ namespace Accord.Math
                 return To(inputArray, outputElementType);
             return inputValue.To(outputElementType);
         }
-#endif
-
-
         #endregion
 
         /// <summary>

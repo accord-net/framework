@@ -46,8 +46,7 @@ namespace Accord.Math
         /// 
         public static TOutput[][] Convert<TInput, TOutput>(TInput[,] matrix)
         {
-            Converter<TInput, TOutput> converter = x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput));
-            return Jagged.Convert(matrix, converter);
+            return Jagged.Convert(matrix, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
         }
 
         /// <summary>
@@ -64,8 +63,7 @@ namespace Accord.Math
         /// 
         public static TOutput[][] Convert<TInput, TOutput>(this TInput[][] matrix)
         {
-            Converter<TInput, TOutput> converter = x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput));
-            return Jagged.Convert(matrix, converter);
+            return Jagged.Convert(matrix, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
         }
 
         /// <summary>
@@ -81,7 +79,13 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
         /// </example>
         /// 
-        public static TOutput[][] Convert<TInput, TOutput>(this TInput[,] matrix, Converter<TInput, TOutput> converter)
+        public static TOutput[][] Convert<TInput, TOutput>(this TInput[,] matrix,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput> converter
+#else
+            Func<TInput, TOutput> converter
+#endif
+            )
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
@@ -107,7 +111,13 @@ namespace Accord.Math
         /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
         /// </example>
         /// 
-        public static TOutput[][] Convert<TInput, TOutput>(this TInput[][] matrix, Converter<TInput, TOutput> converter)
+        public static TOutput[][] Convert<TInput, TOutput>(this TInput[][] matrix,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput> converter
+#else
+            Func<TInput, TOutput> converter
+#endif
+            )
         {
             int rows = matrix.Rows();
             int cols = matrix.Columns();
