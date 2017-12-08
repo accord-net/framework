@@ -27,6 +27,7 @@ namespace Accord.DataSets
     using Accord.Math;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
 
     /// <summary>
@@ -124,7 +125,7 @@ namespace Accord.DataSets
 
                 Instances[i] = new double[words.Length - 1];
                 for (int j = 0; j < Instances[i].Length; j++)
-                    Instances[i][j] = double.Parse(words[j]);
+                    Instances[i][j] = double.Parse(words[j], CultureInfo.InvariantCulture);
 
                 ClassLabels[i] = int.Parse(words[words.Length - 1]);
             }
