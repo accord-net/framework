@@ -146,7 +146,8 @@ namespace SampleApp
             this.algorithmCombo.FormattingEnabled = true;
             this.algorithmCombo.Items.AddRange(new object[] {
             "Q-Learning",
-            "Sarsa"});
+            "Sarsa",
+            "QL_FDGS"});
             this.algorithmCombo.Location = new System.Drawing.Point(105, 20);
             this.algorithmCombo.Name = "algorithmCombo";
             this.algorithmCombo.Size = new System.Drawing.Size(70, 21);

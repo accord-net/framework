@@ -7,16 +7,13 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 
 using Accord.MachineLearning;
+using SampleApp.QLearning_Revisited;
 
 namespace SampleApp
 {
@@ -28,11 +25,19 @@ namespace SampleApp
         private int mapWidth;
         private int mapHeight;
 
-        // agent' start and stop position
+        // agent's start and stop position
         private int agentStartX;
         private int agentStartY;
         private int agentStopX;
         private int agentStopY;
+
+        // agent's current position
+        private int agentCurrX;
+        private int agentCurrY;
+
+        // temp next state coordinates of the agent
+        private int agentNextX;
+        private int agentNextY;
 
         // flag to stop background job
         private volatile bool needToStop = false;
@@ -53,6 +58,8 @@ namespace SampleApp
         private QLearning qLearning = null;
         // Sarsa algorithm
         private Sarsa sarsa = null;
+        // self implemented Q-Learning
+        private QLearning_FDGS qLearning_FDGS = null;
 
         // Form constructor
         public MainForm()
@@ -321,6 +328,7 @@ namespace SampleApp
             // destroy algorithms
             qLearning = null;
             sarsa = null;
+            qLearning_FDGS = null;
 
             if (algorithmCombo.SelectedIndex == 0)
             {
@@ -328,11 +336,16 @@ namespace SampleApp
                 qLearning = new QLearning(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
                 workerThread = new Thread(new ThreadStart(QLearningThread));
             }
-            else
+            else if (algorithmCombo.SelectedIndex == 1)
             {
                 // create new Sarsa algorithm's instance
                 sarsa = new Sarsa(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
                 workerThread = new Thread(new ThreadStart(SarsaThread));
+            }
+            else
+            {
+                qLearning_FDGS = new QLearning_FDGS(4, agentStopX, agentStopY, map, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                workerThread = new Thread(new ThreadStart(QLearningThread_FDGS));
             }
 
             // disable all settings controls except "Stop" button
@@ -354,13 +367,18 @@ namespace SampleApp
                     Application.DoEvents();
                 workerThread = null;
             }
+
+            // reset learning class values
+            qLearning = null;
+            sarsa = null;
+            qLearning_FDGS = null;
         }
 
         // On "Show Solution" button
         private void showSolutionButton_Click(object sender, EventArgs e)
         {
             // check if learning algorithm was run before
-            if ((qLearning == null) && (sarsa == null))
+            if ((qLearning == null) && (sarsa == null) && (qLearning_FDGS == null))
                 return;
 
             // disable all settings controls except "Stop" button
@@ -376,7 +394,7 @@ namespace SampleApp
         private void QLearningThread()
         {
             int iteration = 0;
-            // curent coordinates of the agent
+            // current coordinates of the agent
             int agentCurrentX, agentCurrentY;
             // exploration policy
             TabuSearchExploration tabuPolicy = (TabuSearchExploration)qLearning.ExplorationPolicy;
@@ -500,6 +518,60 @@ namespace SampleApp
             EnableControls(true);
         }
 
+        // self implemented Q-Learning thread
+        private void QLearningThread_FDGS()
+        {
+            int iteration = 0;
+
+            // exploration policy
+            TabuSearchExploration tabuPolicy = (TabuSearchExploration)qLearning_FDGS.ExplorationPolicy;
+            EpsilonGreedyExploration explorationPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
+
+            // loop
+            while ((!needToStop) && (iteration < learningIterations))
+            {
+                // set exploration rate for this iteration
+                explorationPolicy.Epsilon = explorationRate - ((double)iteration / learningIterations) * explorationRate;
+                // set learning rate for this iteration
+                qLearning_FDGS.LearningRate = learningRate - ((double)iteration / learningIterations) * learningRate;
+                // clear tabu list
+                tabuPolicy.ResetTabuList();
+
+                // reset agent's coordinates to the starting position
+                agentCurrX = agentStartX;
+                agentCurrY = agentStartY;
+
+                // steps performed by agent to get to the goal
+                int steps = 0;
+
+                while ((!needToStop) && ((agentCurrX != agentStopX) || (agentCurrY != agentStopY)))
+                {
+                    steps++;
+                    // get agent's current state
+                    int currentState = qLearning_FDGS.GetStateFromCoordinates(agentCurrX, agentCurrY);
+                    // get the action for this state
+                    int action = qLearning_FDGS.GetAction(currentState);
+                    // update agent and get next state
+                    int nextState = UpdateAgentPosition(currentState, action);
+                    // do learning of the agent - update his Q-function
+                    qLearning_FDGS.LearnStep(currentState, action, nextState);
+
+                    // set tabu action (prevent going back for the next iteration)
+                    tabuPolicy.SetTabuAction((action + 2) % 4, 1);
+                }
+
+                System.Diagnostics.Debug.WriteLine(steps);
+
+                iteration++;
+
+                // show current iteration
+                SetText(iterationBox, iteration.ToString());
+            }
+
+            // enable settings controls
+            EnableControls(true);
+        }
+
         // Show solution thread
         private void ShowSolutionThread()
         {
@@ -509,8 +581,10 @@ namespace SampleApp
 
             if (qLearning != null)
                 tabuPolicy = (TabuSearchExploration)qLearning.ExplorationPolicy;
-            else
+            else if (sarsa != null)
                 tabuPolicy = (TabuSearchExploration)sarsa.ExplorationPolicy;
+            else
+                tabuPolicy = (TabuSearchExploration)qLearning_FDGS.ExplorationPolicy;
 
             exploratioPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
 
@@ -549,12 +623,27 @@ namespace SampleApp
                 // remove agent from current position
                 mapToDisplay[agentCurrentY, agentCurrentX] = 0;
 
-                // get agent's current state
-                int currentState = GetStateNumber(agentCurrentX, agentCurrentY);
-                // get the action for this state
-                int action = (qLearning != null) ? qLearning.GetAction(currentState) : sarsa.GetAction(currentState);
-                // update agent's current position and get his reward
-                double reward = UpdateAgentPosition(ref agentCurrentX, ref agentCurrentY, action);
+                if ((qLearning != null) || (sarsa != null))
+                {
+                    // get agent's current state
+                    int currentState = GetStateNumber(agentCurrentX, agentCurrentY);
+                    // get the action for this state
+                    int action = (qLearning != null) ? qLearning.GetAction(currentState) : sarsa.GetAction(currentState);
+                    // update agent's current position and get his reward
+                    double reward = UpdateAgentPosition(ref agentCurrentX, ref agentCurrentY, action);
+                }
+                else
+                {
+                    // get agent's current state
+                    int currentState = qLearning_FDGS.GetStateFromCoordinates(agentCurrentX, agentCurrentY);
+                    // get the action for this state
+                    int action = qLearning_FDGS.GetLearnedAction(currentState);
+                    // update agent's current position
+                    UpdateAgentPosition(currentState, action);
+                    // update current positions (due to current Animat implementation)
+                    agentCurrentX = agentCurrX;
+                    agentCurrentY = agentCurrY;
+                }
 
                 // put agent to the new position
                 mapToDisplay[agentCurrentY, agentCurrentX] = 2;
@@ -562,6 +651,48 @@ namespace SampleApp
 
             // enable settings controls
             EnableControls(true);
+        }
+
+        // Update agent position without reward calculation (will be done during learning step)
+        private int UpdateAgentPosition(int state, int action)
+        {
+            // moving direction
+            int dx = 0, dy = 0;
+
+            switch (action)
+            {
+                case 0:         // go to north (up)
+                    dy = -1;
+                    break;
+                case 1:         // go to east (right)
+                    dx = 1;
+                    break;
+                case 2:         // go to south (down)
+                    dy = 1;
+                    break;
+                case 3:         // go to west (left)
+                    dx = -1;
+                    break;
+            }
+
+            var currentCoordinates = qLearning_FDGS.GetCoordinatesFromState(state);
+            agentNextX = currentCoordinates.Item1 + dx; // calc new X
+            agentNextY = currentCoordinates.Item2 + dy; // calc new Y
+
+            // check new agent's coordinates and set if not hitting a wall
+            // or going out of bounds
+            if (!((map[agentNextY, agentNextX] != 0) ||
+                (agentNextX < 0) || (agentNextX >= mapWidth) ||
+                (agentNextY < 0) || (agentNextY >= mapHeight)))
+            {
+
+                agentCurrX = agentNextX;
+                agentCurrY = agentNextY;
+
+                return qLearning_FDGS.GetStateFromCoordinates(agentNextX, agentNextY);
+            }
+
+            return qLearning_FDGS.GetStateFromCoordinates(currentCoordinates.Item1, currentCoordinates.Item2);
         }
 
         // Update agent position and return reward for the move
@@ -588,14 +719,14 @@ namespace SampleApp
                     break;
             }
 
-            int newX = currentX + dx;
-            int newY = currentY + dy;
+            agentNextX = currentX + dx;
+            agentNextY = currentY + dy;
 
             // check new agent's coordinates
             if (
-                (map[newY, newX] != 0) ||
-                (newX < 0) || (newX >= mapWidth) ||
-                (newY < 0) || (newY >= mapHeight)
+                (map[agentNextY, agentNextX] != 0) ||
+                (agentNextX < 0) || (agentNextX >= mapWidth) ||
+                (agentNextY < 0) || (agentNextY >= mapHeight)
                 )
             {
                 // we found a wall or got outside of the world
@@ -603,8 +734,8 @@ namespace SampleApp
             }
             else
             {
-                currentX = newX;
-                currentY = newY;
+                currentX = agentNextX;
+                currentY = agentNextY;
 
                 // check if we found the goal
                 if ((currentX == agentStopX) && (currentY == agentStopY))
