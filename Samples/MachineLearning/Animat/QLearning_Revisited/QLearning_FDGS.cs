@@ -66,11 +66,15 @@ namespace SampleApp.QLearning_Revisited {
 
             for (int i = 1; i < (_mapWidth - 1); i++) {
                 for (int j = 1; j < (_mapHeight - 1); j++) {
+
+                    // get current state for setting rewards
+                    var state = GetStateFromCoordinates(i, j);
+
                     // set reward according to map (walls, no walls)
-                    _rewardTable[GetStateFromCoordinates(i, j)][0] = (map[j - 1, i] == 0) && (_rewardTable[GetStateFromCoordinates(i, j)][0] != 1) ? 0 : _rewardTable[GetStateFromCoordinates(i, j)][0];
-                    _rewardTable[GetStateFromCoordinates(i, j)][1] = (map[j, i + 1] == 0) && (_rewardTable[GetStateFromCoordinates(i, j)][1] != 1) ? 0 : _rewardTable[GetStateFromCoordinates(i, j)][1];
-                    _rewardTable[GetStateFromCoordinates(i, j)][2] = (map[j + 1, i] == 0) && (_rewardTable[GetStateFromCoordinates(i, j)][2] != 1) ? 0 : _rewardTable[GetStateFromCoordinates(i, j)][2];
-                    _rewardTable[GetStateFromCoordinates(i, j)][3] = (map[j, i - 1] == 0) && (_rewardTable[GetStateFromCoordinates(i, j)][3] != 1) ? 0 : _rewardTable[GetStateFromCoordinates(i, j)][3];
+                    _rewardTable[state][0] = (map[j - 1, i] == 0) && (_rewardTable[state][0] != 1) ? 0 : _rewardTable[state][0];
+                    _rewardTable[state][1] = (map[j, i + 1] == 0) && (_rewardTable[state][1] != 1) ? 0 : _rewardTable[state][1];
+                    _rewardTable[state][2] = (map[j + 1, i] == 0) && (_rewardTable[state][2] != 1) ? 0 : _rewardTable[state][2];
+                    _rewardTable[state][3] = (map[j, i - 1] == 0) && (_rewardTable[state][3] != 1) ? 0 : _rewardTable[state][3];
 
                     // check for goal -> every state before reaching the goal will be rewarded
                     if ((i == goalX) && (j == goalY)) {

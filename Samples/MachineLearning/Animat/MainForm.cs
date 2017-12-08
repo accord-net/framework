@@ -485,7 +485,7 @@ namespace SampleApp {
                     // do learning of the agent - update his Q-function
                     qLearning_FDGS.LearnStep(currentState, action, nextState);
 
-                    // set tabu action
+                    // set tabu action (prevent going back for the next iteration)
                     tabuPolicy.SetTabuAction((action + 2) % 4, 1);
                 }
 
