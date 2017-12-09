@@ -191,5 +191,11 @@ namespace SampleApp
                 }
             }
         }
+
+        private void videoSourcePlayer_Click(object sender, EventArgs e)
+        {
+            videoSourcePlayer.SignalToStop();
+            videoSourcePlayer.WaitForStop();
+        }
     }
 }

@@ -164,6 +164,7 @@
             this.videoSourcePlayer.TabIndex = 0;
             this.videoSourcePlayer.VideoSource = null;
             this.videoSourcePlayer.NewFrameReceived += new Accord.Video.NewFrameEventHandler(this.videoSourcePlayer_NewFrame);
+            this.videoSourcePlayer.DoubleClick += new System.EventHandler(this.videoSourcePlayer_Click);
             // 
             // timer
             // 
