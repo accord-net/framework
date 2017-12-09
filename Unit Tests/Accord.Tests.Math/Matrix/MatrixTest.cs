@@ -330,6 +330,17 @@ namespace Accord.Tests.Math
 
         #region Elementwise Operations
         [Test]
+        public void ElementwiseSubtractTest()
+        {
+            short[] a = { 5, 2, 1 };
+            short[] b = { 3, 1, 2 };
+            short[] expected = { 2, 1, -1 };
+            short[] actual = Elementwise.Subtract(a, b);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+
+        [Test]
         public void ElementwiseMultiplyTest()
         {
             double[] a = { 5, 2, 1 };
