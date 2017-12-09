@@ -1309,12 +1309,10 @@ namespace Accord.Math
             if (count == 0)
                 return new int[0];
 
-            if (count > values.Length)
-                return Accord.Math.Vector.Range(values.Length);
-
             T[] work = (inPlace) ? values : (T[])values.Clone();
             int[] idx = Accord.Math.Vector.Range(values.Length);
-            work.NthElement(idx, 0, work.Length, count, asc: false);
+            if (count < values.Length)
+                work.NthElement(idx, 0, work.Length, count, asc: false);
             Accord.Sort.Insertion(work, idx, 0, count, asc: false);
             return idx.First(count);
         }
@@ -1335,12 +1333,10 @@ namespace Accord.Math
             if (count == 0)
                 return new int[0];
 
-            if (count > values.Length)
-                return Accord.Math.Vector.Range(0, values.Length);
-
             T[] work = (inPlace) ? values : (T[])values.Clone();
             int[] idx = Accord.Math.Vector.Range(values.Length);
-            work.NthElement(idx, 0, work.Length, count, asc: true);
+            if (count < values.Length)
+                work.NthElement(idx, 0, work.Length, count, asc: true);
             Accord.Sort.Insertion(work, idx, 0, count, asc: true);
             return idx.First(count);
         }

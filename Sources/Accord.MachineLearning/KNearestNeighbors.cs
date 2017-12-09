@@ -42,6 +42,13 @@ namespace Accord.MachineLearning
     ///   
     /// <para>If k = 1, then the object is simply assigned to the class of its nearest neighbor.</para>
     /// 
+    /// <note type="note">
+    ///   When learning a model with instance weights, the weights will not be used when
+    ///   finding the <c>k</c> nearest neighbors of a query point. Instead, it will be used
+    ///   to weight the similarity between the query point and each of its <c>k</c> nearest
+    ///   neighbors when deciding for the queried point's class.
+    /// </note>
+    /// 
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -80,6 +87,7 @@ namespace Accord.MachineLearning
     {
 
         private KDTree<int> tree;
+        private KDTree<Tuple<int, double>> weightedTree;
 
         /// <summary>
         ///   Creates a new <see cref="KNearestNeighbors"/>.
@@ -120,15 +128,30 @@ namespace Accord.MachineLearning
         /// <returns>System.Double[].</returns>
         public override double[] Scores(double[] input, double[] result)
         {
-            KDTreeNodeCollection<KDTreeNode<int>> neighbors = tree.Nearest(input, this.K);
-
-            foreach (NodeDistance<KDTreeNode<int>> point in neighbors)
+            if (this.weightedTree == null)
             {
-                int label = point.Node.Value;
-                double d = point.Distance;
+                KDTreeNodeCollection<KDTreeNode<int>> neighbors = tree.Nearest(input, this.K);
+                foreach (NodeDistance<KDTreeNode<int>> point in neighbors)
+                {
+                    int label = point.Node.Value;
+                    double d = point.Distance;
 
-                // Convert to similarity measure
-                result[label] += 1.0 / (1.0 + d);
+                    // Convert to similarity measure
+                    result[label] += 1.0 / (1.0 + d);
+                }
+            } 
+            else
+            {
+                KDTreeNodeCollection<KDTreeNode<Tuple<int, double>>> neighbors = weightedTree.Nearest(input, this.K);
+                foreach (NodeDistance<KDTreeNode<Tuple<int, double>>> point in neighbors)
+                {
+                    int label = point.Node.Value.Item1;
+                    double weight = point.Node.Value.Item2;
+                    double d = point.Distance;
+
+                    // Convert to similarity measure
+                    result[label] += (1.0 / (1.0 + d)) * weight;
+                }
             }
 
             return result;
@@ -152,17 +175,37 @@ namespace Accord.MachineLearning
         /// 
         public override double[][] GetNearestNeighbors(double[] input, out int[] labels)
         {
-            var neighbors = tree.Nearest(input, this.K);
+            double[][] points;
 
-            double[][] points = new double[neighbors.Count][];
-            labels = new int[neighbors.Count];
-
-            int k = 0;
-            foreach (var point in neighbors)
+            if (weightedTree == null)
             {
-                points[k] = point.Node.Position;
-                labels[k] = point.Node.Value;
-                k++;
+                KDTreeNodeCollection<KDTreeNode<int>> neighbors = tree.Nearest(input, this.K);
+
+                points = new double[neighbors.Count][];
+                labels = new int[neighbors.Count];
+
+                int k = 0;
+                foreach (NodeDistance<KDTreeNode<int>> point in neighbors)
+                {
+                    points[k] = point.Node.Position;
+                    labels[k] = point.Node.Value;
+                    k++;
+                }
+            }
+            else
+            {
+                KDTreeNodeCollection<KDTreeNode<Tuple<int, double>>> neighbors = weightedTree.Nearest(input, this.K);
+
+                points = new double[neighbors.Count][];
+                labels = new int[neighbors.Count];
+
+                int k = 0;
+                foreach (NodeDistance<KDTreeNode<Tuple<int, double>>> point in neighbors)
+                {
+                    points[k] = point.Node.Position;
+                    labels[k] = point.Node.Value.Item1;
+                    k++;
+                }
             }
 
             return points;
@@ -214,11 +257,20 @@ namespace Accord.MachineLearning
             this.NumberOfInputs = GetNumberOfInputs(x);
             this.Inputs = x;
             this.Outputs = y;
+            this.Weights = weights;
 
             this.NumberOfOutputs = y.DistinctCount();
             this.NumberOfClasses = this.NumberOfOutputs;
 
-            this.tree = KDTree.FromData(points: x, values: y, distance: Distance);
+            if (weights == null)
+            {
+                this.tree = KDTree.FromData(points: x, values: y, distance: Distance);
+            }
+            else
+            {
+                Tuple<int, double>[] pairs = y.Zip(weights, Tuple.Create).ToArray();
+                this.weightedTree = KDTree.FromData(points: x, values: pairs, distance: Distance);
+            }
 
             return this;
         }
