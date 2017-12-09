@@ -55,6 +55,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Accord.DataSets\TestImages.cs" />
+    <Compile Include="Filters\BinaryClosingShape.cs" />
     <Compile Include="Interest Points\Base\BaseCornersDetector.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Divide.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Multiply.cs" />
