@@ -100,6 +100,10 @@
       <Project>{6158e759-fe2b-4308-ba29-11c9e4a07812}</Project>
       <Name>Accord.Controls.Vision</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls\Accord.Controls.csproj">
+      <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
+      <Name>Accord.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
       <Name>Accord.Core</Name>
