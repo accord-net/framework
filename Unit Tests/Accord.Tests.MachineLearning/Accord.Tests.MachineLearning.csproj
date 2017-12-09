@@ -83,6 +83,7 @@
     <Compile Include="Clustering\MiniBatchKMeansTest.cs" />
     <Compile Include="DecisionTrees\DecisionTreeWriterTest.cs" />
     <Compile Include="IO\SerializationTest.cs" />
+    <Compile Include="Kernels\TensorTest.cs" />
     <Compile Include="Kernels\SplineTest.cs" />
     <Compile Include="POSTest.cs" />
     <Compile Include="QLearningTest.cs" />
