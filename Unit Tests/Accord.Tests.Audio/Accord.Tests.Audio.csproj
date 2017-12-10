@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="AudioDeviceInfoTest.cs" />
     <Compile Include="ComplexSignalTest.cs" />
+    <Compile Include="Filters\HighPassFilterTest.cs" />
     <Compile Include="Filters\LowPassFilterTest.cs" />
     <Compile Include="Filters\ExtractChannelTest.cs" />
     <Compile Include="MFCCTests.cs" />
