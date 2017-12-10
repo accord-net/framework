@@ -87,7 +87,7 @@ namespace Accord.Tests.Audio
                 numberOfBins: 512);
 
             // We can call the transform method of the MFCC extractor class:
-            IEnumerable < MelFrequencyCepstrumCoefficientDescriptor> mfcc = extractor.Transform(a);
+            IEnumerable<MelFrequencyCepstrumCoefficientDescriptor> mfcc = extractor.Transform(a);
 
             // or we could also transform them to a matrix directly with:
             double[][] actual = mfcc.Select(x => x.Descriptor).ToArray();

@@ -247,6 +247,7 @@
     <Compile Include="Random\ZigguratUniformOneGenerator.cs" />
     <Compile Include="Random\ZigguratNormalGenerator.cs" />
     <Compile Include="Sort.cs" />
+    <Compile Include="Transforms\HilbertTransform2.cs" />
     <Compile Include="Vector\Vector.Random.cs" />
     <Compile Include="Vector\Vector.Parse.cs" />
     <Compile Include="Vector\Vector.Sparse.cs" />
