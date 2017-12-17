@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<doc>
+  <members>
+    <assembly>
+      <name>UnityEngine.HoloLens</name>
+    </assembly>
+    <member name="T:UnityEngine.Audio.AudioSpatializerMicrosoft">
+      <summary>
+        <para>This component enables control over properties attached to AudioSource components for spatial sound in Unity.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.Audio.AudioSpatializerMicrosoft.roomSize">
+      <summary>
+        <para>Describes room size to for audio effects.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Audio.AudioSpatializerMicrosoft.RoomSize">
+      <summary>
+        <para>Describes room size to for audio effects.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.EventSystems.HoloLensInputModule">
+      <summary>
+        <para>A BaseInputModule designed for HoloLens input.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.EventSystems.HoloLensInputModule.normalizedNavigationToScreenOffsetScalar">
+      <summary>
+        <para>Defines the number of pixels of emulated mouse movement when a value of positive or negative 1 is reported by the device for a navigation gesture.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.EventSystems.HoloLensInputModule.timeToPressOnTap">
+      <summary>
+        <para>Controls the number of seconds that taps (emulated mouse clicks) will leave any tapped UI object in the Pressed state for better user feedback.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.EventSystems.HoloLensInputModule.ActivateModule">
+      <summary>
+        <para>See BaseInputModule.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.EventSystems.HoloLensInputModule.IsModuleSupported">
+      <summary>
+        <para>See BaseInputModule.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.EventSystems.HoloLensInputModule.ShouldActivateModule">
+      <summary>
+        <para>See BaseInputModule.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.EventSystems.HoloLensInputModule.UpdateModule">
+      <summary>
+        <para>See BaseInputModule.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.VR.WSA.SpatialMappingBase">
+      <summary>
+        <para>The base class for all spatial mapping components.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.bakePhysics">
+      <summary>
+        <para>This property specifies whether or not collision data will be generated when computing the surface mesh's triangulation. (Read Only)</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.freezeUpdates">
+      <summary>
+        <para>Specifies if the component should listen and respond to spatial surface changes.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.halfBoxExtents">
+      <summary>
+        <para>The half extents of the bounding box from its center.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.lodType">
+      <summary>
+        <para>The level of detail that should be used when generating surface meshes.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.numUpdatesBeforeRemoval">
+      <summary>
+        <para>The number of frames to keep a surface mesh alive for before destroying it after the system has determined that its real world counterpart has been removed.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.secondsBetweenUpdates">
+      <summary>
+        <para>The time in seconds between system queries for changes in physical space.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.sphereRadius">
+      <summary>
+        <para>The radius of the bounding sphere volume.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.surfaceParent">
+      <summary>
+        <para>The GameObject that should be the parent of all the component's surface mesh game objects.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingBase.volumeType">
+      <summary>
+        <para>The surface observer volume to use when querying the system for changes in physical space.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.VR.WSA.SpatialMappingBase.LODType">
+      <summary>
+        <para>The number of triangles per cubic meter or level of detail that should be used when creating a surface mesh.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingBase.LODType.High">
+      <summary>
+        <para>Generates surface meshes with the maximum amount of triangles.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingBase.LODType.Low">
+      <summary>
+        <para>Generates surface meshes with as few triangles as possible.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingBase.LODType.Medium">
+      <summary>
+        <para>Generates a medium quality surface mesh.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.VR.WSA.SpatialMappingBase.OnBeginSurfaceEviction(System.Boolean,UnityEngine.VR.WSA.SpatialMappingBase/Surface)">
+      <summary>
+        <para>This method is called when the system notifies the spatial mapping component that a surface has been removed.</para>
+      </summary>
+      <param name="shouldBeActiveWhileRemoved"></param>
+      <param name="surface"></param>
+    </member>
+    <member name="M:UnityEngine.VR.WSA.SpatialMappingBase.OnSurfaceDataReady(UnityEngine.VR.WSA.SpatialMappingBase,UnityEngine.VR.WSA.SurfaceData,System.Boolean,System.Single)">
+      <summary>
+        <para>This method will be called by the system when the surface data has been generated.</para>
+      </summary>
+      <param name="requester"></param>
+      <param name="bakedData"></param>
+      <param name="outputWritten"></param>
+      <param name="elapsedBakeTimeSeconds"></param>
+    </member>
+    <member name="T:UnityEngine.VR.WSA.SpatialMappingBase.VolumeType">
+      <summary>
+        <para>The surface observer volume type to use when querying the system for changes in physical space.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingBase.VolumeType.AxisAlignedBox">
+      <summary>
+        <para>An axis aligned bounding box volume.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingBase.VolumeType.Sphere">
+      <summary>
+        <para>A sphere bounding volume.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.VR.WSA.SpatialMappingCollider">
+      <summary>
+        <para>Creates and manages the GameObjects that represent spatial surfaces.  A MeshFilter and MeshCollider will automatically be added to these game objects so that holograms can interact with physical surfaces.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingCollider.enableCollisions">
+      <summary>
+        <para>Enables/Disables MeshCollider components on all spatial surfaces associated with the SpatialMappingCollider component instance.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingCollider.layer">
+      <summary>
+        <para>Sets the layer on all spatial surfaces associated with the SpatialMappingCollider component instance.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingCollider.material">
+      <summary>
+        <para>Sets the PhysicMaterial on all spatial surfaces associated with the SpatialMappingCollider component instance.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.VR.WSA.SpatialMappingRenderer">
+      <summary>
+        <para>Creates and manages the GameObjects that represent spatial surfaces.  A MeshFilter, MeshRenderer, and material will automatically be added to these GameObjects so that the spatial surface can be visualized.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingRenderer.occlusionMaterial">
+      <summary>
+        <para>A Material applied to all surface meshes to enable occlusion of holograms by real world objects.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingRenderer.renderState">
+      <summary>
+        <para>Controls which Material will be used when rendering a surface mesh.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.VR.WSA.SpatialMappingRenderer.visualMaterial">
+      <summary>
+        <para>A material that can be used to visualize the spatial surface.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.VR.WSA.SpatialMappingRenderer.RenderState">
+      <summary>
+        <para>Specifies how to render the spatial surfaces associated with the SpatialMappingRenderer component instance.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingRenderer.RenderState.None">
+      <summary>
+        <para>Disables all MeshRenderer components associated with the SpatialMappingRenderer component instance.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingRenderer.RenderState.Occlusion">
+      <summary>
+        <para>Indicates that the Occlusion material should be used to render the surfaces.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.VR.WSA.SpatialMappingRenderer.RenderState.Visualization">
+      <summary>
+        <para>Indicates that the Visualization material should be used to render the surfaces.</para>
+      </summary>
+    </member>
+  </members>
+</doc>
