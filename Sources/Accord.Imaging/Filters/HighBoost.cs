@@ -73,7 +73,6 @@ namespace Accord.Imaging.Filters
             set
             {
                 boost = value;
-                Kernel[size / 2, size / 2] = boost;
             }
         }
 
