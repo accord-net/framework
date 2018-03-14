@@ -150,7 +150,7 @@ namespace Accord.Imaging.Filters
 
             // do the job
             var dst0 = (byte*)destination.ImageData.ToPointer();
-            var del0 = stackalloc byte[delSize]; for (var i = 0; i < delSize; i++) del0[i] = 0xFF;
+            var del0 = (byte*)Marshal.AllocHGlobal(delSize).ToPointer();
 
             bool endOfAlgorithm;
 
