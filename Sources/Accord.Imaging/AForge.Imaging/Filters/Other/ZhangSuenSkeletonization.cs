@@ -188,7 +188,7 @@ namespace Accord.Imaging.Filters
 
             } while (!endOfAlgorithm);
 			
-			// Free del memory
+            // Free del memory
             Marshal.FreeHGlobal(delPtr);
 
             #region Set colors
