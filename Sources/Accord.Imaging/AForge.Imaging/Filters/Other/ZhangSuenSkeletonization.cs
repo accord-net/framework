@@ -151,7 +151,9 @@ namespace Accord.Imaging.Filters
 
             // do the job
             var dst0 = (byte*)destination.ImageData.ToPointer();
-            var del0 = (byte*)Marshal.AllocHGlobal(delSize).ToPointer();
+
+            var delPtr = Marshal.AllocHGlobal(delSize);
+            var del0 = (byte*)delPtr.ToPointer();
             for (var i = 0; i < delSize; i++) del0[i] = 0xFF;
 
             bool endOfAlgorithm;
@@ -185,6 +187,9 @@ namespace Accord.Imaging.Filters
                     del0);
 
             } while (!endOfAlgorithm);
+			
+			// Free del memory
+            Marshal.FreeHGlobal(delPtr);
 
             #region Set colors
 
