@@ -345,10 +345,10 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// Learns a model that can map the given inputs to the given outputs by using (gradient free) optimization algorithm
         /// </summary>
         /// <param name="input">The model inputs.</param>
-        /// <param name="output">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="parameter">The optimization solver<paramref name="gradientFreeSolver">inputs</paramref>.</param>
+        /// <param name="output">The desired outputs associated with each inputs.</param>
+        /// <param name="parameter">The parameter for model .</param>
         /// <returns>
-        /// The error between model output with parameter and expected output.
+        /// The error between model output with parameter and true output.
         /// </returns>
         protected double ErrorFunction(double[][] input, double[] output, double[]parameter)
         {
