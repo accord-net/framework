@@ -52,5 +52,12 @@ namespace Accord.DebuggerVisualizers
 
             windowService.ShowDialog(imageViewer);
         }
+
+        public static void TestShowVisualizer(Image imageToVisualize, System.Windows.Forms.Form parent)
+        {
+            VisualizerDevelopmentHost visualizerHost = new VisualizerDevelopmentHost(imageToVisualize, typeof(ImageVisualizer));
+            visualizerHost.ShowVisualizer();
+            parent.Close();
+        }
     }
 }

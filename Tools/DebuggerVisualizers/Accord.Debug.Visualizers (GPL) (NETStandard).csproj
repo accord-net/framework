@@ -7,7 +7,7 @@
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
-  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+  <Import Project="..\..\Sources\Accord.NET (NETStandard).targets" />
 
   <PropertyGroup>
     <DocumentationFile></DocumentationFile>

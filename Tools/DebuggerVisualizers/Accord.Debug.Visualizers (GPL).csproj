@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{E72A7F76-D6CF-498F-B995-2DAA847146A8}</ProjectGuid>
+    <ProjectGuid>{0C4F32DF-1032-4C80-8B47-9C3316433A43}</ProjectGuid>
     <RootNamespace>Accord.DebuggerVisualizers</RootNamespace>
     <AssemblyName>Accord.DebuggerVisualizers.GPL</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <Import Project="..\..\Sources\Accord.NET.targets" />
   <!-- <PropertyGroup>   -->
   <!-- <PlatformTarget>AnyCPU</PlatformTarget> -->
   <!-- <OutputType>Library</OutputType> -->
@@ -171,6 +171,10 @@
     <None Include="Resources\magnifier.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Cyotek.ImageBox\Accord.Controls.Cyotek.ImageBox\Accord.Controls.Cyotek.ImageBox.csproj">
+      <Project>{4159c8d3-c18d-4bed-8be6-9bad1b0ca4f6}</Project>
+      <Name>Accord.Controls.Cyotek.ImageBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
       <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
       <Name>Accord.Controls.Imaging</Name>

@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cyotek.Windows.Forms.Demo</RootNamespace>
+    <AssemblyName>imgbxdmo</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>cyopublic.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>..\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CommonMark.NET.0.9.0\lib\net35-client\CommonMark.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer, Version=1.5.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\HtmlRenderer.Core.1.5.0.5\lib\net35-client\HtmlRenderer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer.WinForms">
+      <HintPath>..\packages\HtmlRenderer.WinForms.1.5.0.6\lib\net35-client\HtmlRenderer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForm.Designer.cs">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AnimatedGifDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnimatedGifDemoForm.Designer.cs">
+      <DependentUpon>AnimatedGifDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisposedImageDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisposedImageDemoForm.Designer.cs">
+      <DependentUpon>DisposedImageDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DragHandle.cs" />
+    <Compile Include="DragHandleAnchor.cs" />
+    <Compile Include="DragHandleCollection.cs" />
+    <Compile Include="EventsListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MiniMapDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MiniMapDemoForm.designer.cs">
+      <DependentUpon>MiniMapDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OpenUrlDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OpenUrlDialog.Designer.cs">
+      <DependentUpon>OpenUrlDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ResizableSelectionDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResizableSelectionDemoForm.Designer.cs">
+      <DependentUpon>ResizableSelectionDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextDemoForm.Designer.cs">
+      <DependentUpon>TextDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DragTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DragTestForm.Designer.cs">
+      <DependentUpon>DragTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GeneralDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GeneralDemoForm.Designer.cs">
+      <DependentUpon>GeneralDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainMenuForm.designer.cs">
+      <DependentUpon>MainMenuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PixelGridForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PixelGridForm.Designer.cs">
+      <DependentUpon>PixelGridForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutDialog.designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScaledAdornmentsDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScaledAdornmentsDemoForm.Designer.cs">
+      <DependentUpon>ScaledAdornmentsDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SizeModeDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SizeModeDemoForm.Designer.cs">
+      <DependentUpon>SizeModeDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SwitchImageDuringZoomDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SwitchImageDuringZoomDemoForm.Designer.cs">
+      <DependentUpon>SwitchImageDuringZoomDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualModeDemonstrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VirtualModeDemonstrationForm.Designer.cs">
+      <DependentUpon>VirtualModeDemonstrationForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\icon.ico">
+      <Link>icon.ico</Link>
+    </Content>
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+    <None Include="Resources\map.png" />
+    <Content Include="Resources\MapMarker.png" />
+    <Content Include="Resources\cursor.png" />
+    <None Include="Resources\icon-32.png" />
+    <None Include="Resources\grid-dot.png" />
+    <None Include="Resources\icon-32a.png" />
+    <Content Include="Resources\image-crop.png" />
+    <Content Include="Resources\image-resize-actual.png" />
+    <Content Include="Resources\magnifier-zoom-in.png" />
+    <Content Include="Resources\magnifier-zoom-out.png" />
+    <Content Include="Resources\magnifier-zoom.png" />
+    <None Include="Resources\monitor-sidebar.png" />
+    <Content Include="Resources\markdownpad-github.css" />
+    <Content Include="Resources\Newtons_cradle_animation_book_2.gif" />
+    <Content Include="Resources\Object Position.ico" />
+    <Content Include="Resources\Object Size.ico" />
+    <None Include="Resources\Open.png" />
+    <Content Include="Resources\sample.jpg" />
+    <None Include="Resources\samplecrop.png" />
+    <Content Include="Resources\selection-select.png" />
+    <Content Include="Resources\selection.png" />
+    <Content Include="Resources\The_Legendary_Treasure_Map_by_Bogbrush.png" />
+    <Content Include="Resources\zone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AnimatedGifDemoForm.resx">
+      <DependentUpon>AnimatedGifDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisposedImageDemoForm.resx">
+      <DependentUpon>DisposedImageDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MiniMapDemoForm.resx">
+      <DependentUpon>MiniMapDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OpenUrlDialog.resx">
+      <DependentUpon>OpenUrlDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResizableSelectionDemoForm.resx">
+      <DependentUpon>ResizableSelectionDemoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextDemoForm.resx">
+      <DependentUpon>TextDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DragTestForm.resx">
+      <DependentUpon>DragTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeneralDemoForm.resx">
+      <DependentUpon>GeneralDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainMenuForm.resx">
+      <DependentUpon>MainMenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PixelGridForm.resx">
+      <DependentUpon>PixelGridForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AboutDialog.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScaledAdornmentsDemoForm.resx">
+      <DependentUpon>ScaledAdornmentsDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SizeModeDemoForm.resx">
+      <DependentUpon>SizeModeDemoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwitchImageDuringZoomDemoForm.resx">
+      <DependentUpon>SwitchImageDuringZoomDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VirtualModeDemonstrationForm.resx">
+      <DependentUpon>VirtualModeDemonstrationForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Controls.Cyotek.ImageBox\Accord.Controls.Cyotek.ImageBox.csproj">
+      <Project>{4159c8d3-c18d-4bed-8be6-9bad1b0ca4f6}</Project>
+      <Name>Accord.Controls.Cyotek.ImageBox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cyopublic.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
