@@ -218,5 +218,25 @@ namespace Accord.Tests.Math
                 { 20,   31,  42,  53,  64 }, 
             }));
         }
+
+        [Test]
+        public void GetSymmetricTest()
+        {
+            int[,] m =
+            {
+                { 1, 2, 3 },
+                { 0, 1, 2 },
+                { 0, 0, 1 }
+            };
+
+            int[,] expected =
+            {
+                { 1, 2, 3 },
+                { 2, 1, 2 },
+                { 3, 2, 1 }
+            };
+
+            Assert.AreEqual(expected, m.GetSymmetric(MatrixType.UpperTriangular));
+        }
     }
 }

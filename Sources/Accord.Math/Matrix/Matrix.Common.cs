@@ -1077,7 +1077,7 @@ namespace Accord.Math
                     break;
                 case MatrixType.UpperTriangular:
                     for (int i = 0; i < matrix.Rows(); i++)
-                        for (int j = i; j <= matrix.Columns(); j++)
+                        for (int j = i; j < matrix.Columns(); j++)
                             result[i, j] = result[j, i] = matrix[i, j];
                     break;
                 default:
