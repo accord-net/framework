@@ -455,7 +455,7 @@ namespace Accord.Statistics.Analysis
         {
             if (increment <= 0)
             {
-                throw new ArgumentException("Increment must be positive.", nameof(increment));
+                throw new ArgumentException("Increment must be positive.", "increment");
             }
 
             var points = new List<ReceiverOperatingCharacteristicPoint>();
