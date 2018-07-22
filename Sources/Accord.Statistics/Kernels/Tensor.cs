@@ -29,8 +29,13 @@ namespace Accord.Statistics.Kernels
     ///   Tensor Product combination of Kernels.
     /// </summary>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Kernels\TensorTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
-    public struct Tensor<T> where T : IKernel
+    public struct Tensor<T> : IKernel
+        where T : IKernel
     {
         private T[] kernels;
 

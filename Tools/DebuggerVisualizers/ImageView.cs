@@ -66,9 +66,10 @@ namespace Accord.DebuggerVisualizers
 {
     public partial class ImageView : Form
     {
-        private const int MaxZoom = 10;
+        // For funsies make the zoom levels a fibonacci sequence (except for 25, 50, 75, 100, 200) - always need to have a 1 to 1 view
+        private int[] zoomLevelsFibonacci = new int[] { 13, 21, 25, 34, 50, 55, 75, 89, 100, 144, 200, 233, 377, 610, 987, 1597, 2584, 4181 };
+        private int zoom = 100;
         public Image Image { get; private set; }
-        private int zoom = 1;
 
         public int Zoom
         {
@@ -78,8 +79,9 @@ namespace Accord.DebuggerVisualizers
             }
             private set
             {
-                int tempZoom = value.Between(1, MaxZoom);
-                tsddbZoom.Text = $"Zoom: {tempZoom * 100}%";
+                var tempZoom = value.Between(pbPreview.ZoomLevels[0], pbPreview.ZoomLevels[pbPreview.ZoomLevels.Count - 1]);
+                //var currentZoomText = tempZoom < 1 ? (tempZoom).ToString("N0") : (tempZoom).ToString();
+                tsddbZoom.Text = $"Zoom: {tempZoom}%";
 
                 if (tempZoom != zoom)
                 {
@@ -89,17 +91,18 @@ namespace Accord.DebuggerVisualizers
             }
         }
 
-        private System.Drawing.Point dragStartPosition;
         private bool escapeKeyDown;
 
         public ImageView(Image img)
         {
             InitializeComponent();
             Image = img;
-            Zoom = 1;
-            UpdateControls();
+            Zoom = 100;//1;
             Text = $"Accord Image Visualizer v{Helpers.AssemblyVersion}";
             pbPreview.MouseWheel += PbPreview_MouseWheel;
+            pbPreview.ZoomLevels = new Accord.Controls.Cyotek.ZoomLevelCollection(zoomLevelsFibonacci);
+            pbPreview.Image = Image;
+            UpdateControls();
         }
 
         private void UpdateControls()
@@ -107,15 +110,25 @@ namespace Accord.DebuggerVisualizers
             tsMain.Renderer = new CustomToolStripProfessionalRenderer();
             tsddbZoom.HideImageMargin();
 
-            for (int i = 0; i < MaxZoom; i++)
+            for (int i = 0; i < pbPreview.ZoomLevels.Count; i++)
             {
-                int currentZoom = i + 1;
-                ToolStripMenuItem tsmi = new ToolStripMenuItem(currentZoom * 100 + "%");
-                tsmi.Click += (sender, e) => Zoom = currentZoom;
+                var currentZoom = pbPreview.ZoomLevels[i];
+                //var currentZoomText = currentZoom < 1 ? (currentZoom).ToString("N0") : (currentZoom).ToString();
+                ToolStripMenuItem tsmi = new ToolStripMenuItem(currentZoom + "%")
+                {
+                    Tag = currentZoom
+                };
+                tsmi.Click += Click_ZoomDropDown;
                 tsddbZoom.DropDownItems.Add(tsmi);
             }
 
             UpdatePreview();
+        }
+
+        private void Click_ZoomDropDown(object sender, EventArgs e)
+        {
+            Zoom = (int)((ToolStripMenuItem)sender).Tag;
+            pbPreview.Zoom = zoom;
         }
 
         private void UpdatePreview()
@@ -132,18 +145,14 @@ namespace Accord.DebuggerVisualizers
                 tsslStatusPixelFormat.Text = $"Pixel format: {img.PixelFormat}";
                 tsslStatusType.Text = $"Type: {img.GetType().Name}";
                 tsslDPI.Text = $"DPI: {System.Math.Ceiling(img.HorizontalResolution)}x{System.Math.Ceiling(img.VerticalResolution)}";
-
-                Bitmap bmpPreview = RenderPreview(img);
-
-                SetPreviewImage(bmpPreview);
             }
         }
 
         private Bitmap RenderPreview(Image img)
         {
-            int lineSize = 2;
-            int previewWidth = img.Width * Zoom;
-            int previewHeight = img.Height * Zoom;
+            const int lineSize = 2;
+            var previewWidth = img.Width * Zoom;
+            var previewHeight = img.Height * Zoom;
 
             Bitmap bmpPreview = new Bitmap(previewWidth + lineSize * 2, previewHeight + lineSize * 2, PixelFormat.Format24bppRgb);
 
@@ -174,6 +183,9 @@ namespace Accord.DebuggerVisualizers
 
         private void SetPreviewImage(Image img)
         {
+            var pb = new Accord.Controls.Cyotek.ImageBox();
+            pb.IsValidImage();
+
             if (pbPreview.IsValidImage())
             {
                 pbPreview.Image.Dispose();
@@ -200,9 +212,16 @@ namespace Accord.DebuggerVisualizers
             }
 
             if (e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.Add || e.KeyCode == Keys.J)
-                Zoom += 1;
+            {
+                Zoom = pbPreview.ZoomLevels.NextZoom(pbPreview.Zoom);
+                pbPreview.Zoom = zoom;
+            }
+
             if (e.KeyCode == Keys.OemMinus || e.KeyCode == Keys.Subtract || e.KeyCode == Keys.K)
-                Zoom -= 1;
+            {
+                Zoom = pbPreview.ZoomLevels.PreviousZoom(pbPreview.Zoom);
+                pbPreview.Zoom = zoom;
+            }
         }
 
         private void tsbCopyImage_Click(object sender, EventArgs e)
@@ -220,42 +239,24 @@ namespace Accord.DebuggerVisualizers
             Helpers.OpenURL("https://github.com/accord-net/framework");
         }
 
-        private void pbPreview_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left && (pMain.HorizontalScroll.Visible || pMain.VerticalScroll.Visible))
-            {
-                Cursor = Cursors.SizeAll;
-                dragStartPosition = e.Location;
-            }
-        }
-
         private void pbPreview_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && (pMain.HorizontalScroll.Visible || pMain.VerticalScroll.Visible))
+            if (pbPreview.IsPointInImage(e.Location))
             {
-                System.Drawing.Point scrollOffset = new System.Drawing.Point(e.X - dragStartPosition.X, e.Y - dragStartPosition.Y);
-                pMain.AutoScrollPosition = new System.Drawing.Point(-pMain.AutoScrollPosition.X - scrollOffset.X, -pMain.AutoScrollPosition.Y - scrollOffset.Y);
+                var pt = pbPreview.PointToImage(e.Location);
+                tsslX.Text = $"X: {pt.X}";
+                tsslY.Text = $"Y: {pt.Y}";
             }
-
-            tsslX.Text = $"X: {e.X / Zoom}";
-            tsslY.Text = $"Y: {e.Y / Zoom}";
-        }
-
-        private void pbPreview_MouseUp(object sender, MouseEventArgs e)
-        {
-            Cursor = Cursors.Default;
         }
 
         private void PbPreview_MouseWheel(object sender, MouseEventArgs e)
         {
+            // This is not doing the zooming - it's only updating the combobox
+
             if (e.Delta > 0)
-            {
-                Zoom++;
-            }
+                Zoom = pbPreview.ZoomLevels.NextZoom(pbPreview.Zoom);
             else
-            {
-                Zoom--;
-            }
+                Zoom = pbPreview.ZoomLevels.PreviousZoom(pbPreview.Zoom);
         }
     }
 }

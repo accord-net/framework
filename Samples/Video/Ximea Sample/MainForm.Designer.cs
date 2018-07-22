@@ -76,11 +76,12 @@
             // 
             this.videoSourcePlayer.AutoSizeControl = true;
             this.videoSourcePlayer.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.videoSourcePlayer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.videoSourcePlayer.ForeColor = System.Drawing.Color.White;
-            this.videoSourcePlayer.Location = new System.Drawing.Point(371, 164);
-            this.videoSourcePlayer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.videoSourcePlayer.Location = new System.Drawing.Point(0, 0);
+            this.videoSourcePlayer.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.videoSourcePlayer.Name = "videoSourcePlayer";
-            this.videoSourcePlayer.Size = new System.Drawing.Size(322, 242);
+            this.videoSourcePlayer.Size = new System.Drawing.Size(1216, 768);
             this.videoSourcePlayer.TabIndex = 7;
             this.videoSourcePlayer.VideoSource = null;
             // 
@@ -90,10 +91,10 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fpsLabel,
             this.spareLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 793);
+            this.statusStrip.Location = new System.Drawing.Point(0, 1065);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1065, 22);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(3, 0, 28, 0);
+            this.statusStrip.Size = new System.Drawing.Size(1216, 22);
             this.statusStrip.TabIndex = 8;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -115,7 +116,7 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.spareLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
             this.spareLabel.Name = "spareLabel";
-            this.spareLabel.Size = new System.Drawing.Size(942, 17);
+            this.spareLabel.Size = new System.Drawing.Size(1085, 17);
             this.spareLabel.Spring = true;
             this.spareLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -124,9 +125,9 @@
             this.topPanel.Controls.Add(this.groupBox1);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
-            this.topPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.topPanel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(1065, 223);
+            this.topPanel.Size = new System.Drawing.Size(1216, 297);
             this.topPanel.TabIndex = 9;
             // 
             // groupBox1
@@ -156,11 +157,11 @@
             this.groupBox1.Controls.Add(this.disconnectButton);
             this.groupBox1.Controls.Add(this.connectButton);
             this.groupBox1.Controls.Add(this.deviceCombo);
-            this.groupBox1.Location = new System.Drawing.Point(15, 15);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Location = new System.Drawing.Point(20, 20);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(1034, 198);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.groupBox1.Size = new System.Drawing.Size(1175, 264);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Camera parameters:";
@@ -172,20 +173,20 @@
             0,
             0,
             0});
-            this.offsetYUpDown.Location = new System.Drawing.Point(780, 77);
-            this.offsetYUpDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.offsetYUpDown.Location = new System.Drawing.Point(1040, 103);
+            this.offsetYUpDown.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.offsetYUpDown.Name = "offsetYUpDown";
-            this.offsetYUpDown.Size = new System.Drawing.Size(93, 26);
+            this.offsetYUpDown.Size = new System.Drawing.Size(124, 31);
             this.offsetYUpDown.TabIndex = 17;
             this.offsetYUpDown.ValueChanged += new System.EventHandler(this.offsetYUpDown_ValueChanged);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(702, 82);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(936, 109);
+            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(72, 20);
+            this.label9.Size = new System.Drawing.Size(96, 25);
             this.label9.TabIndex = 16;
             this.label9.Text = "Offset Y:";
             // 
@@ -196,20 +197,20 @@
             0,
             0,
             0});
-            this.offsetXUpDown.Location = new System.Drawing.Point(540, 77);
-            this.offsetXUpDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.offsetXUpDown.Location = new System.Drawing.Point(720, 103);
+            this.offsetXUpDown.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.offsetXUpDown.Name = "offsetXUpDown";
-            this.offsetXUpDown.Size = new System.Drawing.Size(93, 26);
+            this.offsetXUpDown.Size = new System.Drawing.Size(124, 31);
             this.offsetXUpDown.TabIndex = 15;
             this.offsetXUpDown.ValueChanged += new System.EventHandler(this.offsetXUpDown_ValueChanged);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(466, 82);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Location = new System.Drawing.Point(621, 109);
+            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(72, 20);
+            this.label10.Size = new System.Drawing.Size(95, 25);
             this.label10.TabIndex = 14;
             this.label10.Text = "Offset X:";
             // 
@@ -220,20 +221,20 @@
             0,
             0,
             0});
-            this.heightUpDown.Location = new System.Drawing.Point(780, 31);
-            this.heightUpDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.heightUpDown.Location = new System.Drawing.Point(1040, 41);
+            this.heightUpDown.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.heightUpDown.Name = "heightUpDown";
-            this.heightUpDown.Size = new System.Drawing.Size(93, 26);
+            this.heightUpDown.Size = new System.Drawing.Size(124, 31);
             this.heightUpDown.TabIndex = 13;
             this.heightUpDown.ValueChanged += new System.EventHandler(this.heightUpDown_ValueChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(712, 35);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Location = new System.Drawing.Point(949, 47);
+            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 20);
+            this.label8.Size = new System.Drawing.Size(80, 25);
             this.label8.TabIndex = 12;
             this.label8.Text = "Height:";
             // 
@@ -244,40 +245,40 @@
             0,
             0,
             0});
-            this.widthUpDown.Location = new System.Drawing.Point(540, 31);
-            this.widthUpDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.widthUpDown.Location = new System.Drawing.Point(720, 41);
+            this.widthUpDown.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.widthUpDown.Name = "widthUpDown";
-            this.widthUpDown.Size = new System.Drawing.Size(93, 26);
+            this.widthUpDown.Size = new System.Drawing.Size(124, 31);
             this.widthUpDown.TabIndex = 11;
             this.widthUpDown.ValueChanged += new System.EventHandler(this.widthUpDown_ValueChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(482, 35);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(643, 47);
+            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(54, 20);
+            this.label7.Size = new System.Drawing.Size(73, 25);
             this.label7.TabIndex = 10;
             this.label7.Text = "Width:";
             // 
             // gainUpDown
             // 
             this.gainUpDown.DecimalPlaces = 2;
-            this.gainUpDown.Location = new System.Drawing.Point(540, 123);
-            this.gainUpDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gainUpDown.Location = new System.Drawing.Point(720, 164);
+            this.gainUpDown.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.gainUpDown.Name = "gainUpDown";
-            this.gainUpDown.Size = new System.Drawing.Size(93, 26);
+            this.gainUpDown.Size = new System.Drawing.Size(124, 31);
             this.gainUpDown.TabIndex = 19;
             this.gainUpDown.ValueChanged += new System.EventHandler(this.gainUpDown_ValueChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(458, 128);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(611, 171);
+            this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(81, 20);
+            this.label6.Size = new System.Drawing.Size(109, 25);
             this.label6.TabIndex = 18;
             this.label6.Text = "Gain (dB):";
             // 
@@ -289,96 +290,96 @@
             0,
             0,
             0});
-            this.exposureUpDown.Location = new System.Drawing.Point(780, 123);
-            this.exposureUpDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.exposureUpDown.Location = new System.Drawing.Point(1040, 164);
+            this.exposureUpDown.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.exposureUpDown.Name = "exposureUpDown";
-            this.exposureUpDown.Size = new System.Drawing.Size(93, 26);
+            this.exposureUpDown.Size = new System.Drawing.Size(124, 31);
             this.exposureUpDown.TabIndex = 21;
             this.exposureUpDown.ValueChanged += new System.EventHandler(this.exposureUpDown_ValueChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(660, 128);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(880, 171);
+            this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(115, 20);
+            this.label5.Size = new System.Drawing.Size(157, 25);
             this.label5.TabIndex = 20;
             this.label5.Text = "Exposure (ms):";
             // 
             // typeBox
             // 
-            this.typeBox.Location = new System.Drawing.Point(105, 154);
-            this.typeBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.typeBox.Location = new System.Drawing.Point(140, 205);
+            this.typeBox.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.typeBox.Name = "typeBox";
             this.typeBox.ReadOnly = true;
-            this.typeBox.Size = new System.Drawing.Size(313, 26);
+            this.typeBox.Size = new System.Drawing.Size(416, 31);
             this.typeBox.TabIndex = 9;
             // 
             // snBox
             // 
-            this.snBox.Location = new System.Drawing.Point(105, 115);
-            this.snBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.snBox.Location = new System.Drawing.Point(140, 153);
+            this.snBox.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.snBox.Name = "snBox";
             this.snBox.ReadOnly = true;
-            this.snBox.Size = new System.Drawing.Size(313, 26);
+            this.snBox.Size = new System.Drawing.Size(416, 31);
             this.snBox.TabIndex = 7;
             // 
             // nameBox
             // 
-            this.nameBox.Location = new System.Drawing.Point(105, 77);
-            this.nameBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nameBox.Location = new System.Drawing.Point(140, 103);
+            this.nameBox.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.nameBox.Name = "nameBox";
             this.nameBox.ReadOnly = true;
-            this.nameBox.Size = new System.Drawing.Size(313, 26);
+            this.nameBox.Size = new System.Drawing.Size(416, 31);
             this.nameBox.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 158);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(20, 211);
+            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 20);
+            this.label4.Size = new System.Drawing.Size(66, 25);
             this.label4.TabIndex = 8;
             this.label4.Text = "Type:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 120);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(20, 160);
+            this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 20);
+            this.label3.Size = new System.Drawing.Size(91, 25);
             this.label3.TabIndex = 6;
             this.label3.Text = "Serial #:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 82);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(20, 109);
+            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 20);
+            this.label2.Size = new System.Drawing.Size(74, 25);
             this.label2.TabIndex = 4;
             this.label2.Text = "Name:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 35);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(20, 47);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 20);
+            this.label1.Size = new System.Drawing.Size(110, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Device &ID:";
             // 
             // disconnectButton
             // 
-            this.disconnectButton.Location = new System.Drawing.Point(308, 31);
-            this.disconnectButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.disconnectButton.Location = new System.Drawing.Point(411, 41);
+            this.disconnectButton.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.disconnectButton.Name = "disconnectButton";
-            this.disconnectButton.Size = new System.Drawing.Size(112, 35);
+            this.disconnectButton.Size = new System.Drawing.Size(149, 47);
             this.disconnectButton.TabIndex = 3;
             this.disconnectButton.Text = "&Disconnect";
             this.disconnectButton.UseVisualStyleBackColor = true;
@@ -386,10 +387,10 @@
             // 
             // connectButton
             // 
-            this.connectButton.Location = new System.Drawing.Point(188, 31);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.connectButton.Location = new System.Drawing.Point(251, 41);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(112, 35);
+            this.connectButton.Size = new System.Drawing.Size(149, 47);
             this.connectButton.TabIndex = 2;
             this.connectButton.Text = "&Connect";
             this.connectButton.UseVisualStyleBackColor = true;
@@ -399,20 +400,20 @@
             // 
             this.deviceCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.deviceCombo.FormattingEnabled = true;
-            this.deviceCombo.Location = new System.Drawing.Point(105, 31);
-            this.deviceCombo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deviceCombo.Location = new System.Drawing.Point(140, 41);
+            this.deviceCombo.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.deviceCombo.Name = "deviceCombo";
-            this.deviceCombo.Size = new System.Drawing.Size(73, 28);
+            this.deviceCombo.Size = new System.Drawing.Size(96, 33);
             this.deviceCombo.TabIndex = 1;
             // 
             // mainPanel
             // 
             this.mainPanel.Controls.Add(this.videoSourcePlayer);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(0, 223);
-            this.mainPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.mainPanel.Location = new System.Drawing.Point(0, 297);
+            this.mainPanel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1065, 570);
+            this.mainPanel.Size = new System.Drawing.Size(1216, 768);
             this.mainPanel.TabIndex = 10;
             // 
             // timer
@@ -422,14 +423,14 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1065, 815);
+            this.ClientSize = new System.Drawing.Size(1216, 1087);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.topPanel);
             this.Controls.Add(this.statusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.Name = "MainForm";
             this.Text = "Ximea Video Acquisition Sample";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);

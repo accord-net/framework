@@ -102,6 +102,7 @@ namespace Accord.Video
         public NewFrameEventArgs(Bitmap frame)
         {
             this.Frame = frame;
+            this.FrameSize = frame.Size;
         }
 
         /// <summary>

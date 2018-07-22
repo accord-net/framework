@@ -38,7 +38,7 @@ public class MatrixOperationTemplate : Template
             "byte", 
             //"sbyte", 
             "decimal",
-            // "short",
+            "short",
             // "long",
             // "uint", "ulong", "ushort"
         };

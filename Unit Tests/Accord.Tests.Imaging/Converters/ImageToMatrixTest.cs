@@ -40,22 +40,6 @@ namespace Accord.Tests.Imaging
     public class ImageToMatrixTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ImageToMatrixConstructorTest()
         {

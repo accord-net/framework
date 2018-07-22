@@ -3,13 +3,13 @@
   <PropertyGroup>
     <AssemblyName>Accord.Controls.Imaging</AssemblyName>
     <RootNamespace>Accord.Controls.Imaging</RootNamespace>
-    <TargetFrameworks><!--net462;net46;net45;net40;net35--></TargetFrameworks>
+    <TargetFrameworks>net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
   <ItemGroup>
-    <ProjectReference Include="..\Accord.Controls.Statistics\Accord.Controls (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Controls\Accord.Controls (NETStandard).csproj" />
     <ProjectReference Include="..\Accord.Imaging\Accord.Imaging (NETStandard).csproj" />
     <ProjectReference Include="..\Accord.Video\Accord.Video (NETStandard).csproj" />
   </ItemGroup>

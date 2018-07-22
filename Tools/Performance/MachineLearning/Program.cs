@@ -21,6 +21,9 @@ using Accord.Imaging.Filters;
 using Accord.Imaging;
 using Accord.Audio.Generators;
 using Accord.Audio;
+using Accord.Video.DirectShow;
+using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace Accord.Perf.MachineLearning
 {
@@ -45,7 +48,8 @@ namespace Accord.Perf.MachineLearning
             //TestEmpty();
             //TestHaar();
             //TestFFMPEG();
-            TestFFMPEG2();
+            //TestFFMPEG2();
+            TestCameraStartStop();
         }
 
         private static void TestSparseKernelSVM()
@@ -560,6 +564,42 @@ namespace Accord.Perf.MachineLearning
                 // the duration that this frame should remain in the stream:
                 videoWriter.WriteVideoFrame(frame, TimeSpan.FromSeconds(i));
             }
+        }
+
+        static void TestCameraStartStop()
+        {
+            int i = 0;
+            var collections = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            var _capture = new VideoCaptureDevice(collections[i].MonikerString);
+            _capture.VideoResolution = _capture.VideoCapabilities.FirstOrDefault(item => System.Math.Abs(item.FrameSize.Width - 320) < 0.1 &&
+                                                                                         System.Math.Abs(item.FrameSize.Height - 240) < 0.1);
+            _capture.NewFrame += _captures_NewFrame;
+
+            int steps = 300 * 30 * 3;
+            do
+            {
+                _capture.Start();
+                Thread.Sleep(100);
+                _capture.SignalToStop();
+                _capture.WaitForStop();
+                i++;
+                Marshal.CleanupUnusedObjectsInCurrentContext();
+                GC.WaitForFullGCComplete();
+                GC.GetTotalMemory(true);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                string str = string.Format("Test nr {0}/{1}, mem = {2} Mbytes", i, steps,
+                    Process.GetCurrentProcess().PrivateMemorySize64 / 1024.0 / 1024.0);
+                Console.WriteLine(str);
+
+            } while (i < steps);
+            Console.ReadKey();
+        }
+
+        private static void _captures_NewFrame(object sender, Accord.Video.NewFrameEventArgs eventargs)
+        {
         }
     }
 }

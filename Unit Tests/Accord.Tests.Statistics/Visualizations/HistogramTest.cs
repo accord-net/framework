@@ -29,21 +29,58 @@ namespace Accord.Tests.Statistics
     public class HistogramTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void example1()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+            #region doc_example1
+            // Let's say we would like to create a new histogram
+            // visualization representing the following values:
+            double[] data = { 0.0, 0.005, 0.124, 0.0, 0.004, 0.0, 0.111, 0.112 };
 
+            // Create a new histogram object
+            var histogram = new Histogram()
+            {
+                Title = "My Histogram", // like a DataTable, we can give a name to the histogram
+
+                // If we don't want to specify how many bins the histogram should have,
+                // we can select any of the following bin adjustment rules to determine
+                // the number of bins for us (where N is the number of samples):
+                AutoAdjustmentRule = BinAdjustmentRule.Scott,         // 3.49*σ*N, where σ is the std. dev.
+                // AutoAdjustmentRule = BinAdjustmentRule.SquareRoot  // sqrt(N)
+                // AutoAdjustmentRule = BinAdjustmentRule.Sturges     // ceiling(log2(N) + 1)
+                Cumulative = false, // whether to compute a cumulative histogram or normal histogram
+                InclusiveUpperBound = true // whether to force the inclusion of the last bin or not
+            };
+
+            // Update the histogram
+            histogram.Compute(data);
+
+            // We can determine the number of bins according to our chosen rule
+            int numberOfBins = histogram.Bins.Count; // should be 2
+
+            // At this point, we can check where the bin edges would have been:
+            double[] edges = histogram.Edges; // should be { 0, 0.062, 0.124 }
+
+            // We can also inspect individual bins and their particular properties:
+            DoubleRange firstBinRange = histogram.Bins[0].Range;// should be (0, 0.062)
+            int value = histogram.Bins[0].Value;    // should be 5
+            double width = histogram.Bins[0].Width; // should be 0.062
+
+            // We can plot the histogram in WinForms (needs a reference to Accord.Controls.dll):
+            // HistogramBox.Show(histogram).Hold();
+
+            // If we would like to plot the histogram in another platform, we can inspect 
+            // the histogram's bin count, widths and ranges to determine how such histogram 
+            // should have been plotted. If you would like to plot this histogram in WebForms 
+            // for example, please take a look at the source code for "HistogramView.cs"
+            #endregion
+
+            Assert.AreEqual(2, numberOfBins);
+            Assert.AreEqual(new[] { 0, 0.062, 0.124 }, edges);
+            Assert.AreEqual(new DoubleRange(0, 0.062), firstBinRange);
+            Assert.AreEqual(5, value);
+            Assert.AreEqual(0.062, width);
+        }
 
         [Test]
         public void HistogramConstructorTest()

@@ -360,11 +360,14 @@ namespace SampleApp
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            
+            int padw = (e.ClipRectangle.Width - imageSize.Width) / 2;
+            int padh = (e.ClipRectangle.Height - imageSize.Height) / 2;
 
             if (pictureBox.Image != null)
             {
-                int cx = imageSize.Width / 2;
-                int cy = imageSize.Height / 2;
+                int cx = imageSize.Width / 2 + padw;
+                int cy = imageSize.Height / 2 + padh;
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -386,8 +389,7 @@ namespace SampleApp
                         // create tranformation matrix
                         Matrix4x4.CreateTranslation(translationVector) *       // 3: translate
                         Matrix4x4.CreateFromRotation(rotationMatrix) *         // 2: rotate
-                        Matrix4x4.CreateDiagonal(
-                            new Vector4(modelRadius, modelRadius, modelRadius, 1)), // 1: scale
+                        Matrix4x4.CreateDiagonal(new Vector4(modelRadius, modelRadius, modelRadius, 1)), // 1: scale
                         imageSize.Width
                     );
 

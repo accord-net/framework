@@ -256,5 +256,86 @@ namespace Accord.Tests.Math
             bool actual = a.To<bool>();
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void slice_dimension()
+        {
+            double[,] x =
+            {
+                { 0, 1 },
+                { 1, 2 },
+                { 2, 3 },
+                { 3, 4 },
+                { 4, 5 },
+                { 5, 6 },
+                { 6, 7 },
+                { 7, 8 },
+                { 8, 9 },
+                { 9, 0 },
+            };
+
+
+            {
+                double[,] r = (double[,])Matrix.Get(x, dimension: 0, indices: new[] { 0, 1 });
+
+                double[,] expected =
+                {
+                    { 0, 1 },
+                    { 1, 2 },
+                };
+
+                Assert.AreEqual(expected, r);
+            }
+
+            {
+                double[,] r = (double[,])Matrix.Get(x, dimension: 0, indices: new[] { 1, 2, 3 });
+
+                double[,] expected =
+                {
+                    { 1, 2 },
+                    { 2, 3 },
+                    { 3, 4 },
+                };
+
+                Assert.AreEqual(expected, r);
+            }
+
+            {
+                double[,] r = (double[,])Matrix.Get(x, dimension: 0, indices: new[] { 9, 6, 3, 2 });
+
+                double[,] expected =
+                {
+                    { 9, 0 },
+                    { 6, 7 },
+                    { 3, 4 },
+                    { 2, 3 },
+                };
+
+                Assert.AreEqual(expected, r);
+            }
+        }
+
+        [Test]
+        public void create_as()
+        {
+            double[,] a =
+            {
+                {1, 2, 3 },
+                {3, 4, 5 }
+            };
+
+            Array actual = Jagged.CreateAs(a, typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+
+            actual = Jagged.CreateAs(a.ToJagged(), typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+
+            actual = Matrix.CreateAs(a, typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+
+            actual = Matrix.CreateAs(a.ToJagged(), typeof(int));
+            Assert.AreEqual(new[] { 2, 3 }, actual.GetLength());
+        }
+
     }
 }

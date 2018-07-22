@@ -104,9 +104,9 @@ make test
 If you would like to contribute, please do so by helping us update the [project's Wiki pages](https://github.com/accord-net/framework/wiki). While you could also make a donation through PayPal [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N4Q6YQSPWN8BG), Flattr [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=cesarsouza&url=https://github.com/accord-net/framework&title=Accord.NET&language=&tags=github&category=software), or any of the cryptocurrencies shown below, as well as fill-in bug reports and contribute code in the form of pull requests, the most precious donation we could receive would be a bit of your time - [please take some minutes to submit us more documentation examples to our Wiki pages](https://github.com/accord-net/framework/wiki) :wink: 
 
 Donate using cryptocurrencies:
-- ```BTC: 16EUrG7AqbhrAbgVA1J3m4udFm3XFUntDE```
-- ```ETH: 0xc152EA8c985984C34C08b54201a632E98AE98e8F```
-- ```LTC: LPkWpq1ChUXXxpHZwvKFicVeWSXKPtnaYC```
+- ```BTC: 1FC5gxLs2TsvuiHPP1tRLh5mPboQJQghvZ```
+- ```ETH: 0x36FDA635Ef5773d8B376037D7BAfF22FeB987d92```
+- ```LTC: LNjkZkMdSyncUvg5WnnhDNirdux4Q95gdt```
 
 Note: all donations are 100% invested towards improving the framework, including, but not limited to, the hiring of extra developers to work on issues currently present at the project's issue tracker. If you would like to donate resources towards the development of a particular issue, please let us know!
 
@@ -117,9 +117,9 @@ Join the chat at https://gitter.im/accord-net/framework - but to have issues and
 
 Please cite this work as:
 ```bibtex
-@misc{de2014accord,
+@misc{souza2014accord,
   title={The Accord.NET Framework},
-  author={C{\'e}sar Souza and Andrew Kirillov and Diego Catalano and Accord.NET contributors},
+  author={C{\'e}sar Souza and Andrew Kirillov and Marcos Diego Catalano and Accord.NET contributors},
   year={2014},
   doi={10.5281/zenodo.1029480},
   url={http://accord-framework.net}

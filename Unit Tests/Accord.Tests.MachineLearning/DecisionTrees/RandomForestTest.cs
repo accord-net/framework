@@ -95,6 +95,8 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(forest.Decide(inputs));
             #endregion
 
+            Assert.AreEqual(10, forest.Trees.Length);
+
             Assert.IsTrue(error < 0.015);
         }
 
@@ -195,7 +197,30 @@ namespace Accord.Tests.MachineLearning
 
             double error = new ZeroOneLoss(outputs).Loss(forest.Decide(inputs));
 
-            Assert.AreEqual(0.0023148148148148147d, error, 1e-10);
+            Assert.AreEqual(1, forest.Trees.Length, 1e-10);
+            Assert.AreEqual(0.0220679012345679, error, 1e-10);
+
+
+
+
+            teacher = new RandomForestLearning(nursery.VariableNames)
+            {
+                NumberOfTrees = 100,
+                SampleRatio = 0.5
+            };
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            forest = teacher.Learn(inputs, outputs);
+
+            forest.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            predicted = forest.Decide(inputs);
+
+            error = new ZeroOneLoss(outputs).Loss(forest.Decide(inputs));
+
+            Assert.AreEqual(100, forest.Trees.Length, 1e-10);
+            Assert.AreEqual(0.00015432098765432099, error, 1e-10);
         }
 #endif
 

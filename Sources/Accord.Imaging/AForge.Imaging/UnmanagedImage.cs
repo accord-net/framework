@@ -142,10 +142,20 @@ namespace Accord.Imaging
         }
 
         /// <summary>
+        /// Obsolete. Please use <see cref="NumberOfBytes"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfBytes instead.")]
+        public int Bytes
+        {
+            get { return NumberOfBytes; }
+        }
+
+        /// <summary>
         /// Gets the image size, in bytes.
         /// </summary>
         /// 
-        public int Bytes
+        public int NumberOfBytes
         {
             get { return stride * height; }
         }
@@ -530,9 +540,7 @@ namespace Accord.Imaging
                         new Bitmap(width, height, pixelFormat);
 
                     // lock destination bitmap data
-                    BitmapData dstData = dstImage.LockBits(
-                        new Rectangle(0, 0, width, height),
-                        ImageLockMode.ReadWrite, pixelFormat);
+                    BitmapData dstData = dstImage.LockBits(ImageLockMode.ReadWrite);
 
                     int dstStride = dstData.Stride;
                     int lineSize = Math.Min(stride, dstStride);
@@ -593,10 +601,11 @@ namespace Accord.Imaging
         /// 
         public static UnmanagedImage FromByteArray(byte[] bytes, int width, int height, PixelFormat pixelFormat)
         {
-            if (bytes.Length != width * height)
-                throw new ArgumentException();
+            int pixelSize = pixelFormat.GetPixelFormatSizeInBytes();
+            if (bytes.Length != width * height * pixelSize)
+                throw new ArgumentException("The vector of bytes needs to have length (width * height * pixelSize)", "bytes");
 
-            UnmanagedImage image = UnmanagedImage.Create(width, height, width, pixelFormat);
+            UnmanagedImage image = UnmanagedImage.Create(width, height, width * pixelSize, pixelFormat);
 
             unsafe
             {
@@ -674,12 +683,17 @@ namespace Accord.Imaging
                 throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
-            // allocate memory for the image
-            IntPtr dstImageData = System.Runtime.InteropServices.Marshal.AllocHGlobal(imageData.Stride * imageData.Height);
-            System.GC.AddMemoryPressure(imageData.Stride * imageData.Height);
+            return FromUnmanagedData(imageData.Scan0, imageData.Width, imageData.Height, imageData.Stride, pixelFormat);
+        }
 
-            UnmanagedImage image = new UnmanagedImage(dstImageData, imageData.Width, imageData.Height, imageData.Stride, pixelFormat);
-            Accord.SystemTools.CopyUnmanagedMemory(dstImageData, imageData.Scan0, imageData.Stride * imageData.Height);
+        private static UnmanagedImage FromUnmanagedData(IntPtr imageData, int width, int height, int stride, PixelFormat pixelFormat)
+        {
+            // allocate memory for the image
+            IntPtr dstImageData = Marshal.AllocHGlobal(stride * height);
+            System.GC.AddMemoryPressure(stride * height);
+
+            UnmanagedImage image = new UnmanagedImage(dstImageData, width, height, stride, pixelFormat);
+            Accord.SystemTools.CopyUnmanagedMemory(dstImageData, imageData, stride * height);
             image.mustBeDisposed = true;
 
             return image;
@@ -1256,8 +1270,13 @@ namespace Accord.Imaging
         /// 
         public byte[] ToByteArray()
         {
-            byte[] bytes = new byte[this.Size];
-            Debug.Assert(bytes.Length == (width * height));
+            // Note: actualNumberOfBytes is different from this.NumberOfBytes
+            // because it does not need to take the GDI+ stride into account
+
+            int pixelSize = this.GetPixelFormatSizeInBytes();
+            int actualNumberOfBytes = width * height * pixelSize;
+            byte[] bytes = new byte[actualNumberOfBytes];
+
             int offset = Offset;
 
             unsafe
@@ -1265,11 +1284,9 @@ namespace Accord.Imaging
                 byte* src = (byte*)this.ImageData;
                 for (int y = 0, k = 0; y < height; y++)
                 {
-                    for (int x = 0; x < width; x++, k++, src++)
-                    {
-                        bytes[k] = *src;
-                    }
-
+                    for (int x = 0; x < width; x++)
+                        for (int c = 0; c < pixelSize; c++, k++, src++)
+                            bytes[k] = *src;
                     src += offset;
                 }
             }

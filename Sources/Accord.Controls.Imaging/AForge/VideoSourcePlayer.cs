@@ -542,7 +542,8 @@ namespace Accord.Controls
                 }
                 else
                 {
-                    return; // TODO: Show black frame or user customized color
+                    // Get the original frame
+                    newFrame = eventArgs.Frame;
                 }
 
                 // now update current frame of the control

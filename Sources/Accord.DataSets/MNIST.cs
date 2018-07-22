@@ -61,6 +61,14 @@ namespace Accord.DataSets
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to download and instantiate the MNIST dataset using the <see cref="MNIST"/> 
+    ///   class, and then how to use it to learn a learn multi-label (one-vs-rest) support vector machine. Being only 
+    ///   a linear machine, it achieves an error rate of ~0.85%.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachine\MultilabelSupportVectorLearningTest.cs" region="doc_learn_mnist" />
+    /// </example>   
+    /// 
     /// <seealso cref="Accord.DataSets.Base.SparseDataSet" />
     /// 
     public class MNIST : SparseDataSet

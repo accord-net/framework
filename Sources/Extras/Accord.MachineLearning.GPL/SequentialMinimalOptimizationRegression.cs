@@ -318,9 +318,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         ///   Convergence tolerance. Default value is 1e-3.
         /// </summary>
+        /// 
         /// <remarks>
         ///   The criterion for completing the model training process. The default is 0.001.
         /// </remarks>
+        /// 
         public double Tolerance
         {
             get { return this.tolerance; }

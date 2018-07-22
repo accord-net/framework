@@ -29,6 +29,10 @@ namespace Accord.Audio.Filters
     ///   High-pass band filter
     /// </summary>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Audio\Filters\HighPassFilterTest.cs" region="doc_example1" />
+    /// </example>
+    /// 
     public class HighPassFilter : BaseFilter
     {
 

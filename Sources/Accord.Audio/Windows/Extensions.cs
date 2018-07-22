@@ -91,6 +91,10 @@ namespace Accord.Audio.Windows
         ///   Splits a signal using a window
         /// </summary>
         /// 
+        /// <param name="signal">The signal to be splitted into windows.</param>
+        /// <param name="step">The step size, in number of frames.</param>
+        /// <param name="windowSize">The size of the window (in frames) when splitting the signal.</param>
+        /// 
         public static ComplexSignal[] Split(this ComplexSignal signal, int windowSize, int step)
         {
             return signal.Split(RaisedCosineWindow.Rectangular(windowSize), step);
@@ -100,16 +104,17 @@ namespace Accord.Audio.Windows
         ///   Splits a signal using a window
         /// </summary>
         /// 
-        public static Signal[] Split(this Signal signal, IWindow window, int step)
+        /// <param name="signal">The signal to be splitted into windows.</param>
+        /// <param name="stepSize">The step size, in number of frames.</param>
+        /// <param name="window">The window function to be used when splitting the signal. Default is to use <see cref="RectangularWindow"/>.</param>
+        /// 
+        public static Signal[] Split(this Signal signal, IWindow window, int stepSize)
         {
-            int n = (int)System.Math.Floor(signal.Length / (double)step);
+            int numberOfWindows = (int)System.Math.Floor(signal.Length / (double)stepSize);
 
-            Signal[] windows = new Signal[n];
-
+            var windows = new Signal[numberOfWindows];
             for (int i = 0; i < windows.Length; i++)
-            {
-                windows[i] = window.Apply(signal, i * step);
-            }
+                windows[i] = window.Apply(signal, i * stepSize);
 
             return windows;
         }
@@ -117,6 +122,10 @@ namespace Accord.Audio.Windows
         /// <summary>
         ///   Splits a signal using a window
         /// </summary>
+        /// 
+        /// <param name="signal">The signal to be splitted into windows.</param>
+        /// <param name="step">The step size, in number of frames.</param>
+        /// <param name="windowSize">The size of the window (in frames) when splitting the signal.</param>
         /// 
         public static Signal[] Split(this Signal signal, int windowSize, int step)
         {

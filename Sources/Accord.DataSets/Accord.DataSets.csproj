@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Base\WebDataSet.cs" />
     <Compile Include="Chunking.cs" />
+    <Compile Include="Cifar10.cs" />
     <Compile Include="Nursery.cs" />
     <Compile Include="PimaIndiansDiabetes.cs" />
     <Compile Include="Servo.cs" />

@@ -56,6 +56,8 @@
 namespace Accord.Collections
 {
     using Accord.Math;
+    using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Region of space in a Space-Partitioning Tree. Represents an axis-aligned 
@@ -63,6 +65,7 @@ namespace Accord.Collections
     ///   of this quad tree.
     /// </summary>
     /// 
+    [Serializable]
     public class SPCell
     {
         private double[] corner;

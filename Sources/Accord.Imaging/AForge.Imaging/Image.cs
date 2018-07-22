@@ -676,12 +676,30 @@ namespace Accord.Imaging
         }
 
         /// <summary>
+        /// Gets the color depth used in a pixel format, in number of bytes per pixel.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        public static int GetPixelFormatSizeInBytes(this PixelFormat format)
+        {
+            return System.Drawing.Image.GetPixelFormatSize(format) / 8;
+        }
+
+        /// <summary>
+        /// Gets the color depth used in a pixel format, in number of bits per pixel.
+        /// </summary>
+        /// <param name="format">The pixel format.</param>
+        public static int GetPixelFormatSize(this PixelFormat format)
+        {
+            return System.Drawing.Image.GetPixelFormatSize(format);
+        }
+
+        /// <summary>
         /// Gets the color depth used in an image, in number of bytes per pixel.
         /// </summary>
         /// <param name="image">The image.</param>
         public static int GetPixelFormatSizeInBytes(this Bitmap image)
         {
-            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
+            return image.PixelFormat.GetPixelFormatSizeInBytes();
         }
 
         /// <summary>
@@ -690,7 +708,7 @@ namespace Accord.Imaging
         /// <param name="image">The image.</param>
         public static int GetPixelFormatSize(this Bitmap image)
         {
-            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat);
+            return image.PixelFormat.GetPixelFormatSize();
         }
 
         /// <summary>
@@ -699,7 +717,7 @@ namespace Accord.Imaging
         /// <param name="image">The image.</param>
         public static int GetPixelFormatSizeInBytes(this UnmanagedImage image)
         {
-            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
+            return image.PixelFormat.GetPixelFormatSizeInBytes();
         }
 
         /// <summary>
@@ -708,7 +726,7 @@ namespace Accord.Imaging
         /// <param name="image">The image.</param>
         public static int GetPixelFormatSize(this UnmanagedImage image)
         {
-            return System.Drawing.Image.GetPixelFormatSize(image.PixelFormat);
+            return image.PixelFormat.GetPixelFormatSize();
         }
 
     }

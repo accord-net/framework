@@ -18,6 +18,10 @@ namespace Accord.Neuro
     /// <remarks>Distance network is a neural network of only one <see cref="DistanceLayer">distance
     /// layer</see>. The network is a base for such neural networks as SOM, Elastic net, etc.
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Neuro\DistanceNetworkTest.cs" region="doc_example" />
+    /// </example>
     ///
     [Serializable]
     public class DistanceNetwork : Network

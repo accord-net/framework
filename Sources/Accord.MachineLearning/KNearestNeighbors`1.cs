@@ -29,6 +29,7 @@ namespace Accord.MachineLearning
     using System.Threading.Tasks;
     using System.Runtime.CompilerServices;
     using System.Threading;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.
@@ -44,6 +45,13 @@ namespace Accord.MachineLearning
     ///   k nearest neighbors (k is a positive integer, typically small).</para>
     ///   
     /// <para>If k = 1, then the object is simply assigned to the class of its nearest neighbor.</para>
+    /// 
+    /// <note type="note">
+    ///   When learning a model with instance weights, the weights will not be used when
+    ///   finding the <c>k</c> nearest neighbors of a query point. Instead, it will be used
+    ///   to weight the similarity between the query point and each of its <c>k</c> nearest
+    ///   neighbors when deciding for the queried point's class.
+    /// </note>
     /// 
     /// <para>
     ///   References:
@@ -82,8 +90,10 @@ namespace Accord.MachineLearning
         BaseKNearestNeighbors<KNearestNeighbors<TInput>, TInput, IDistance<TInput>>,
         IParallel
     {
+        // TODO: After removing obsolete methods, mark class as sealed
+
         [NonSerialized]
-        private ThreadLocal<double[]> distances = new ThreadLocal<double[]>();
+        private ThreadLocal<double[]> distanceCache = new ThreadLocal<double[]>();
 
         [NonSerialized]
         private ParallelOptions parallelOptions = new ParallelOptions();
@@ -129,7 +139,7 @@ namespace Accord.MachineLearning
         public override double[] Scores(TInput input, double[] result)
         {
             double[] distances;
-            int[] idx = GetNearestIndices(input, out distances);
+            int[] idx = getNearestIndices(input, out distances);
 
             // Compute the scores for these points
             for (int i = 0; i < idx.Length; i++)
@@ -137,41 +147,12 @@ namespace Accord.MachineLearning
                 int j = idx[i];
 
                 int label = Outputs[j];
-                double d = distances[i];
+                double weight = Weights[j];
+                double d = distances[i]; // distances vector is already in order because
+                                         // the bottom operation below was done in-place
 
                 // Convert to similarity measure
-                result[label] += 1.0 / (1.0 + d);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and each class.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <param name="result">An array where the scores will be stored,
-        /// avoiding unnecessary memory allocations.</param>
-        /// <returns>System.Double[][].</returns>
-        public override double[][] Scores(TInput[] input, double[][] result)
-        {
-            for (int k = 0; k < input.Length; k++)
-            {
-                double[] distances;
-                int[] idx = GetNearestIndices(input[k], out distances);
-
-                // Compute the scores for these points
-                for (int i = 0; i < idx.Length; i++)
-                {
-                    int j = idx[i];
-
-                    int label = Outputs[j];
-                    double d = distances[i];
-
-                    // Convert to similarity measure
-                    result[k][label] += 1.0 / (1.0 + d);
-                }
+                result[label] += 1.0 / (1.0 + d) * weight;
             }
 
             return result;
@@ -180,9 +161,9 @@ namespace Accord.MachineLearning
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        private int[] GetNearestIndices(TInput input, out double[] distances)
+        private int[] getNearestIndices(TInput input, out double[] distances)
         {
-            double[] d = this.distances.Value;
+            double[] d = this.distanceCache.Value;
 
             if (this.parallelOptions.MaxDegreeOfParallelism == 1)
             {
@@ -221,7 +202,7 @@ namespace Accord.MachineLearning
         public override TInput[] GetNearestNeighbors(TInput input, out int[] labels)
         {
             double[] distances;
-            int[] idx = GetNearestIndices(input, out distances);
+            int[] idx = getNearestIndices(input, out distances);
 
             labels = this.Outputs.Get(idx);
             return this.Inputs.Get(idx);
@@ -245,41 +226,26 @@ namespace Accord.MachineLearning
 
             this.Inputs = x;
             this.Outputs = y;
+            this.Weights = weights ?? Vector.Ones(x.Length);
 
             this.NumberOfInputs = GetNumberOfInputs(x);
             this.NumberOfOutputs = y.DistinctCount();
             this.NumberOfClasses = this.NumberOfOutputs;
-            this.distances.Value = new double[x.Length];
+            this.distanceCache = new ThreadLocal<double[]>(() => new double[Inputs.Length]);
 
             return this;
         }
 
 
-        private static void checkArgs(int k, int? classes, TInput[] inputs, int[] outputs, IDistance<TInput> distance)
+
+        [OnDeserialized]
+        private void SetValuesOnDeserialized(StreamingContext context)
         {
-            if (k <= 0)
-                throw new ArgumentOutOfRangeException("k", "Number of neighbors should be greater than zero.");
-
-            if (classes != null && classes <= 0)
-                throw new ArgumentOutOfRangeException("k", "Number of classes should be greater than zero.");
-
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors should match the number of corresponding output labels");
-
-            if (distance == null)
-                throw new ArgumentNullException("distance");
+            this.distanceCache = new ThreadLocal<double[]>(() => new double[Inputs.Length]);
+            this.parallelOptions = new ParallelOptions();
+            if (this.Weights == null && this.Inputs != null)
+                this.Weights = Vector.Ones(this.Inputs.Length);
         }
-
-
-
-
 
 
 

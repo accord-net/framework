@@ -1,9 +1,30 @@
-﻿// AForge Image Processing Library
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2005-2010
-// contacts@aforgenet.com
+// Copyright © Andrew Kirillov, 2005-2010
+// andrew.kirillov@aforgenet.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Filters
@@ -43,11 +64,11 @@ namespace Accord.Imaging.Filters
     public class FillHoles : BaseInPlaceFilter
     {
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
         // coupled size filtering or not
         private bool coupledSizeFiltering = true;
         // maximum hole size to fill
-        private int maxHoleWidth  = int.MaxValue;
+        private int maxHoleWidth = int.MaxValue;
         private int maxHoleHeight = int.MaxValue;
 
         /// <summary>
@@ -80,7 +101,12 @@ namespace Accord.Imaging.Filters
         public int MaxHoleWidth
         {
             get { return maxHoleWidth; }
-            set { maxHoleWidth = Math.Max( value, 0 ); }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Value must be positive.");
+                maxHoleWidth = value;
+            }
         }
 
         /// <summary>
@@ -95,7 +121,12 @@ namespace Accord.Imaging.Filters
         public int MaxHoleHeight
         {
             get { return maxHoleHeight; }
-            set { maxHoleHeight = Math.Max( value, 0 ); }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Value must be positive.");
+                maxHoleHeight = value;
+            }
         }
 
         /// <summary>
@@ -105,11 +136,11 @@ namespace Accord.Imaging.Filters
         {
             get { return formatTranslations; }
         }
-        
+
         /// <summary>   
         /// Initializes a new instance of the <see cref="FillHoles"/> class.
         /// </summary>
-        public FillHoles( )
+        public FillHoles()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
         }
@@ -120,37 +151,40 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="image">Source image data.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image )
+        protected override unsafe void ProcessFilter(UnmanagedImage image)
         {
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
 
-            // 1 - invert the source image
-            Invert invertFilter = new Invert( );
-            UnmanagedImage invertedImage = invertFilter.Apply( image );
+            BlobCounter blobCounter = new BlobCounter();
 
-            // 2 - use blob counter to find holes (they are white objects now on the inverted image)
-            BlobCounter blobCounter = new BlobCounter( );
-            blobCounter.ProcessImage( invertedImage );
-            Blob[] blobs = blobCounter.GetObjectsInformation( );
+            // 1 - invert the source image
+            Invert invertFilter = new Invert();
+            using (UnmanagedImage invertedImage = invertFilter.Apply(image))
+            {
+                // 2 - use blob counter to find holes (they are white objects now on the inverted image)
+                blobCounter.ProcessImage(invertedImage);
+            }
+
+            Blob[] blobs = blobCounter.GetObjectsInformation();
 
             // 3 - check all blobs and determine which should be filtered
             byte[] newObjectColors = new byte[blobs.Length + 1];
             newObjectColors[0] = 255; // don't touch the objects, which have 0 ID
 
-            for ( int i = 0, n = blobs.Length; i < n; i++ )
+            for (int i = 0, n = blobs.Length; i < n; i++)
             {
                 Blob blob = blobs[i];
 
-                if ( ( blob.Rectangle.Left == 0 ) || ( blob.Rectangle.Top == 0 ) ||
-                     ( blob.Rectangle.Right == width ) || ( blob.Rectangle.Bottom == height ) )
+                if ((blob.Rectangle.Left == 0) || (blob.Rectangle.Top == 0) ||
+                     (blob.Rectangle.Right == width) || (blob.Rectangle.Bottom == height))
                 {
                     newObjectColors[blob.ID] = 0;
                 }
                 else
                 {
-                    if ( ( ( coupledSizeFiltering ) && ( blob.Rectangle.Width <= maxHoleWidth ) && ( blob.Rectangle.Height <= maxHoleHeight ) ) |
-                         ( ( !coupledSizeFiltering ) && ( ( blob.Rectangle.Width <= maxHoleWidth ) || ( blob.Rectangle.Height <= maxHoleHeight ) ) ) )
+                    if (((coupledSizeFiltering) && (blob.Rectangle.Width <= maxHoleWidth) && (blob.Rectangle.Height <= maxHoleHeight)) |
+                         ((!coupledSizeFiltering) && ((blob.Rectangle.Width <= maxHoleWidth) || (blob.Rectangle.Height <= maxHoleHeight))))
                     {
                         newObjectColors[blob.ID] = 255;
                     }
@@ -162,14 +196,14 @@ namespace Accord.Imaging.Filters
             }
 
             // 4 - process the source image image and fill holes
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
             int offset = image.Stride - width;
 
             int[] objectLabels = blobCounter.ObjectLabels;
 
-            for ( int y = 0, i = 0; y < height; y++ )
+            for (int y = 0, i = 0; y < height; y++)
             {
-                for ( int x = 0; x < width; x++, i++, ptr++ )
+                for (int x = 0; x < width; x++, i++, ptr++)
                 {
                     *ptr = newObjectColors[objectLabels[i]];
                 }

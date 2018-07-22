@@ -38,6 +38,7 @@ namespace Accord.MachineLearning.Performance
     /// 
     /// <example>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\SplitSetTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\SplitSetTest.cs" region="doc_learn_multiclass" />
     /// </example>
     /// 
     /// <seealso cref="Bootstrap{TModel, TInput, TOutput}"/>

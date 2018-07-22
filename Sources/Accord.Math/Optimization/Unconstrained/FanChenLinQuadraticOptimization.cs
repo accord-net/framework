@@ -82,15 +82,20 @@ namespace Accord.Math.Optimization
     /// <code>
     ///    min 0.5(\alpha^T Q \alpha) + p^T \alpha
     ///
-    ///      y^T \alpha = \delta
+    ///      y^T \alpha = \eps
     ///      y_i = +1 or -1
     ///      0 &lt;= alpha_i &lt;= C_i
     /// </code>
     /// 
     /// <para>
     /// Given Q, p, y, C, and an initial feasible point \alpha, where l is
-    /// the size of vectors and matrices and eps is the stopping tolerance.
-    /// </para>
+    /// the size of vectors and matrices and eps is the stopping tolerance.</para>
+    /// 
+    /// <para>
+    /// The <c>Q</c>, <c>p</c> and <c>y</c> parameters can be given as arguments of its
+    /// <see cref="FanChenLinQuadraticOptimization.FanChenLinQuadraticOptimization(int, System.Func{int, int[], int, double[], double[]})">
+    /// class consstructor</see>. The C parameters can be set using in the <see cref="UpperBounds"/>
+    /// property. The <c>eps</c> parameter can be set using the <see cref="Tolerance"/> property.</para>
     /// </remarks>
     ///
     public class FanChenLinQuadraticOptimization : IOptimizationMethod

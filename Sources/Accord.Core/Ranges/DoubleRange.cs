@@ -278,7 +278,7 @@ namespace Accord
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("[{0}, {1}]", 
+            return String.Format("[{0}, {1}]",
                 min.ToString(format, formatProvider),
                 max.ToString(format, formatProvider));
         }
@@ -318,5 +318,30 @@ namespace Accord
 
             return new IntRange(iMin, iMax);
         }
+
+        /// <summary>
+        /// Converts this <see cref="DoubleRange"/> to a <see cref="T:System.Double[]"/> of length 2 (using new [] { min, max }).
+        /// </summary>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public double[] ToArray()
+        {
+            return new[] { min, max };
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="DoubleRange"/> to <see cref="T:System.Double[]"/>.
+        /// </summary>
+        /// 
+        /// <param name="range">The range.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static implicit operator double[] (DoubleRange range)
+        {
+            return range.ToArray();
+        }
+
     }
 }

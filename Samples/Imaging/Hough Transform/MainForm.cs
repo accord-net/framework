@@ -18,6 +18,8 @@ using System.Windows.Forms;
 using AForge;
 using Accord.Imaging;
 using Accord.Imaging.Filters;
+using System.IO;
+using Accord;
 
 namespace SampleApp
 {
@@ -26,7 +28,8 @@ namespace SampleApp
         // binarization filtering sequence
         private FiltersSequence filter = new FiltersSequence(
             Grayscale.CommonAlgorithms.BT709,
-            new Threshold(64)
+            new NiblackThreshold(),
+            new Invert()
         );
 
         HoughLineTransformation lineTransform = new HoughLineTransformation();
@@ -39,6 +42,8 @@ namespace SampleApp
 
             lineTransform.MinLineIntensity = 10;
             circleTransform.MinCircleIntensity = 20;
+
+            openFileDialog.InitialDirectory = Path.Combine(Application.StartupPath, "Resources");
         }
 
         // Exit from application
@@ -61,18 +66,16 @@ namespace SampleApp
                     tempImage.Dispose();
 
                     // lock the source image
-                    BitmapData sourceData = image.LockBits(
-                        new Rectangle(0, 0, image.Width, image.Height),
-                        ImageLockMode.ReadOnly, image.PixelFormat);
-                    
+                    BitmapData sourceData = image.LockBits(ImageLockMode.ReadOnly);
+
                     // binarize the image
                     UnmanagedImage binarySource = filter.Apply(new UnmanagedImage(sourceData));
 
                     // apply Hough line transform
                     lineTransform.ProcessImage(binarySource);
-                    
+
                     // get lines using relative intensity
-                    HoughLine[] lines = lineTransform.GetLinesByRelativeIntensity(0.2);
+                    HoughLine[] lines = lineTransform.GetLinesByRelativeIntensity(0.9);
 
                     foreach (HoughLine line in lines)
                     {
@@ -80,37 +83,36 @@ namespace SampleApp
                         System.Diagnostics.Debug.WriteLine(s);
 
                         // uncomment to highlight detected lines
-                        /*
                         // get line's radius and theta values
-                        int    r = line.Radius;
+                        int r = line.Radius;
                         double t = line.Theta;
 
                         // check if line is in lower part of the image
-                        if ( r < 0 )
+                        if (r < 0)
                         {
                             t += 180;
                             r = -r;
                         }
 
                         // convert degrees to radians
-                        t = ( t / 180 ) * Math.PI;
+                        t = (t / 180) * Math.PI;
 
                         // get image centers (all coordinate are measured relative
                         // to center)
-                        int w2 = image.Width /2;
+                        int w2 = image.Width / 2;
                         int h2 = image.Height / 2;
 
                         double x0 = 0, x1 = 0, y0 = 0, y1 = 0;
 
-                        if ( line.Theta != 0 )
+                        if (line.Theta != 0)
                         {
                             // none vertical line
                             x0 = -w2; // most left point
                             x1 = w2;  // most right point
 
                             // calculate corresponding y values
-                            y0 = ( -Math.Cos( t ) * x0 + r ) / Math.Sin( t );
-                            y1 = ( -Math.Cos( t ) * x1 + r ) / Math.Sin( t );
+                            y0 = (-Math.Cos(t) * x0 + r) / Math.Sin(t);
+                            y1 = (-Math.Cos(t) * x1 + r) / Math.Sin(t);
                         }
                         else
                         {
@@ -123,10 +125,10 @@ namespace SampleApp
                         }
 
                         // draw line on the image
-                        Drawing.Line( sourceData,
-                            new IntPoint( (int) x0 + w2, h2 - (int) y0 ),
-                            new IntPoint( (int) x1 + w2, h2 - (int) y1 ),
-                            Color.Red ); */
+                        Drawing.Line(sourceData,
+                            new IntPoint((int)x0 + w2, h2 - (int)y0),
+                            new IntPoint((int)x1 + w2, h2 - (int)y1),
+                            Color.Red);
                     }
 
                     System.Diagnostics.Debug.WriteLine("Found lines: " + lineTransform.LinesCount);
@@ -135,7 +137,7 @@ namespace SampleApp
                     // apply Hough circle transform
                     circleTransform.ProcessImage(binarySource);
                     // get circles using relative intensity
-                    HoughCircle[] circles = circleTransform.GetCirclesByRelativeIntensity(0.5);
+                    HoughCircle[] circles = circleTransform.GetCirclesByRelativeIntensity(0.9);
 
                     foreach (HoughCircle circle in circles)
                     {

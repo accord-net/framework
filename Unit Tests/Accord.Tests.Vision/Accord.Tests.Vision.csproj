@@ -62,6 +62,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="DataSets\Cifar10Test.cs" />
     <Compile Include="HaarCascadeWriterTest.cs" />
     <Compile Include="HaarCascadeTest.cs" />
     <Compile Include="HaarDataParserTest.cs" />
@@ -104,6 +105,10 @@
     <ProjectReference Include="..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
       <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
       <Name>Accord.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
+      <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
+      <Name>Accord.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>

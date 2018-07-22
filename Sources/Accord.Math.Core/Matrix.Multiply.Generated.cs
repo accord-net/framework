@@ -2030,6 +2030,403 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static int[,] Multiply(this int[,] a, short b)
+        {
+            return Multiply(a, b, new int[a.GetLength(0), a.GetLength(1)]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[][] a, short b)
+        {
+            return Multiply(a, b, JaggedCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+        public static int[] Multiply(this int[] a, short b)
+        {
+            return Multiply(a, b, new int[a.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this int[] a, short[] b)
+        {
+            return Multiply(a, b, new int[a.Length]);
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[][] a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<int, int>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int[,] a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<int, int>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, int>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, int>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this int a, short[] b)
+        {
+            return Multiply(a, b, new int[b.Length]);
+        }
+
+
+
+
+
+
+
+        
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int[,] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[][] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<int, int>(a));
+        }
+
+                /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int[] a, short[,] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, int>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[] a, short[][] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, int>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this int[,] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this int[][] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this int[] a, short[,] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, int>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this int[] a, short[][] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, int>(b));
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this int a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this int a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this int[] a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this int[] a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this int[,] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this int[][] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this int[,] a, short[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this int[][] a, short[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+ 
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static float[,] Multiply(this float[,] a, int b)
         {
             return Multiply(a, b, new float[a.GetLength(0), a.GetLength(1)]);
@@ -4015,6 +4412,403 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static float[,] Multiply(this float[,] a, short b)
+        {
+            return Multiply(a, b, new float[a.GetLength(0), a.GetLength(1)]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float[][] a, short b)
+        {
+            return Multiply(a, b, JaggedCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+        public static float[] Multiply(this float[] a, short b)
+        {
+            return Multiply(a, b, new float[a.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this float[] a, short[] b)
+        {
+            return Multiply(a, b, new float[a.Length]);
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float[][] a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<float, float>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float[,] a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<float, float>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, float>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, float>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this float a, short[] b)
+        {
+            return Multiply(a, b, new float[b.Length]);
+        }
+
+
+
+
+
+
+
+        
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float[,] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float[][] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<float, float>(a));
+        }
+
+                /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float[] a, short[,] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float[] a, short[][] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this float[,] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this float[][] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this float[] a, short[,] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this float[] a, short[][] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, float>(b));
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this float a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this float a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this float[] a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this float[] a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this float[,] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this float[][] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this float[,] a, short[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this float[][] a, short[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+ 
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[,] Multiply(this double[,] a, int b)
         {
             return Multiply(a, b, new double[a.GetLength(0), a.GetLength(1)]);
@@ -5985,6 +6779,403 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] MultiplyWithDiagonal(this double[][] a, decimal[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+ 
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[,] a, short b)
+        {
+            return Multiply(a, b, new double[a.GetLength(0), a.GetLength(1)]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[][] a, short b)
+        {
+            return Multiply(a, b, JaggedCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+        public static double[] Multiply(this double[] a, short b)
+        {
+            return Multiply(a, b, new double[a.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this double[] a, short[] b)
+        {
+            return Multiply(a, b, new double[a.Length]);
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[][] a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<double, double>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[,] a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<double, double>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, double>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, double>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this double a, short[] b)
+        {
+            return Multiply(a, b, new double[b.Length]);
+        }
+
+
+
+
+
+
+
+        
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[,] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[][] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<double, double>(a));
+        }
+
+                /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[] a, short[,] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[] a, short[][] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this double[,] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this double[][] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this double[] a, short[,] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this double[] a, short[][] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, double>(b));
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this double a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this double a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this double[] a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this double[] a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this double[,] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this double[][] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this double[,] a, short[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this double[][] a, short[] b)
         {
             return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
         }
@@ -9161,6 +10352,1594 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] MultiplyWithDiagonal(this decimal[][] a, decimal[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+ 
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[,] a, int b)
+        {
+            return Multiply(a, b, new int[a.GetLength(0), a.GetLength(1)]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[][] a, int b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, int>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+        public static int[] Multiply(this short[] a, int b)
+        {
+            return Multiply(a, b, new int[a.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this short[] a, int[] b)
+        {
+            return Multiply(a, b, new int[a.Length]);
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[][] a, int[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, int>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[,] a, int[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, int>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short a, int[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<int, int>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short a, int[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<int, int>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this short a, int[] b)
+        {
+            return Multiply(a, b, new int[b.Length]);
+        }
+
+
+
+
+
+
+
+        
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[,] a, int[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, int>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[][] a, int[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, int>(a));
+        }
+
+                /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[] a, int[,] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[] a, int[][] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this short[,] a, int[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this short[][] a, int[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this short[] a, int[,] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this short[] a, int[][] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this short a, int[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this short a, int[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this short[] a, int[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this short[] a, int[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, int b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, int b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, int[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, int[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+ 
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[,] a, float b)
+        {
+            return Multiply(a, b, new float[a.GetLength(0), a.GetLength(1)]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[][] a, float b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, float>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+        public static float[] Multiply(this short[] a, float b)
+        {
+            return Multiply(a, b, new float[a.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this short[] a, float[] b)
+        {
+            return Multiply(a, b, new float[a.Length]);
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[][] a, float[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, float>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[,] a, float[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, float>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short a, float[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<float, float>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short a, float[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<float, float>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this short a, float[] b)
+        {
+            return Multiply(a, b, new float[b.Length]);
+        }
+
+
+
+
+
+
+
+        
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[,] a, float[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, float>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[][] a, float[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, float>(a));
+        }
+
+                /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[] a, float[,] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[] a, float[][] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this short[,] a, float[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this short[][] a, float[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this short[] a, float[,] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this short[] a, float[][] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this short a, float[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this short a, float[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this short[] a, float[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this short[] a, float[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, float b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, float b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, float[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, float[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+ 
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, double b)
+        {
+            return Multiply(a, b, new double[a.GetLength(0), a.GetLength(1)]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, double b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, double>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+        public static double[] Multiply(this short[] a, double b)
+        {
+            return Multiply(a, b, new double[a.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, double[] b)
+        {
+            return Multiply(a, b, new double[a.Length]);
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, double[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, double>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, double[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, double>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short a, double[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<double, double>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short a, double[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<double, double>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short a, double[] b)
+        {
+            return Multiply(a, b, new double[b.Length]);
+        }
+
+
+
+
+
+
+
+        
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, double[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, double>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, double[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, double>(a));
+        }
+
+                /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[] a, double[,] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[] a, double[][] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[,] a, double[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[][] a, double[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[] a, double[,] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[] a, double[][] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short a, double[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short a, double[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[] a, double[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[] a, double[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, double b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, double b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, double[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, double[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+ 
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, short b)
+        {
+            return Multiply(a, b, new short[a.GetLength(0), a.GetLength(1)]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, short b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, short>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// 
+        public static short[] Multiply(this short[] a, short b)
+        {
+            return Multiply(a, b, new short[a.Length]);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, short[] b)
+        {
+            return Multiply(a, b, new short[a.Length]);
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, short>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, short>(a));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short a, short[,] b)
+        {
+            return Multiply(a, b, MatrixCreateAs<short, short>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short a, short[][] b)
+        {
+            return Multiply(a, b, JaggedCreateAs<short, short>(b));
+        }     
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short a, short[] b)
+        {
+            return Multiply(a, b, new short[b.Length]);
+        }
+
+
+
+
+
+
+
+        
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, short>(a));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, short[] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, short>(a));
+        }
+
+                /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[] a, short[,] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, short>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[] a, short[][] b, VectorType dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, short>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[,] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, short>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[][] a, short[] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, short>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[] a, short[,] b, int dimension)
+        {
+            return Multiply(a, b, dimension, MatrixCreateAs<short, short>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[] a, short[][] b, int dimension)
+        {
+            return Multiply(a, b, dimension, JaggedCreateAs<short, short>(b));
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[] a, short[,] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[] a, short[][] b)
+        {
+            return MultiplyWithDiagonal(a, b, b.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, short b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, short[] b)
+        {
+            return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, short[] b)
         {
             return MultiplyWithDiagonal(a, b, a.MemberwiseClone());
         }
@@ -17127,6 +19906,1845 @@ namespace Accord.Math
         public static double[][] MultiplyWithDiagonal(this int[][] a, decimal[] b, double[][] result)
         {
             check<int, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[][] a, short[][] b, int[][] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (int)((int)(a[i][j]) * (int)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int[,] a, short[,] b, int[,] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (int* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (int)((int)(*pa) * (int)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[][] a, short b, int[][] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (int)((int)a[i][j] * (int)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int a, short[][] b, int[][] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (int)((int)a * (int)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int a, short[,] b, int[,] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (int)((int)a * (int)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int[,] a, short b, int[,] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrA = a)
+                fixed (int* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (int)((int)(*pa) * (int)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this int[] a, short[] b, int[] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (int)((int)a[i] * (int)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this int[] a, short b, int[] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (int)((int)a[i] * (int)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this int a, short[] b, int[] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (int)((int)a * (int)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this int[] a, short[,] b, int dimension, int[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this int[] a, short[][] b, int dimension, int[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this int[,] a, short[] b, int dimension, int[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this int[][] a, short[] b, int dimension, int[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int[] a, short[,] b, VectorType dimension, int[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[] a, short[][] b, VectorType dimension, int[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this int[,] a, short[] b, VectorType dimension, int[,] result)
+        {
+            check<int, short, int>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (int)((int)a[i, j] * (int)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (int)((int)a[i, j] * (int)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this int[][] a, short[] b, VectorType dimension, int[][] result)
+        {
+            check<int, short, int>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (int)((int)a[i][j] * (int)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (int)((int)a[i][j] * (int)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this int a, short[,] b, int[,] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (int)((int)a * (int)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this int a, short[][] b, int[][] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (int)((int)a * (int)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this int[] a, short[,] b, int[,] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (int)((int)a[j] * (int)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this int[] a, short[][] b, int[][] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (int)((int)a[i] * (int)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this int[,] a, short b, int[,] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrA = a)        
+                fixed (int* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (int)((int)(*pa) * (int)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this int[][] a, short b, int[][] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (int)((int)a[i][i] * (int)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this int[,] a, short[] b, int[,] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrA = a)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (int)((int)(*pa) * (int)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this int[][] a, short[] b, int[][] result)
+        {
+            check<int, short, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (int)((int)a[i][i] * (int)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this int[][] a, short[][] b, short[][] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this int[,] a, short[,] b, short[,] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this int[][] a, short b, short[][] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this int a, short[][] b, short[][] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this int a, short[,] b, short[,] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this int[,] a, short b, short[,] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this int[] a, short[] b, short[] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this int[] a, short b, short[] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this int a, short[] b, short[] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this int[] a, short[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this int[] a, short[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this int[,] a, short[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this int[][] a, short[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this int[] a, short[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this int[] a, short[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this int[,] a, short[] b, VectorType dimension, short[,] result)
+        {
+            check<int, short, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this int[][] a, short[] b, VectorType dimension, short[][] result)
+        {
+            check<int, short, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this int a, short[,] b, short[,] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this int a, short[][] b, short[][] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this int[] a, short[,] b, short[,] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this int[] a, short[][] b, short[][] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this int[,] a, short b, short[,] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this int[][] a, short b, short[][] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this int[,] a, short[] b, short[,] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this int[][] a, short[] b, short[][] result)
+        {
+            check<int, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this int[][] a, short[][] b, double[][] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this int[,] a, short[,] b, double[,] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this int[][] a, short b, double[][] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this int a, short[][] b, double[][] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this int a, short[,] b, double[,] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this int[,] a, short b, double[,] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this int[] a, short[] b, double[] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this int[] a, short b, double[] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this int a, short[] b, double[] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this int[] a, short[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this int[] a, short[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this int[,] a, short[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this int[][] a, short[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this int[] a, short[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this int[] a, short[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this int[,] a, short[] b, VectorType dimension, double[,] result)
+        {
+            check<int, short, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this int[][] a, short[] b, VectorType dimension, double[][] result)
+        {
+            check<int, short, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this int a, short[,] b, double[,] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this int a, short[][] b, double[][] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this int[] a, short[,] b, double[,] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this int[] a, short[][] b, double[][] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this int[,] a, short b, double[,] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this int[][] a, short b, double[][] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this int[,] a, short[] b, double[,] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this int[][] a, short[] b, double[][] result)
+        {
+            check<int, short, double>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (double)((double)a[i][i] * (double)b[i]);
             return result;
@@ -25118,6 +29736,1845 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static float[][] Multiply(this float[][] a, short[][] b, float[][] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (float)((float)(a[i][j]) * (float)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float[,] a, short[,] b, float[,] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (float* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (float)((float)(*pa) * (float)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float[][] a, short b, float[][] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (float)((float)a[i][j] * (float)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float a, short[][] b, float[][] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (float)((float)a * (float)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float a, short[,] b, float[,] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (float)((float)a * (float)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float[,] a, short b, float[,] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrA = a)
+                fixed (float* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (float)((float)(*pa) * (float)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this float[] a, short[] b, float[] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (float)((float)a[i] * (float)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this float[] a, short b, float[] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (float)((float)a[i] * (float)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this float a, short[] b, float[] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (float)((float)a * (float)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this float[] a, short[,] b, int dimension, float[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this float[] a, short[][] b, int dimension, float[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this float[,] a, short[] b, int dimension, float[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this float[][] a, short[] b, int dimension, float[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float[] a, short[,] b, VectorType dimension, float[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float[] a, short[][] b, VectorType dimension, float[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this float[,] a, short[] b, VectorType dimension, float[,] result)
+        {
+            check<float, short, float>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (float)((float)a[i, j] * (float)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (float)((float)a[i, j] * (float)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this float[][] a, short[] b, VectorType dimension, float[][] result)
+        {
+            check<float, short, float>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (float)((float)a[i][j] * (float)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (float)((float)a[i][j] * (float)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this float a, short[,] b, float[,] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (float)((float)a * (float)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this float a, short[][] b, float[][] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (float)((float)a * (float)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this float[] a, short[,] b, float[,] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (float)((float)a[j] * (float)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this float[] a, short[][] b, float[][] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (float)((float)a[i] * (float)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this float[,] a, short b, float[,] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrA = a)        
+                fixed (float* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (float)((float)(*pa) * (float)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this float[][] a, short b, float[][] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (float)((float)a[i][i] * (float)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this float[,] a, short[] b, float[,] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrA = a)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (float)((float)(*pa) * (float)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this float[][] a, short[] b, float[][] result)
+        {
+            check<float, short, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (float)((float)a[i][i] * (float)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this float[][] a, short[][] b, short[][] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this float[,] a, short[,] b, short[,] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this float[][] a, short b, short[][] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this float a, short[][] b, short[][] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this float a, short[,] b, short[,] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this float[,] a, short b, short[,] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this float[] a, short[] b, short[] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this float[] a, short b, short[] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this float a, short[] b, short[] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this float[] a, short[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this float[] a, short[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this float[,] a, short[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this float[][] a, short[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this float[] a, short[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this float[] a, short[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this float[,] a, short[] b, VectorType dimension, short[,] result)
+        {
+            check<float, short, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this float[][] a, short[] b, VectorType dimension, short[][] result)
+        {
+            check<float, short, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this float a, short[,] b, short[,] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this float a, short[][] b, short[][] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this float[] a, short[,] b, short[,] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this float[] a, short[][] b, short[][] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this float[,] a, short b, short[,] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this float[][] a, short b, short[][] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this float[,] a, short[] b, short[,] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this float[][] a, short[] b, short[][] result)
+        {
+            check<float, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this float[][] a, short[][] b, double[][] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this float[,] a, short[,] b, double[,] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this float[][] a, short b, double[][] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this float a, short[][] b, double[][] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this float a, short[,] b, double[,] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this float[,] a, short b, double[,] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this float[] a, short[] b, double[] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this float[] a, short b, double[] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this float a, short[] b, double[] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this float[] a, short[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this float[] a, short[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this float[,] a, short[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this float[][] a, short[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this float[] a, short[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this float[] a, short[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this float[,] a, short[] b, VectorType dimension, double[,] result)
+        {
+            check<float, short, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this float[][] a, short[] b, VectorType dimension, double[][] result)
+        {
+            check<float, short, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this float a, short[,] b, double[,] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this float a, short[][] b, double[][] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this float[] a, short[,] b, double[,] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this float[] a, short[][] b, double[][] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this float[,] a, short b, double[,] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this float[][] a, short b, double[][] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this float[,] a, short[] b, double[,] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this float[][] a, short[] b, double[][] result)
+        {
+            check<float, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double[][] Multiply(this double[][] a, int[][] b, double[][] result)
         {
             check<double, int, double>(a: a, b: b, result: result);
@@ -30615,6 +37072,1232 @@ namespace Accord.Math
             check<double, decimal, decimal>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (decimal)((decimal)a[i][i] * (decimal)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[][] a, short[][] b, double[][] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[,] a, short[,] b, double[,] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (double* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[][] a, short b, double[][] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double a, short[][] b, double[][] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double a, short[,] b, double[,] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[,] a, short b, double[,] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (double* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this double[] a, short[] b, double[] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this double[] a, short b, double[] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this double a, short[] b, double[] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this double[] a, short[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this double[] a, short[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this double[,] a, short[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this double[][] a, short[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[] a, short[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[] a, short[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this double[,] a, short[] b, VectorType dimension, double[,] result)
+        {
+            check<double, short, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this double[][] a, short[] b, VectorType dimension, double[][] result)
+        {
+            check<double, short, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this double a, short[,] b, double[,] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this double a, short[][] b, double[][] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this double[] a, short[,] b, double[,] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this double[] a, short[][] b, double[][] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this double[,] a, short b, double[,] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this double[][] a, short b, double[][] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this double[,] a, short[] b, double[,] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this double[][] a, short[] b, double[][] result)
+        {
+            check<double, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this double[][] a, short[][] b, short[][] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this double[,] a, short[,] b, short[,] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (double* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this double[][] a, short b, short[][] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this double a, short[][] b, short[][] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this double a, short[,] b, short[,] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this double[,] a, short b, short[,] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (double* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this double[] a, short[] b, short[] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this double[] a, short b, short[] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this double a, short[] b, short[] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this double[] a, short[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this double[] a, short[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this double[,] a, short[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this double[][] a, short[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this double[] a, short[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this double[] a, short[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this double[,] a, short[] b, VectorType dimension, short[,] result)
+        {
+            check<double, short, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this double[][] a, short[] b, VectorType dimension, short[][] result)
+        {
+            check<double, short, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this double a, short[,] b, short[,] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this double a, short[][] b, short[][] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this double[] a, short[,] b, short[,] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this double[] a, short[][] b, short[][] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this double[,] a, short b, short[,] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this double[][] a, short b, short[][] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this double[,] a, short[] b, short[,] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this double[][] a, short[] b, short[][] result)
+        {
+            check<double, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
             return result;
         }
  
@@ -38604,6 +46287,1845 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static byte[][] Multiply(this byte[][] a, short[][] b, byte[][] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (byte)((byte)(a[i][j]) * (byte)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this byte[,] a, short[,] b, byte[,] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (byte* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (byte)((byte)(*pa) * (byte)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this byte[][] a, short b, byte[][] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (byte)((byte)a[i][j] * (byte)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this byte a, short[][] b, byte[][] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (byte)((byte)a * (byte)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this byte a, short[,] b, byte[,] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (byte)((byte)a * (byte)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this byte[,] a, short b, byte[,] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrA = a)
+                fixed (byte* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (byte)((byte)(*pa) * (byte)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] Multiply(this byte[] a, short[] b, byte[] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (byte)((byte)a[i] * (byte)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] Multiply(this byte[] a, short b, byte[] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (byte)((byte)a[i] * (byte)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] Multiply(this byte a, short[] b, byte[] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (byte)((byte)a * (byte)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Multiply(this byte[] a, short[,] b, int dimension, byte[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Multiply(this byte[] a, short[][] b, int dimension, byte[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Multiply(this byte[,] a, short[] b, int dimension, byte[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Multiply(this byte[][] a, short[] b, int dimension, byte[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this byte[] a, short[,] b, VectorType dimension, byte[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this byte[] a, short[][] b, VectorType dimension, byte[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this byte[,] a, short[] b, VectorType dimension, byte[,] result)
+        {
+            check<byte, short, byte>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (byte)((byte)a[i, j] * (byte)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (byte)((byte)a[i, j] * (byte)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this byte[][] a, short[] b, VectorType dimension, byte[][] result)
+        {
+            check<byte, short, byte>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (byte)((byte)a[i][j] * (byte)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (byte)((byte)a[i][j] * (byte)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this byte a, short[,] b, byte[,] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (byte)((byte)a * (byte)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this byte a, short[][] b, byte[][] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (byte)((byte)a * (byte)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this byte[] a, short[,] b, byte[,] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (byte)((byte)a[j] * (byte)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this byte[] a, short[][] b, byte[][] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (byte)((byte)a[i] * (byte)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this byte[,] a, short b, byte[,] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrA = a)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (byte)((byte)(*pa) * (byte)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this byte[][] a, short b, byte[][] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (byte)((byte)a[i][i] * (byte)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this byte[,] a, short[] b, byte[,] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrA = a)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (byte)((byte)(*pa) * (byte)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this byte[][] a, short[] b, byte[][] result)
+        {
+            check<byte, short, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (byte)((byte)a[i][i] * (byte)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this byte[][] a, short[][] b, short[][] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this byte[,] a, short[,] b, short[,] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this byte[][] a, short b, short[][] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this byte a, short[][] b, short[][] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this byte a, short[,] b, short[,] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this byte[,] a, short b, short[,] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this byte[] a, short[] b, short[] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this byte[] a, short b, short[] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this byte a, short[] b, short[] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this byte[] a, short[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this byte[] a, short[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this byte[,] a, short[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this byte[][] a, short[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this byte[] a, short[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this byte[] a, short[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this byte[,] a, short[] b, VectorType dimension, short[,] result)
+        {
+            check<byte, short, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this byte[][] a, short[] b, VectorType dimension, short[][] result)
+        {
+            check<byte, short, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this byte a, short[,] b, short[,] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this byte a, short[][] b, short[][] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this byte[] a, short[,] b, short[,] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this byte[] a, short[][] b, short[][] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this byte[,] a, short b, short[,] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this byte[][] a, short b, short[][] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this byte[,] a, short[] b, short[,] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this byte[][] a, short[] b, short[][] result)
+        {
+            check<byte, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this byte[][] a, short[][] b, double[][] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this byte[,] a, short[,] b, double[,] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this byte[][] a, short b, double[][] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this byte a, short[][] b, double[][] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this byte a, short[,] b, double[,] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this byte[,] a, short b, double[,] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this byte[] a, short[] b, double[] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this byte[] a, short b, double[] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this byte a, short[] b, double[] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this byte[] a, short[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this byte[] a, short[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this byte[,] a, short[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this byte[][] a, short[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this byte[] a, short[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this byte[] a, short[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this byte[,] a, short[] b, VectorType dimension, double[,] result)
+        {
+            check<byte, short, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this byte[][] a, short[] b, VectorType dimension, double[][] result)
+        {
+            check<byte, short, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this byte a, short[,] b, double[,] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this byte a, short[][] b, double[][] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this byte[] a, short[,] b, double[,] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this byte[] a, short[][] b, double[][] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this byte[,] a, short b, double[,] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this byte[][] a, short b, double[][] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this byte[,] a, short[] b, double[,] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this byte[][] a, short[] b, double[][] result)
+        {
+            check<byte, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static decimal[][] Multiply(this decimal[][] a, int[][] b, decimal[][] result)
         {
             check<decimal, int, decimal>(a: a, b: b, result: result);
@@ -46551,6 +56073,11653 @@ namespace Accord.Math
         public static double[][] MultiplyWithDiagonal(this decimal[][] a, decimal[] b, double[][] result)
         {
             check<decimal, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this decimal[][] a, short[][] b, decimal[][] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (decimal)((decimal)(a[i][j]) * (decimal)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this decimal[,] a, short[,] b, decimal[,] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (decimal* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this decimal[][] a, short b, decimal[][] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (decimal)((decimal)a[i][j] * (decimal)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this decimal a, short[][] b, decimal[][] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (decimal)((decimal)a * (decimal)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this decimal a, short[,] b, decimal[,] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (decimal)((decimal)a * (decimal)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this decimal[,] a, short b, decimal[,] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrA = a)
+                fixed (decimal* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Multiply(this decimal[] a, short[] b, decimal[] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (decimal)((decimal)a[i] * (decimal)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Multiply(this decimal[] a, short b, decimal[] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (decimal)((decimal)a[i] * (decimal)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Multiply(this decimal a, short[] b, decimal[] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (decimal)((decimal)a * (decimal)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Multiply(this decimal[] a, short[,] b, int dimension, decimal[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Multiply(this decimal[] a, short[][] b, int dimension, decimal[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Multiply(this decimal[,] a, short[] b, int dimension, decimal[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Multiply(this decimal[][] a, short[] b, int dimension, decimal[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this decimal[] a, short[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this decimal[] a, short[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this decimal[,] a, short[] b, VectorType dimension, decimal[,] result)
+        {
+            check<decimal, short, decimal>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (decimal)((decimal)a[i, j] * (decimal)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (decimal)((decimal)a[i, j] * (decimal)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this decimal[][] a, short[] b, VectorType dimension, decimal[][] result)
+        {
+            check<decimal, short, decimal>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (decimal)((decimal)a[i][j] * (decimal)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (decimal)((decimal)a[i][j] * (decimal)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this decimal a, short[,] b, decimal[,] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (decimal)((decimal)a * (decimal)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this decimal a, short[][] b, decimal[][] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (decimal)((decimal)a * (decimal)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this decimal[] a, short[,] b, decimal[,] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (decimal)((decimal)a[j] * (decimal)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this decimal[] a, short[][] b, decimal[][] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (decimal)((decimal)a[i] * (decimal)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this decimal[,] a, short b, decimal[,] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrA = a)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this decimal[][] a, short b, decimal[][] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (decimal)((decimal)a[i][i] * (decimal)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this decimal[,] a, short[] b, decimal[,] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrA = a)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this decimal[][] a, short[] b, decimal[][] result)
+        {
+            check<decimal, short, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (decimal)((decimal)a[i][i] * (decimal)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this decimal[][] a, short[][] b, short[][] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this decimal[,] a, short[,] b, short[,] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this decimal[][] a, short b, short[][] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this decimal a, short[][] b, short[][] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this decimal a, short[,] b, short[,] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this decimal[,] a, short b, short[,] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this decimal[] a, short[] b, short[] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this decimal[] a, short b, short[] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this decimal a, short[] b, short[] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this decimal[] a, short[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this decimal[] a, short[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this decimal[,] a, short[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this decimal[][] a, short[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this decimal[] a, short[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this decimal[] a, short[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this decimal[,] a, short[] b, VectorType dimension, short[,] result)
+        {
+            check<decimal, short, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this decimal[][] a, short[] b, VectorType dimension, short[][] result)
+        {
+            check<decimal, short, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this decimal a, short[,] b, short[,] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this decimal a, short[][] b, short[][] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this decimal[] a, short[,] b, short[,] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this decimal[] a, short[][] b, short[][] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this decimal[,] a, short b, short[,] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this decimal[][] a, short b, short[][] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this decimal[,] a, short[] b, short[,] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this decimal[][] a, short[] b, short[][] result)
+        {
+            check<decimal, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this decimal[][] a, short[][] b, double[][] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this decimal[,] a, short[,] b, double[,] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this decimal[][] a, short b, double[][] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this decimal a, short[][] b, double[][] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this decimal a, short[,] b, double[,] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this decimal[,] a, short b, double[,] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this decimal[] a, short[] b, double[] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this decimal[] a, short b, double[] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this decimal a, short[] b, double[] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this decimal[] a, short[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this decimal[] a, short[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this decimal[,] a, short[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this decimal[][] a, short[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this decimal[] a, short[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this decimal[] a, short[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this decimal[,] a, short[] b, VectorType dimension, double[,] result)
+        {
+            check<decimal, short, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this decimal[][] a, short[] b, VectorType dimension, double[][] result)
+        {
+            check<decimal, short, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this decimal a, short[,] b, double[,] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this decimal a, short[][] b, double[][] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this decimal[] a, short[,] b, double[,] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this decimal[] a, short[][] b, double[][] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this decimal[,] a, short b, double[,] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this decimal[][] a, short b, double[][] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this decimal[,] a, short[] b, double[,] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this decimal[][] a, short[] b, double[][] result)
+        {
+            check<decimal, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, int[][] b, short[][] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, int[,] b, short[,] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (int* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, int b, short[][] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short a, int[][] b, short[][] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short a, int[,] b, short[,] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, int b, short[,] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, int[] b, short[] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, int b, short[] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short a, int[] b, short[] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[] a, int[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[] a, int[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[,] a, int[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[][] a, int[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[] a, int[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[] a, int[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, int[] b, VectorType dimension, short[,] result)
+        {
+            check<short, int, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, int[] b, VectorType dimension, short[][] result)
+        {
+            check<short, int, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short a, int[,] b, short[,] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short a, int[][] b, short[][] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[] a, int[,] b, short[,] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[] a, int[][] b, short[][] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, int b, short[,] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, int b, short[][] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, int[] b, short[,] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, int[] b, short[][] result)
+        {
+            check<short, int, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[][] a, int[][] b, int[][] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (int)((int)(a[i][j]) * (int)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[,] a, int[,] b, int[,] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (int* ptrB = b)
+                fixed (int* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (int)((int)(*pa) * (int)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[][] a, int b, int[][] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (int)((int)a[i][j] * (int)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short a, int[][] b, int[][] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (int)((int)a * (int)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short a, int[,] b, int[,] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrB = b)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (int)((int)a * (int)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[,] a, int b, int[,] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (int* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (int)((int)(*pa) * (int)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this short[] a, int[] b, int[] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (int)((int)a[i] * (int)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this short[] a, int b, int[] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (int)((int)a[i] * (int)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] Multiply(this short a, int[] b, int[] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (int)((int)a * (int)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this short[] a, int[,] b, int dimension, int[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this short[] a, int[][] b, int dimension, int[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Multiply(this short[,] a, int[] b, int dimension, int[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Multiply(this short[][] a, int[] b, int dimension, int[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[] a, int[,] b, VectorType dimension, int[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[] a, int[][] b, VectorType dimension, int[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Multiply(this short[,] a, int[] b, VectorType dimension, int[,] result)
+        {
+            check<short, int, int>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (int)((int)a[i, j] * (int)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (int)((int)a[i, j] * (int)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Multiply(this short[][] a, int[] b, VectorType dimension, int[][] result)
+        {
+            check<short, int, int>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (int)((int)a[i][j] * (int)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (int)((int)a[i][j] * (int)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this short a, int[,] b, int[,] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrB = b)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (int)((int)a * (int)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this short a, int[][] b, int[][] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (int)((int)a * (int)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this short[] a, int[,] b, int[,] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrB = b)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (int)((int)a[j] * (int)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this short[] a, int[][] b, int[][] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (int)((int)a[i] * (int)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this short[,] a, int b, int[,] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (int* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (int)((int)(*pa) * (int)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this short[][] a, int b, int[][] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (int)((int)a[i][i] * (int)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] MultiplyWithDiagonal(this short[,] a, int[] b, int[,] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (int* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (int)((int)(*pa) * (int)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] MultiplyWithDiagonal(this short[][] a, int[] b, int[][] result)
+        {
+            check<short, int, int>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (int)((int)a[i][i] * (int)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, int[][] b, double[][] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, int[,] b, double[,] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (int* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, int b, double[][] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short a, int[][] b, double[][] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short a, int[,] b, double[,] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (int* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, int b, double[,] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, int[] b, double[] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, int b, double[] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short a, int[] b, double[] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[] a, int[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[] a, int[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[,] a, int[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[][] a, int[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[] a, int[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[] a, int[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, int[] b, VectorType dimension, double[,] result)
+        {
+            check<short, int, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, int[] b, VectorType dimension, double[][] result)
+        {
+            check<short, int, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short a, int[,] b, double[,] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short a, int[][] b, double[][] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[] a, int[,] b, double[,] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (int* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[] a, int[][] b, double[][] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, int b, double[,] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, int b, double[][] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, int[] b, double[,] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, int[] b, double[][] result)
+        {
+            check<short, int, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, float[][] b, short[][] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, float[,] b, short[,] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (float* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, float b, short[][] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short a, float[][] b, short[][] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short a, float[,] b, short[,] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, float b, short[,] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, float[] b, short[] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, float b, short[] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short a, float[] b, short[] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[] a, float[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[] a, float[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[,] a, float[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[][] a, float[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[] a, float[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[] a, float[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, float[] b, VectorType dimension, short[,] result)
+        {
+            check<short, float, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, float[] b, VectorType dimension, short[][] result)
+        {
+            check<short, float, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short a, float[,] b, short[,] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short a, float[][] b, short[][] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[] a, float[,] b, short[,] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[] a, float[][] b, short[][] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, float b, short[,] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, float b, short[][] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, float[] b, short[,] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, float[] b, short[][] result)
+        {
+            check<short, float, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[][] a, float[][] b, float[][] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (float)((float)(a[i][j]) * (float)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[,] a, float[,] b, float[,] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (float* ptrB = b)
+                fixed (float* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (float)((float)(*pa) * (float)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[][] a, float b, float[][] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (float)((float)a[i][j] * (float)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short a, float[][] b, float[][] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (float)((float)a * (float)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short a, float[,] b, float[,] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrB = b)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (float)((float)a * (float)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[,] a, float b, float[,] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (float* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (float)((float)(*pa) * (float)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this short[] a, float[] b, float[] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (float)((float)a[i] * (float)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this short[] a, float b, float[] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (float)((float)a[i] * (float)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] Multiply(this short a, float[] b, float[] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (float)((float)a * (float)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this short[] a, float[,] b, int dimension, float[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this short[] a, float[][] b, int dimension, float[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Multiply(this short[,] a, float[] b, int dimension, float[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Multiply(this short[][] a, float[] b, int dimension, float[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[] a, float[,] b, VectorType dimension, float[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[] a, float[][] b, VectorType dimension, float[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Multiply(this short[,] a, float[] b, VectorType dimension, float[,] result)
+        {
+            check<short, float, float>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (float)((float)a[i, j] * (float)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (float)((float)a[i, j] * (float)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Multiply(this short[][] a, float[] b, VectorType dimension, float[][] result)
+        {
+            check<short, float, float>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (float)((float)a[i][j] * (float)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (float)((float)a[i][j] * (float)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this short a, float[,] b, float[,] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrB = b)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (float)((float)a * (float)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this short a, float[][] b, float[][] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (float)((float)a * (float)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this short[] a, float[,] b, float[,] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrB = b)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (float)((float)a[j] * (float)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this short[] a, float[][] b, float[][] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (float)((float)a[i] * (float)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this short[,] a, float b, float[,] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (float* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (float)((float)(*pa) * (float)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this short[][] a, float b, float[][] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (float)((float)a[i][i] * (float)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] MultiplyWithDiagonal(this short[,] a, float[] b, float[,] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (float* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (float)((float)(*pa) * (float)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] MultiplyWithDiagonal(this short[][] a, float[] b, float[][] result)
+        {
+            check<short, float, float>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (float)((float)a[i][i] * (float)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, float[][] b, double[][] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, float[,] b, double[,] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (float* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, float b, double[][] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short a, float[][] b, double[][] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short a, float[,] b, double[,] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (float* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, float b, double[,] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, float[] b, double[] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, float b, double[] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short a, float[] b, double[] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[] a, float[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[] a, float[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[,] a, float[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[][] a, float[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[] a, float[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[] a, float[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, float[] b, VectorType dimension, double[,] result)
+        {
+            check<short, float, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, float[] b, VectorType dimension, double[][] result)
+        {
+            check<short, float, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short a, float[,] b, double[,] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short a, float[][] b, double[][] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[] a, float[,] b, double[,] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (float* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[] a, float[][] b, double[][] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, float b, double[,] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, float b, double[][] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, float[] b, double[,] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, float[] b, double[][] result)
+        {
+            check<short, float, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, double[][] b, short[][] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, double[,] b, short[,] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, double b, short[][] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short a, double[][] b, short[][] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short a, double[,] b, short[,] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (double* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, double b, short[,] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, double[] b, short[] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, double b, short[] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short a, double[] b, short[] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[] a, double[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[] a, double[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[,] a, double[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[][] a, double[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[] a, double[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[] a, double[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, double[] b, VectorType dimension, short[,] result)
+        {
+            check<short, double, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, double[] b, VectorType dimension, short[][] result)
+        {
+            check<short, double, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short a, double[,] b, short[,] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short a, double[][] b, short[][] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[] a, double[,] b, short[,] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[] a, double[][] b, short[][] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, double b, short[,] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, double b, short[][] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, double[] b, short[,] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, double[] b, short[][] result)
+        {
+            check<short, double, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, double[][] b, double[][] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, double[,] b, double[,] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, double b, double[][] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short a, double[][] b, double[][] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short a, double[,] b, double[,] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (double* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, double b, double[,] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, double[] b, double[] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, double b, double[] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short a, double[] b, double[] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[] a, double[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[] a, double[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[,] a, double[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[][] a, double[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[] a, double[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[] a, double[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, double[] b, VectorType dimension, double[,] result)
+        {
+            check<short, double, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, double[] b, VectorType dimension, double[][] result)
+        {
+            check<short, double, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short a, double[,] b, double[,] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short a, double[][] b, double[][] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[] a, double[,] b, double[,] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (double* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[] a, double[][] b, double[][] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, double b, double[,] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, double b, double[][] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, double[] b, double[,] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, double[] b, double[][] result)
+        {
+            check<short, double, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, byte[][] b, short[][] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, byte[,] b, short[,] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (byte* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, byte b, short[][] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short a, byte[][] b, short[][] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short a, byte[,] b, short[,] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, byte b, short[,] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, byte[] b, short[] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, byte b, short[] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short a, byte[] b, short[] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[] a, byte[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[] a, byte[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[,] a, byte[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[][] a, byte[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[] a, byte[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[] a, byte[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, byte[] b, VectorType dimension, short[,] result)
+        {
+            check<short, byte, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, byte[] b, VectorType dimension, short[][] result)
+        {
+            check<short, byte, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short a, byte[,] b, short[,] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short a, byte[][] b, short[][] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[] a, byte[,] b, short[,] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[] a, byte[][] b, short[][] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, byte b, short[,] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, byte b, short[][] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, byte[] b, short[,] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, byte[] b, short[][] result)
+        {
+            check<short, byte, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this short[][] a, byte[][] b, byte[][] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (byte)((byte)(a[i][j]) * (byte)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this short[,] a, byte[,] b, byte[,] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (byte* ptrB = b)
+                fixed (byte* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (byte)((byte)(*pa) * (byte)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this short[][] a, byte b, byte[][] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (byte)((byte)a[i][j] * (byte)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this short a, byte[][] b, byte[][] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (byte)((byte)a * (byte)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this short a, byte[,] b, byte[,] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrB = b)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (byte)((byte)a * (byte)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this short[,] a, byte b, byte[,] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (byte* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (byte)((byte)(*pa) * (byte)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] Multiply(this short[] a, byte[] b, byte[] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (byte)((byte)a[i] * (byte)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] Multiply(this short[] a, byte b, byte[] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (byte)((byte)a[i] * (byte)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] Multiply(this short a, byte[] b, byte[] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (byte)((byte)a * (byte)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Multiply(this short[] a, byte[,] b, int dimension, byte[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Multiply(this short[] a, byte[][] b, int dimension, byte[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Multiply(this short[,] a, byte[] b, int dimension, byte[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Multiply(this short[][] a, byte[] b, int dimension, byte[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this short[] a, byte[,] b, VectorType dimension, byte[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this short[] a, byte[][] b, VectorType dimension, byte[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Multiply(this short[,] a, byte[] b, VectorType dimension, byte[,] result)
+        {
+            check<short, byte, byte>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (byte)((byte)a[i, j] * (byte)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (byte)((byte)a[i, j] * (byte)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Multiply(this short[][] a, byte[] b, VectorType dimension, byte[][] result)
+        {
+            check<short, byte, byte>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (byte)((byte)a[i][j] * (byte)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (byte)((byte)a[i][j] * (byte)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this short a, byte[,] b, byte[,] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrB = b)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (byte)((byte)a * (byte)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this short a, byte[][] b, byte[][] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (byte)((byte)a * (byte)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this short[] a, byte[,] b, byte[,] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrB = b)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (byte)((byte)a[j] * (byte)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this short[] a, byte[][] b, byte[][] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (byte)((byte)a[i] * (byte)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this short[,] a, byte b, byte[,] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (byte)((byte)(*pa) * (byte)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this short[][] a, byte b, byte[][] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (byte)((byte)a[i][i] * (byte)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] MultiplyWithDiagonal(this short[,] a, byte[] b, byte[,] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (byte* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (byte)((byte)(*pa) * (byte)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] MultiplyWithDiagonal(this short[][] a, byte[] b, byte[][] result)
+        {
+            check<short, byte, byte>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (byte)((byte)a[i][i] * (byte)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, byte[][] b, double[][] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, byte[,] b, double[,] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (byte* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, byte b, double[][] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short a, byte[][] b, double[][] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short a, byte[,] b, double[,] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (byte* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, byte b, double[,] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, byte[] b, double[] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, byte b, double[] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short a, byte[] b, double[] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[] a, byte[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[] a, byte[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[,] a, byte[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[][] a, byte[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[] a, byte[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[] a, byte[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, byte[] b, VectorType dimension, double[,] result)
+        {
+            check<short, byte, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, byte[] b, VectorType dimension, double[][] result)
+        {
+            check<short, byte, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short a, byte[,] b, double[,] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short a, byte[][] b, double[][] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[] a, byte[,] b, double[,] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (byte* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[] a, byte[][] b, double[][] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, byte b, double[,] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, byte b, double[][] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, byte[] b, double[,] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, byte[] b, double[][] result)
+        {
+            check<short, byte, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, decimal[][] b, short[][] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, decimal[,] b, short[,] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (decimal* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, decimal b, short[][] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short a, decimal[][] b, short[][] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short a, decimal[,] b, short[,] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, decimal b, short[,] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, decimal[] b, short[] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, decimal b, short[] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short a, decimal[] b, short[] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[] a, decimal[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[] a, decimal[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[,] a, decimal[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[][] a, decimal[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[] a, decimal[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[] a, decimal[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, decimal[] b, VectorType dimension, short[,] result)
+        {
+            check<short, decimal, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, decimal[] b, VectorType dimension, short[][] result)
+        {
+            check<short, decimal, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short a, decimal[,] b, short[,] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short a, decimal[][] b, short[][] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[] a, decimal[,] b, short[,] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[] a, decimal[][] b, short[][] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, decimal b, short[,] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, decimal b, short[][] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, decimal[] b, short[,] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, decimal[] b, short[][] result)
+        {
+            check<short, decimal, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this short[][] a, decimal[][] b, decimal[][] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (decimal)((decimal)(a[i][j]) * (decimal)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this short[,] a, decimal[,] b, decimal[,] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (decimal* ptrB = b)
+                fixed (decimal* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this short[][] a, decimal b, decimal[][] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (decimal)((decimal)a[i][j] * (decimal)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this short a, decimal[][] b, decimal[][] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (decimal)((decimal)a * (decimal)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this short a, decimal[,] b, decimal[,] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (decimal)((decimal)a * (decimal)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this short[,] a, decimal b, decimal[,] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (decimal* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Multiply(this short[] a, decimal[] b, decimal[] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (decimal)((decimal)a[i] * (decimal)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Multiply(this short[] a, decimal b, decimal[] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (decimal)((decimal)a[i] * (decimal)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] Multiply(this short a, decimal[] b, decimal[] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (decimal)((decimal)a * (decimal)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Multiply(this short[] a, decimal[,] b, int dimension, decimal[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Multiply(this short[] a, decimal[][] b, int dimension, decimal[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Multiply(this short[,] a, decimal[] b, int dimension, decimal[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Multiply(this short[][] a, decimal[] b, int dimension, decimal[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this short[] a, decimal[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this short[] a, decimal[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Multiply(this short[,] a, decimal[] b, VectorType dimension, decimal[,] result)
+        {
+            check<short, decimal, decimal>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (decimal)((decimal)a[i, j] * (decimal)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (decimal)((decimal)a[i, j] * (decimal)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Multiply(this short[][] a, decimal[] b, VectorType dimension, decimal[][] result)
+        {
+            check<short, decimal, decimal>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (decimal)((decimal)a[i][j] * (decimal)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (decimal)((decimal)a[i][j] * (decimal)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this short a, decimal[,] b, decimal[,] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (decimal)((decimal)a * (decimal)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this short a, decimal[][] b, decimal[][] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (decimal)((decimal)a * (decimal)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this short[] a, decimal[,] b, decimal[,] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (decimal)((decimal)a[j] * (decimal)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this short[] a, decimal[][] b, decimal[][] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (decimal)((decimal)a[i] * (decimal)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this short[,] a, decimal b, decimal[,] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this short[][] a, decimal b, decimal[][] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (decimal)((decimal)a[i][i] * (decimal)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] MultiplyWithDiagonal(this short[,] a, decimal[] b, decimal[,] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (decimal* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (decimal)((decimal)(*pa) * (decimal)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] MultiplyWithDiagonal(this short[][] a, decimal[] b, decimal[][] result)
+        {
+            check<short, decimal, decimal>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (decimal)((decimal)a[i][i] * (decimal)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, decimal[][] b, double[][] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, decimal[,] b, double[,] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (decimal* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, decimal b, double[][] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short a, decimal[][] b, double[][] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short a, decimal[,] b, double[,] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, decimal b, double[,] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, decimal[] b, double[] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, decimal b, double[] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short a, decimal[] b, double[] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[] a, decimal[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[] a, decimal[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[,] a, decimal[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[][] a, decimal[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[] a, decimal[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[] a, decimal[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, decimal[] b, VectorType dimension, double[,] result)
+        {
+            check<short, decimal, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, decimal[] b, VectorType dimension, double[][] result)
+        {
+            check<short, decimal, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short a, decimal[,] b, double[,] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short a, decimal[][] b, double[][] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[] a, decimal[,] b, double[,] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (decimal* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[] a, decimal[][] b, double[][] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, decimal b, double[,] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, decimal b, double[][] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, decimal[] b, double[,] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, decimal[] b, double[][] result)
+        {
+            check<short, decimal, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, short[][] b, short[][] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (short)((short)(a[i][j]) * (short)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, short[,] b, short[,] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (short)((short)(*pa) * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, short b, short[][] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (short)((short)a[i][j] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short a, short[][] b, short[][] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (short)((short)a * (short)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short a, short[,] b, short[,] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, short b, short[,] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, short[] b, short[] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short[] a, short b, short[] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (short)((short)a[i] * (short)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] Multiply(this short a, short[] b, short[] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (short)((short)a * (short)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[] a, short[,] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[] a, short[][] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[,] Multiply(this short[,] a, short[] b, int dimension, short[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static short[][] Multiply(this short[][] a, short[] b, int dimension, short[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[] a, short[,] b, VectorType dimension, short[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[] a, short[][] b, VectorType dimension, short[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] Multiply(this short[,] a, short[] b, VectorType dimension, short[,] result)
+        {
+            check<short, short, short>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (short)((short)a[i, j] * (short)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] Multiply(this short[][] a, short[] b, VectorType dimension, short[][] result)
+        {
+            check<short, short, short>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (short)((short)a[i][j] * (short)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short a, short[,] b, short[,] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short a, short[][] b, short[][] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[] a, short[,] b, short[,] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (short)((short)a[j] * (short)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[] a, short[][] b, short[][] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i] * (short)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, short b, short[,] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, short b, short[][] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] MultiplyWithDiagonal(this short[,] a, short[] b, short[,] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (short* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (short)((short)(*pa) * (short)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] MultiplyWithDiagonal(this short[][] a, short[] b, short[][] result)
+        {
+            check<short, short, short>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (short)((short)a[i][i] * (short)b[i]);
+            return result;
+        }
+ 
+        #endregion
+     
+
+        #region Matrix matrix
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, short[][] b, double[][] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (double)((double)(a[i][j]) * (double)(b[i][j]));
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, short[,] b, double[,] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (short* ptrB = b)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pb = ptrB;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pb++, pr++)
+                        *pr = (double)((double)(*pa) * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Matrix with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, short b, double[][] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                for (int j = 0; j < a[i].Length; j++)
+                    result[i][j] = (double)((double)a[i][j] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short a, short[][] b, double[][] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                for (int j = 0; j < b[i].Length; j++)
+                    result[i][j] = (double)((double)a * (double)b[i][j]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a matrix <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short a, short[,] b, double[,] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < b.Length; j++, pr++, pb++)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a scalar <c>b</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, short b, double[,] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            unsafe
+            {
+                fixed (short* ptrA = a)
+                fixed (double* ptrR = result)
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int i = 0; i < a.Length; i++, pa++, pr++)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region vector vector
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, short[] b, double[] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Vector with scalar
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a vector <c>a</c> and a scalar <c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The scalar <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short[] a, short b, double[] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i] = (double)((double)a[i] * (double)b);
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a scalar <c>a</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The scalar <c>a</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+        /// <param name="result">The vector where the result should be stored. Pass the same
+        ///   vector as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Multiply(this short a, short[] b, double[] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i] = (double)((double)a * (double)b[i]);
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[] a, short[,] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[] a, short[][] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Multiply(this short[,] a, short[] b, int dimension, double[,] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Multiply(this short[][] a, short[] b, int dimension, double[][] result)
+        {
+            return Multiply(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[] a, short[,] b, VectorType dimension, double[,] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[] a, short[][] b, VectorType dimension, double[][] result)
+        {
+            return Multiply(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Multiply(this short[,] a, short[] b, VectorType dimension, double[,] result)
+        {
+            check<short, short, double>(d: dimension, a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            if (dimension == 0)
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (double)((double)a[i, j] * (double)b[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Elementwise multiplication (note: this is not a dot or matrix product) between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Multiply(this short[][] a, short[] b, VectorType dimension, double[][] result)
+        {
+            check<short, short, double>(d: dimension, a: a, b: b, result: result);
+            if (dimension == 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[j]);
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+                        result[i][j] = (double)((double)a[i][j] * (double)b[i]);
+            }
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region Diagonal
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short a, short[,] b, double[,] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short a, short[][] b, double[][] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[] a, short[,] b, double[,] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrB = b)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pb = ptrB;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pb += cols + 1)
+                        *pr = (double)((double)a[j] * (double)(*pb));
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[] a, short[][] b, double[][] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < b.Length; i++)
+                result[i][i] = (double)((double)a[i] * (double)b[i][i]);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, short b, double[,] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pa = ptrA;
+                    var pr = ptrR;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, short b, double[][] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            for (int i = 0; i < a.Length; i++)
+                result[i][i] = (double)((double)a[i][i] * (double)b);
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] MultiplyWithDiagonal(this short[,] a, short[] b, double[,] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
+            int rows = b.GetLength(0);
+            int cols = b.GetLength(1);
+
+            unsafe 
+            {
+                fixed (short* ptrA = a)        
+                fixed (double* ptrR = result)        
+                {
+                    var pr = ptrR;
+                    var pa = ptrA;
+                    for (int j = 0; j < rows; j++, pr += cols + 1, pa += cols + 1)
+                        *pr = (double)((double)(*pa) * (double)b[j]);
+                }
+            }
+            return result;
+        }
+
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] MultiplyWithDiagonal(this short[][] a, short[] b, double[][] result)
+        {
+            check<short, short, double>(a: a, b: b, result: result);
             for (int i = 0; i < b.Length; i++)
                 result[i][i] = (double)((double)a[i][i] * (double)b[i]);
             return result;

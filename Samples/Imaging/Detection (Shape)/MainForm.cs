@@ -217,10 +217,8 @@ namespace SampleApp
         {
             System.Drawing.Point[] array = new System.Drawing.Point[points.Count];
 
-            for (int i = 0, n = points.Count; i < n; i++)
-            {
+            for (int i = 0; i < points.Count; i++)
                 array[i] = new System.Drawing.Point(points[i].X, points[i].Y);
-            }
 
             return array;
         }

@@ -67,6 +67,7 @@
     <Compile Include="CentralMomentsTest.cs" />
     <Compile Include="Filters\BinaryWatershedTest.cs" />
     <Compile Include="Filters\DistanceTransformTest.cs" />
+    <Compile Include="Filters\FillHolesTest.cs" />
     <Compile Include="Filters\PointsMarkerTest.cs" />
     <Compile Include="Filters\MorphologicalTests.cs" />
     <Compile Include="Filters\ResizeTest.cs" />
@@ -163,6 +164,15 @@
     <None Include="Resources\image1.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Blobs\blob-input.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Blobs\blob-output.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\large8bpp.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\PNM\baboon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -176,7 +186,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\water.bmp" />
-    <None Include="Resources\noise-line.png" />
+    <None Include="Resources\noise-line.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\blend_net35.png" />
     <None Include="Resources\blend_net45.png" />
     <Content Include="Resources\cards.png" />
@@ -259,7 +271,9 @@
     <Content Include="Resources\rhand3.bmp" />
     <Content Include="Resources\rhand4.bmp" />
     <Content Include="Resources\rhand5.bmp" />
-    <Content Include="Resources\sample-black.bmp" />
+    <Content Include="Resources\sample-black.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\sample-trans-up.png" />
     <None Include="Resources\sample-trans-down.png" />
     <None Include="Resources\sample-trans.png" />

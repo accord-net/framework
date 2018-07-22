@@ -32,6 +32,10 @@ namespace Accord.Audio
     /// 
     /// <seealso cref="MelFrequencyCepstrumCoefficient"/>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Audio\MFCCTests.cs" region="doc_example1" />
+    /// </example>
+    /// 
     [Serializable]
     public struct MelFrequencyCepstrumCoefficientDescriptor : IFeatureDescriptor<double[]>
     {
@@ -76,6 +80,16 @@ namespace Accord.Audio
         public override string ToString()
         {
             return String.Format("{0}: {1}", frame, descriptor.ToCSharp());
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="MelFrequencyCepstrumCoefficientDescriptor"/> to <see cref="T:System.Double[]"/>.
+        /// </summary>
+        /// <param name="desc">The desc.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator double[] (MelFrequencyCepstrumCoefficientDescriptor desc)
+        {
+            return desc.descriptor;
         }
     }
 }

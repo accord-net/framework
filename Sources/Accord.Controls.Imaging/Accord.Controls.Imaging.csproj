@@ -164,7 +164,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Accord.Controls.Statistics\Accord.Controls.csproj">
+    <ProjectReference Include="..\Accord.Controls\Accord.Controls.csproj">
       <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
       <Name>Accord.Controls</Name>
     </ProjectReference>

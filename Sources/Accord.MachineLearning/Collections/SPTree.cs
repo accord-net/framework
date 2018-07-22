@@ -56,11 +56,13 @@ namespace Accord.Collections
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Space-Partitioning Tree.
     /// </summary>
     /// 
+    [Serializable]
     public class SPTree : Tree<SPTreeNode>
     {
         private int dimension;

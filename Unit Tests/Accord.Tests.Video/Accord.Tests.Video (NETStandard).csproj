@@ -3,10 +3,14 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Video</RootNamespace>
     <AssemblyName>Accord.Tests.Video</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0<!--;net462--></TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow (NETStandard).csproj" />

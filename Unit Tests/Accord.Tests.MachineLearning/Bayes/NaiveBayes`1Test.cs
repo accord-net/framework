@@ -28,12 +28,15 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
+    using Accord.Statistics;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
     using NUnit.Framework;
+    using System;
     using System.Data;
     using System.IO;
 
@@ -668,7 +671,55 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, responses.Length);
         }
 #endif
-    }
 
+#if !NO_EXCEL
+        [Test]
+        [Category("Office")]
+        public void gh1056()
+        {
+            string basePath = NUnit.Framework.TestContext.CurrentContext.WorkDirectory;
+            string worksheetPath = Path.Combine(basePath, "Resources", "examples.xls");
+            // https://github.com/accord-net/framework/issues/1056
+            DataTable table = new ExcelReader(worksheetPath).GetWorksheet("Classification - Yin Yang");
+
+            double[][] inputs = table.ToJagged<double>("X", "Y");
+            int[] outputs = Classes.ToZeroOne(table.Columns["G"].ToArray<int>());
+
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
+
+            var nb = teacher.Learn(inputs, outputs);
+
+            int numberOfClasses = nb.NumberOfClasses;
+            int numberOfInputs = nb.NumberOfInputs;
+
+            int[] answers = nb.Decide(inputs);
+
+            var cm = ConfusionMatrix.Estimate(nb, inputs, outputs);
+            double acc = cm.Accuracy;
+
+            Assert.AreEqual(0.859999, cm.Accuracy, 1e-4);
+            Assert.AreEqual(2, numberOfClasses);
+            Assert.AreEqual(2, numberOfInputs);
+        }
+
+        [Test]
+        public void should_not_allow_negative_classes()
+        {
+            double[][] inputs =
+            {
+                new double[] { 0, 0 }, 
+                new double[] { 0, 1 },
+                new double[] { 1, 0 },
+                new double[] { 1, 1 },
+            };
+
+            int[] outputs = { -1, 1, 1, -1 };
+
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs));
+        }
+#endif
+    }
 #endif
 }

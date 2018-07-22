@@ -284,6 +284,18 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void IntervalTest_float()
+        {
+            float from = -1;
+            float to = 1;
+            float stepSize = 0.2f;
+            float[] expected = { -1.0f, -0.8f, -0.6f, -0.4f, -0.2f, 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+            float[] actual = Matrix.Interval(from, to, stepSize);
+            float[] round = Matrix.Round(actual, 3);
+            Assert.IsTrue(Matrix.IsEqual(expected, round));
+        }
+
+        [Test]
         public void IntervalTestInverse()
         {
             double from = 1;
@@ -317,6 +329,17 @@ namespace Accord.Tests.Math
         #endregion
 
         #region Elementwise Operations
+        [Test]
+        public void ElementwiseSubtractTest()
+        {
+            short[] a = { 5, 2, 1 };
+            short[] b = { 3, 1, 2 };
+            short[] expected = { 2, 1, -1 };
+            short[] actual = Elementwise.Subtract(a, b);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+
         [Test]
         public void ElementwiseMultiplyTest()
         {

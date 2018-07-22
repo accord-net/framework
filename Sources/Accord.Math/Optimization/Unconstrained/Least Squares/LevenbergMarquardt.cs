@@ -54,7 +54,7 @@ namespace Accord.Math.Optimization
     public class LevenbergMarquardt : BaseLeastSquaresMethod, ILeastSquaresMethod, IConvergenceLearning
     {
         private const double lambdaMax = 1e25;
-
+        private double eps = 1e-12;
 
         // Levenberg-Marquardt variables
         private double[][] jacobian;
@@ -127,6 +127,17 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
+        ///   Gets or sets a small epsilon value to be added to the
+        ///   diagonal of the Hessian matrix. Default is 1e-12.
+        /// </summary>
+        /// 
+        public double Epsilon
+        {
+            get { return eps; }
+            set { eps = value; }
+        }
+
+        /// <summary>
         ///   Gets the approximate Hessian matrix of second derivatives 
         ///   generated in the last algorithm iteration. The Hessian is 
         ///   stored in the upper triangular part of this matrix. See 
@@ -173,7 +184,6 @@ namespace Accord.Math.Optimization
         /// </summary>
         public LevenbergMarquardt()
         {
-
         }
 
         /// <summary>
@@ -328,7 +338,7 @@ namespace Accord.Math.Optimization
             // still be updated on every iteration by restoring this copy.
             //
             for (int i = 0; i < hessian.Length; i++)
-                diagonal[i] = hessian[i][i];
+                diagonal[i] = hessian[i][i] + eps;
 
             // Create the initial weights vector
             for (int i = 0; i < Solution.Length; i++)
@@ -354,7 +364,7 @@ namespace Accord.Math.Optimization
 
                 // Update diagonal (Levenberg-Marquardt)
                 for (int i = 0; i < diagonal.Length; i++)
-                    hessian[i][i] = diagonal[i] + 2 * lambda;
+                    hessian[i][i] = diagonal[i] * (1 + lambda);
 
 
                 // Decompose to solve the linear system. The Cholesky decomposition

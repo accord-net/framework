@@ -228,9 +228,6 @@
     <Resource Include="framework.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="License-LGPL.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>

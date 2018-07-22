@@ -2,14 +2,14 @@
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © Andrew Kirillov, 2005-2009
+// Copyright ï¿½ Andrew Kirillov, 2005-2009
 // andrew.kirillov@aforgenet.com
 //
 // Accord Imaging Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
+// Copyright ï¿½ Cï¿½sar Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -1301,7 +1301,7 @@ namespace Accord.Imaging
             {
                 int blobArea = area[j];
 
-                Blob blob = new Blob(j, new Rectangle(x1[j], y1[j], x2[j] - x1[j] + 1, y2[j] - y1[j] + 1));
+                Blob blob = new Blob(j, new Rectangle(x1[j], y1[j], x2[j] - x1[j], y2[j] - y1[j]));
                 blob.Area = blobArea;
                 blob.Fullness = (double)blobArea / ((x2[j] - x1[j] + 1) * (y2[j] - y1[j] + 1));
                 blob.CenterOfGravity = new Accord.Point((float)xc[j] / blobArea, (float)yc[j] / blobArea);

@@ -211,7 +211,7 @@ namespace Accord.MachineLearning.Performance
 
                 error = Loss(y, predicted, model);
             }
-            catch (ConvergenceException ex)
+            catch (Exception ex)
             {
                 exception = ex;
             }

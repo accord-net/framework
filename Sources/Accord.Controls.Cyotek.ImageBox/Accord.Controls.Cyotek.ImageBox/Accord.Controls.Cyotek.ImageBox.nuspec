@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>CyotekImageBox</id>
+        <version>$version$</version>
+        <title>Cyotek ImageBox Control</title>
+        <authors>Cyotek</authors>
+        <owners>Cyotek</owners>
+        <licenseUrl>https://raw.githubusercontent.com/cyotek/Cyotek.Windows.Forms.ImageBox/master/license.txt</licenseUrl>
+        <projectUrl>http://cyotek.com/blog/tag/imagebox</projectUrl>
+        <iconUrl>http://static.cyotek.com/files/packageicons/imagebox-32x32.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The ImageBox is a custom control for displaying images. It supports zooming, scrolling, panning, region selection, virtual modes, and much more.</description>
+        <summary>The ImageBox is a custom control for displaying images with built in support for zooming, scrolling, panning, region selection, virtual modes, and much more.</summary>
+        <releaseNotes />
+        <copyright>$copyright$</copyright>
+        <language>en-GB</language>
+        <tags>image picturebox form control imagebox cyotek</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+</package>

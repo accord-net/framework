@@ -181,7 +181,7 @@ namespace Accord.IO
             string extension = Path.GetExtension(path);
 
             if (!File.Exists(fullPath))
-                throw new FileNotFoundException("File could not be found.", fullPath);
+                throw new FileNotFoundException(String.Format("File could not be found: {0}", fullPath), fullPath);
 
             string tempFileName = Path.GetTempFileName();
             File.Copy(fullPath, tempFileName, true);

@@ -29,6 +29,7 @@
 namespace Accord.MachineLearning
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// Boltzmann distribution exploration policy.
@@ -50,12 +51,14 @@ namespace Accord.MachineLearning
     /// <seealso cref="EpsilonGreedyExploration"/>
     /// <seealso cref="TabuSearchExploration"/>
     /// 
+    [Serializable]
     public class BoltzmannExploration : IExplorationPolicy
     {
         // temperature parameter of Boltzmann distribution
         private double temperature;
 
         // random number generator
+        [NonSerialized]
         private Random rand = Accord.Math.Random.Generator.Random;
 
         /// <summary>

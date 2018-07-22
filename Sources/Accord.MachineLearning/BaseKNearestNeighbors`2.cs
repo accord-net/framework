@@ -50,6 +50,7 @@ namespace Accord.MachineLearning
 
         private TInput[] inputs;
         private int[] outputs;
+        private double[] weights;
 
         private TDistance distance;
 
@@ -110,8 +111,7 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Gets the set of points given
-        ///   as input of the algorithm.
+        ///   Gets the set of points given as input of the algorithm.
         /// </summary>
         /// 
         /// <value>The input points.</value>
@@ -123,8 +123,7 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Gets the set of labels associated
-        ///   with each <see cref="Inputs"/> point.
+        ///   Gets the set of labels associated with each <see cref="Inputs"/> point.
         /// </summary>
         /// 
         public int[] Outputs
@@ -133,6 +132,15 @@ namespace Accord.MachineLearning
             protected set { outputs = value; }
         }
 
+        /// <summary>
+        ///   Gets the weights associated with each <see cref="Inputs">input</see>-<see cref="Outputs">output</see> pair.
+        /// </summary>
+        /// 
+        public double[] Weights
+        {
+            get { return weights; }
+            protected set { weights = value; }
+        }
 
 
         /// <summary>
@@ -214,9 +222,6 @@ namespace Accord.MachineLearning
         
         internal static void CheckArgs(int k, TInput[] inputs, int[] outputs, IDistance<TInput> distance, double[] weights)
         {
-            if (weights != null)
-                throw new NotSupportedException("Weights are not supported yet. If are interested in the feature, please submit a request to the proejct's issue tracker.");
-
             if (inputs == null)
                 throw new ArgumentNullException("inputs");
 

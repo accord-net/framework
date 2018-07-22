@@ -220,7 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="framework.ico" />
-    <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

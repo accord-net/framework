@@ -29,6 +29,7 @@
 namespace Accord.MachineLearning
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// Tabu search exploration policy.
@@ -43,6 +44,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="EpsilonGreedyExploration"/>
     /// <seealso cref="RouletteWheelExploration"/>
     /// 
+    [Serializable]
     public class TabuSearchExploration : IExplorationPolicy
     {
         // total actions count

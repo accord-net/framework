@@ -24,9 +24,10 @@ namespace Accord.Audio
 {
     using System;
     using System.Runtime.InteropServices;
-    using Accord.Math;
     using Accord.Compat;
     using System.Numerics;
+    using Accord.Math.Transforms;
+    using Accord.Math;
 
     /// <summary>
     ///   Complex signal status.
@@ -157,10 +158,6 @@ namespace Accord.Audio
         public ComplexSignal(Array data, int channels, int length, int sampleRate, ComplexSignalStatus status)
             : base(data, channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
-            // check signal size
-            if (!Accord.Math.Tools.IsPowerOf2(length))
-                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
-
             this.status = status;
         }
 
@@ -171,10 +168,6 @@ namespace Accord.Audio
         public ComplexSignal(int channels, int length, int sampleRate)
             : base(channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
-            // check signal size
-            if (!Accord.Math.Tools.IsPowerOf2(length))
-                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
-
         }
 
 
@@ -185,7 +178,7 @@ namespace Accord.Audio
         /// 
         public Complex[,] ToArray()
         {
-            Complex[,] array = new Complex[NumberOfFrames, NumberOfChannels];
+            var array = new Complex[NumberOfFrames, NumberOfChannels];
 
             unsafe
             {
@@ -272,7 +265,7 @@ namespace Accord.Audio
                 for (int i = 0; i < NumberOfChannels; i++)
                 {
                     Complex[] channel = GetChannel(i);
-                    FourierTransform.FFT(channel, FourierTransform.Direction.Forward);
+                    FourierTransform2.FFT(channel, FourierTransform.Direction.Forward);
                     SetChannel(i, channel);
                 }
                 status = ComplexSignalStatus.FourierTransformed;
@@ -290,7 +283,7 @@ namespace Accord.Audio
                 for (int i = 0; i < NumberOfChannels; i++)
                 {
                     Complex[] channel = GetChannel(i);
-                    FourierTransform.FFT(channel, FourierTransform.Direction.Backward);
+                    FourierTransform2.FFT(channel, FourierTransform.Direction.Backward);
                     SetChannel(i, channel);
                 }
                 status = ComplexSignalStatus.Normal;
@@ -307,7 +300,7 @@ namespace Accord.Audio
                 for (int c = 0; c < NumberOfChannels; c++)
                 {
                     Complex[] channel = GetChannel(c);
-                    HilbertTransform.FHT(channel, FourierTransform.Direction.Forward);
+                    HilbertTransform2.FHT(channel, FourierTransform.Direction.Forward);
                     SetChannel(c, channel);
                 }
                 status = ComplexSignalStatus.Analytic;
@@ -324,7 +317,7 @@ namespace Accord.Audio
                 for (int c = 0; c < NumberOfChannels; c++)
                 {
                     Complex[] channel = GetChannel(c);
-                    HilbertTransform.FHT(channel, FourierTransform.Direction.Backward);
+                    HilbertTransform2.FHT(channel, FourierTransform.Direction.Backward);
                     SetChannel(c, channel);
                 }
                 status = ComplexSignalStatus.Normal;
@@ -379,13 +372,7 @@ namespace Accord.Audio
             int samples = array.GetLength(0);
             int channels = array.GetLength(1);
 
-            // check signal size
-            if (!Accord.Math.Tools.IsPowerOf2(samples))
-            {
-                throw new InvalidSignalPropertiesException("Signals length should be a power of 2.");
-            }
-
-            Complex[,] data = new Complex[samples, channels];
+            var data = new Complex[samples, channels];
             for (int i = 0; i < samples; i++)
                 for (int j = 0; j < channels; j++)
                     data[i, j] = new Complex(array[i, j], 0);

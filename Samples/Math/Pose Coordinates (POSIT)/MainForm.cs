@@ -33,7 +33,7 @@ namespace SampleApp
 
         // object points for POSIT case
         private readonly Vector3[] positObject = new Vector3[4]
-        { 
+        {
             new Vector3( -0.5f, -0.5f,  0 ),
             new Vector3(  0.5f, -0.5f,  0 ),
             new Vector3( -0.5f,  0.5f,  0 ),
@@ -42,7 +42,7 @@ namespace SampleApp
 
         // object points for CoPOSIT case
         private readonly Vector3[] copositObject = new Vector3[4]
-        { 
+        {
             new Vector3( -0.5f, -0.5f, 0 ),
             new Vector3(  0.5f, -0.5f, 0 ),
             new Vector3(  0.5f,  0.5f, 0 ),
@@ -81,18 +81,18 @@ namespace SampleApp
         private Matrix4x4 transformationMatrix = Matrix4x4.Identity;
         private Matrix4x4 viewMatrix = Matrix4x4.Identity;
 
-        public MainForm( )
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
-            posit = new Posit( positObject, -200 );
-            coposit = new CoplanarPosit( copositObject, 200 );
+            posit = new Posit(positObject, -200);
+            coposit = new CoplanarPosit(copositObject, 200);
         }
 
         // Form got loaded
-        private void MainForm_Load( object sender, EventArgs e )
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            StartUpdating( );
+            StartUpdating();
 
             screenPoint1ColorLabel.BackColor = objectPoint1ColorLabel.BackColor = vertexColors[0];
             screenPoint2ColorLabel.BackColor = objectPoint2ColorLabel.BackColor = vertexColors[1];
@@ -101,35 +101,35 @@ namespace SampleApp
 
             objectTypeCombo.SelectedIndex = 0;
 
-            yawBox.Text   = yaw.ToString( );
-            pitchBox.Text = pitch.ToString( );
-            rollBox.Text  = roll.ToString( );
+            yawBox.Text = yaw.ToString();
+            pitchBox.Text = pitch.ToString();
+            rollBox.Text = roll.ToString();
 
-            xObjectBox.Text = xObject.ToString( );
-            yObjectBox.Text = yObject.ToString( );
-            zObjectBox.Text = zObject.ToString( );
+            xObjectBox.Text = xObject.ToString();
+            yObjectBox.Text = yObject.ToString();
+            zObjectBox.Text = zObject.ToString();
 
-            xCameraBox.Text = xCamera.ToString( );
-            yCameraBox.Text = yCamera.ToString( );
-            zCameraBox.Text = zCamera.ToString( );
+            xCameraBox.Text = xCamera.ToString();
+            yCameraBox.Text = yCamera.ToString();
+            zCameraBox.Text = zCamera.ToString();
 
-            xLookAtBox.Text = xLookAt.ToString( );
-            yLookAtBox.Text = yLookAt.ToString( );
-            zLookAtBox.Text = zLookAt.ToString( );
+            xLookAtBox.Text = xLookAt.ToString();
+            yLookAtBox.Text = yLookAt.ToString();
+            zLookAtBox.Text = zLookAt.ToString();
 
-            EndUpdating( );
+            EndUpdating();
 
-            UpdateTransformationMatrix( );
-            UpdateViewMatrix( );
+            UpdateTransformationMatrix();
+            UpdateViewMatrix();
         }
 
 
-        private void StartUpdating( )
+        private void StartUpdating()
         {
             updating++;
         }
 
-        private void EndUpdating( )
+        private void EndUpdating()
         {
             updating--;
         }
@@ -139,275 +139,238 @@ namespace SampleApp
             get { return updating > 0; }
         }
 
-        // Parse float value from the text in the specified text box
-        private bool GetFloatValue( TextBox textBox, ref float floatValue )
+        private void GetFloatValue(NumericUpDown textBox, ref float floatValue)
         {
-            bool ret = false;
-
-            if ( float.TryParse( textBox.Text, out floatValue ) )
-            {
-                errorProvider.Clear( );
-                ret = true;
-            }
-            else
-            {
-                errorProvider.SetError( textBox, "Failed parsing float value" );
-            }
-
-            return ret;
+            floatValue = (float)textBox.Value;
         }
 
         // Yaw edit box has changed
-        private void yawBox_TextChanged( object sender, EventArgs e )
+        private void yawBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( yawBox, ref yaw ) )
-                {
-                    UpdateTransformationMatrix( );
-                }
+                GetFloatValue(yawBox, ref yaw);
+                UpdateTransformationMatrix();
             }
         }
 
         // Pitch edit box has changed
-        private void pitchBox_TextChanged( object sender, EventArgs e )
+        private void pitchBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( pitchBox, ref pitch ) )
-                {
-                    UpdateTransformationMatrix( );
-                }
+                GetFloatValue(pitchBox, ref pitch);
+                UpdateTransformationMatrix();
             }
         }
 
         // Roll edit box has changed
-        private void rollBox_TextChanged( object sender, EventArgs e )
+        private void rollBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( rollBox, ref roll ) )
-                {
-                    UpdateTransformationMatrix( );
-                }
+                GetFloatValue(rollBox, ref roll);
+                UpdateTransformationMatrix();
             }
         }
 
         // Object X position edit box has changed
-        private void xObjectBox_TextChanged( object sender, EventArgs e )
+        private void xObjectBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( xObjectBox, ref xObject ) )
-                {
-                    UpdateTransformationMatrix( );
-                }
+                GetFloatValue(xObjectBox, ref xObject);
+                UpdateTransformationMatrix();
             }
         }
 
         // Object Y position edit box has changed
-        private void yObjectBox_TextChanged( object sender, EventArgs e )
+        private void yObjectBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( yObjectBox, ref yObject ) )
-                {
-                    UpdateTransformationMatrix( );
-                }
+                GetFloatValue(yObjectBox, ref yObject);
+                UpdateTransformationMatrix();
             }
         }
 
         // Object Z position edit box has changed
-        private void zObjectBox_TextChanged( object sender, EventArgs e )
+        private void zObjectBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( zObjectBox, ref zObject ) )
-                {
-                    UpdateTransformationMatrix( );
-                }
+                GetFloatValue(zObjectBox, ref zObject);
+                UpdateTransformationMatrix();
             }
         }
 
         // Camera's X position edit box has changed
-        private void xCameraBox_TextChanged( object sender, EventArgs e )
+        private void xCameraBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( xCameraBox, ref xCamera ) )
-                {
-                    UpdateViewMatrix( );
-                }
+                GetFloatValue(xCameraBox, ref xCamera);
+                UpdateViewMatrix();
             }
         }
 
         // Camera's Y position edit box has changed
-        private void yCameraBox_TextChanged( object sender, EventArgs e )
+        private void yCameraBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( yCameraBox, ref yCamera ) )
-                {
-                    UpdateViewMatrix( );
-                }
+                GetFloatValue(yCameraBox, ref yCamera);
+                UpdateViewMatrix();
             }
         }
 
         // Camera's Z position edit box has changed
-        private void zCameraBox_TextChanged( object sender, EventArgs e )
+        private void zCameraBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( zCameraBox, ref zCamera ) )
-                {
-                    UpdateViewMatrix( );
-                }
+                GetFloatValue(zCameraBox, ref zCamera);
+                UpdateViewMatrix();
             }
         }
 
         // Camera's look at point's X position edit box has changed
-        private void xLookAtBox_TextChanged( object sender, EventArgs e )
+        private void xLookAtBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( xLookAtBox, ref xLookAt ) )
-                {
-                    UpdateViewMatrix( );
-                }
+                GetFloatValue(xLookAtBox, ref xLookAt);
+                UpdateViewMatrix();
             }
         }
 
         // Camera's look at point's Y position edit box has changed
-        private void yLookAtBox_TextChanged( object sender, EventArgs e )
+        private void yLookAtBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( yLookAtBox, ref yLookAt ) )
-                {
-                    UpdateViewMatrix( );
-                }
+                GetFloatValue(yLookAtBox, ref yLookAt);
+                UpdateViewMatrix();
             }
         }
 
         // Camera's look at point's Z position edit box has changed
-        private void zLookAtBox_TextChanged( object sender, EventArgs e )
+        private void zLookAtBox_TextChanged(object sender, EventArgs e)
         {
-            if ( !IsUpdating )
+            if (!IsUpdating)
             {
-                if ( GetFloatValue( zLookAtBox, ref zLookAt ) )
-                {
-                    UpdateViewMatrix( );
-                }
+                GetFloatValue(zLookAtBox, ref zLookAt);
+                UpdateViewMatrix();
             }
         }
 
         // Calculate new world transformation matrix
-        private void UpdateTransformationMatrix( )
+        private void UpdateTransformationMatrix()
         {
-            float rYaw   = (float) ( yaw   / 180 * Math.PI );
-            float rPitch = (float) ( pitch / 180 * Math.PI );
-            float rRoll  = (float) ( roll  / 180 * Math.PI );
+            float rYaw = (float)(yaw / 180 * Math.PI);
+            float rPitch = (float)(pitch / 180 * Math.PI);
+            float rRoll = (float)(roll / 180 * Math.PI);
 
             transformationMatrix =
-                Matrix4x4.CreateTranslation( new Vector3( xObject, yObject, zObject ) ) *
-                Matrix4x4.CreateFromYawPitchRoll( rYaw, rPitch, rRoll );
+                Matrix4x4.CreateTranslation(new Vector3(xObject, yObject, zObject)) *
+                Matrix4x4.CreateFromYawPitchRoll(rYaw, rPitch, rRoll);
 
             worldRendererControl.WorldMatrix = transformationMatrix;
-            transformationMatrixControl.SetMatrix( transformationMatrix );
-            targetTransformationMatrixControl.SetMatrix( viewMatrix * transformationMatrix );
+            transformationMatrixControl.SetMatrix(transformationMatrix);
+            targetTransformationMatrixControl.SetMatrix(viewMatrix * transformationMatrix);
 
-            UpdateProjectedPoints( );
-            EstimatePose( );
+            UpdateProjectedPoints();
+            EstimatePose();
         }
 
         // Calculate new view transformation matrix
-        private void UpdateViewMatrix( )
+        private void UpdateViewMatrix()
         {
             viewMatrix = Matrix4x4.CreateLookAt(
-                new Vector3( xCamera, yCamera, zCamera ),
-                new Vector3( xLookAt, yLookAt, zLookAt ) );
+                new Vector3(xCamera, yCamera, zCamera),
+                new Vector3(xLookAt, yLookAt, zLookAt));
 
             worldRendererControl.ViewMatrix = viewMatrix;
-            viewMatrixControl.SetMatrix( viewMatrix );
-            targetTransformationMatrixControl.SetMatrix( viewMatrix * transformationMatrix );
+            viewMatrixControl.SetMatrix(viewMatrix);
+            targetTransformationMatrixControl.SetMatrix(viewMatrix * transformationMatrix);
 
-            UpdateProjectedPoints( );
-            EstimatePose( );
+            UpdateProjectedPoints();
+            EstimatePose();
         }
 
         // Show current coordinates of object's projected points
-        private void UpdateProjectedPoints( )
+        private void UpdateProjectedPoints()
         {
             Accord.Point[] projectedPoints = worldRendererControl.ProjectedPoints;
 
-            screenPoint1Box.Text = projectedPoints[0].ToString( );
-            screenPoint2Box.Text = projectedPoints[1].ToString( );
-            screenPoint3Box.Text = projectedPoints[2].ToString( );
-            screenPoint4Box.Text = projectedPoints[3].ToString( );
+            screenPoint1Box.Text = projectedPoints[0].ToString();
+            screenPoint2Box.Text = projectedPoints[1].ToString();
+            screenPoint3Box.Text = projectedPoints[2].ToString();
+            screenPoint4Box.Text = projectedPoints[3].ToString();
         }
 
         // Object type has changed
-        private void objectTypeCombo_SelectedIndexChanged( object sender, EventArgs e )
+        private void objectTypeCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             Vector3[] vertices = null;
 
-            if ( objectTypeCombo.SelectedIndex == 0 )
+            if (objectTypeCombo.SelectedIndex == 0)
             {
                 vertices = positObject;
-                worldRendererControl.SetObject( vertices = positObject, vertexColors, positRibs );
+                worldRendererControl.SetObject(vertices = positObject, vertexColors, positRibs);
             }
             else
             {
                 vertices = copositObject;
-                worldRendererControl.SetObject( vertices = copositObject, vertexColors, copositRibs );
+                worldRendererControl.SetObject(vertices = copositObject, vertexColors, copositRibs);
             }
 
-            objectPoint1Box.Text = vertices[0].ToString( );
-            objectPoint2Box.Text = vertices[1].ToString( );
-            objectPoint3Box.Text = vertices[2].ToString( );
-            objectPoint4Box.Text = vertices[3].ToString( );
+            objectPoint1Box.Text = vertices[0].ToString();
+            objectPoint2Box.Text = vertices[1].ToString();
+            objectPoint3Box.Text = vertices[2].ToString();
+            objectPoint4Box.Text = vertices[3].ToString();
 
-            UpdateProjectedPoints( );
-            EstimatePose( );
+            UpdateProjectedPoints();
+            EstimatePose();
         }
 
         // Estimate pose of the object from its screen (projected) points
-        private void EstimatePose( )
+        private void EstimatePose()
         {
             Accord.Point[] projectedPoints = worldRendererControl.ProjectedPoints;
             Matrix3x3 rotationMatrix = Matrix3x3.Identity;
-            Vector3 translationVector = new Vector3( 0 );
+            Vector3 translationVector = new Vector3(0);
 
-            if ( objectTypeCombo.SelectedIndex == 0 )
+            if (objectTypeCombo.SelectedIndex == 0)
             {
-                posit.EstimatePose( projectedPoints, out rotationMatrix, out translationVector );
+                posit.EstimatePose(projectedPoints, out rotationMatrix, out translationVector);
             }
             else
             {
-                coposit.EstimatePose( projectedPoints, out rotationMatrix, out translationVector );
+                coposit.EstimatePose(projectedPoints, out rotationMatrix, out translationVector);
             }
 
             estimatedTransformationMatrixControl.SetMatrix(
-                Matrix4x4.CreateTranslation( translationVector ) *
-                Matrix4x4.CreateFromRotation( rotationMatrix ) );
+                Matrix4x4.CreateTranslation(translationVector) *
+                Matrix4x4.CreateFromRotation(rotationMatrix));
 
             float estimatedYaw;
             float estimatedPitch;
             float estimatedRoll;
 
-            rotationMatrix.ExtractYawPitchRoll( out estimatedYaw, out estimatedPitch, out estimatedRoll );
+            rotationMatrix.ExtractYawPitchRoll(out estimatedYaw, out estimatedPitch, out estimatedRoll);
 
-            estimatedYaw   *= (float) ( 180.0 / Math.PI );
-            estimatedPitch *= (float) ( 180.0 / Math.PI );
-            estimatedRoll  *= (float) ( 180.0 / Math.PI );
+            estimatedYaw *= (float)(180.0 / Math.PI);
+            estimatedPitch *= (float)(180.0 / Math.PI);
+            estimatedRoll *= (float)(180.0 / Math.PI);
 
-            estimatedYawBox.Text   = estimatedYaw.ToString( "F3" );
-            estimatedPitchBox.Text = estimatedPitch.ToString( "F3" );
-            estimatedRollBox.Text  = estimatedRoll.ToString( "F3" );
+            estimatedYawBox.Text = estimatedYaw.ToString("F3");
+            estimatedPitchBox.Text = estimatedPitch.ToString("F3");
+            estimatedRollBox.Text = estimatedRoll.ToString("F3");
 
-            estimatedXObjectBox.Text = translationVector.X.ToString( "F3" );
-            estimatedYObjectBox.Text = translationVector.Y.ToString( "F3" );
-            estimatedZObjectBox.Text = translationVector.Z.ToString( "F3" );
+            estimatedXObjectBox.Text = translationVector.X.ToString("F3");
+            estimatedYObjectBox.Text = translationVector.Y.ToString("F3");
+            estimatedZObjectBox.Text = translationVector.Z.ToString("F3");
         }
     }
 }

@@ -65,6 +65,14 @@ namespace Accord.Math.Optimization
     ///   that can be used to solve Least Squares optimization problems.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\GaussNewtonTest.cs" region="doc_minimize"/>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LevenbergMarquardtTest.cs" region="doc_minimize"/>
+    /// </example>
+    /// 
+    /// <seealso cref="GaussNewton"/>
+    /// <seealso cref="LevenbergMarquardt"/>
+    /// 
     public interface ILeastSquaresMethod
     {
 
@@ -110,6 +118,11 @@ namespace Accord.Math.Optimization
         /// <param name="inputs">A set of input data.</param>
         /// <param name="outputs">The values associated with each 
         ///   vector in the <paramref name="inputs"/> data.</param>
+        ///   
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\GaussNewtonTest.cs" region="doc_minimize"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LevenbergMarquardtTest.cs" region="doc_minimize"/>
+        /// </example>
         /// 
         double Minimize(double[][] inputs, double[] outputs);
 

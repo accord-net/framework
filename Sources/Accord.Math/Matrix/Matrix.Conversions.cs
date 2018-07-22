@@ -102,7 +102,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Obsolete.
+        ///   Obsolete. Please use <see cref="ToJagged{T}(T[], bool)"/> instead.
         /// </summary>
         [Obsolete("Please use ToJagged() instead.")]
         public static T[][] ToArray<T>(this T[] array, bool asColumnVector = true)
@@ -161,6 +161,31 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a multidimensional array into a jagged array.
+        /// </summary>
+        /// 
+        public static T[][][] ToJagged<T>(this T[,,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            int depth = matrix.GetLength(2);
+
+            var array = new T[rows][][];
+            for (int i = 0; i < rows; i++)
+            {
+                var row = array[i] = new T[cols][];
+                for (int j = 0; j < row.Length; j++)
+                {
+                    var plane = row[j] = new T[depth];
+                    for (int k = 0; k < plane.Length; k++)
+                        plane[k] = matrix[i, j, k];
+                }
+            }
+
+            return array;
+        }
+
+        /// <summary>
         ///   Obsolete.
         /// </summary>
         /// 
@@ -173,7 +198,6 @@ namespace Accord.Math
 
 
         #region Type conversions
-
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
         /// </summary>
@@ -181,16 +205,50 @@ namespace Accord.Math
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="vector">The vector to be converted.</param>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
         public static TOutput[] Convert<TInput, TOutput>(this TInput[] vector)
-            where TOutput : TInput
         {
-            TOutput[] result = new TOutput[vector.Length];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = (TOutput)vector[i];
-            return result;
+            return Convert(vector, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
         }
 
-#if !NETSTANDARD1_4
+        /// <summary>
+        ///   Converts the values of a matrix using the default converter.
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="matrix">The matrix to be converted.</param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
+        public static TOutput[,] Convert<TInput, TOutput>(this TInput[,] matrix)
+        {
+            return Convert(matrix, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
+        }
+
+        /// <summary>
+        ///   Converts the values of a matrix using the default converter.
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="matrix">The matrix to be converted.</param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
+        public static TOutput[,] Convert<TInput, TOutput>(TInput[][] matrix)
+        {
+            return Convert<TInput, TOutput>(matrix, x => (TOutput)System.Convert.ChangeType(x, typeof(TOutput)));
+        }
+
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
         /// </summary>
@@ -199,9 +257,24 @@ namespace Accord.Math
         /// <param name="vector">The vector to be converted.</param>
         /// <param name="converter">The converter function.</param>
         /// 
-        public static TOutput[] Convert<TInput, TOutput>(this TInput[] vector, Converter<TInput, TOutput> converter)
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
+        public static TOutput[] Convert<TInput, TOutput>(this TInput[] vector,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput>
+#else
+            Func<TInput, TOutput>
+#endif 
+            converter)
         {
+#if !NETSTANDARD1_4
             return Array.ConvertAll(vector, converter);
+#else
+            return vector.Apply(converter);
+#endif
         }
 
         /// <summary>
@@ -212,16 +285,24 @@ namespace Accord.Math
         /// <param name="matrix">The matrix to be converted.</param>
         /// <param name="converter">The converter function.</param>
         /// 
-        public static TOutput[][] Convert<TInput, TOutput>(this TInput[][] matrix, Converter<TInput, TOutput> converter)
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
+        public static TOutput[,] Convert<TInput, TOutput>(this TInput[][] matrix,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput>
+#else
+            Func<TInput, TOutput>
+#endif 
+            converter)
         {
-            TOutput[][] result = new TOutput[matrix.Length][];
+            var result = Matrix.CreateAs<TInput, TOutput>(matrix);
 
             for (int i = 0; i < matrix.Length; i++)
-            {
-                result[i] = new TOutput[matrix[i].Length];
                 for (int j = 0; j < matrix[i].Length; j++)
-                    result[i][j] = converter(matrix[i][j]);
-            }
+                    result[i, j] = converter(matrix[i][j]);
 
             return result;
         }
@@ -234,12 +315,23 @@ namespace Accord.Math
         /// <param name="matrix">The vector to be converted.</param>
         /// <param name="converter">The converter function.</param>
         /// 
-        public static TOutput[,] Convert<TInput, TOutput>(this TInput[,] matrix, Converter<TInput, TOutput> converter)
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
+        public static TOutput[,] Convert<TInput, TOutput>(this TInput[,] matrix,
+#if !NETSTANDARD1_4
+            Converter<TInput, TOutput>
+#else
+            Func<TInput, TOutput>
+#endif 
+            converter)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
-            TOutput[,] result = new TOutput[rows, cols];
+            var result = new TOutput[rows, cols];
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
                     result[i, j] = converter(matrix[i, j]);
@@ -257,6 +349,11 @@ namespace Accord.Math
         /// 
         /// <param name="array">The vector or array to be converted.</param>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
         public static TOutput To<TOutput>(this Array array)
         {
             return To(array, typeof(TOutput)).To<TOutput>();
@@ -271,92 +368,99 @@ namespace Accord.Math
         /// <param name="array">The vector or array to be converted.</param>
         /// <param name="outputType">The type of the output.</param>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_matrix" />
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_convert_jagged" />
+        /// </example>
+        /// 
         public static object To(this Array array, Type outputType)
         {
+            if (array.GetType() == outputType)
+                return array;
+
             if (!outputType.IsArray && array.Length == 1)
             {
                 foreach (var obj in array)
                     return obj.To(outputType);
             }
 
-            Type inputType = array.GetType();
-            Type inputElementType = inputType.GetElementType();
-            Type outputElementType = outputType.GetElementType();
+            Type outputElementType = outputType.GetInnerMostType();
 
             Array result;
 
-            if (inputElementType.IsArray && !outputElementType.IsArray)
+            if (outputType.IsJagged())
             {
-                // jagged -> multidimensional
-                result = Array.CreateInstance(outputElementType, array.GetLength(true));
-            }
-            else if (!inputElementType.IsArray && outputElementType.IsArray)
-            {
-                // multidimensional -> jagged
-                result = Array.CreateInstance(outputElementType, array.GetLength(0));
-            }
-            else if (inputElementType.IsArray && outputElementType.IsArray)
-            {
-                // jagged -> jagged
-                result = Array.CreateInstance(outputElementType, array.GetLength(0));
+                // multidimensional or jagged -> jagged
+                result = Jagged.CreateAs(array, outputType);
             }
             else
             {
-                // multidimensional -> multidimensional
-                int[] outputShape = array.GetLength();
-                if (outputType.IsArray)
-                {
-                    if (array.Rank != outputType.GetArrayRank())
-                    {
-                        outputShape = outputShape.Where(i => i != 1).ToArray();
-                        int outputRank = outputType.GetArrayRank();
-                        if (outputRank < outputShape.Length)
-                            throw new Exception();
-                        else if (outputRank > outputShape.Length)
-                            outputShape = outputShape.Concatenate(Accord.Math.Vector.Ones<int>(array.Rank - outputRank));
-                    }
-                }
-
-                // multidimensional -> multidimensional
-                result = Array.CreateInstance(outputElementType, outputShape);
+                // multidimensional or jagged -> multidimensional
+                result = Matrix.CreateAs(array, outputType);
             }
 
-            BlockCopy(array, result);
+            Copy(array, result);
 
             return result;
         }
 
-        private static void BlockCopy(this Array array, Array result)
+        /// <summary>
+        ///   Copies elements from an array to another array even if one
+        ///   is a jagged array and the other a multidimensional array.
+        /// </summary>
+        /// 
+        /// <param name="source">The array whose elements should be copied from.</param>
+        /// <param name="destination">The array where elements will be written to.</param>
+        /// 
+        public static void Copy(this Array source, Array destination)
         {
-            Type outputElementType = result.GetType().GetElementType();
+            Type outputElementType = destination.GetInnerMostType();
 
-            if (array.GetType() == result.GetType())
+#if !NETSTANDARD1_4
+            if (source.GetType() == destination.GetType() && source.IsMatrix() && destination.IsMatrix())
             {
                 if (outputElementType.IsPrimitive)
                 {
-                    Buffer.BlockCopy(array, 0, result, 0, array.Length * Marshal.SizeOf(outputElementType));
+                    Buffer.BlockCopy(source, 0, destination, 0, source.Length * Marshal.SizeOf(outputElementType));
                 }
                 else
                 {
-                    Array.Copy(array, result, array.Length);
+                    Array.Copy(source, destination, source.Length);
                 }
             }
             else
+#endif
             {
-                bool deep = array.Rank != result.Rank;
 
-                IEnumerator<int[]> a = array.GetIndices(deep).GetEnumerator();
-                IEnumerator<int[]> b = result.GetIndices(deep).GetEnumerator();
+                bool deep = true;
 
-                while (a.MoveNext() && b.MoveNext())
-                { 
-                    object inputValue = array.GetValue(deep, a.Current);
-                    object outputValue = convertValue(outputElementType, inputValue);
-                    result.SetValue(outputValue, b.Current);
+                if (destination.GetLength().Contains(-1))
+                {
+                    // Result is a jagged array where not all dimensions have been specified
+                    IEnumerator<int[]> a = source.GetIndices(deep).GetEnumerator();
+
+                    while (a.MoveNext())
+                    {
+                        object inputValue = source.GetValue(deep, a.Current);
+                        object outputValue = convertValue(outputElementType, inputValue);
+                        destination.SetValue(outputValue, deep, a.Current);
+                    }
+                }
+                else
+                {
+                    // Both matrices have been completely specified
+                    IEnumerator<int[]> a = source.GetIndices(deep).GetEnumerator();
+                    IEnumerator<int[]> b = destination.GetIndices(deep).GetEnumerator();
+
+                    while (a.MoveNext() && b.MoveNext())
+                    {
+                        object inputValue = source.GetValue(deep, a.Current);
+                        object outputValue = convertValue(outputElementType, inputValue);
+                        destination.SetValue(outputValue, deep, b.Current);
+                    }
                 }
             }
         }
-#endif
 
 
         /// <summary>
@@ -453,6 +557,21 @@ namespace Accord.Math
             {
                 Array current = array.GetValue(indices[0]) as Array;
                 int[] last = indices.Get(1, 0);
+                int length = last.Length == 0 ? 1 : last.Max() + 1;
+                if (current == null || current.Length < length)
+                {
+                    if (current == null)
+                    {
+                        current = Array.CreateInstance(array.GetType().GetElementType(), length);
+                    }
+                    else
+                    {
+                        var r = Array.CreateInstance(array.GetType().GetElementType(), length);
+                        current.CopyTo(r, 0);
+                        current = r;
+                    }
+                }
+
                 SetValue(current, value, true, last);
             }
             else
@@ -461,7 +580,6 @@ namespace Accord.Math
             }
         }
 
-#if !NETSTANDARD1_4
         private static object convertValue(Type outputElementType, object inputValue)
         {
             Array inputArray = inputValue as Array;
@@ -469,9 +587,6 @@ namespace Accord.Math
                 return To(inputArray, outputElementType);
             return inputValue.To(outputElementType);
         }
-#endif
-
-
         #endregion
 
         /// <summary>
@@ -865,6 +980,10 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
+        /// 
         public static double[][] ToJagged(this DataTable table)
         {
             return ToJagged<double>(table);
@@ -873,6 +992,10 @@ namespace Accord.Math
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static double[][] ToJagged(this DataTable table, IFormatProvider provider)
         {
@@ -883,6 +1006,10 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
+        /// 
         public static double[][] ToJagged(this DataTable table, out string[] columnNames)
         {
             return ToJagged<double>(table, out columnNames);
@@ -891,6 +1018,10 @@ namespace Accord.Math
         /// <summary>
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static double[][] ToJagged(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
@@ -901,14 +1032,22 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
+        /// 
         public static double[][] ToJagged(this DataTable table, params string[] columnNames)
         {
             return ToJagged<double>(table, columnNames);
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table)
         {
@@ -917,8 +1056,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, IFormatProvider provider)
         {
@@ -927,8 +1070,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, out string[] columnNames)
         {
@@ -953,8 +1100,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
@@ -976,8 +1127,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
+        ///   Converts a DataTable to a T[][] array.
         /// </summary>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Conversion.cs" region="doc_table_tojagged" />
+        /// </example>
         /// 
         public static T[][] ToJagged<T>(this DataTable table, params string[] columnNames)
         {

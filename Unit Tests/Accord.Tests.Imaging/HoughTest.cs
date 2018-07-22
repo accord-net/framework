@@ -77,7 +77,7 @@ namespace Accord.Imaging.Tests
             // Now, let's say we would like to retrieve the lines and use them
             // for further processing. First, the lines can be ordered by their
             // relative intensity using
-            HoughLine[] lines = lineTransform.GetLinesByRelativeIntensity(0.7);
+            HoughLine[] lines = lineTransform.GetLinesByRelativeIntensity(0.9);
 
             // Then, let's plot them on top of the input image. Since we will
             // apply many operations to a single image, it is better to first
@@ -96,7 +96,7 @@ namespace Accord.Imaging.Tests
             // unmanagedImage.ToManagedImage().Save("hough-lines.png");
             #endregion
 
-            Assert.AreEqual(53, lines.Length);
+            Assert.AreEqual(18, lines.Length);
 
             lines = lineTransform.GetLinesByRelativeIntensity(0.95);
             Assert.AreEqual(6, lines.Length);

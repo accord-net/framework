@@ -14,7 +14,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -38,11 +38,11 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
     <DefineConstants>TRACE;NET462</DefineConstants>
-	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -96,13 +96,13 @@
       <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
       <Name>Accord.Controls.Imaging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
-      <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
-      <Name>Accord.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Controls.Vision\Accord.Controls.Vision.csproj">
       <Project>{6158e759-fe2b-4308-ba29-11c9e4a07812}</Project>
       <Name>Accord.Controls.Vision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls\Accord.Controls.csproj">
+      <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
+      <Name>Accord.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>

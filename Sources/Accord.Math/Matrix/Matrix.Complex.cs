@@ -140,6 +140,33 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the conjugate of every complex number in an array.
+        /// </summary>
+        /// 
+        public static Complex[] Conjugate(this Complex[] c)
+        {
+            return c.Apply((x, i) => Complex.Conjugate(x));
+        }
+
+        /// <summary>
+        ///   Gets the conjugate of every complex number in a matrix.
+        /// </summary>
+        /// 
+        public static Complex[,] Conjugate(this Complex[,] c)
+        {
+            return c.Apply((x, i, j) => Complex.Conjugate(x));
+        }
+
+        /// <summary>
+        ///   Gets the conjugate of every complex number in a matrix.
+        /// </summary>
+        /// 
+        public static Complex[][] Conjugate(this Complex[][] c)
+        {
+            return c.Apply((x, i, j) => Complex.Conjugate(x));
+        }
+
+        /// <summary>
         ///   Returns the real vector part of the complex vector c.
         /// </summary>
         /// 
@@ -229,29 +256,6 @@ namespace Accord.Math
                 arr[i, 0] = c[i].Real;
                 arr[i, 1] = c[i].Imaginary;
             }
-
-            return arr;
-        }
-
-        /// <summary>
-        ///   Converts a vector of real numbers to complex numbers.
-        /// </summary>
-        /// 
-        /// <param name="real">The real numbers to be converted.</param>
-        /// 
-        /// <returns>
-        ///   A vector of complex number with the given 
-        ///   real numbers as their real components.
-        /// </returns>
-        /// 
-        public static Complex[] ToComplex(this double[] real)
-        {
-            if (real == null)
-                throw new ArgumentNullException("real");
-
-            Complex[] arr = new Complex[real.Length];
-            for (int i = 0; i < arr.Length; i++)
-                arr[i] = new Complex(real[i], 0);
 
             return arr;
         }
@@ -356,7 +360,7 @@ namespace Accord.Math
             if (objB == null) throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
-            { 
+            {
                 double xr = objA[i].Real;
                 double yr = objB[i].Real;
                 double xi = objA[i].Imaginary;

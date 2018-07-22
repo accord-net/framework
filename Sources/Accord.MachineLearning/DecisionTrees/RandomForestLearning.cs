@@ -93,6 +93,13 @@ namespace Accord.MachineLearning.DecisionTrees
         public int Join { get; set; }
 
         /// <summary>
+        ///   Gets or sets the maximum allowed height when learning a tree. If 
+        ///   set to zero, the tree can have an arbitrary length. Default is 0.
+        /// </summary>
+        /// 
+        public int MaxHeight { get; set; }
+
+        /// <summary>
         ///   Gets or sets the collection of attributes to 
         ///   be processed by the induced decision tree.
         /// </summary>
@@ -185,7 +192,7 @@ namespace Accord.MachineLearning.DecisionTrees
             {
                 if (this.attributes == null)
                     this.attributes = DecisionVariable.FromData(x);
-                this.forest = new RandomForest(x[0].Length, this.attributes, y.Max() + 1);
+                this.forest = CreateTree(y);
             }
 
             run(x, y);
@@ -211,11 +218,16 @@ namespace Accord.MachineLearning.DecisionTrees
             {
                 if (this.attributes == null)
                     this.attributes = DecisionVariable.FromData(x);
-                this.forest = new RandomForest(x[0].Length, this.attributes, y.Max() + 1);
+                this.forest = CreateTree(y);
             }
 
             run(x, y);
             return this.forest;
+        }
+
+        private RandomForest CreateTree(int[] y)
+        {
+            return new RandomForest(NumberOfTrees, this.attributes, y.Max() + 1);
         }
 
 
@@ -254,6 +266,7 @@ namespace Accord.MachineLearning.DecisionTrees
             where TModel : DecisionTree, ITransform<TData[], int>
         {
             teacher.MaxVariables = getColsPerTree(inputs);
+            teacher.MaxHeight = this.MaxHeight;
             teacher.Join = this.Join;
             int[] idx = Vector.Sample(SampleRatio, output.Length);
             teacher.Learn(inputs.Get(idx), output.Get(idx));

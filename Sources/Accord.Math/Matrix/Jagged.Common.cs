@@ -279,6 +279,35 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the number of channels (planes) in a jagged matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of channels must be computed.</param>
+        /// <param name="max">Whether to compute the maximum length across all columns (because
+        ///   columns can have different lengths in jagged matrices). Default is false.</param>
+        /// 
+        /// <returns>The number of channels (planes) in the matrix.</returns>
+        /// 
+        public static int Depth<T>(this T[][][] matrix, bool max = false)
+        {
+            if (matrix.Length == 0 || matrix[0].Length == 0)
+                return 0;
+
+            if (max)
+            {
+                int maxLength = matrix[0][0].Length;
+                for (int i = 0; i < matrix.Length; i++)
+                    for (int j = 0; j < matrix[i].Length; j++)
+                        if (matrix[i][j].Length > maxLength)
+                            maxLength = matrix[i][j].Length;
+                return maxLength;
+            }
+
+            return matrix[0][0].Length;
+        }
+
+        /// <summary>
         ///   Returns true if a matrix is upper triangular.
         /// </summary>
         public static bool IsUpperTriangular<T>(this T[][] matrix) where T : IComparable

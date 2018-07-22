@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="AudioDeviceInfoTest.cs" />
     <Compile Include="ComplexSignalTest.cs" />
+    <Compile Include="Filters\HighPassFilterTest.cs" />
     <Compile Include="Filters\LowPassFilterTest.cs" />
     <Compile Include="Filters\ExtractChannelTest.cs" />
     <Compile Include="MFCCTests.cs" />
@@ -124,10 +125,6 @@
     <ProjectReference Include="..\..\Sources\Accord.Audition\Accord.Audition.csproj">
       <Project>{CDBEFB1A-10BC-49EC-9833-D2CF6D4F6131}</Project>
       <Name>Accord.Audition</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
-      <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
-      <Name>Accord.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>

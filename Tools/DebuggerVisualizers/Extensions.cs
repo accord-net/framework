@@ -38,6 +38,13 @@ namespace Accord.DebuggerVisualizers
             return num;
         }
 
+        public static float Between(this float num, float min, float max)
+        {
+            if (num <= min) return min;
+            if (num >= max) return max;
+            return num;
+        }
+
         public static void HideImageMargin(this ToolStripDropDownItem tsddi)
         {
             ((ToolStripDropDownMenu)tsddi.DropDown).ShowImageMargin = false;
@@ -46,6 +53,11 @@ namespace Accord.DebuggerVisualizers
         public static bool IsValidImage(this PictureBox pb)
         {
             return pb.Image != null && pb.Image != pb.InitialImage && pb.Image != pb.ErrorImage;
+        }
+
+        public static bool IsValidImage(this Accord.Controls.Cyotek.ImageBox pb)
+        {
+            return pb.Image != null;
         }
     }
 }

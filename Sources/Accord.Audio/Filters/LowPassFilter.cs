@@ -37,6 +37,10 @@ namespace Accord.Audio.Filters
     /// </code>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Audio\Filters\LowPassFilterTest.cs" region="doc_example1" />
+    /// </example>
+    /// 
     public class LowPassFilter : BaseFilter
     {
 
@@ -59,8 +63,8 @@ namespace Accord.Audio.Filters
         /// 
         public static float GetAlpha(double frequency, double sampleRate)
         {
-            double rc = 1 / (2 * Math.PI * frequency);
-            double dt = 1 / sampleRate;
+            double rc = 1.0 / (2 * Math.PI * frequency);
+            double dt = 1.0 / sampleRate;
             return (float)(dt / (dt + rc));
         }
 

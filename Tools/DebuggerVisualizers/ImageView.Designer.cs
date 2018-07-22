@@ -36,7 +36,7 @@
             this.tsslStatusType = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsslDPI = new System.Windows.Forms.ToolStripStatusLabel();
             this.pMain = new System.Windows.Forms.Panel();
-            this.pbPreview = new Accord.Controls.PictureBox();
+            this.pbPreview = new Accord.Controls.Cyotek.ImageBox();
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.tsddbZoom = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsbCopyImage = new System.Windows.Forms.ToolStripButton();
@@ -50,7 +50,6 @@
             this.tscMain.SuspendLayout();
             this.ssMain.SuspendLayout();
             this.pMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.tsMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,7 +141,6 @@
             // 
             // tsslY
             // 
-            //this.tsslY.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.tsslY.Name = "tsslY";
             this.tsslY.Size = new System.Drawing.Size(17, 19);
             this.tsslY.Text = "Y:";
@@ -163,12 +161,11 @@
             this.pbPreview.Location = new System.Drawing.Point(0, 0);
             this.pbPreview.Name = "pbPreview";
             this.pbPreview.Size = new System.Drawing.Size(400, 400);
-            this.pbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbPreview.ShowPixelGrid = true;
             this.pbPreview.TabIndex = 0;
             this.pbPreview.TabStop = false;
-            this.pbPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbPreview_MouseDown);
             this.pbPreview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbPreview_MouseMove);
-            this.pbPreview.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbPreview_MouseUp);
             // 
             // tsMain
             // 
@@ -260,7 +257,6 @@
             this.ssMain.PerformLayout();
             this.pMain.ResumeLayout(false);
             this.pMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
             this.ResumeLayout(false);
@@ -268,7 +264,7 @@
 
         #endregion
 
-        private Accord.Controls.PictureBox pbPreview;
+        private Accord.Controls.Cyotek.ImageBox pbPreview;
         private System.Windows.Forms.ToolStripContainer tscMain;
         private System.Windows.Forms.ToolStrip tsMain;
         private System.Windows.Forms.ToolStripButton tsbCopyImage;

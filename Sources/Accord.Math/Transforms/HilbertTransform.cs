@@ -25,42 +25,13 @@ namespace Accord.Math
     using System;
     using Accord.Compat;
     using System.Numerics;
+    using Accord.Math.Transforms;
 
     /// <summary>
-    ///   Discrete Hilbert Transformation.
+    ///   Obsolete. Please use <see cref="HilbertTransform2"/> instead.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   The discrete Hilbert transform is a transformation operating on the time
-    ///   domain. It performs a 90 degree phase shift, shifting positive frequencies
-    ///   by +90 degrees and negative frequencies by -90 degrees. It is useful to
-    ///   create analytic representation of signals. </para>
-    ///   
-    /// <para>
-    ///   The Hilbert transform can be implemented efficiently by using the Fast
-    ///   Fourier Transform. After transforming a signal from the time-domain to
-    ///   the frequency domain, one can zero its negative frequency components and
-    ///   revert the signal back to obtain the phase shifting.</para>
-    ///   
-    ///  <para>
-    ///    By applying the Hilbert transform to a signal twice, the negative of
-    ///    the original signal is recovered.</para>
-    /// 
-    ///   <para>
-    ///     References:
-    ///     <list type="bullet">
-    ///       <item><description>
-    ///        Marple, S.L., "Computing the discrete-time analytic signal via FFT," IEEE 
-    ///        Transactions on Signal Processing, Vol. 47, No.9 (September 1999). Available on:
-    ///        http://classes.engr.oregonstate.edu/eecs/winter2009/ece464/AnalyticSignal_Sept1999_SPTrans.pdf </description></item>
-    ///       <item><description>
-    ///        J. F. Culling, Online, cross-indexed dictionary of DSP terms. Available on:
-    ///        http://www.cardiff.ac.uk/psych/home2/CullingJ/frames_dict.html </description></item>
-    ///     </list>
-    ///   </para>
-    /// </remarks>
-    /// 
+    [Obsolete("Please use HilbertTransform2 instead.")]
     public static class HilbertTransform
     {
         /// <summary>

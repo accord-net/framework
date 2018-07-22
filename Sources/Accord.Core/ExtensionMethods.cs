@@ -764,5 +764,24 @@ namespace Accord
             Marshal.FreeHGlobal(buffer);
             return obj;
         }
+
+        /// <summary>
+        ///   Returns a type object representing an array of the current type, with the specified number of dimensions.
+        /// </summary>
+        /// <param name="elementType">Type of the element.</param>
+        /// <param name="rank">The rank.</param>
+        /// <param name="jagged">Whether to return a type for a jagged array of the given rank, or a 
+        /// multdimensional array. Default is false (default is to return multidimensional array types).</param>
+        /// 
+        public static Type MakeArrayType(this Type elementType, int rank, bool jagged)
+        {
+            if (!jagged)
+                return elementType.MakeArrayType(rank);
+
+            if (rank == 0)
+                return elementType;
+
+            return elementType.MakeArrayType(rank: rank - 1, jagged: true).MakeArrayType();
+        }
     }
 }

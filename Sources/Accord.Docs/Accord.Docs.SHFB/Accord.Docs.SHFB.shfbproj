@@ -323,6 +323,7 @@
     <Folder Include="images\filters\" />
     <Folder Include="images\hmm\" />
     <Folder Include="images\imaging" />
+    <Folder Include="images\imaging\blobs" />
     <Folder Include="images\math" />
     <Folder Include="images\neuro" />
     <Folder Include="images\controls" />
@@ -1552,6 +1553,14 @@
     <Content Include="images\video\haar_frame_24.png">
       <ImageId>frame_24</ImageId>
       <AlternateText>frame 24</AlternateText>
+    </Content>
+    <Content Include="images\imaging\blobs\blob-input.png">
+      <ImageId>blob-input</ImageId>
+      <AlternateText>blob-input</AlternateText>
+    </Content>
+    <Content Include="images\imaging\blobs\blob-output.png">
+      <ImageId>blob-output</ImageId>
+      <AlternateText>blob-output</AlternateText>
     </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>

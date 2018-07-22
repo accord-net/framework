@@ -126,14 +126,16 @@ namespace Accord.Statistics.Models.Regression
             : base(new LogitLinkFunction(), inputs, intercept) { }
 
         /// <summary>
-        ///   Gets the 95% confidence interval for the
-        ///   Odds Ratio for a given coefficient.
+        ///   Gets the 95% confidence interval for the Odds Ratio for a given coefficient.
         /// </summary>
         /// 
         /// <param name="index">
-        ///   The coefficient's index. The first value
-        ///   (at zero index) is the intercept value.
+        ///   The coefficient's index. The first value (at zero index) is the intercept value.
         /// </param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
+        /// </example>
         /// 
         public DoubleRange GetConfidenceInterval(int index)
         {

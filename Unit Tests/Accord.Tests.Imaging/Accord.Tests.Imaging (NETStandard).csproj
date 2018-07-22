@@ -5,7 +5,7 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Imaging</RootNamespace>
     <AssemblyName>Accord.Tests.Imaging</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0<!--;net462--></TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
   </PropertyGroup>
 
   <Choose>
@@ -31,8 +31,8 @@
     </Otherwise>
   </Choose>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
   </ItemGroup>
 
 

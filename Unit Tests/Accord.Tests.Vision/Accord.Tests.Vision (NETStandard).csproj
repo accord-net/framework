@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Vision</RootNamespace>
     <AssemblyName>Accord.Tests.Vision</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0<!--;net462--></TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
@@ -24,9 +24,11 @@
   </Choose>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.DataSets\Accord.DataSets (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Vision\Accord.Vision (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
     <PackageReference Include="System.Runtime" Version="4.3.0" />
   </ItemGroup>
 

@@ -131,6 +131,36 @@ namespace Accord.Tests.IO
         }
 
         [Test]
+        public void WriteSingleMatrixTest()
+        {
+            float[,] input =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            byte[] actual = NpyFormat.Save(input);
+            byte[] expected = GetNpy("npy_single.npy");
+
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
+
+        [Test]
+        public void WriteDoubleMatrixTest()
+        {
+            double[,] input =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            byte[] actual = NpyFormat.Save(input);
+            byte[] expected = GetNpy("npy_double.npy");
+
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
+
+        [Test]
         public void WriteStringMatrixTest()
         {
             string[,] value =

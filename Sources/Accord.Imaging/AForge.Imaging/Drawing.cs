@@ -2,7 +2,7 @@
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2005-2011
+// Copyright ï¿½ AForge.NET, 2005-2011
 // contacts@aforgenet.com
 //
 
@@ -230,6 +230,55 @@ namespace Accord.Imaging
 
             Line(image, new IntPoint(rectX2, rectY1 + 1), new IntPoint(rectX2, rectY2 - 1), color);
             Line(image, new IntPoint(rectX1, rectY2 - 1), new IntPoint(rectX1, rectY1 + 1), color);
+        }
+
+       /// <summary>
+        /// Draw rectangle on the specified image.
+        /// </summary>
+        /// 
+        /// <param name="image">Source image to draw on.</param>
+        /// <param name="rectangle">Rectangle's coordinates to draw.</param>
+        /// <param name="color">Rectangle's color.</param>
+        /// <param name="width">Width of the four lines of the rectangle</param>
+        /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
+        /// 
+        public static void Rectangle(UnmanagedImage image, Rectangle rectangle, Color color, int width)
+        {
+            CheckPixelFormat(image.PixelFormat);
+
+            // image dimension
+            int imageWidth = image.Width;
+            int imageHeight = image.Height;
+            int stride = image.Stride;
+
+            // rectangle dimension and position
+            int rectX1 = rectangle.X;
+            int rectY1 = rectangle.Y;
+            int rectX2 = rectangle.X + rectangle.Width - 1;
+            int rectY2 = rectangle.Y + rectangle.Height - 1;
+
+            // check if rectangle is in the image
+            if ((rectX1 >= imageWidth) || (rectY1 >= imageHeight) || (rectX2 < 0) || (rectY2 < 0))
+            {
+                // nothing to draw
+                return;
+            }
+
+            // obviously vertical/horizontal lines can be drawn faster, but at least we simplify the code
+            // Line(image, new IntPoint(rectX1, rectY1), new IntPoint(rectX2, rectY1), color);
+            // Line(image, new IntPoint(rectX2, rectY2), new IntPoint(rectX1, rectY2), color);
+
+            // Line(image, new IntPoint(rectX2, rectY1 + 1), new IntPoint(rectX2, rectY2 - 1), color);
+            // Line(image, new IntPoint(rectX1, rectY2 - 1), new IntPoint(rectX1, rectY1 + 1), color);
+
+            for (var i = 0; i < width;i++ )
+            {
+                Line(image, new IntPoint(rectX1 - i, rectY1 - i), new IntPoint(rectX2 + i, rectY1 - i), color);
+                Line(image, new IntPoint(rectX2 + i, rectY2 + i), new IntPoint(rectX1 - i, rectY2 + i), color);
+
+                Line(image, new IntPoint(rectX2 + i, rectY1 - i), new IntPoint(rectX2 + i, rectY2 + i), color);
+                Line(image, new IntPoint(rectX1 - i, rectY2 + i), new IntPoint(rectX1 - i, rectY1 - i), color);
+            }
         }
 
         /// <summary>

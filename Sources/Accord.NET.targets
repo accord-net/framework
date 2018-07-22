@@ -11,7 +11,7 @@
 		<OldToolsVersion>3.5</OldToolsVersion>
 		<CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
 		<MapFileExtensions>true</MapFileExtensions>
-		<CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet>$(SolutionDir)Accord.NET.ruleset</CodeAnalysisRuleSet>
 		<UseApplicationTrust>false</UseApplicationTrust>
 		<BootstrapperEnabled>true</BootstrapperEnabled>
 		<FileAlignment>4096</FileAlignment>

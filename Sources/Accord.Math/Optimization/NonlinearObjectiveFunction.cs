@@ -29,8 +29,28 @@ namespace Accord.Math.Optimization
     using Accord.Compat;
 
     /// <summary>
-    ///   Quadratic objective function.
+    ///   Nonlinear objective function.
     /// </summary>
+    /// 
+    /// <example>
+    /// <para>
+    ///   In this framework, it is possible to state a non-linear programming problem
+    ///   using either symbolic processing or vector-valued functions. The following 
+    ///   example demonstrates the symbolic processing case:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\AugmentedLagrangianTest.cs" region="doc_lambda"/>
+    /// 
+    /// <para>
+    ///   And this is the same example as before, but using standard vectors instead.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\AugmentedLagrangianTest.cs" region="doc_vector"/>
+    /// </example>
+    /// 
+    /// <seealso cref="NelderMead"/>
+    /// <seealso cref="Cobyla"/>
+    /// <seealso cref="Subplex"/>
+    /// <seealso cref="AugmentedLagrangian"/>
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// 
     public class NonlinearObjectiveFunction : IObjectiveFunction
     {

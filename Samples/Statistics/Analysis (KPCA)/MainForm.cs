@@ -254,14 +254,14 @@ namespace Analysis.KPCA
         private void btnReversion_Click(object sender, EventArgs e)
         {
             double[][] reversionSource = (double[][])(dgvReversionSource.DataSource as ArrayDataView).ArrayData;
-            double[][] m = kpca.Revert(reversionSource, (int)numNeighbor.Value); 
-            dgvReversionResult.DataSource = new ArrayDataView(m);
+            double[][] reversionResult = kpca.Revert(reversionSource, (int)numNeighbor.Value); 
+            dgvReversionResult.DataSource = new ArrayDataView(reversionResult);
 
             // Creates a matrix from the source data table
             double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged();
 
             // Create a new plot with the original Z column
-            double[][] graph = sourceMatrix.InsertColumn(sourceMatrix.GetColumn(2));
+            double[][] graph = reversionResult.InsertColumn(sourceMatrix.GetColumn(2));
             reversionScatterplot.DataSource = graph;
         }
 

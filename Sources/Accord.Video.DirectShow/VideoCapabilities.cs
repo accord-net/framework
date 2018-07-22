@@ -36,6 +36,7 @@ namespace Accord.Video.DirectShow
 
     using Accord.Video;
     using Accord.Video.DirectShow.Internals;
+    using System.Linq;
 
     /// <summary>
     /// Capabilities of video device such as frame size and frame rate.
@@ -100,13 +101,13 @@ namespace Accord.Video.DirectShow
                 throw new NotSupportedException("Unable to retrieve video device capabilities. This video device requires a larger VideoStreamConfigCaps structure.");
 
             // group capabilities with similar parameters
-            Dictionary<ulong, VideoCapabilities> videocapsList = new Dictionary<ulong, VideoCapabilities>();
+            var videocapsList = new Dictionary<ulong, VideoCapabilities>();
 
             for (int i = 0; i < count; i++)
             {
                 try
                 {
-                    VideoCapabilities vc = new VideoCapabilities(videoStreamConfig, i);
+                    var vc = new VideoCapabilities(videoStreamConfig, i);
 
                     ulong key = (((uint)vc.AverageFrameRate) << 48) |
                                (((uint)vc.FrameSize.Height) << 32) |
@@ -119,9 +120,7 @@ namespace Accord.Video.DirectShow
                     else
                     {
                         if (vc.BitCount > videocapsList[key].BitCount)
-                        {
                             videocapsList[key] = vc;
-                        }
                     }
                 }
                 catch
@@ -129,10 +128,7 @@ namespace Accord.Video.DirectShow
                 }
             }
 
-            VideoCapabilities[] videocaps = new VideoCapabilities[videocapsList.Count];
-            videocapsList.Values.CopyTo(videocaps, 0);
-
-            return videocaps;
+            return videocapsList.Values.ToArray();
         }
 
         // Retrieve capabilities of a video device
@@ -176,9 +172,7 @@ namespace Accord.Video.DirectShow
                 // TODO: proper fix needs to be done so ICaptureGraphBuilder2::RenderStream() does not fail
                 // on such formats
                 if (BitCount <= 12)
-                {
                     throw new ApplicationException("Unsupported format found.");
-                }
             }
             finally
             {
@@ -211,11 +205,9 @@ namespace Accord.Video.DirectShow
         public bool Equals(VideoCapabilities vc2)
         {
             if ((object)vc2 == null)
-            {
                 return false;
-            }
 
-            return ((FrameSize == vc2.FrameSize) && (BitCount == vc2.BitCount));
+            return (FrameSize == vc2.FrameSize) && (BitCount == vc2.BitCount);
         }
 
         /// <summary>
@@ -240,15 +232,11 @@ namespace Accord.Video.DirectShow
         {
             // if both are null, or both are same instance, return true.
             if (object.ReferenceEquals(a, b))
-            {
                 return true;
-            }
 
             // if one is null, but not both, return false.
             if (((object)a == null) || ((object)b == null))
-            {
                 return false;
-            }
 
             return a.Equals(b);
         }

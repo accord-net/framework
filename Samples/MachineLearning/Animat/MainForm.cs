@@ -7,16 +7,13 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 
 using Accord.MachineLearning;
+using Accord.Math;
 
 namespace SampleApp
 {
@@ -28,11 +25,15 @@ namespace SampleApp
         private int mapWidth;
         private int mapHeight;
 
-        // agent' start and stop position
+        // agent's start and stop position
         private int agentStartX;
         private int agentStartY;
         private int agentStopX;
         private int agentStopY;
+
+        // temp next state coordinates of the agent
+        private int agentNextX;
+        private int agentNextY;
 
         // flag to stop background job
         private volatile bool needToStop = false;
@@ -324,14 +325,30 @@ namespace SampleApp
 
             if (algorithmCombo.SelectedIndex == 0)
             {
-                // create new QLearning algorithm's instance
-                qLearning = new QLearning(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                if (cbGlobal.Checked)
+                {
+                    // create new QLearning algorithm's instance
+                    qLearning = new QLearning(mapWidth * mapHeight, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
+                else
+                {
+                    // create new QLearning algorithm's instance
+                    qLearning = new QLearning(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
                 workerThread = new Thread(new ThreadStart(QLearningThread));
             }
-            else
+            else if (algorithmCombo.SelectedIndex == 1)
             {
-                // create new Sarsa algorithm's instance
-                sarsa = new Sarsa(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                if (cbGlobal.Checked)
+                {
+                    // create new Sarsa algorithm's instance
+                    sarsa = new Sarsa(mapWidth * mapHeight, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
+                else
+                {
+                    // create new Sarsa algorithm's instance
+                    sarsa = new Sarsa(256, 4, new TabuSearchExploration(4, new EpsilonGreedyExploration(explorationRate)));
+                }
                 workerThread = new Thread(new ThreadStart(SarsaThread));
             }
 
@@ -354,6 +371,10 @@ namespace SampleApp
                     Application.DoEvents();
                 workerThread = null;
             }
+
+            // reset learning class values
+            qLearning = null;
+            sarsa = null;
         }
 
         // On "Show Solution" button
@@ -376,7 +397,7 @@ namespace SampleApp
         private void QLearningThread()
         {
             int iteration = 0;
-            // curent coordinates of the agent
+            // current coordinates of the agent
             int agentCurrentX, agentCurrentY;
             // exploration policy
             TabuSearchExploration tabuPolicy = (TabuSearchExploration)qLearning.ExplorationPolicy;
@@ -509,8 +530,10 @@ namespace SampleApp
 
             if (qLearning != null)
                 tabuPolicy = (TabuSearchExploration)qLearning.ExplorationPolicy;
-            else
+            else if (sarsa != null)
                 tabuPolicy = (TabuSearchExploration)sarsa.ExplorationPolicy;
+            else
+                throw new Exception();
 
             exploratioPolicy = (EpsilonGreedyExploration)tabuPolicy.BasePolicy;
 
@@ -588,14 +611,14 @@ namespace SampleApp
                     break;
             }
 
-            int newX = currentX + dx;
-            int newY = currentY + dy;
+            agentNextX = currentX + dx;
+            agentNextY = currentY + dy;
 
             // check new agent's coordinates
             if (
-                (map[newY, newX] != 0) ||
-                (newX < 0) || (newX >= mapWidth) ||
-                (newY < 0) || (newY >= mapHeight)
+                (map[agentNextY, agentNextX] != 0) ||
+                (agentNextX < 0) || (agentNextX >= mapWidth) ||
+                (agentNextY < 0) || (agentNextY >= mapHeight)
                 )
             {
                 // we found a wall or got outside of the world
@@ -603,8 +626,8 @@ namespace SampleApp
             }
             else
             {
-                currentX = newX;
-                currentY = newY;
+                currentX = agentNextX;
+                currentY = agentNextY;
 
                 // check if we found the goal
                 if ((currentX == agentStopX) && (currentY == agentStopY))
@@ -617,23 +640,33 @@ namespace SampleApp
         // Get state number from agent's receptors in the specified position
         private int GetStateNumber(int x, int y)
         {
-            int c1 = (map[y - 1, x - 1] != 0) ? 1 : 0;
-            int c2 = (map[y - 1, x] != 0) ? 1 : 0;
-            int c3 = (map[y - 1, x + 1] != 0) ? 1 : 0;
-            int c4 = (map[y, x + 1] != 0) ? 1 : 0;
-            int c5 = (map[y + 1, x + 1] != 0) ? 1 : 0;
-            int c6 = (map[y + 1, x] != 0) ? 1 : 0;
-            int c7 = (map[y + 1, x - 1] != 0) ? 1 : 0;
-            int c8 = (map[y, x - 1] != 0) ? 1 : 0;
+            if (cbGlobal.Checked)
+            {
+                // Treat each possible (x,y) position as a different state
+                return y * mapWidth + x;
+            }
+            else
+            {
+                // Consider the presence or absence of the blocks 
+                // in the local vicinity of the robot as the state
+                int c1 = (map[y - 1, x - 1] != 0) ? 1 : 0;
+                int c2 = (map[y - 1, x] != 0) ? 1 : 0;
+                int c3 = (map[y - 1, x + 1] != 0) ? 1 : 0;
+                int c4 = (map[y, x + 1] != 0) ? 1 : 0;
+                int c5 = (map[y + 1, x + 1] != 0) ? 1 : 0;
+                int c6 = (map[y + 1, x] != 0) ? 1 : 0;
+                int c7 = (map[y + 1, x - 1] != 0) ? 1 : 0;
+                int c8 = (map[y, x - 1] != 0) ? 1 : 0;
 
-            return c1 |
-                (c2 << 1) |
-                (c3 << 2) |
-                (c4 << 3) |
-                (c5 << 4) |
-                (c6 << 5) |
-                (c7 << 6) |
-                (c8 << 7);
+                return c1 |
+                    (c2 << 1) |
+                    (c3 << 2) |
+                    (c4 << 3) |
+                    (c5 << 4) |
+                    (c6 << 5) |
+                    (c7 << 6) |
+                    (c8 << 7);
+            }
         }
     }
 }

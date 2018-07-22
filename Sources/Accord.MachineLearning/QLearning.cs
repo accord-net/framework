@@ -29,6 +29,7 @@
 namespace Accord.MachineLearning
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// QLearning learning algorithm.
@@ -55,6 +56,7 @@ namespace Accord.MachineLearning
     /// 
     /// <seealso cref="Sarsa"/>
     /// 
+    [Serializable]
     public class QLearning
     {
         // amount of possible states

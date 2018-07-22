@@ -117,6 +117,36 @@ namespace Accord.Tests.IO
         }
 
         [Test]
+        public void ReadSingleMatrixTest()
+        {
+            var ms = GetNpy("npy_single.npy");
+            Array result = NpyFormat.LoadMatrix(ms);
+
+            float[,] expected =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Assert.IsTrue(result.IsEqual(expected));
+        }
+
+        [Test]
+        public void ReadDoubleMatrixTest()
+        {
+            var ms = GetNpy("npy_double.npy");
+            Array result = NpyFormat.LoadMatrix(ms);
+
+            float[,] expected =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+            };
+
+            Assert.IsTrue(result.IsEqual(expected));
+        }
+
+        [Test]
         public void ReadStringMatrixTest()
         {
             var ms = GetNpy("npy_strings.npy");

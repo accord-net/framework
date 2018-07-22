@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Controls.Cyotek.ImageBox.Demo", "Accord.Controls.Cyotek.ImageBox.Demo\Accord.Controls.Cyotek.ImageBox.Demo.csproj", "{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9F169B78-70FD-456A-BB48-2AA470938D38} = {9F169B78-70FD-456A-BB48-2AA470938D38}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Controls.Cyotek.ImageBox", "Accord.Controls.Cyotek.ImageBox\Accord.Controls.Cyotek.ImageBox.csproj", "{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{7E34AEC6-0EF4-4B37-B0DE-E28096960FA0}"
+	ProjectSection(SolutionItems) = preProject
+		acknowledgements.md = acknowledgements.md
+		changelog.md = changelog.md
+		license.txt = license.txt
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Controls.Cyotek.ImageBox.Design", "Accord.Controls.Cyotek.ImageBox.Design\Accord.Controls.Cyotek.ImageBox.Design.csproj", "{9F169B78-70FD-456A-BB48-2AA470938D38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F169B78-70FD-456A-BB48-2AA470938D38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F169B78-70FD-456A-BB48-2AA470938D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F169B78-70FD-456A-BB48-2AA470938D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F169B78-70FD-456A-BB48-2AA470938D38}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56F8A022-D613-46AB-8D5C-B4530C8DF186}
+	EndGlobalSection
+EndGlobal

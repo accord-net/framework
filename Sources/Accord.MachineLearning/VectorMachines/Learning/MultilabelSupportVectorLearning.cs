@@ -36,8 +36,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using InnerLearning = ISupervisedLearning<SupportVectorMachine<Accord.Statistics.Kernels.IKernel<double[]>>, double[], bool>;
 
     /// <summary>
-    ///   Obsolete.
+    ///   Obsolete. Please use <see cref="MultilabelSupportVectorLearning{TKernel}"/> instead.
     /// </summary>
+    /// 
     [Obsolete("Please specify the desired kernel function as a template parameter.")]
     public class MultilabelSupportVectorLearning :
         BaseMultilabelSupportVectorLearning<double[],
