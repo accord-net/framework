@@ -289,7 +289,11 @@ namespace Accord.Math
         /// 
         public static double Binomial(int n, int k)
         {
-            return Math.Round(Math.Exp(LogFactorial(n) - LogFactorial(k) - LogFactorial(n - k)));
+            var f1 = LogFactorial(n);
+            var f2 = LogFactorial(k);
+            var f3 = LogFactorial(n - k);
+            var p = Math.Exp(f1 - f2 - f3);
+            return Math.Round(p);
         }
 
         /// <summary>

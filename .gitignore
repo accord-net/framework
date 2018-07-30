@@ -43,3 +43,4 @@ html
 /missing
 
 !Externals/NUnit/*/bin
+/Nuget
