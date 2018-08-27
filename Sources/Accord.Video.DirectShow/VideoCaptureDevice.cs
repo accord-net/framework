@@ -454,7 +454,7 @@ namespace Accord.Video.DirectShow
         /// 
         /// <remarks><para>The property provides list of device's video capabilities.</para>
         /// 
-        /// <para><note>It is recomended not to call this property immediately after <see cref="Start"/> method, since
+        /// <para><note>It is recommended not to call this property immediately after <see cref="Start"/> method, since
         /// device may not start yet and provide its information. It is better to call the property
         /// before starting device or a bit after (but not immediately after).</note></para>
         /// </remarks>
@@ -506,7 +506,7 @@ namespace Accord.Video.DirectShow
         /// 
         /// <para>See documentation to <see cref="ProvideSnapshots"/> for additional information.</para>
         /// 
-        /// <para><note>It is recomended not to call this property immediately after <see cref="Start"/> method, since
+        /// <para><note>It is recommended not to call this property immediately after <see cref="Start"/> method, since
         /// device may not start yet and provide its information. It is better to call the property
         /// before starting device or a bit after (but not immediately after).</note></para>
         /// </remarks>
@@ -651,7 +651,7 @@ namespace Accord.Video.DirectShow
         /// Wait for video source has stopped.
         /// </summary>
         /// 
-        /// <remarks>Waits for source stopping after it was signalled to stop using
+        /// <remarks>Waits for source stopping after it was signaled to stop using
         /// <see cref="SignalToStop"/> method.</remarks>
         /// 
         public void WaitForStop()
@@ -863,7 +863,7 @@ namespace Accord.Video.DirectShow
         /// <param name="value">Specifies the new value of the property.</param>
         /// <param name="controlFlags">Specifies the desired control setting.</param>
         /// 
-        /// <returns>Returns true on sucee or false otherwise.</returns>
+        /// <returns>Returns true on success or false otherwise.</returns>
         /// 
         /// <exception cref="ArgumentException">Video source is not specified - device moniker is not set.</exception>
         /// <exception cref="ApplicationException">Failed creating device object for moniker.</exception>
@@ -917,7 +917,7 @@ namespace Accord.Video.DirectShow
         /// <param name="value">Receives the value of the property.</param>
         /// <param name="controlFlags">Receives the value indicating whether the setting is controlled manually or automatically</param>
         /// 
-        /// <returns>Returns true on sucee or false otherwise.</returns>
+        /// <returns>Returns true on success or false otherwise.</returns>
         /// 
         /// <exception cref="ArgumentException">Video source is not specified - device moniker is not set.</exception>
         /// <exception cref="ApplicationException">Failed creating device object for moniker.</exception>
@@ -974,7 +974,7 @@ namespace Accord.Video.DirectShow
         /// <param name="defaultValue">Receives the default value of the property.</param>
         /// <param name="controlFlags">Receives a member of the <see cref="CameraControlFlags"/> enumeration, indicating whether the property is controlled automatically or manually.</param>
         /// 
-        /// <returns>Returns true on sucee or false otherwise.</returns>
+        /// <returns>Returns true on success or false otherwise.</returns>
         /// 
         /// <exception cref="ArgumentException">Video source is not specified - device moniker is not set.</exception>
         /// <exception cref="ApplicationException">Failed creating device object for moniker.</exception>
@@ -1127,7 +1127,7 @@ namespace Accord.Video.DirectShow
                 videoSampleGrabber.SetMediaType(mediaType);
                 snapshotSampleGrabber.SetMediaType(mediaType);
 
-                // get crossbar object to to allows configuring pins of capture card
+                // get crossbar object to allows configuring pins of capture card
                 captureGraph.FindInterface(FindDirection.UpstreamOnly, Guid.Empty, sourceBase, typeof(IAMCrossbar).GUID, out crossbarObject);
                 if (crossbarObject != null)
                 {
