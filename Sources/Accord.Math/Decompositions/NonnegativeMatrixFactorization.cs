@@ -177,7 +177,7 @@ namespace Accord.Math.Decompositions
                     for (int i = j; i < r; i++)
                     {
                         double s = 0.0;
-                        for (int l = 0; l < m; l++)
+                        for (int l = 0; l < n; l++)
                             s += newH[i, l] * newH[j, l];
                         Z[i, j] = Z[j, i] = s;
                     }
