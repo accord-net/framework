@@ -93,7 +93,25 @@ namespace Accord
         /// 
         public static unsafe byte* CopyUnmanagedMemory(byte* dst, byte* src, int count)
         {
+#if NETSTANDARD
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return memcpy(dst, src, count);
+            }
+            else
+            {
+                // for other platforms: copy bytewise
+                byte* d = dst;
+                byte* s = src;
+                for (int i = 0; i < count; ++i, ++d, ++s)
+                {
+                    *d = *s;
+                }
+                return dst;
+            }
+#else
             return memcpy(dst, src, count);
+#endif
         }
 
         /// <summary>
@@ -127,7 +145,24 @@ namespace Accord
         /// 
         public static unsafe byte* SetUnmanagedMemory(byte* dst, int filler, int count)
         {
+#if NETSTANDARD
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return memset(dst, filler, count);
+            }
+            else
+            {
+                byte* d = dst;
+                byte f = (byte)filler;
+                for (int i = 0; i < count; ++i, ++d)
+                {
+                    *d = f;
+                }
+                return dst;
+            }
+#else
             return memset(dst, filler, count);
+#endif
         }
 
 
