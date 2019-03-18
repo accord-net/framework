@@ -45,6 +45,10 @@
     <ResolveCrefLinks>true</ResolveCrefLinks>
     <HeaderText />
     <FooterText />
+    <ConceptualContent>
+      <ContentLayout />
+      <MediaContent />
+    </ConceptualContent>
     <SelectedProjects>
       <SelectedProject>Accord.Audio</SelectedProject>
       <SelectedProject>Accord.Audio.DirectSound</SelectedProject>
@@ -123,6 +127,10 @@
     <ResolveCrefLinks>true</ResolveCrefLinks>
     <HeaderText />
     <FooterText />
+    <ConceptualContent>
+      <ContentLayout />
+      <MediaContent />
+    </ConceptualContent>
     <SelectedProjects>
       <SelectedProject>Accord.Audio</SelectedProject>
       <SelectedProject>Accord.Audio.DirectSound</SelectedProject>
