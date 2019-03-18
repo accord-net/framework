@@ -170,6 +170,7 @@ namespace Accord.Math.Random
                 }
                 else
                 {
+                    Generator.threadOverriden = false;
                     Generator.threadRandom = null;
                 }
             }
