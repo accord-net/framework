@@ -123,6 +123,38 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
         }
 
+        private int minimumSplitSize = 0;
+
+
+        /// <summary>
+        ///   Gets or sets the minimal number of required samples to perform another split. Set to 0 or less for no minimum number of samples. Default is 0.
+        /// </summary>
+        /// 
+        public int MinimumSplitSize
+        {
+            get { return minimumSplitSize; }
+            set
+            {
+                minimumSplitSize = value;
+            }
+        }
+
+        private int minimumLeafSize = 0;
+
+
+        /// <summary>
+        ///   Gets or sets the minimal number of required samples in a leaf. Set to 0 or less for no minimum number of samples. Default is 0.
+        /// </summary>
+        /// 
+        public int MinimumLeafSize
+        {
+            get { return minimumLeafSize; }
+            set
+            {
+                minimumLeafSize = value;
+            }
+        }
+
         /// <summary>
         ///   Creates a new C4.5 learning algorithm.
         /// </summary>
@@ -331,7 +363,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // how many variables have been used less than the limit (if there is a limit)
             int[] candidates = Matrix.Find(AttributeUsageCount, x => Join == 0 ? true : x < Join);
 
-            if (candidates.Length == 0 || (MaxHeight > 0 && height == MaxHeight))
+            if (candidates.Length == 0 || (MaxHeight > 0 && height == MaxHeight)
+                || (minimumSplitSize > 0 && inputs.Length < minimumSplitSize))
             {
                 root.Output = Measures.WeightedMode(outputs, weights);
                 return;
@@ -403,6 +436,15 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                     inputSubset = inputs.Get(maxGainPartition[i]);
                     outputSubset = outputs.Get(maxGainPartition[i]);
                     weightSubset = weights.Get(maxGainPartition[i]);
+
+                    if (outputSubset.Length == 0)
+                    {
+                        //in this case the we have no samples for this category
+                        //but we still want to be able to make a decision, so we will give the best of the current node as output
+                        outputSubset = new int[1] { Measures.WeightedMode(outputs, weights) };
+                        weightSubset = new double[1] { 1 };//does not matter
+                    }
+
                     split(children[i], inputSubset, outputSubset, weightSubset, height + 1); // recursion
                 }
 
@@ -414,15 +456,24 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 List<int> partitionBelowThreshold = maxGainPartition[0];
                 List<int> partitionAboveThreshold = maxGainPartition[1];
 
+
                 if (partitionBelowThreshold != null && partitionAboveThreshold != null)
                 {
-                    // This is a continuous nature attribute, and we achieved two partitions
-                    // using the partitioning scheme. We will branch on two possible settings:
-                    // either the value is greater than a currently detected optimal threshold 
-                    // or it is less.
 
-                    DecisionNode[] children =
+                    //Before we branch we test whether each node is big enough, we stop here and set it as a leaf node
+                    if (partitionAboveThreshold.Count < minimumLeafSize || partitionBelowThreshold.Count < minimumLeafSize)
                     {
+                        root.Output = Measures.WeightedMode(outputs, weights);
+                    }
+                    else
+                    {
+                        // This is a continuous nature attribute, and we achieved two partitions
+                        // using the partitioning scheme. We will branch on two possible settings:
+                        // either the value is greater than a currently detected optimal threshold 
+                        // or it is less.
+
+                        DecisionNode[] children =
+                        {
                         new DecisionNode(Model)
                         {
                             Parent = root, Value = maxGainThreshold,
@@ -436,20 +487,21 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                         }
                     };
 
-                    // Create a branch for lower values
-                    inputSubset = inputs.Get(partitionBelowThreshold);
-                    outputSubset = outputs.Get(partitionBelowThreshold);
-                    weightSubset = weights.Get(partitionBelowThreshold);
-                    split(children[0], inputSubset, outputSubset, weightSubset, height + 1);
+                        // Create a branch for lower values
+                        inputSubset = inputs.Get(partitionBelowThreshold);
+                        outputSubset = outputs.Get(partitionBelowThreshold);
+                        weightSubset = weights.Get(partitionBelowThreshold);
+                        split(children[0], inputSubset, outputSubset, weightSubset, height + 1);
 
-                    // Create a branch for higher values
-                    inputSubset = inputs.Get(partitionAboveThreshold);
-                    outputSubset = outputs.Get(partitionAboveThreshold);
-                    weightSubset = weights.Get(partitionAboveThreshold);
-                    split(children[1], inputSubset, outputSubset, weightSubset, height + 1);
+                        // Create a branch for higher values
+                        inputSubset = inputs.Get(partitionAboveThreshold);
+                        outputSubset = outputs.Get(partitionAboveThreshold);
+                        weightSubset = weights.Get(partitionAboveThreshold);
+                        split(children[1], inputSubset, outputSubset, weightSubset, height + 1);
 
-                    root.Branches.AttributeIndex = maxGainAttribute;
-                    root.Branches.AddRange(children);
+                        root.Branches.AttributeIndex = maxGainAttribute;
+                        root.Branches.AddRange(children);
+                    }
                 }
                 else
                 {
