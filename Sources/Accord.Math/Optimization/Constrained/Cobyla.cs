@@ -177,6 +177,28 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
+        ///   Gets or sets the value of RHOBEG. 
+        ///   Default is 0.5.
+        /// </summary>
+        /// 
+        public double RhoBeg
+        {
+            get { return rhobeg; }
+            set { rhobeg = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the value of RHOEND. 
+        ///   Default is 1.0e-6.
+        /// </summary>
+        /// 
+        public double RhoEnd
+        {
+            get { return rhoend; }
+            set { rhoend = value; }
+        }
+        
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   to be performed during optimization. Default
         ///   is 0 (iterate until convergence).
