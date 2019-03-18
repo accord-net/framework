@@ -428,7 +428,9 @@ namespace Accord.Statistics.Analysis
         /// 
         public void Compute(int points)
         {
-            Compute((max - min) / points);
+            // use a default increment of 1 if the increment would be 0
+            double increment = max == min ? 1 : (max - min) / points;
+            Compute(increment);
         }
 
         /// <summary>
@@ -451,6 +453,11 @@ namespace Accord.Statistics.Analysis
         /// 
         public void Compute(double increment, bool forceOrigin)
         {
+            if (increment <= 0)
+            {
+                throw new ArgumentException("Increment must be positive.", "increment");
+            }
+
             var points = new List<ReceiverOperatingCharacteristicPoint>();
             double cutoff;
 

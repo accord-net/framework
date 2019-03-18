@@ -218,6 +218,17 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void ReceiverOperatingCharacteristicConstructorZeroIncrementThrowsTest()
+        {
+            double[] measurement = { 1 };
+            double[] prediction = { 1 };
+            double zeroIncrement = 0d;
+            const bool forceOrigin = true;
+            ReceiverOperatingCharacteristic target = new ReceiverOperatingCharacteristic(measurement, prediction);
+            Assert.Throws<ArgumentException>(() => target.Compute(zeroIncrement, forceOrigin));
+        }
+
+        [Test]
         public void DeLongVarianceTest()
         {
             // Example from Sampling Variability of Nonparametric Estimates of the
