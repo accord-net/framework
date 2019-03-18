@@ -128,11 +128,7 @@ namespace Accord.MachineLearning
                     return acc + weights[i] * distance;
                 },
 
-                acc =>
-                {
-                    lock (labels)
-                        error += acc;
-                });
+                acc => { error += acc; });
 
             return error / weights.Sum();
         }
