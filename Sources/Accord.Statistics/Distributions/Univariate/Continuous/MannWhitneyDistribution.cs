@@ -239,8 +239,8 @@ namespace Accord.Statistics.Distributions.Univariate
             // From https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test: For large samples, U 
             // is approximately normally distributed. In that case, the standardized value is given 
             // by z = (U - mean) / stdDev where: 
-            double mean = (n1 * n2) / 2.0;
-            double stdDev = Math.Sqrt((n1 * n2 * (n + 1)) / 12.0);
+            double mean = ((double)n1 * n2) / 2.0;
+            double stdDev = Math.Sqrt(((double)n1 * n2 * (n + 1)) / 12.0);
 
             bool hasVectors = ranks != null;
 
@@ -258,7 +258,7 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 // Apply correction to the variance
                 double correction = MannWhitneyDistribution.correction(ranks);
-                double a = (n1 * n2) / 12.0;
+                double a = ((double)n1 * n2) / 12.0;
                 double b = (n + 1.0) - correction;
                 stdDev = Math.Sqrt(a * b);
 
@@ -285,11 +285,11 @@ namespace Accord.Statistics.Distributions.Univariate
             double sum = 0;
             for (int i = 0; i < ties.Length; i++)
             {
-                double t3 = ties[i] * ties[i] * ties[i];
+                double t3 = (double)ties[i] * ties[i] * ties[i];
                 sum += t3 - ties[i];
             }
 
-            return sum / (n * (n - 1));
+            return sum / ((double)n * (n - 1));
         }
 
         private void initExactMethod(double[] ranks)
