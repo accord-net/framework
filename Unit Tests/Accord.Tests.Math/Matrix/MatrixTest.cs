@@ -1639,10 +1639,8 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        
         public void PseudoInverse4()
         {
-            
             double[,] X = CsvReader.FromText(Properties.Resources.pseudoInverse1, false).ToMatrix();
 
             double[,] invX = X.PseudoInverse();
