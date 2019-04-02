@@ -455,6 +455,7 @@ namespace Accord.Tests.Statistics
 #endif
 
         [Test]
+        [Culture("")]
 #if NETCORE
         [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
 #endif

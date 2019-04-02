@@ -61,6 +61,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Culture("")]
         public void learn_test_2()
         {
 #if NETCORE

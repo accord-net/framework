@@ -42,6 +42,7 @@ namespace Accord.Tests.MachineLearning
 
 
     [TestFixture]
+    [Culture("")]
     public class NaiveBayesGenericTest
     {
 
