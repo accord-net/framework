@@ -36,6 +36,7 @@
     <Optimize>false</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>bin\Debug\x64\</OutputPath>

@@ -114,6 +114,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NETCORE
         [Test, Category("Random")]
         public void RansacPlaneConstructorTest2()
         {
@@ -138,5 +139,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(normal.Z, 1, 1e-4);
             Assert.AreEqual(plane.Offset, d, 1e-4);
         }
+#endif
     }
 }

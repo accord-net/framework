@@ -408,7 +408,7 @@ namespace Accord.Tests.Statistics
         }
 #endif
 
-#if !NO_BINARY_SERIALIZATION
+#if !NO_BINARY_SERIALIZATION && !NETCORE
         [Test]
         [Category("Serialization")]
         public void SerializationTest()

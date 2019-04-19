@@ -30,7 +30,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -59,11 +59,6 @@
  -->
   <ItemGroup>
     <Compile Include="FastGuidedFilterTest.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -115,20 +110,17 @@
     <None Include="Accord.snk" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\lena_color.jpg" />
+    <None Include="Resources\lena_color.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\lena512.bmp" />
+    <None Include="Resources\lena512.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

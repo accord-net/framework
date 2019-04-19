@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Extras.Imaging.Noncommercial</RootNamespace>
     <AssemblyName>Accord.Tests.Extras.Imaging.Noncommercial</AssemblyName>
     <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
   </PropertyGroup>
-
-  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
@@ -20,24 +20,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Update="NUnit" Version="3.8.1" />
     <PackageReference Update="NUnit.Console" Version="3.7.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\lena512.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\lena_color.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

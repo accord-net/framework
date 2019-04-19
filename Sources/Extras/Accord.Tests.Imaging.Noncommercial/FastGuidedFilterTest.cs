@@ -24,6 +24,7 @@ namespace Accord.Tests.Extras.Imaging.Noncommercial
 {
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.IO;
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
@@ -33,11 +34,13 @@ namespace Accord.Tests.Extras.Imaging.Noncommercial
     public class FastGuidedFilterTest
     {
 
+        string basePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
+
         [Test]
         public void ApplyTest_color24()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
-            Bitmap overlay = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
+            Bitmap image = Accord.Imaging.Image.FromFile(Path.Combine(basePath, "lena_color.jpg"));
+            Bitmap overlay = Accord.Imaging.Image.FromFile(Path.Combine(basePath, "lena_color.jpg"));
 
             Assert.AreEqual(image.PixelFormat, PixelFormat.Format24bppRgb);
 
@@ -53,8 +56,8 @@ namespace Accord.Tests.Extras.Imaging.Noncommercial
         [Test]
         public void ApplyTest_color32()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
-            Bitmap overlay = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
+            Bitmap image = Accord.Imaging.Image.FromFile(Path.Combine(basePath, "lena_color.jpg"));
+            Bitmap overlay = Accord.Imaging.Image.FromFile(Path.Combine(basePath, "lena_color.jpg"));
 
             image.MakeTransparent();
             overlay.MakeTransparent();
@@ -74,8 +77,9 @@ namespace Accord.Tests.Extras.Imaging.Noncommercial
         [Test]
         public void ApplyTest_bw()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
-            Bitmap overlay = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+
+            Bitmap image = Accord.Imaging.Image.FromFile(Path.Combine(basePath, "lena512.bmp"));
+            Bitmap overlay = Accord.Imaging.Image.FromFile(Path.Combine(basePath, "lena512.bmp"));
 
             Assert.AreEqual(image.PixelFormat, PixelFormat.Format8bppIndexed);
 

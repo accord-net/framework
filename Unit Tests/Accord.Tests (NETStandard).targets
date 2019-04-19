@@ -5,7 +5,10 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <Configurations>Debug;Release</Configurations>
     <NoWarn>1701;1702;1705;0618;0612</NoWarn>
-    <DebugType>none</DebugType>
+    <!--Enable after upgrading nunit:
+    <DebugType>full</DebugType>-->
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +25,20 @@
   </Target>
   -->
 
+  <!--<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>DEBUG</DefineConstants>
+    --><!--<DebugType>full</DebugType>--><!--
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>-->
+
+  <!--<PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp1.1'">
+    <DefineConstants>NETCORE1_1;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'">
+    <DefineConstants>NETCORE2_0;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>-->
+  
   <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'
                          OR '$(TargetFramework)'=='netcoreapp1.1'">
     <DefineConstants>NETCORE;NO_CODE_PROVIDER;NO_EXCEL;NO_BITMAP;$(DefineConstants)</DefineConstants>
