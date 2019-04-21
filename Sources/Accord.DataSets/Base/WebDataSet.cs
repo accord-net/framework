@@ -98,7 +98,7 @@ namespace Accord.DataSets.Base
         /// 
         public static bool Download(string url, string localPath, out string uncompressedFileName)
         {
-            string name = System.IO.Path.GetFileName(url);
+            //string name = System.IO.Path.GetFileName(url);
             string localFileName = System.IO.Path.GetFileName(url);
             return Download(url, localPath, localFileName, out uncompressedFileName);
         }
