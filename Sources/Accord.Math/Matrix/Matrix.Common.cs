@@ -207,6 +207,7 @@ namespace Accord.Math
             if (!objA.GetLength().IsEqual(objB.GetLength()))
                 return false;
 
+#if !NETSTANDARD1_4
             bool jaggedA = objA.IsJagged();
             bool jaggedB = objB.IsJagged();
 
@@ -214,7 +215,6 @@ namespace Accord.Math
             // http://blog.slaks.net/2015-06-26/code-snippets-fast-property-access-reflection/
 
             // Check if there is already an optimized method to perform this comparison
-#if !NETSTANDARD1_4
             Type typeA = objA.GetType();
             Type typeB = objB.GetType();
 
