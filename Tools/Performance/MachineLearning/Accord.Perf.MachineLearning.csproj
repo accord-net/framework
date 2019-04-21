@@ -225,18 +225,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Sources\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
-      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
-      <Name>Accord.Audio.DirectSound</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Sources\Accord.Audio\Accord.Audio.csproj">
-      <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
-      <Name>Accord.Audio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
-      <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
-      <Name>Accord.Controls.Imaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
       <Name>Accord.Core</Name>
@@ -269,21 +257,9 @@
       <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj">
-      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
-      <Name>Accord.Video.DirectShow</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Sources\Accord.Video\Accord.Video.csproj">
-      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
-      <Name>Accord.Video</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Sources\Accord.Vision\Accord.Vision.csproj">
       <Project>{C70A159D-74A4-405F-9A7F-C17ACF451CCA}</Project>
       <Name>Accord.Vision</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Sources\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj">
-      <Project>{ff31dd24-127d-4eb1-929c-f5738147e886}</Project>
-      <Name>Accord.Video.FFMPEG %28GPL%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
