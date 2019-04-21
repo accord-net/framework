@@ -39,7 +39,6 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class BaseBagOfWords<TModel, TPoint, TFeature, TClustering, TExtractor, TInput> :
-        // TODO: Unify with Accord.MachineLearning.BaseBagOfWords
         ParallelLearningBase, ITransform<TInput, int[]>, ITransform<TInput, double[]>
         where TPoint : IFeatureDescriptor<TFeature>
         where TModel : BaseBagOfWords<TModel, TPoint, TFeature, TClustering, TExtractor, TInput>

@@ -127,7 +127,6 @@
     <Compile Include="Clustering\Gaussian\GaussianCluster.cs" />
     <Compile Include="Clustering\MeanShift\MeanShiftCluster.cs" />
     <Compile Include="Clustering\KMeans\KMeansCluster.cs" />
-    <Compile Include="Clustering\IClusteringAlgorithm.cs" />
     <Compile Include="Clustering\KModes\KModesCluster.cs" />
     <Compile Include="Clustering\MeanShift\MeanShift.cs" />
     <Compile Include="Clustering\TSNE.cs" />

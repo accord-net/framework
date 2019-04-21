@@ -74,7 +74,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(gmm.Gaussians.Means[1].IsEqual(new[] { 0.6, 2.4 }, 1e-3));
 
 
-            int[] c = samples.Apply(gmm.Clusters.Decide);
+            int[] c = samples.Apply(gmm.Gaussians.Decide);
 
             for (int i = 0; i < samples.Length; i++)
             {

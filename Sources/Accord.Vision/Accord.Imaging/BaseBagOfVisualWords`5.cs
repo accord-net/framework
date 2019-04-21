@@ -50,7 +50,6 @@ namespace Accord.Imaging
     /// 
     [Serializable]
     public class BaseBagOfVisualWords<TModel, TFeature, TPoint, TClustering, TExtractor> :
-        // TODO: Unify with Accord.MachineLearning.BaseBagOfWords
         BaseBagOfWords<TModel, TFeature, TPoint, TClustering, TExtractor, UnmanagedImage>,
         IBagOfWords<string>,
         IBagOfWords<Bitmap>,
