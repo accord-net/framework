@@ -642,7 +642,7 @@ namespace Accord.Imaging.Converters
             else if (depth == 3)
                 output = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             else if (depth == 4)
-                output = new Bitmap(width, height, PixelFormat.Format32bppRgb);
+                output = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             else throw new ArgumentException("input");
 
             int pixelSize = output.GetPixelFormatSizeInBytes();
@@ -738,7 +738,7 @@ namespace Accord.Imaging.Converters
             else if (depth == 3)
                 output = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             else if (depth == 4)
-                output = new Bitmap(width, height, PixelFormat.Format32bppRgb);
+                output = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             else throw new ArgumentException("input");
 
             int pixelSize = output.GetPixelFormatSizeInBytes();
