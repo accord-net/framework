@@ -24,7 +24,6 @@ namespace MonoTest
 
         private static void TestImaging()
         {
-            Debugger.Launch();
             ToByteArray_test_general(PixelFormat.Format8bppIndexed, 3, 3, 9);
             ToByteArray_test_general(PixelFormat.Format8bppIndexed, 4, 5, 20);
             ToByteArray_test_general(PixelFormat.Format8bppIndexed, 5, 4, 20);
@@ -40,11 +39,15 @@ namespace MonoTest
         private static void ToByteArray_test_general(PixelFormat pixelFormat, int w, int h, int expected)
         {
             int c = pixelFormat.GetNumberOfChannels();
+            Console.WriteLine(c);
             byte[,,] values = (byte[,,])Vector.Range((byte)0, (byte)255).Get(0, h * w).Reshape(new[] { h, w, c });
+            Console.WriteLine(Accord.Math.Matrix.ToString(values));
             UnmanagedImage image = values.ToBitmap().ToUnmanagedImage();
+            Accord.Imaging.Tools.ToMatrix(image, 0, 255);
 
             int formatBytes = pixelFormat.GetPixelFormatSizeInBytes();
             byte[] b = image.ToByteArray();
+            Console.WriteLine(b.ToString(CSharpMatrixFormatProvider.CurrentCulture));
 
             System.Diagnostics.Debug.Assert(w * h * formatBytes == b.Length);
             System.Diagnostics.Debug.Assert(expected == b.Length);
@@ -52,6 +55,8 @@ namespace MonoTest
             // Reconstruct the original matrix
             UnmanagedImage r = UnmanagedImage.FromByteArray(b, w, h, pixelFormat);
             byte[,,] actual = r.ToManagedImage().ToMatrix((byte)0, (byte)255);
+            Console.WriteLine(Accord.Math.Matrix.ToString(actual));
+            Console.WriteLine(Accord.Math.Matrix.ToString(actual));
 
             System.Diagnostics.Debug.Assert(values.IsEqual(actual));
         }

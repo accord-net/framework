@@ -1543,9 +1543,53 @@ namespace Accord.Imaging
         /// 
         /// <seealso cref="ImageToMatrix"/>
         /// 
+        public static double[,,] ToMatrix(this UnmanagedImage bitmap, double min = 0, double max = 1)
+        {
+            double[,,] matrix;
+            new ImageToMatrix(min, max).Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">
+        ///   The minimum value in the array associated with the darkest color. 
+        /// </param>
+        /// <param name="max">
+        ///   The maximum value in the array associated with the brightest color. 
+        /// </param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
         public static double[,,] ToMatrix(this Bitmap bitmap, double min = 0, double max = 1)
         {
             double[,,] matrix;
+            new ImageToMatrix(min, max).Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][][] ToJagged(this UnmanagedImage bitmap, double min = 0, double max = 1)
+        {
+            double[][][] matrix;
             new ImageToMatrix(min, max).Convert(bitmap, out matrix);
             return matrix;
         }
@@ -1618,7 +1662,50 @@ namespace Accord.Imaging
             return matrix;
         }
 
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][] ToJagged(this UnmanagedImage bitmap, int channel, double min = 0, double max = 1)
+        {
+            double[][] matrix;
+            new ImageToMatrix(min, max)
+            {
+                Channel = channel
+            }.Convert(bitmap, out matrix);
+            return matrix;
+        }
 
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static byte[,,] ToMatrix(this UnmanagedImage bitmap, byte min, byte max)
+        {
+            byte[,,] matrix;
+            new ImageToMatrix(min, max).Convert(bitmap, out matrix);
+            return matrix;
+        }
 
         /// <summary>
         ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
@@ -1657,6 +1744,30 @@ namespace Accord.Imaging
         {
             byte[][][] matrix;
             new ImageToMatrix(min, max).Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static byte[,] ToMatrix(this UnmanagedImage bitmap, int channel, byte min, byte max)
+        {
+            byte[,] matrix;
+            new ImageToMatrix(min, max)
+            {
+                Channel = channel
+            }.Convert(bitmap, out matrix);
             return matrix;
         }
 
@@ -1747,6 +1858,47 @@ namespace Accord.Imaging
         /// <seealso cref="ImageToMatrix"/>
         /// 
         public static double[][] ToVector(this Bitmap bitmap, double min = 0, double max = 1)
+        {
+            double[][] vector;
+            new ImageToArray(min, max).Convert(bitmap, out vector);
+            return vector;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[] ToVector(this UnmanagedImage bitmap, int channel, double min = 0, double max = 1)
+        {
+            double[] vector;
+            new ImageToArray(min, max) { Channel = channel }.Convert(bitmap, out vector);
+            return vector;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="min">The minimum value in the array associated with the darkest color.</param>
+        /// <param name="max">The maximum value in the array associated with the brightest color.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][] ToVector(this UnmanagedImage bitmap, double min = 0, double max = 1)
         {
             double[][] vector;
             new ImageToArray(min, max).Convert(bitmap, out vector);

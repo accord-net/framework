@@ -15,10 +15,6 @@ using Accord.Imaging.Converters;
 using System.Drawing;
 using Accord.Statistics.Distributions.DensityKernels;
 using Accord.Vision.Detection;
-using Accord.Video.FFMPEG;
-using System.Drawing.Imaging;
-using Accord.Imaging.Filters;
-using Accord.Imaging;
 using Accord.Audio.Generators;
 using Accord.Audio;
 using Accord.Video.DirectShow;
@@ -38,8 +34,7 @@ namespace Accord.Perf.MachineLearning
 
             Trace.WriteLine("Running in " + (Environment.Is64BitProcess ? "x64" : "x86"));
 
-            //TestImaging();
-            //TestSparseKernelSVM();
+            TestSparseKernelSVM();
             //TestPredictSparseSVM();
             //TestSparseSVMComplete();
             //TestPredictSparseMulticlassSVM();
@@ -52,6 +47,7 @@ namespace Accord.Perf.MachineLearning
             //TestFFMPEG2();
             //TestCameraStartStop();
         }
+
 
         private static void TestSparseKernelSVM()
         {
