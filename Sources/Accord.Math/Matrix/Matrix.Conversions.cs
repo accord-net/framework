@@ -384,8 +384,6 @@ namespace Accord.Math
                     return obj.To(outputType);
             }
 
-            Type outputElementType = outputType.GetInnerMostType();
-
             Array result;
 
             if (outputType.IsJagged())
