@@ -214,10 +214,10 @@ namespace Accord.Math
             // http://blog.slaks.net/2015-06-26/code-snippets-fast-property-access-reflection/
 
             // Check if there is already an optimized method to perform this comparison
+#if !NETSTANDARD1_4
             Type typeA = objA.GetType();
             Type typeB = objB.GetType();
 
-#if !NETSTANDARD1_4
             MethodInfo equals = typeof(Matrix).GetMethod("IsEqual", new Type[] {
                     typeA, typeB, typeof(double), typeof(double)
                 });
@@ -231,7 +231,7 @@ namespace Accord.Math
 #endif
 
             // Base case: arrays contain elements of same nature (both arrays, or both values)
-            if (objA.GetType().GetElementType().IsArray == objB.GetType().GetElementType().IsArray)
+            if (typeA.GetElementType().IsArray == typeB.GetElementType().IsArray)
             {
                 var a = objA.GetEnumerator();
                 var b = objB.GetEnumerator();
