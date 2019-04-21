@@ -38,6 +38,7 @@ namespace MonoTest
 
         private static void ToByteArray_test_general(PixelFormat pixelFormat, int w, int h, int expected)
         {
+            Console.WriteLine($"pixelFormat = {pixelFormat}, w = {w}, h = {h}, expected = {expected}");
             int c = pixelFormat.GetNumberOfChannels();
             Console.WriteLine(c);
             byte[,,] values = (byte[,,])Vector.Range((byte)0, (byte)255).Get(0, h * w).Reshape(new[] { h, w, c });
@@ -55,8 +56,8 @@ namespace MonoTest
             // Reconstruct the original matrix
             UnmanagedImage r = UnmanagedImage.FromByteArray(b, w, h, pixelFormat);
             byte[,,] actual = r.ToManagedImage().ToMatrix((byte)0, (byte)255);
-            Console.WriteLine(Accord.Math.Matrix.ToString(actual));
-            Console.WriteLine(Accord.Math.Matrix.ToString(actual));
+            Console.WriteLine(String.Join(" ", Accord.Math.Matrix.ToString(actual).DeepFlatten()));
+            Console.WriteLine(String.Join(" ", Accord.Math.Matrix.ToString(actual).DeepFlatten()));
 
             System.Diagnostics.Debug.Assert(values.IsEqual(actual));
         }
