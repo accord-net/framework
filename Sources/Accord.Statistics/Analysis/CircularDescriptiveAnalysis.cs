@@ -26,7 +26,6 @@ namespace Accord.Statistics.Analysis
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge;
     using System;
     using System.ComponentModel;
     using System.Reflection;
