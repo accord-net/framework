@@ -102,15 +102,6 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Obsolete. Please use <see cref="ToJagged{T}(T[], bool)"/> instead.
-        /// </summary>
-        [Obsolete("Please use ToJagged() instead.")]
-        public static T[][] ToArray<T>(this T[] array, bool asColumnVector = true)
-        {
-            return ToJagged(array, asColumnVector: asColumnVector);
-        }
-
-        /// <summary>
         ///   Converts an array into a multidimensional array.
         /// </summary>
         /// 
@@ -183,16 +174,6 @@ namespace Accord.Math
             }
 
             return array;
-        }
-
-        /// <summary>
-        ///   Obsolete.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static T[][] ToArray<T>(this T[,] matrix, bool transpose = false)
-        {
-            return ToJagged(matrix, transpose);
         }
 
 
@@ -1260,108 +1241,6 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static double[][] ToArray(this DataTable table)
-        {
-            return ToJagged<double>(table);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static double[][] ToArray(this DataTable table, IFormatProvider provider)
-        {
-            return ToJagged<double>(table, provider);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static double[][] ToArray(this DataTable table, out string[] columnNames)
-        {
-            return ToJagged<double>(table, out columnNames);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static double[][] ToArray(this DataTable table, IFormatProvider provider, out string[] columnNames)
-        {
-            return ToJagged<double>(table, provider, out columnNames);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static double[][] ToArray(this DataTable table, params string[] columnNames)
-        {
-            return ToJagged<double>(table, columnNames);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static T[][] ToArray<T>(this DataTable table)
-        {
-            String[] names;
-            return ToJagged<T>(table, out names);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider)
-        {
-            String[] names;
-            return ToJagged<T>(table, provider, out names);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static T[][] ToArray<T>(this DataTable table, out string[] columnNames)
-        {
-            return ToJagged<T>(table, out columnNames);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
-        {
-            return ToJagged<T>(table, provider, out columnNames);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Please use ToJagged() instead.")]
-        public static T[][] ToArray<T>(this DataTable table, params string[] columnNames)
-        {
-            return ToJagged<T>(table, columnNames);
-        }
-
-        /// <summary>
         ///   Converts a DataColumn to a double[] array.
         /// </summary>
         /// 
@@ -1481,33 +1360,6 @@ namespace Accord.Math
                 m[i] = (T)System.Convert.ChangeType(table.Rows[i][col], typeof(T), provider);
 
             return m;
-        }
-#endif
-        #endregion
-
-
-
-
-        #region Obsolete
-#if !NETSTANDARD1_4
-        /// <summary>
-        ///   Converts a DataColumn to a int[] array.
-        /// </summary>
-        /// 
-        [Obsolete("Use ToArray<T> instead.")]
-        public static int[] ToInt32Array(this DataColumn column)
-        {
-            return ToArray<int>(column);
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a int[][] array.
-        /// </summary>
-        /// 
-        [Obsolete("Use ToArray<T> instead.")]
-        public static int[][] ToIntArray(this DataTable table, params string[] columnNames)
-        {
-            return ToArray<int>(table, columnNames);
         }
 #endif
         #endregion

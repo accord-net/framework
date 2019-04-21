@@ -89,7 +89,7 @@ namespace Accord.Tests.Statistics
             DataTable result = codebook.Apply(table);
 
             // The resulting table can be transformed to jagged array:
-            double[][] matrix = Matrix.ToArray(result);
+            double[][] matrix = Matrix.ToJagged(result);
 
             // and the resulting matrix will be given by
             string str = matrix.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
@@ -217,7 +217,7 @@ namespace Accord.Tests.Statistics
             DataTable result = codebook.Apply(table);
 
             // The resulting table can be transformed to jagged array:
-            double[][] matrix = Matrix.ToArray(result);
+            double[][] matrix = Matrix.ToJagged(result);
 
             // and the resulting matrix will be given by
             string str = matrix.ToCSharp();

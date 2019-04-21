@@ -157,7 +157,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            double[][] inputs = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind");
+            double[][] inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
             int[] outputs = symbols.ToArray<int>("PlayTennis");
 
             // Compute the Naive Bayes model
@@ -228,7 +228,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            double[][] inputs = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind");
+            double[][] inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
             int[] outputs = symbols.ToArray<int>("PlayTennis");
 
             // Compute the Naive Bayes model
@@ -447,7 +447,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            double[][] inputs = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind");
+            double[][] inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
             int[] outputs = symbols.ToArray<int>("PlayTennis");
 
             // Learn the Naive Bayes model

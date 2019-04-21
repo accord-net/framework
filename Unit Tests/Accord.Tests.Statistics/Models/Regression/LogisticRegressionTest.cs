@@ -709,7 +709,7 @@ namespace Accord.Tests.Statistics
         {
             CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);
 
-            double[][] data = reader.ToTable().ToArray(System.Globalization.CultureInfo.InvariantCulture);
+            double[][] data = reader.ToTable().ToJagged(System.Globalization.CultureInfo.InvariantCulture);
 
             double[][] inputs = data.GetColumns(new[] { 0, 1 });
 
@@ -787,7 +787,7 @@ namespace Accord.Tests.Statistics
         {
             CsvReader reader = CsvReader.FromText(Properties.Resources.logreg, true);
             DataTable data = reader.ToTable();
-            double[][] inputs = data.ToArray("AGE");
+            double[][] inputs = data.ToJagged("AGE");
             double[] output = data.Columns["CHD"].ToArray();
 
             var learner = new IterativeReweightedLeastSquares<LogisticRegression>();

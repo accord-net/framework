@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MonoTest
 {

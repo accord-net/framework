@@ -167,7 +167,7 @@ namespace Accord.Tests.Math
             table.Rows.Add(false, "1");
             table.Rows.Add(false, "0.0");
 
-            double[][] actual = table.ToArray(System.Globalization.CultureInfo.InvariantCulture);
+            double[][] actual = table.ToJagged(System.Globalization.CultureInfo.InvariantCulture);
             double[][] expected =
             {
                 new double[] { 1, 1 },

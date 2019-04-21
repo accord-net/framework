@@ -62,11 +62,11 @@ namespace Accord.Tests.Statistics
 
             // Get inputs
             string[] inputNames;
-            var inputsData = inputs.ToArray(out inputNames);
+            var inputsData = inputs.ToJagged(out inputNames);
 
             // Get outputs
             string[] outputNames;
-            var outputData = output.ToArray(out outputNames);
+            var outputData = output.ToJagged(out outputNames);
 
 
             var analysis = new MultinomialLogisticRegressionAnalysis(inputsData, outputData, inputNames, outputNames);

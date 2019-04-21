@@ -148,6 +148,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Matrix\Matrix.Conversions.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Conversions.tt</DependentUpon>
+    </Compile>
     <Compile Include="Matrix\Matrix.Enumerable.cs" />
     <Compile Include="Matrix\Matrix.Tensor.cs" />
     <Compile Include="Matrix\Matrix.Product.Generated.cs">
@@ -200,11 +205,6 @@
     <Compile Include="Distances\Euclidean.cs" />
     <Compile Include="Distances\Base\IDistance.cs" />
     <Compile Include="Matrix\Jagged.Common.cs" />
-    <Compile Include="Matrix\Matrix.Conversions.Generated.cs">
-      <DependentUpon>Matrix.Conversions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Matrix\Matrix.Reduction.Generated.cs">
       <DependentUpon>Matrix.Reduction.tt</DependentUpon>
       <AutoGen>True</AutoGen>

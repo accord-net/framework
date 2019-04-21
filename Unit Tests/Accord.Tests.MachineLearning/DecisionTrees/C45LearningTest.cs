@@ -87,7 +87,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            inputs = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind");
+            inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
             outputs = symbols.ToArray<int>("PlayTennis");
 
             double error = c45.Run(inputs, outputs);
@@ -210,7 +210,7 @@ namespace Accord.Tests.MachineLearning
             // And then convert all data into symbols
             //
             DataTable symbols = codebook.Apply(table);
-            double[][] inputs = symbols.ToArray(inputColumns);
+            double[][] inputs = symbols.ToJagged(inputColumns);
             int[] outputs = symbols.ToArray<int>(outputColumn);
 
             // We can either specify the decision attributes we want
@@ -325,7 +325,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            inputs = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind");
+            inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
             outputs = symbols.ToArray<int>("PlayTennis");
 
             double error = c45.Run(inputs, outputs);
@@ -388,7 +388,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            inputs = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind");
+            inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
             outputs = symbols.ToArray<int>("PlayTennis");
 
             double error = c45.Run(inputs, outputs);

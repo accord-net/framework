@@ -347,7 +347,7 @@ namespace Accord.Statistics.Analysis
                     //  (right side of SVD) will be the principal components of Source.                        
 
                     // The right singular vectors contains the principal components of the data matrix
-                    ComponentVectors = svd.RightSingularVectors.ToArray().Transpose();
+                    ComponentVectors = svd.RightSingularVectors.ToJagged(transpose: true);
 
                     // The left singular vectors contains the factor scores for the principal components
                 }

@@ -186,7 +186,7 @@ namespace Accord.Tests.MachineLearning
 
 
             DataTable symbols = codebook.Apply(table);
-            inputs = symbols.ToArray(inputColumns);
+            inputs = symbols.ToJagged(inputColumns);
             outputs = symbols.ToArray<int>(outputColumn);
 
             Assert.AreEqual(12960, inputs.Rows());

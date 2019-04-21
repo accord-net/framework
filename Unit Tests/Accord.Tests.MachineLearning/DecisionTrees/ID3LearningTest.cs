@@ -78,7 +78,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
+            inputs = symbols.ToJagged<int>("Outlook", "Temperature", "Humidity", "Wind");
             outputs = symbols.ToArray<int>("PlayTennis");
 
             double error = id3.Run(inputs, outputs);
@@ -488,7 +488,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
+            inputs = symbols.ToJagged<int>("Outlook", "Temperature", "Humidity", "Wind");
             outputs = symbols.ToArray<int>("PlayTennis");
 
             double error = id3.Run(inputs, outputs);
@@ -547,7 +547,7 @@ namespace Accord.Tests.MachineLearning
 
             // Extract symbols from data and train the classifier
             DataTable symbols = codebook.Apply(data);
-            inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
+            inputs = symbols.ToJagged<int>("Outlook", "Temperature", "Humidity", "Wind");
             outputs = symbols.ToArray<int>("PlayTennis");
 
             double error = id3.Run(inputs, outputs);
@@ -881,7 +881,7 @@ namespace Accord.Tests.MachineLearning
 
             // Translate our training data into integer symbols using our codebook:
             DataTable symbols = codebook.Apply(data);
-            int[][] inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
+            int[][] inputs = symbols.ToJagged<int>("Outlook", "Temperature", "Humidity", "Wind");
             int[] outputs = symbols.ToArray<int>("PlayTennis");
 
             // For this task, in which we have only categorical variables, the simplest choice 

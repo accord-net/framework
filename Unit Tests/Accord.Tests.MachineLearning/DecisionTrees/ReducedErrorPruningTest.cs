@@ -98,7 +98,7 @@ namespace Accord.Tests.MachineLearning
 
             Codification codebook = new Codification(table);
             DataTable symbols = codebook.Apply(table);
-            inputs = symbols.ToArray(inputColumns);
+            inputs = symbols.ToJagged(inputColumns);
             outputs = symbols.ToArray<int>(outputColumn);
 
             var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
