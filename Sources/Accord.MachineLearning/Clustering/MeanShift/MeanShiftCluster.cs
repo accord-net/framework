@@ -43,7 +43,7 @@ namespace Accord.MachineLearning
     {
         MeanShiftCluster.ClusterCollection collection;
 
-        private MeanShift algorithm;
+        //private MeanShift algorithm;
         private KDTree<int> tree;
         private double[][] modes;
 
@@ -69,10 +69,10 @@ namespace Accord.MachineLearning
         ///   Initializes a new instance of the <see cref="MeanShiftClusterCollection"/> class.
         /// </summary>
         /// 
-        public MeanShiftClusterCollection(MeanShift algorithm, int k, KDTree<int> tree, double[][] modes)
+        public MeanShiftClusterCollection(int k, KDTree<int> tree, double[][] modes)
         {
             this.collection = new MeanShiftCluster.ClusterCollection(this, k);
-            this.algorithm = algorithm;
+            //this.algorithm = algorithm;
             this.tree = tree;
             this.modes = modes;
         }

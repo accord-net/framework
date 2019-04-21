@@ -413,7 +413,7 @@ namespace Accord.MachineLearning
             tree = KDTree.FromData(seeds, labels, Distance, inPlace: true);
 
 
-            clusters = new MeanShiftClusterCollection(this, modes.Length, tree, modes);
+            clusters = new MeanShiftClusterCollection(modes.Length, tree, modes);
             clusters.NumberOfInputs = x[0].Length;
             clusters.NumberOfClasses = modes.Length;
             clusters.NumberOfOutputs = modes.Length;
