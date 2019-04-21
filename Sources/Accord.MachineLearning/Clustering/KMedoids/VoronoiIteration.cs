@@ -205,7 +205,7 @@ namespace Accord.MachineLearning
                 {
                     ClusterInfo cluster = clusters[i];
                     int currentMedoidIndex = cluster.MedoidIndex;
-                    T[] currentMedoid = x[currentMedoidIndex];
+                    //T[] currentMedoid = x[currentMedoidIndex];
                     int minCostMedoidIndex = currentMedoidIndex;
                     double minCost = cluster.Cost;
 
