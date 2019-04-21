@@ -301,7 +301,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             for (int i = 0; i < miniBatches.Length; i++)
                 miniBatches[i] = new IntRange(i, Math.Min(i + miniBatchSize, x.Length));
 
-            bool success = method.Minimize();
+            //bool success = method.Minimize();
 
             for (int i = 0, k = 0; i < regression.Coefficients.Length; i++)
                 for (int j = 0; j < regression.Coefficients[i].Length; j++, k++)
