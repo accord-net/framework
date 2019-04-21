@@ -181,7 +181,7 @@ namespace Accord.Statistics
             // Perform some basic error validation
             Validate(values, window, alpha);
 
-            int rows = values.Rows();
+            //int rows = values.Rows();
 
             // Handle the trivial case
             if (alpha == 1)
