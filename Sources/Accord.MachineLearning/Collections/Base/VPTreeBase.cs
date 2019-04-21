@@ -151,7 +151,7 @@ namespace Accord.Collections
             // Perform the search
             search(Root, position, neighbors, heap);
 
-            string str = heap.ToString();
+            //string str = heap.ToString();
 
             // Gather final results
             while (heap.Count != 0)
