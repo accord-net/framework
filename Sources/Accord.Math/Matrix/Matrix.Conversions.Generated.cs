@@ -1593,7 +1593,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -1768,7 +1768,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -3572,7 +3572,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -3747,7 +3747,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -5551,7 +5551,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -5726,7 +5726,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -7530,7 +7530,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -7705,7 +7705,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -9509,7 +9509,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -9684,7 +9684,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -11488,7 +11488,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -11663,7 +11663,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -13467,7 +13467,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -13642,7 +13642,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -15446,7 +15446,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k];
 		
             return result;
@@ -15621,7 +15621,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -17425,7 +17425,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k] ? (Object)1 : (Object)0;
 		
             return result;
@@ -17600,7 +17600,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;
@@ -17956,7 +17956,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Int32)System.Convert.ChangeType(value[i, j, k], typeof(Int32));
 		
             return result;
@@ -18131,7 +18131,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Int16)System.Convert.ChangeType(value[i, j, k], typeof(Int16));
 		
             return result;
@@ -18306,7 +18306,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Single)System.Convert.ChangeType(value[i, j, k], typeof(Single));
 		
             return result;
@@ -18481,7 +18481,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Double)System.Convert.ChangeType(value[i, j, k], typeof(Double));
 		
             return result;
@@ -18656,7 +18656,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Int64)System.Convert.ChangeType(value[i, j, k], typeof(Int64));
 		
             return result;
@@ -18831,7 +18831,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Byte)System.Convert.ChangeType(value[i, j, k], typeof(Byte));
 		
             return result;
@@ -19006,7 +19006,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (SByte)System.Convert.ChangeType(value[i, j, k], typeof(SByte));
 		
             return result;
@@ -19181,7 +19181,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Decimal)System.Convert.ChangeType(value[i, j, k], typeof(Decimal));
 		
             return result;
@@ -19356,7 +19356,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Boolean)System.Convert.ChangeType(value[i, j, k], typeof(Boolean));
 		
             return result;
@@ -19531,7 +19531,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (String)System.Convert.ChangeType(value[i, j, k], typeof(String));
 		
             return result;
@@ -19706,7 +19706,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Complex)System.Convert.ChangeType(value[i, j, k], typeof(Complex));
 		
             return result;
@@ -19881,7 +19881,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Int32.Parse(value[i, j, k]);;
 		
             return result;
@@ -20056,7 +20056,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Int16.Parse(value[i, j, k]);;
 		
             return result;
@@ -20231,7 +20231,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Single.Parse(value[i, j, k]);;
 		
             return result;
@@ -20406,7 +20406,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Double.Parse(value[i, j, k]);;
 		
             return result;
@@ -20581,7 +20581,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Int64.Parse(value[i, j, k]);;
 		
             return result;
@@ -20756,7 +20756,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Byte.Parse(value[i, j, k]);;
 		
             return result;
@@ -20931,7 +20931,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = SByte.Parse(value[i, j, k]);;
 		
             return result;
@@ -21106,7 +21106,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Decimal.Parse(value[i, j, k]);;
 		
             return result;
@@ -21281,7 +21281,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = Boolean.Parse(value[i, j, k]);;
 		
             return result;
@@ -21456,7 +21456,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)System.Convert.ChangeType(value[i, j, k], typeof(Object));
 		
             return result;
@@ -23260,7 +23260,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = (Object)value[i, j, k].Real;
 		
             return result;
@@ -23435,7 +23435,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = value[i, j, k].ToString();
 		
             return result;

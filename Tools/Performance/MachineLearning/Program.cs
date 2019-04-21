@@ -20,6 +20,7 @@ using Accord.Audio;
 using Accord.Video.DirectShow;
 using System.Threading;
 using System.Runtime.InteropServices;
+using Accord.Video.FFMPEG;
 
 namespace Accord.Perf.MachineLearning
 {

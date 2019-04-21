@@ -287,7 +287,7 @@ namespace Accord.Math
 			int d = value.GetLength(2);
 			for (int i = 0; i < r; i++)
 				for (int j = 0; j < c; j++)
-					for (int k = 0; j < d; j++)
+					for (int k = 0; k < d; k++)
 					result[i, j, k] = <#=begin#>value[i, j, k]<#=end#>;
 		<#
 			}
