@@ -83,7 +83,7 @@ namespace Accord.Tests.Statistics
                 double error = new ZeroOneLoss(outputs).Loss(answers);
                 #endregion
 
-                Assert.AreEqual(0, error, 1e-5);
+                Assert.AreEqual(0, error, 1e-5, "cg");
             }
 
             {
@@ -104,7 +104,7 @@ namespace Accord.Tests.Statistics
                 double error = new ZeroOneLoss(outputs).Loss(answers);
                 #endregion
 
-                Assert.AreEqual(0, error, 1e-5);
+                Assert.AreEqual(0, error, 1e-5, "gd");
             }
 
             {
@@ -125,11 +125,11 @@ namespace Accord.Tests.Statistics
                 double error = new ZeroOneLoss(outputs).Loss(answers);
                 #endregion
 
-                Assert.AreEqual(0, error, 1e-5);
+                Assert.AreEqual(0, error, 1e-5, "bfgs");
             }
         }
 
-        [Test]
+#if !MONO
         public void RegressTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -151,6 +151,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0.61088435374149663, acc, 1e-8);
         }
+#endif
 
         [Test]
         public void GradientTest()

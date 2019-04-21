@@ -1,8 +1,11 @@
 ﻿using Accord.Imaging;
+using Accord.Imaging.Converters;
+using Accord.Imaging.Filters;
 using Accord.Math;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,35 +26,31 @@ namespace MonoTest
 
         private static void TestImaging()
         {
-            ToByteArray_test_general(PixelFormat.Format32bppArgb, 3, 3, 4 * 9);
-        }
+            double[,] diag = Matrix.Magic(5);
 
-        private static void ToByteArray_test_general(PixelFormat pixelFormat, int w, int h, int expected)
-        {
-            Console.WriteLine($"pixelFormat = {pixelFormat}, w = {w}, h = {h}, expected = {expected}");
-            int c = pixelFormat.GetNumberOfChannels();
-            Console.WriteLine(c);
-            byte[,,] values = (byte[,,])Vector.Range((byte)0, (byte)255).Get(0, c * h * w).Reshape(new[] { h, w, c });
-            Console.WriteLine(Accord.Math.Matrix.ToString(values));
-            UnmanagedImage image = values.ToBitmap().ToUnmanagedImage();
-            //Accord.Imaging.Tools.ToMatrix(image, 0, 255);
+            Bitmap input; new MatrixToImage().Convert(diag, out input);
 
-            int formatBytes = pixelFormat.GetPixelFormatSizeInBytes();
-            byte[] b = image.ToByteArray();
-            Console.WriteLine(b.ToString(CSharpMatrixFormatProvider.CurrentCulture));
+            // Create a new Variance filter
+            Variance filter = new Variance();
 
-            System.Diagnostics.Trace.Assert(w * h * formatBytes == b.Length);
-            System.Diagnostics.Trace.Assert(expected == b.Length);
+            // Apply the filter
+            Bitmap output = filter.Apply(input);
 
-            // Reconstruct the original matrix
-            UnmanagedImage r = UnmanagedImage.FromByteArray(b, w, h, pixelFormat);
-            byte[,,] actual = r.ToManagedImage().ToMatrix((byte)0, (byte)255);
-            string a = String.Join(" ", (string[])Accord.Math.Matrix.ToString(actual).DeepFlatten());
-            string e = String.Join(" ", (string[])Accord.Math.Matrix.ToString(values).DeepFlatten());
-            Console.WriteLine(a);
-            Console.WriteLine(b);
+            double[,] actual;
 
-            System.Diagnostics.Trace.Assert(e == a);
+            new ImageToMatrix().Convert(output, out actual);
+
+            string str = actual.ToString(CSharpMatrixFormatProvider.InvariantCulture);
+            Console.WriteLine(str);
+
+            double[,] expected =
+            {
+                { 0, 0, 0, 0, 0 },
+                { 0.0941176470588235, 0.545098039215686, 0.396078431372549, 0.376470588235294, 0.192156862745098 },
+                { 0.298039215686275, 0.376470588235294, 0.27843137254902, 0.211764705882353, 0.133333333333333 },
+                { 0.317647058823529, 0.203921568627451, 0.2, 0.16078431372549, 0.109803921568627 },
+                { 0.0509803921568627, 0.109803921568627, 0.16078431372549, 0.2, 0.203921568627451 }
+            };
         }
 
     }
