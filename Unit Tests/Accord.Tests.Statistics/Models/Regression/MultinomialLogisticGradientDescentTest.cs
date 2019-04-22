@@ -83,8 +83,9 @@ namespace Accord.Tests.Statistics
                 // Now we can check how good our model is at predicting
                 double error = new ZeroOneLoss(outputs).Loss(answers);
                 #endregion
-#endif
+
                 Assert.AreEqual(0, error, 1e-5, "cg");
+#endif
             }
 
             {
