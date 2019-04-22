@@ -66,6 +66,7 @@ namespace Accord.Tests.Statistics
             #endregion
 
             {
+#if !MONO
                 #region doc_learn_cg
                 // Create a Conjugate Gradient algorithm to estimate the regression
                 var mcg = new MultinomialLogisticLearning<ConjugateGradient>();
@@ -82,13 +83,12 @@ namespace Accord.Tests.Statistics
                 // Now we can check how good our model is at predicting
                 double error = new ZeroOneLoss(outputs).Loss(answers);
                 #endregion
-
+#endif
                 Assert.AreEqual(0, error, 1e-5, "cg");
             }
 
-#if !MONO
             {
-            #region doc_learn_gd
+                #region doc_learn_gd
                 // Create a Conjugate Gradient algorithm to estimate the regression
                 var mgd = new MultinomialLogisticLearning<GradientDescent>();
 
@@ -103,11 +103,10 @@ namespace Accord.Tests.Statistics
 
                 // Now we can check how good our model is at predicting
                 double error = new ZeroOneLoss(outputs).Loss(answers);
-            #endregion
+                #endregion
 
                 Assert.AreEqual(0, error, 1e-5, "gd");
             }
-#endif
 
             {
                 #region doc_learn_bfgs
