@@ -130,7 +130,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-
         public void RegressTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;
