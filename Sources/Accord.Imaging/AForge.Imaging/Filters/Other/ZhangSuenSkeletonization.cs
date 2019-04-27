@@ -28,8 +28,8 @@ namespace Accord.Imaging.Filters
 {
     using Accord.Imaging;
     using Accord.Imaging.Filters;
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Runtime.CompilerServices;
