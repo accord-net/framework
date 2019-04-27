@@ -29,8 +29,11 @@ namespace Accord.Imaging.Filters
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using System.Collections.Generic;
+    using System;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Zhang-Suen skeletonization filter.
@@ -150,39 +153,50 @@ namespace Accord.Imaging.Filters
 
             // do the job
             var dst0 = (byte*)destination.ImageData.ToPointer();
-            var del0 = stackalloc byte[delSize]; for (var i = 0; i < delSize; i++) del0[i] = 0xFF;
 
-            bool endOfAlgorithm;
-
-            do
+            IntPtr delPtr = IntPtr.Zero;
+            RuntimeHelpers.PrepareConstrainedRegions();
+            try
             {
-                endOfAlgorithm = true;
+                delPtr = Marshal.AllocHGlobal(delSize);
+                var del0 = (byte*)delPtr.ToPointer(); for (var i = 0; i < delSize; i++) del0[i] = 0xFF;
 
-                // Setp 1
-                Process(startX, startY, stopX, stopY,
-                    dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstStride, dstOffset,
-                    del0,
-                    new[] { 1, 3, 5, 3, 5, 7 },
-                    ref endOfAlgorithm);
+                bool endOfAlgorithm;
 
-                // Deletion
-                delete(startX, startY, stopX, stopY,
-                    dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstOffset,
-                    del0);
+                do
+                {
+                    endOfAlgorithm = true;
 
-                // Setp 2
-                Process(startX, startY, stopX, stopY,
-                    dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstStride, dstOffset,
-                    del0,
-                    new[] { 1, 3, 7, 1, 5, 7 },
-                    ref endOfAlgorithm);
+                    // Setp 1
+                    Process(startX, startY, stopX, stopY,
+                        dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstStride, dstOffset,
+                        del0,
+                        new[] { 1, 3, 5, 3, 5, 7 },
+                        ref endOfAlgorithm);
 
-                // Deletion
-                delete(startX, startY, stopX, stopY,
-                    dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstOffset,
-                    del0);
+                    // Deletion
+                    delete(startX, startY, stopX, stopY,
+                        dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstOffset,
+                        del0);
 
-            } while (!endOfAlgorithm);
+                    // Setp 2
+                    Process(startX, startY, stopX, stopY,
+                        dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstStride, dstOffset,
+                        del0,
+                        new[] { 1, 3, 7, 1, 5, 7 },
+                        ref endOfAlgorithm);
+
+                    // Deletion
+                    delete(startX, startY, stopX, stopY,
+                        dst0 + (rect.Top + 1) * dstStride + rect.Left + 1, dstOffset,
+                        del0);
+
+                } while (!endOfAlgorithm);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(delPtr);
+            }
 
             #region Set colors
 
