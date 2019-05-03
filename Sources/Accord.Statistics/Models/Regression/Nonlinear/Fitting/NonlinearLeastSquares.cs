@@ -279,5 +279,97 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             return regression;
         }
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs by using (gradient free) optimization algorithm
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <typeparam name="T">The desired algorithm which shall be used</typeparam>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public NonlinearRegression Learn<T>(Double[][] x, double[] y) where T:BaseOptimizationMethod
+        {
+            NonlinearRegression problemFormulation = null;
+
+            Func<double[][],double[],double[], double> error = ErrorFunction;
+             var errorForInputAndOutput = error.Curry()(x)(y);
+
+            var gradientFreeSolver = (BaseOptimizationMethod) Activator.CreateInstance(typeof(T), this.NumberOfParameters );
+            gradientFreeSolver.Function = errorForInputAndOutput;
+            gradientFreeSolver.NumberOfVariables = this.NumberOfParameters;
+
+            bool success = gradientFreeSolver.Minimize();
+
+            problemFormulation = new NonlinearRegression(gradientFreeSolver.NumberOfVariables,this.Function);
+
+            for(int idx = 0; idx < gradientFreeSolver.Solution.Length;idx++)
+            {
+                problemFormulation.Coefficients.SetValue(gradientFreeSolver.Solution[idx],idx);
+            }
+
+            return problemFormulation;
+        }
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs by using (gradient free) optimization algorithm
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="gradientFreeSolver">The optimization solver<paramref name="gradientFreeSolver">inputs</paramref>.</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public NonlinearRegression Learn(Double[][] x, double[] y, BaseOptimizationMethod gradientFreeSolver) 
+        {
+            NonlinearRegression problemFormulation = null;
+
+            Func<double[][],double[],double[], double> error = ErrorFunction;
+             var errorForInputAndOutput = error.Curry()(x)(y);
+
+            gradientFreeSolver.Function = errorForInputAndOutput;
+            gradientFreeSolver.NumberOfVariables = this.NumberOfParameters;
+
+            bool success = gradientFreeSolver.Minimize();
+
+            problemFormulation = new NonlinearRegression(gradientFreeSolver.NumberOfVariables,this.Function);
+
+            for(int idx = 0; idx < gradientFreeSolver.Solution.Length;idx++)
+            {
+                problemFormulation.Coefficients.SetValue(gradientFreeSolver.Solution[idx],idx);
+            }
+
+            return problemFormulation;
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs by using (gradient free) optimization algorithm
+        /// </summary>
+        /// <param name="input">The model inputs.</param>
+        /// <param name="output">The desired outputs associated with each inputs.</param>
+        /// <param name="parameter">The parameter for model .</param>
+        /// <returns>
+        /// The error between model output with parameter and true output.
+        /// </returns>
+        protected double ErrorFunction(double[][] input, double[] output, double[]parameter)
+        {
+            int points = input.Length;
+            double error = 0;
+            // invoke the function to compute the regression functions output
+            // build the difference between computed output and true output, i.e. error
+            // error with power of 2 and sum them up
+            for (int idx = 0; idx < points; idx++)
+            {
+                error =  error + System.Math.Pow(Function.Invoke(parameter,input[idx]) - output[idx],2);
+            }
+
+            return error;
+        }
+    }
+    // magic transformation to map a 4 parameter function to partial application
+    // like in F#
+    internal static class CurryExtension
+    {
+        internal static Func<A,Func<B,Func<C,D>>> Curry<A,B,C,D>(this Func<A,B,C,D> func) => a => b => c => func(a,b,c);
+        internal static Func<A,Func<B,C>> Curry<A,B,C>(this Func<A,B,C> func) => a => b => func(a,b);
     }
 }
