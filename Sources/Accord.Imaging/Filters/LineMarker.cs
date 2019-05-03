@@ -179,8 +179,8 @@ namespace Accord.Imaging.Filters
                 break;
             }
 
-            IntPoint start = new IntPoint(image.Width - p1.Value.X, p1.Value.Y);
-            IntPoint end = new IntPoint(image.Width - p2.Value.X, p2.Value.Y);
+            IntPoint start = new IntPoint(p1.Value.X, p1.Value.Y);
+            IntPoint end = new IntPoint(p2.Value.X, p2.Value.Y);
 
             Drawing.Line(image, start, end, markerColor);
         }
