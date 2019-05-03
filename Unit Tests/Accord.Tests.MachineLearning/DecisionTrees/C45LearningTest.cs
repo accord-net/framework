@@ -39,6 +39,7 @@ namespace Accord.Tests.MachineLearning
 #endif
 
     [TestFixture]
+    [Culture("")]
     public class C45LearningTest
     {
 #if !NO_DATA_TABLE

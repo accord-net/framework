@@ -33,6 +33,7 @@ namespace Accord.Tests.Math
     using Accord.IO;
 
     [TestFixture]
+    [SetCulture("")]
     public partial class MatrixTest
     {
 

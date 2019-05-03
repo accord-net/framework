@@ -38,6 +38,7 @@ namespace Accord.Tests.Audio
     using System;
 
     [TestFixture]
+    [Culture("")]
     public class BagOfAudioWordsTest
     {
         [Test]

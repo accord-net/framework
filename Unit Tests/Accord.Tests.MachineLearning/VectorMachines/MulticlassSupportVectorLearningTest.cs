@@ -42,6 +42,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.DataSets;
 
     [TestFixture]
+    [Culture("")]
     public class MulticlassSupportVectorLearningTest
     {
 

@@ -111,6 +111,7 @@ namespace Accord.Tests.IO
 
 #if !NO_DATA_TABLE
         [Test]
+        [Culture("")]
         public void write_table()
         {
             // GH-663: Please add an example CsvWriter Class

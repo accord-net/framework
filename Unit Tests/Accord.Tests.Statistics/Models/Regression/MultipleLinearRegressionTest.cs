@@ -491,6 +491,7 @@ namespace Accord.Tests.Statistics
 
 #if !NO_DATA_TABLE
         [Test]
+        [Culture("")]
         public void prediction_test()
         {
 #if NETCORE

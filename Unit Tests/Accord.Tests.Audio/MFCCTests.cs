@@ -34,6 +34,7 @@ namespace Accord.Tests.Audio
     using System.Collections.Generic;
 
     [TestFixture]
+    [Culture("")]
     public class MFCCTests
     {
         public MFCCTests()
