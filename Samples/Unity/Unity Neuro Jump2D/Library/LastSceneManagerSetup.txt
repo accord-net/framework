@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Scenes/Jump2D.unity
+  isLoaded: 1
+  isActive: 1

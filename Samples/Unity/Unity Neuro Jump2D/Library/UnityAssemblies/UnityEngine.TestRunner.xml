@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<doc>
+  <members>
+    <assembly>
+      <name>UnityEngine.TestRunner</name>
+    </assembly>
+    <member name="?:UnityEngine.TestTools.IMonoBehaviourTest">
+      <summary>
+        <para>A MonoBehaviour test needs to implement this interface.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.TestTools.IMonoBehaviourTest.IsTestFinished">
+      <summary>
+        <para>Indicates when the test is considered finished.</para>
+      </summary>
+    </member>
+    <member name="?:UnityEngine.TestTools.IPrebuildSetup">
+      <summary>
+        <para>Interface for the method that implements the prebuild step.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.TestTools.IPrebuildSetup.Setup">
+      <summary>
+        <para>Setup method that is automatically called before the test run.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.TestTools.LogAssert">
+      <summary>
+        <para>LogAssert allows you to expect Unity log messages that would normally cause the test to fail.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.TestTools.LogAssert.ignoreFailingMessages">
+      <summary>
+        <para>Set this property to true to prevent unexpected error log messages from triggering an assertion. This property is set to false by default.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType,System.String)">
+      <summary>
+        <para>Expect a log message of a specfic type. If an error, assertion or exception log is expected, the test will not fail. The test will fail if a log message is expected but does not appear.</para>
+      </summary>
+      <param name="type">Log type.</param>
+      <param name="message">Log message to expect.</param>
+    </member>
+    <member name="M:UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType,System.Text.RegularExpressions.Regex)">
+      <summary>
+        <para>Expect a log message of a specfic type. If an error, assertion or exception log is expected, the test will not fail. The test will fail if a log message is expected but does not appear.</para>
+      </summary>
+      <param name="type">Log type.</param>
+      <param name="message">Log message to expect.</param>
+    </member>
+    <member name="M:UnityEngine.TestTools.LogAssert.NoUnexpectedReceived">
+      <summary>
+        <para>Triggers an assert if any logs have been received that were not expected. Returns without asserting if all logs received so far have been registered as expected.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.TestTools.MonoBehaviourTest`1">
+      <summary>
+        <para>Wrapper for running tests that are imlpemented as MonoBehaviours.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.TestTools.PrebuildSetupAttribute">
+      <summary>
+        <para>Allows to define a setup method for the test that will be invoked before the test run is started.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.TestTools.PrebuildSetupAttribute.#ctor(System.Type)">
+      <summary>
+        <para>Points to a class that imlpements TestTools.IPrebuildSetup. The method from TestTools.IPrebuildSetup will be executed before the test run is initiated.</para>
+      </summary>
+      <param name="setupClass">Type of the class implementing TestTools.IPrebuildSetup.</param>
+    </member>
+    <member name="T:UnityEngine.TestTools.TestPlatform">
+      <summary>
+        <para>Platforms the tests can run on.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.TestTools.UnityPlatformAttribute">
+      <summary>
+        <para>For specifying platforms to run on.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.TestTools.UnityPlatformAttribute.exclude">
+      <summary>
+        <para>Excluded platforms.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.TestTools.UnityPlatformAttribute.include">
+      <summary>
+        <para>Included platforms.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.TestTools.UnityTestAttribute">
+      <summary>
+        <para>Special type of a unit test that allows to yield from test in order to skip frames when the test is running.</para>
+      </summary>
+    </member>
+  </members>
+</doc>
