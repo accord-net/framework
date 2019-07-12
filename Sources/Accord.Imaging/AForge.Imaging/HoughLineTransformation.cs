@@ -260,7 +260,7 @@ namespace Accord.Imaging
             Drawing.Line(image,
                 new IntPoint((int)x0 + w2, h2 - (int)y0),
                 new IntPoint((int)x1 + w2, h2 - (int)y1),
-                Color.Red);
+                color);
         }
     }
 
