@@ -226,6 +226,7 @@ namespace Accord.Tests.MachineLearning
 
 #if !NO_BINARY_SERIALIZATION
         [Test]
+        [Culture("")]
         public void test_serialization()
         {
             // Fix random seed for reproducibility

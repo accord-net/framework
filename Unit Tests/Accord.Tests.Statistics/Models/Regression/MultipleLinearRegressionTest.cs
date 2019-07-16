@@ -491,6 +491,7 @@ namespace Accord.Tests.Statistics
 
 #if !NO_DATA_TABLE
         [Test]
+        [Culture("")]
         public void prediction_test()
         {
 #if NETCORE
@@ -501,7 +502,7 @@ namespace Accord.Tests.Statistics
             var dt = Accord.IO.CsvReader.FromText(Resources.linreg, true).ToTable();
 
             double[] y = dt.Columns["Poverty"].ToArray();
-            double[][] x = dt.ToArray("Infant Mort", "White", "Crime");
+            double[][] x = dt.ToJagged("Infant Mort", "White", "Crime");
 
             // Use Ordinary Least Squares to learn the regression
             OrdinaryLeastSquares ols = new OrdinaryLeastSquares();

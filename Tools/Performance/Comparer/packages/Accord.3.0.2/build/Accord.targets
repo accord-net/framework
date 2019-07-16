@@ -1,8 +1,0 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Condition="'$(MSBuildThisFileDirectory)' != '' And HasTrailingSlash('$(MSBuildThisFileDirectory)')">
-    <Content Include="$(MSBuildThisFileDirectory)Accord.dll.config">
-      <Link>Accord.dll.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-</Project>

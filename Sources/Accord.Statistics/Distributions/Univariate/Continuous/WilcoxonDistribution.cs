@@ -559,7 +559,7 @@ namespace Accord.Statistics.Distributions.Univariate
             for (int i = 0; i < table.Length; i++)
                 if (table[i] <= x)
                     count++;
-            double p = count / (double)table.Length;
+            //double p = count / (double)table.Length;
 #endif
 
             for (int i = 0; i < table.Length; i++)
@@ -586,7 +586,7 @@ namespace Accord.Statistics.Distributions.Univariate
             for (int i = 0; i < table.Length; i++)
                 if (table[i] >= x)
                     count++;
-            double p = count / (double)table.Length;
+            //double p = count / (double)table.Length;
 #endif
 
             for (int i = table.Length - 1; i >= 0; i--)

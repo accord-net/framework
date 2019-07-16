@@ -220,8 +220,8 @@ namespace Accord.Statistics.Testing
 
             // Compute Mann-Whitney's U statistic from the rank sum
             // as in Zar, Jerrold H. Biostatistical Analysis, 1998:
-            this.Statistic1 = RankSum1 - (NumberOfSamples1 * (NumberOfSamples1 + 1)) / 2.0; // U1
-            this.Statistic2 = RankSum2 - (NumberOfSamples2 * (NumberOfSamples2 + 1)) / 2.0; // U2
+            this.Statistic1 = RankSum1 - ((double)NumberOfSamples1 * (NumberOfSamples1 + 1)) / 2.0; // U1
+            this.Statistic2 = RankSum2 - ((double)NumberOfSamples2 * (NumberOfSamples2 + 1)) / 2.0; // U2
 
             // Again, it would not be necessary to compute U2 due the relation:
             //   06/05/2017: See above
@@ -292,14 +292,14 @@ namespace Accord.Statistics.Testing
                     if (NumberOfSamples1 < NumberOfSamples2)
                         p = StatisticDistribution.DistributionFunction(x);
                     else
-                        p = StatisticDistribution.ComplementaryDistributionFunction(x); 
+                        p = StatisticDistribution.ComplementaryDistributionFunction(x);
                     break;
 
                 case DistributionTail.OneUpper:
                     if (NumberOfSamples1 < NumberOfSamples2)
                         p = StatisticDistribution.ComplementaryDistributionFunction(x);
                     else
-                        p = StatisticDistribution.DistributionFunction(x); 
+                        p = StatisticDistribution.DistributionFunction(x);
                     break;
 
                 default:

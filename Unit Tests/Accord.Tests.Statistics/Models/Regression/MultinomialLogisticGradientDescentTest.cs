@@ -36,10 +36,11 @@ namespace Accord.Tests.Statistics
     public class MultinomialLogisticGradientDescentTest
     {
 
+#if !MONO
         [Test]
         public void LearnTest1()
         {
-            #region doc_learn_0
+        #region doc_learn_0
             // Declare a simple classification/regression
             // problem with 5 input variables (a,b,c,d,e):
             double[][] inputs =
@@ -63,10 +64,10 @@ namespace Accord.Tests.Statistics
             {
                 0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 0, 0
             };
-            #endregion
+        #endregion
 
             {
-                #region doc_learn_cg
+        #region doc_learn_cg
                 // Create a Conjugate Gradient algorithm to estimate the regression
                 var mcg = new MultinomialLogisticLearning<ConjugateGradient>();
 
@@ -81,13 +82,13 @@ namespace Accord.Tests.Statistics
 
                 // Now we can check how good our model is at predicting
                 double error = new ZeroOneLoss(outputs).Loss(answers);
-                #endregion
+        #endregion
 
-                Assert.AreEqual(0, error, 1e-5);
-            }
+                Assert.AreEqual(0, error, 1e-5, "cg");
+    }
 
             {
-                #region doc_learn_gd
+        #region doc_learn_gd
                 // Create a Conjugate Gradient algorithm to estimate the regression
                 var mgd = new MultinomialLogisticLearning<GradientDescent>();
 
@@ -102,13 +103,13 @@ namespace Accord.Tests.Statistics
 
                 // Now we can check how good our model is at predicting
                 double error = new ZeroOneLoss(outputs).Loss(answers);
-                #endregion
+        #endregion
 
-                Assert.AreEqual(0, error, 1e-5);
+                Assert.AreEqual(0, error, 1e-5, "gd");
             }
 
             {
-                #region doc_learn_bfgs
+        #region doc_learn_bfgs
                 // Create a Conjugate Gradient algorithm to estimate the regression
                 var mlbfgs = new MultinomialLogisticLearning<BroydenFletcherGoldfarbShanno>();
 
@@ -123,13 +124,12 @@ namespace Accord.Tests.Statistics
 
                 // Now we can check how good our model is at predicting
                 double error = new ZeroOneLoss(outputs).Loss(answers);
-                #endregion
+        #endregion
 
-                Assert.AreEqual(0, error, 1e-5);
+                Assert.AreEqual(0, error, 1e-5, "bfgs");
             }
         }
 
-        [Test]
         public void RegressTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -151,6 +151,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0.61088435374149663, acc, 1e-8);
         }
+#endif
 
         [Test]
         public void GradientTest()

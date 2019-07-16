@@ -73,7 +73,7 @@ namespace Accord.Imaging.Filters
             set
             {
                 boost = value;
-                Kernel[size / 2, size / 2] = boost;
+                this.Kernel[size / 2, size / 2] = boost;
             }
         }
 
@@ -108,8 +108,8 @@ namespace Accord.Imaging.Filters
         /// 
         public HighBoost(int boost, int size)
         {
-            Boost = boost;
             Size = size;
+            Boost = boost;
             base.ProcessAlpha = true;
         }
 

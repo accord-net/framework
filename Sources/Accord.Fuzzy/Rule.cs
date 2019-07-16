@@ -123,7 +123,7 @@ namespace Accord.Fuzzy
         // the complement operator
         private IUnaryOperator notOperator;
         // the unary operators that the rule parser supports
-        private string unaryOperators = "NOT;VERY";
+        private string[] unaryOperators = new[] { "NOT;VERY" };
 
         /// <summary>
         /// The name of the fuzzy rule.
@@ -235,7 +235,7 @@ namespace Accord.Fuzzy
         private int Priority( string Operator )
         {
             // if its unary
-            if ( unaryOperators.IndexOf( Operator ) >= 0 )
+            if (Array.IndexOf(unaryOperators, Operator) >= 0)
                 return 4;
 
             switch ( Operator )
@@ -337,7 +337,7 @@ namespace Accord.Fuzzy
                         lastToken = upToken;
                     }
                     // operators
-                    else if ( upToken == "AND" || upToken == "OR" || unaryOperators.IndexOf( upToken ) >= 0 )
+                    else if ( upToken == "AND" || upToken == "OR" || Array.IndexOf(unaryOperators, upToken) >= 0 )
                     {
                         // if we are on consequent, only variables can be found
                         if ( consequent )
@@ -414,7 +414,7 @@ namespace Accord.Fuzzy
             for ( int i = 0; i < tokens.Length; i++ )
             {
                 // if its unary and there is an "IS" token before, we must change positions
-                if ( ( unaryOperators.IndexOf( tokens[i].ToUpper( ) ) >= 0 ) &&
+                if ( (Array.IndexOf(unaryOperators, tokens[i].ToUpper()) >= 0 ) &&
                      ( i > 1 ) && ( tokens[i - 1].ToUpper( ) == "IS" ) )
                 {
                     // placing VAR name
@@ -456,7 +456,7 @@ namespace Accord.Fuzzy
                     float x = 0;
 
                     // unary pops only one value
-                    if ( unaryOperators.IndexOf( o.ToString( ) ) < 0 )
+                    if (Array.IndexOf(unaryOperators, o.ToString()) < 0 )
                         x = s.Pop( );
 
                     // operation

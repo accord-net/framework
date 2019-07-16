@@ -43,6 +43,7 @@ namespace Accord.Tests.IO
 
 
         [Test]
+        [Culture("")]
         public void WriteSamplesTest()
         {
             // http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#iris

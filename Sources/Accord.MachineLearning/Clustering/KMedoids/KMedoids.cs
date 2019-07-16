@@ -289,7 +289,7 @@ namespace Accord.MachineLearning
                 // Assing points to clusters
                 Parallel.For(0, x.Length, ParallelOptions, pointIndex =>
                 {
-                    int secondMinCostClusterIndex = -1;
+                    //int secondMinCostClusterIndex = -1;
                     double secondMinCost = double.PositiveInfinity;
                     int minCostClusterIndex = 0;
                     int medoidIndex = currentMedoidIndicesArray[minCostClusterIndex];
@@ -304,13 +304,13 @@ namespace Accord.MachineLearning
                         {
                             secondMinCost = minCost;
                             minCost = cost;
-                            secondMinCostClusterIndex = minCostClusterIndex;
+                            //secondMinCostClusterIndex = minCostClusterIndex;
                             minCostClusterIndex = i;
                         }
                         else if (cost < secondMinCost)
                         {
                             secondMinCost = cost;
-                            secondMinCostClusterIndex = medoidPointIndex;
+                            //secondMinCostClusterIndex = medoidPointIndex;
                         }
                     }
 

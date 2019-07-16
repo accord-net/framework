@@ -105,10 +105,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class MeanShift : ParallelLearningBase,
-        IUnsupervisedLearning<MeanShiftClusterCollection, double[], int>,
-#pragma warning disable 0618
-        IClusteringAlgorithm<double[]>
-#pragma warning restore 0618
+        IUnsupervisedLearning<MeanShiftClusterCollection, double[], int>
     {
 
         private double bandwidth;
@@ -416,7 +413,7 @@ namespace Accord.MachineLearning
             tree = KDTree.FromData(seeds, labels, Distance, inPlace: true);
 
 
-            clusters = new MeanShiftClusterCollection(this, modes.Length, tree, modes);
+            clusters = new MeanShiftClusterCollection(modes.Length, tree, modes);
             clusters.NumberOfInputs = x[0].Length;
             clusters.NumberOfClasses = modes.Length;
             clusters.NumberOfOutputs = modes.Length;
@@ -684,17 +681,5 @@ namespace Accord.MachineLearning
             return labels;
         }
 
-
-#pragma warning disable 0618
-        IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
-        {
-            get { return (IClusterCollection<double[]>)clusters; }
-        }
-
-        IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
-        {
-            return (IClusterCollection<double[]>)Learn(x);
-        }
-#pragma warning restore 0618
     }
 }

@@ -28,6 +28,7 @@ namespace Accord.Tests.IO
     using System.IO;
 
     [TestFixture]
+    [Culture("")]
     public class ExcelReaderTest
     {
 
@@ -261,6 +262,7 @@ namespace Accord.Tests.IO
 
         [Test]
         [Category("Office")]
+        [Culture("")]
         public void ConstructorExcel10Test()
         {
             // If a 64-bit ACE is installed, this test requires a 64-bit process to run correctly.

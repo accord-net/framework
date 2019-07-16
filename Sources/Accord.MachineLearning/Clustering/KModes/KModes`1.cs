@@ -52,10 +52,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class KModes<T> : ParallelLearningBase,
-        IUnsupervisedLearning<KModesClusterCollection<T>, T[], int>,
-#pragma warning disable 0618
-        IClusteringAlgorithm<T[]>
-#pragma warning restore 0618
+        IUnsupervisedLearning<KModesClusterCollection<T>, T[], int>
     {
 
         private KModesClusterCollection<T> clusters;
@@ -342,19 +339,6 @@ namespace Accord.MachineLearning
 
             return true;
         }
-
-#pragma warning disable 0618
-        IClusterCollection<T[]> IClusteringAlgorithm<T[]>.Clusters
-        {
-            get { return (IClusterCollection<T[]>)clusters; }
-        }
-
-        IClusterCollection<T[]> IUnsupervisedLearning<IClusterCollection<T[]>, T[], int>.Learn(T[][] x, double[] weights)
-        {
-            return (IClusterCollection<T[]>)Learn(x);
-        }
-#pragma warning restore 0618
-
     }
 
     /// <summary>

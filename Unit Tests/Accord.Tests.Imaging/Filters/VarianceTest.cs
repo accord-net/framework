@@ -47,6 +47,7 @@ namespace Accord.Tests.Imaging
             Assert.IsNotNull(result);
         }
 
+#if !MONO
         [Test]
         [Category("Slow")]
         public void VarianceColorRotate()
@@ -57,6 +58,7 @@ namespace Accord.Tests.Imaging
             bool answer = ImageUtils.RotateTest32bpp(new Variance(), image, expected);
             Assert.IsTrue(answer);
         }
+#endif
 
         [Test]
         public void ProcessImageTest()
@@ -72,19 +74,19 @@ namespace Accord.Tests.Imaging
             // Apply the filter
             Bitmap output = filter.Apply(input);
 
-            double[,] actual; 
-            
+            double[,] actual;
+
             new ImageToMatrix().Convert(output, out actual);
 
             string str = actual.ToString(CSharpMatrixFormatProvider.InvariantCulture);
 
-            double[,] expected = 
+            double[,] expected =
             {
                 { 0, 0, 0, 0, 0 },
                 { 0.0941176470588235, 0.545098039215686, 0.396078431372549, 0.376470588235294, 0.192156862745098 },
                 { 0.298039215686275, 0.376470588235294, 0.27843137254902, 0.211764705882353, 0.133333333333333 },
                 { 0.317647058823529, 0.203921568627451, 0.2, 0.16078431372549, 0.109803921568627 },
-                { 0.0509803921568627, 0.109803921568627, 0.16078431372549, 0.2, 0.203921568627451 } 
+                { 0.0509803921568627, 0.109803921568627, 0.16078431372549, 0.2, 0.203921568627451 }
             };
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-6));

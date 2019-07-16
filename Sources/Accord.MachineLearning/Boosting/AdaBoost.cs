@@ -36,17 +36,6 @@ namespace Accord.MachineLearning.Boosting
     using Accord.Compat;
 
     /// <summary>
-    ///   Model construction (fitting) delegate.
-    /// </summary>
-    /// 
-    /// <typeparam name="TModel">The type of the model to be created.</typeparam>
-    /// <param name="weights">The current weights for the input samples.</param>
-    /// <returns>A model trained over the weighted samples.</returns>
-    /// 
-    [Obsolete("Please use the .Learner property instead.")]
-    public delegate TModel ModelConstructor<TModel>(double[] weights);
-
-    /// <summary>
     ///   Extra parameters that can be passed to AdaBoost's model learning function.
     /// </summary>
     /// 
@@ -128,20 +117,6 @@ namespace Accord.MachineLearning.Boosting
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="AdaBoost&lt;TModel&gt;"/> class.
-        /// </summary>
-        /// 
-        /// <param name="model">The model to be learned.</param>
-        /// <param name="creationFunction">The model fitting function.</param>
-        /// 
-        [Obsolete("Please use the parameterless constructor instead.")]
-        public AdaBoost(Boost<TModel> model, ModelConstructor<TModel> creationFunction)
-        {
-            this.Model = model;
-            this.Creation = creationFunction;
-        }
-
-        /// <summary>
         ///   Gets or sets the model being trained.
         /// </summary>
         /// 
@@ -153,17 +128,6 @@ namespace Accord.MachineLearning.Boosting
         /// </summary>
         /// 
         public int MaxIterations
-        {
-            get { return convergence.MaxIterations; }
-            set { convergence.MaxIterations = value; }
-        }
-
-        /// <summary>
-        ///   Please use MaxIterations instead.
-        /// </summary>
-        /// 
-        [Obsolete("Please use MaxIterations instead.")]
-        public int Iterations
         {
             get { return convergence.MaxIterations; }
             set { convergence.MaxIterations = value; }
@@ -189,14 +153,6 @@ namespace Accord.MachineLearning.Boosting
             get { return threshold; }
             set { threshold = value; }
         }
-
-        /// <summary>
-        ///   Gets or sets the fitting function which creates
-        ///   and trains a model given a weighted data set.
-        /// </summary>
-        /// 
-        [Obsolete("Please use the Learner property instead.")]
-        public ModelConstructor<TModel> Creation { get; set; }
 
         /// <summary>
         ///   Gets or sets a function that takes a set of parameters and creates
@@ -284,18 +240,9 @@ namespace Accord.MachineLearning.Boosting
 
             do
             {
-#pragma warning disable CS0618 // Type or member is obsolete
-                if (Creation != null)
-                {
-                    model = Creation(weights);
-                }
-#pragma warning restore CS0618 // Type or member is obsolete
-                else
-                {
-                    // Create and train a classifier
-                    var learner = Learner(parameters);
-                    model = learner.Learn(x, y, weights);
-                }
+                // Create and train a classifier
+                var learner = Learner(parameters);
+                model = learner.Learn(x, y, weights);
 
                 if (model == null)
                     break;
@@ -346,41 +293,6 @@ namespace Accord.MachineLearning.Boosting
                 Model.Models[i].Weight /= weightSum;
 
             return Model;
-        }
-
-        /// <summary>
-        ///   Runs the learning algorithm.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input samples.</param>
-        /// <param name="outputs">The corresponding output labels.</param>
-        /// 
-        /// <returns>The classifier error.</returns>
-        /// 
-        [Obsolete("Please use the Learn(x, y) method instead.")]
-        public double Run(double[][] inputs, int[] outputs)
-        {
-            double[] weights = new double[inputs.Length];
-            for (int i = 0; i < weights.Length; i++)
-                weights[i] = 1.0 / weights.Length;
-            return Run(inputs, outputs, weights);
-        }
-
-        /// <summary>
-        ///   Runs the learning algorithm.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input samples.</param>
-        /// <param name="outputs">The corresponding output labels.</param>
-        /// <param name="sampleWeights">The weights for each of the samples.</param>
-        /// 
-        /// <returns>The classifier error.</returns>
-        /// 
-        [Obsolete("Please use the Learn(x, y) method instead.")]
-        public double Run(double[][] inputs, int[] outputs, double[] sampleWeights)
-        {
-            Learn(inputs, Classes.Decide(outputs), (double[])sampleWeights.Clone());
-            return ComputeError(inputs, outputs);
         }
 
         /// <summary>

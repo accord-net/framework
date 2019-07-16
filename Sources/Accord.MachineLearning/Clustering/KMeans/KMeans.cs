@@ -160,10 +160,7 @@ namespace Accord.MachineLearning
     [SerializationBinder(typeof(KMeans.KMeansBinder))]
 #endif
     public class KMeans : ParallelLearningBase,
-        IUnsupervisedLearning<KMeansClusterCollection, double[], int>,
-#pragma warning disable 0618
-        IClusteringAlgorithm<double[], double>
-#pragma warning restore 0618
+        IUnsupervisedLearning<KMeansClusterCollection, double[], int>
     {
 
         private KMeansClusterCollection clusters;
@@ -616,18 +613,6 @@ namespace Accord.MachineLearning
 
             return true;
         }
-
-#pragma warning disable 0618
-        IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
-        {
-            get { return (IClusterCollection<double[]>)clusters; }
-        }
-
-        IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
-        {
-            return (IClusterCollection<double[]>)Learn(x);
-        }
-#pragma warning restore 0618
 
         [OnDeserialized]
         private void OnDeserializedMethod(StreamingContext context)

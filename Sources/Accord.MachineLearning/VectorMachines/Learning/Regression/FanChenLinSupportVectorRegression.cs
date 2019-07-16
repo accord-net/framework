@@ -176,7 +176,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             double[] linear_term = new double[2 * l];
             int[] signs = new int[2 * l];
             double[] c = new double[2 * l];
-            int[] sign = new int[2 * l];
+            //int[] sign = new int[2 * l];
             int[] index = new int[2 * l];
 
             for (int i = 0; i < l; i++)

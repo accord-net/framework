@@ -34,6 +34,7 @@ namespace Accord.Tests.Audio
     using System.Collections.Generic;
 
     [TestFixture]
+    [Culture("")]
     public class MFCCTests
     {
         public MFCCTests()
@@ -123,18 +124,21 @@ namespace Accord.Tests.Audio
             Assert.IsTrue(expected.IsEqual(row, 1e-8));
 
             Signal b = fsdd.GetSignal(0, "nicolas", 10);
-            Assert.AreEqual(2, b.NumberOfChannels);
+            Assert.AreEqual(1, b.NumberOfChannels);
             Assert.AreEqual(3755, b.NumberOfFrames);
-            Assert.AreEqual(7510, b.NumberOfSamples);
+            Assert.AreEqual(3755, b.NumberOfSamples);
             Assert.AreEqual(SampleFormat.Format32BitIeeeFloat, b.SampleFormat);
             Assert.AreEqual(8000, b.SampleRate);
-            Assert.AreEqual(7510, b.Samples);
+            Assert.AreEqual(3755, b.Samples);
             Assert.AreEqual(4, b.SampleSize);
-            Assert.AreEqual(30040, b.NumberOfBytes);
+            Assert.AreEqual(15020, b.NumberOfBytes);
             Assert.AreEqual(b.SampleSize * b.NumberOfFrames * b.NumberOfChannels, b.NumberOfBytes);
             MelFrequencyCepstrumCoefficientDescriptor[] rb = extractor.Transform(b).ToArray();
             Assert.AreEqual(24, rb.Length);
-            Assert.IsTrue(new[] { 10.6434445230168, -0.222107787197107, 0.316067614396639, -0.212769536249701, -0.107755264262885, -0.292732772820073, -0.00445205345925395, 0.024397440969199, 0.0213769364471326, -0.0882765552657509, -0.177682484734242, -0.1013307739251, -0.099014915302743 }.IsEqual(rb[0].Descriptor, 1e-8));
+            Assert.IsTrue(
+                new double[] { 10.8702296198268, -0.345691493855779, 0.379930274151878, -0.227202980405646, -0.0713784616663098, -0.322093247786542, -0.0294804966964328, 0.0192461666962833, 0.0328739592933419, -0.103340319440932, -0.198567363709207, -0.106431495370957, -0.106519582709797 }
+                .IsEqual(rb[0].Descriptor, 1e-8),
+                rb[0].Descriptor.ToString(CSharpArrayFormatProvider.InvariantCulture));
 
             Signal c = fsdd.GetSignal(5, "theo", 23);
             Assert.AreEqual(1, c.NumberOfChannels);

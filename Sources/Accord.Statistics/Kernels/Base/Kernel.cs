@@ -422,7 +422,7 @@ namespace Accord.Statistics.Kernels
             double[,] r = Center(kernelMatrix.ToMatrix(), rowMean, mean);
 #endif
 
-            int cols = kernelMatrix.Columns();
+            //int cols = kernelMatrix.Columns();
              
             double[] rowMean1 = kernelMatrix.Mean(1);
             for (int i = 0; i < result.Length; i++)

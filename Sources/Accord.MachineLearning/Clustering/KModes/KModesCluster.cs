@@ -37,10 +37,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class KModesClusterCollection<T> : MulticlassScoreClassifierBase<T[]>,
-        ICentroidClusterCollection<T[], KModesClusterCollection<T>.KModesCluster>,
-    #pragma warning disable 0618
-        IClusterCollection<T[]>
-#pragma warning restore 0618
+        ICentroidClusterCollection<T[], KModesClusterCollection<T>.KModesCluster>
     {
         KModesCluster.ClusterCollection collection;
 

@@ -36,6 +36,7 @@ namespace Accord.Tests.Statistics
 
     using RangeAttribute = System.ComponentModel.DataAnnotations.RangeAttribute;
     using Accord.Statistics.Distributions.Reflection;
+    using System.Diagnostics;
 
     [TestFixture]
     public class UnivariateDistributionTest
@@ -44,13 +45,11 @@ namespace Accord.Tests.Statistics
         public static IEnumerable<Type> GetDerivedConcreteTypes(Type baseType)
         {
 #if NETCORE
-            var distributions = Assembly
-                 .GetEntryAssembly()
-                 .GetReferencedAssemblies()
-                 .Select(Assembly.Load)
-                 .SelectMany(x => x.DefinedTypes)
-                 .Where(p => baseType.IsAssignableFrom(p.AsType()) && !p.IsAbstract && !p.IsInterface)
-                 .Select(p => p.AsType());
+            var assemblies = Assembly.GetExecutingAssembly().GetReferencedAssemblies().ToList();
+            var loadedAssemblies = assemblies.Select(Assembly.Load).ToList();
+            var definedTypes = loadedAssemblies.SelectMany(x => x.DefinedTypes).ToList();
+            var assignableTypes = definedTypes.Where(p => baseType.IsAssignableFrom(p.AsType()) && !p.IsAbstract && !p.IsInterface).ToList();
+            var distributions = assignableTypes.Select(p => p.AsType());
 #else
             var distributions = Assembly.GetAssembly(baseType).GetTypes().Where(p =>
                 baseType.IsAssignableFrom(p) && !p.IsAbstract && !p.IsInterface);
@@ -78,16 +77,20 @@ namespace Accord.Tests.Statistics
             // sure the distribution contains properties for every exposed
             // constructors' parameters
 
+            Console.WriteLine(NormalDistribution.Standard); // force load assembly
+
             var baseType = typeof(IUnivariateDistribution);
 
             // Get all univariate distributions in Accord.NET:
             var distributions = GetDerivedConcreteTypes(baseType);
 
+            Assert.AreEqual(63, distributions.Count());
+
             var check = new HashSet<Type>();
 
             foreach (Type type in distributions)
             {
-                if (!typeof(IUnivariateDistribution).IsAssignableFrom(type))
+                if (!baseType.IsAssignableFrom(type))
                     continue;
 
                 foreach (var ctor in type.GetConstructors())
@@ -103,7 +106,7 @@ namespace Accord.Tests.Statistics
 
                         bool found = p != null;
 
-                        Assert.IsTrue(found);
+                        Assert.IsTrue(found, $"{distName}.{paramName}");
                         check.Add(type);
                     }
                 }
@@ -111,7 +114,7 @@ namespace Accord.Tests.Statistics
 
             var checkedTypes = check.ToArray();
 
-            Assert.IsTrue(checkedTypes.Length >= 57);
+            Assert.AreEqual(61, checkedTypes.Length, $"{checkedTypes.Length}");
         }
 
         [Test]
@@ -272,7 +275,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(false, options.Shared);
         }
 
-        private static bool cmp(string dist, string paramName, string propName)
+        public static bool cmp(string dist, string paramName, string propName)
         {
             if (dist.Contains("AndersonDarlingDistribution"))
             {

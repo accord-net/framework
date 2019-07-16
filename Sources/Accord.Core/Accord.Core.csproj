@@ -157,7 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Accord.snk" />
     <None Include="Accord.Core.cd" />

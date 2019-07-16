@@ -33,6 +33,7 @@ namespace Accord.Tests.Math
     using Accord.IO;
 
     [TestFixture]
+    [SetCulture("")]
     public partial class MatrixTest
     {
 
@@ -886,7 +887,7 @@ namespace Accord.Tests.Math
                 new double[] { 21.00,   0, 0 },
             };
 
-            double[][] actual = table.ToArray();
+            double[][] actual = table.ToJagged();
 
             Assert.IsTrue(expected.IsEqual(actual));
 
@@ -894,7 +895,7 @@ namespace Accord.Tests.Math
             string[] expectedNames = { "Double", "Integer", "Boolean" };
             string[] actualNames;
 
-            table.ToArray(out actualNames);
+            table.ToJagged(out actualNames);
 
             Assert.IsTrue(expectedNames.IsEqual(actualNames));
         }
@@ -3691,7 +3692,7 @@ namespace Accord.Tests.Math
         public void GetIndicesTest4()
         {
             double[][] v = Jagged.Ones(0, 3);
-            int[][] idx = v.GetIndices().ToArray();
+            int[][] idx = v.GetIndices().ToJagged();
             Assert.AreEqual(idx.Length, 0);
         }
 

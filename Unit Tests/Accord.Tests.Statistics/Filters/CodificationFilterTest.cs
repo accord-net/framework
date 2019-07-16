@@ -142,11 +142,11 @@ namespace Accord.Tests.Statistics
 
             // Get inputs
             string[] inputNames;
-            var inputsData = inputs.ToArray(out inputNames);
+            var inputsData = inputs.ToJagged(out inputNames);
 
             // Get outputs
             string[] outputNames;
-            var outputData = output.ToArray(out outputNames);
+            var outputData = output.ToJagged(out outputNames);
 
             Assert.AreEqual(new[] { "write", "ses: middle", "ses: high" }, inputNames);
             Assert.AreEqual(new[] { "prog: academic", "prog: general", "prog: vocation" }, outputNames);
@@ -408,7 +408,7 @@ namespace Accord.Tests.Statistics
         }
 #endif
 
-#if !NO_BINARY_SERIALIZATION
+#if !NO_BINARY_SERIALIZATION && !NETCORE
         [Test]
         [Category("Serialization")]
         public void SerializationTest()

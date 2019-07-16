@@ -20,9 +20,10 @@
     </summary>
     <tags>accord.net aforge.net framework artificial neural networks levenberg-marquardt nguyen-widrow deep-learning ann neuron unity3d unity</tags>
     <dependencies>
-      <dependency id="Accord"         version="$version$" />
-      <dependency id="Accord.Math"    version="$version$" />
-      <dependency id="Accord.Genetic" version="$version$" />
+      <dependency id="Accord"            version="$version$" />
+      <dependency id="Accord.Math"       version="$version$" />
+      <dependency id="Accord.Statistics" version="$version$" />
+      <dependency id="Accord.Genetic"    version="$version$" />
     </dependencies>
   </metadata>
   <files>

@@ -87,6 +87,7 @@ namespace Accord.Video
 
         private Thread thread = null;
         private ManualResetEvent stopEvent = null;
+        readonly ReaderWriterLockSlim regionLock = new ReaderWriterLockSlim();
 
         /// <summary>
         /// New frame event.
@@ -140,8 +141,17 @@ namespace Accord.Video
         /// 
         public Rectangle Region
         {
-            get { return region; }
-            set { region = value; }
+            get {
+                this.regionLock.EnterReadLock();
+                Rectangle result = this.region;
+                this.regionLock.ExitReadLock();
+                return result;
+            }
+            set {
+                this.regionLock.EnterWriteLock();
+                region = value;
+                this.regionLock.ExitWriteLock();
+            }
         }
 
         /// <summary>
@@ -350,11 +360,13 @@ namespace Accord.Video
         // Worker thread
         private void WorkerThread()
         {
+            this.regionLock.EnterReadLock();
             int width = region.Width;
             int height = region.Height;
             int x = region.Location.X;
             int y = region.Location.Y;
             Size size = region.Size;
+            this.regionLock.ExitReadLock();
 
             // Create 10 frames (which we will keep overwriting and reusing)
             Context[] buffer = new Context[10];
@@ -411,6 +423,14 @@ namespace Accord.Video
                         if ((msec > 0) && (stopEvent.WaitOne(msec, false)))
                             return;
                     }
+
+                    this.regionLock.EnterReadLock();
+                    x = region.Location.X;
+                    y = region.Location.Y;
+                    var newSize = region.Size;
+                    this.regionLock.ExitReadLock();
+                    if (newSize.Width != size.Width || newSize.Height != size.Height)
+                        throw new NotSupportedException("Can not change size while running");
 
                     // capture the screen
                     captureContext.args.CaptureStarted = DateTime.Now;

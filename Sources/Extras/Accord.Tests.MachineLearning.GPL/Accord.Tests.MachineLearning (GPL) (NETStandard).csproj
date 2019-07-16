@@ -1,26 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+  
   <PropertyGroup>
-    <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
+    <RootNamespace>Accord.Tests.MachineLearning.GPL</RootNamespace>
     <AssemblyName>Accord.Tests.MachineLearning.GPL</AssemblyName>
     <TargetFrameworks>netcoreapp2.0;netcoreapp1.1;net47</TargetFrameworks>
   </PropertyGroup>
-
-  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
-
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp1.1'">
-      <ItemGroup>
-        <Compile Remove="Properties\Resources.Designer.cs" />
-        <EmbeddedResource Remove="Properties\Resources.resx" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <EmbeddedResource Remove="Properties\Resources.Standard.cs" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />

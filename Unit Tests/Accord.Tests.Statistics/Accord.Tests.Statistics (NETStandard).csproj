@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+  
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Statistics</RootNamespace>
     <AssemblyName>Accord.Tests.Statistics</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1;net47</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
+    <!--
+    <StartupObject>Accord.Tests.Statistics.Program</StartupObject>
+    <OutputType>Exe</OutputType>
+    -->
   </PropertyGroup>
-
-  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
 
   <Choose>
     <When Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp1.1'">
@@ -27,6 +31,21 @@
     <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

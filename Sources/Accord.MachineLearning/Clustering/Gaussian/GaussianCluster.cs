@@ -53,10 +53,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class GaussianClusterCollection : MulticlassLikelihoodClassifierBase<double[]>,
-        ICentroidClusterCollection<double[], Centroid, GaussianClusterCollection.GaussianCluster>,
-#pragma warning disable 0618
-        IClusterCollection<double[]>
-#pragma warning restore 0618
+        ICentroidClusterCollection<double[], Centroid, GaussianClusterCollection.GaussianCluster>
     {
         GaussianCluster.ClusterCollection collection;
 

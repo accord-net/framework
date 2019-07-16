@@ -789,7 +789,7 @@ namespace Accord.Tests.Statistics
             // can go further and transform it into a matrix to start
             // running other algorithms on it: 
 
-            double[][] matrix = table.ToArray();
+            double[][] matrix = table.ToJagged();
 
             IKernel kernel = new Gaussian(5);
 

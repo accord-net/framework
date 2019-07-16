@@ -174,8 +174,11 @@ namespace Accord.Statistics.Distributions.Reflection
         {
 #if NETSTANDARD
             var constructors = new List<DistributionConstructorInfo>();
-            foreach (ConstructorInfo ctor in DistributionType.GetTypeInfo().DeclaredConstructors)
-                constructors.Add(new DistributionConstructorInfo(ctor));
+            var typeInfo = DistributionType.GetTypeInfo();
+            var declaredConstructors = typeInfo.DeclaredConstructors;
+            foreach (ConstructorInfo ctor in declaredConstructors)
+                if (ctor.IsPublic)
+                    constructors.Add(new DistributionConstructorInfo(ctor));
 #else
             var constructors = new List<DistributionConstructorInfo>();
             foreach (ConstructorInfo ctor in DistributionType.GetConstructors())

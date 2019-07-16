@@ -59,8 +59,7 @@ namespace Accord.MachineLearning
     /// <para>
     ///   Besides SVMs, this namespace includes <see cref="Accord.MachineLearning.Bayes">Naïve Bayes</see>,
     ///   <see cref="Accord.MachineLearning.DecisionTrees">Decision Trees</see>, 
-    ///   <see cref="Accord.MachineLearning.Boosting">Boosting methods</see>,
-    ///   <see cref="IClusteringAlgorithm{T}">Clustering techniques</see>, and other
+    ///   <see cref="Accord.MachineLearning.Boosting">Boosting methods</see>, and other
     ///   diverse classifiers, such as the <see cref="KNearestNeighbors"/>, and the much simpler
     ///   <see cref="MinimumMeanDistanceClassifier">minimum (mean) distance classifier</see>. </para>
     ///   

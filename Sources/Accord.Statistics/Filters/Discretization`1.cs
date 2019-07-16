@@ -320,7 +320,7 @@ namespace Accord.Statistics.Filters
                 TOutput[] r = result[j];
 
                 for (int i = 0; i < Columns.Count; i++)
-                    result[j][i] = Columns[i].Transform(x[i]);
+                    r[i] = Columns[i].Transform(x[i]);
             }
 
             return result;

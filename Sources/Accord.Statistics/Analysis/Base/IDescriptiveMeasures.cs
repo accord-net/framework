@@ -22,8 +22,6 @@
 
 namespace Accord.Statistics.Analysis
 {
-    using AForge;
-
     /// <summary>
     ///   Common interface for descriptive measures, such as
     ///   <see cref="DescriptiveMeasures"/> and 

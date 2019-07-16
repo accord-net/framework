@@ -572,6 +572,27 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets the standard error of the <see cref="Kappa"/>
+        ///   coefficient of performance using Congalton's delta method. 
+        /// </summary>
+        /// 
+        [DisplayName("Kappa (κ) Std. Error (delta method)")]
+        public double StandardErrorDeltaMethod
+        {
+            get
+            {
+                if (kappaStdErrorDeltaMethod == null)
+                {
+                    double se;
+                    kappaStdErrorDeltaMethod = KappaTest.DeltaMethodKappaVariance(this, out se);
+                    kappaStdErrorDeltaMethod = se;
+                }
+
+                return kappaStdErrorDeltaMethod.Value;
+            }
+        }
+
+        /// <summary>
         ///   Gets the variance of the <see cref="Kappa"/>
         ///   under the null hypothesis that the underlying
         ///   Kappa value is 0. 

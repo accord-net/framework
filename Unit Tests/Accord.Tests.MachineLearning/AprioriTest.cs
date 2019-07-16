@@ -40,6 +40,7 @@ namespace Accord.Tests.MachineLearning
     {
 
         [Test]
+        [Culture("")]
         public void AprioriExampleTest1()
         {
             #region doc_learn_1
