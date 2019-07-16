@@ -1006,16 +1006,17 @@ namespace Accord.Statistics
                     s4 += dev * dev * dev * dev;
                 }
 
+                double dn = (double)n;
                 double m2 = s2 / n;
                 double m4 = s4 / n;
 
                 if (unbiased)
                 {
-                    double v = s2 / (n - 1);
+                    double v = s2 / (dn - 1);
 
-                    double a = (n * (n + 1)) / (double)((n - 1) * (n - 2) * (n - 3));
+                    double a = (dn * (dn + 1)) / ((dn - 1) * (dn - 2) * (dn - 3));
                     double b = s4 / (v * v);
-                    double c = ((n - 1) * (n - 1)) / (double)((n - 2) * (n - 3));
+                    double c = ((dn - 1) * (dn - 1)) / ((dn - 2) * (dn - 3));
 
                     kurtosis[j] = a * b - 3 * c;
                 }
