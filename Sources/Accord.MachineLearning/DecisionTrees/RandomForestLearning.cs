@@ -125,6 +125,12 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public double CoverageRatio { get; set; }
 
+
+        /// <summary>
+        /// Draw training data sample for each tree with repetition.
+        /// </summary>
+        public bool BootstrapSample { get; set; }
+
         /// <summary>
         ///   Creates a new decision forest learning algorithm.
         /// </summary>
@@ -268,7 +274,13 @@ namespace Accord.MachineLearning.DecisionTrees
             teacher.MaxVariables = getColsPerTree(inputs);
             teacher.MaxHeight = this.MaxHeight;
             teacher.Join = this.Join;
-            int[] idx = Vector.Sample(SampleRatio, output.Length);
+            int[] idx = null;
+            if (!BootstrapSample) idx = Vector.Sample(SampleRatio, output.Length);
+            else
+            {
+                int sampleSize = (int)System.Math.Floor(SampleRatio * (double)output.Length);
+                idx = Enumerable.Range(0, sampleSize).Select(i => Accord.Math.Random.Generator.Random.Next(0, output.Length)).ToArray();
+            }
             teacher.Learn(inputs.Get(idx), output.Get(idx));
         }
 
