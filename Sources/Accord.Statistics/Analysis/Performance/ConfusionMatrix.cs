@@ -187,7 +187,7 @@ namespace Accord.Statistics.Analysis
             if (expectedSymbols.Length != 2)
             {
                 throw new Exception("The vector of expected values contains more than two possible symbols. Please make sure the " +
-                    "expected vector contains only values 0 or 1, or -1 and +1. If you have a multi-class decision problem, please" +
+                    "expected vector contains only values 0 or 1, or -1 and +1. If you have a multi-class decision problem, please " +
                     "use GeneralConfusionMatrix instead.");
             }
 
