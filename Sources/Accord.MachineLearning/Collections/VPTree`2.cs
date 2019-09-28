@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
+// Copyright Â© CÃ©sar Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -120,7 +120,7 @@ namespace Accord.Collections
         public static VPTree<TPoint, TData> FromData(TPoint[] points, TData[] values, IDistance<TPoint> distance, bool inPlace)
         {
             var tree = new VPTree<TPoint, TData>(distance);
-            tree.Root = tree.buildFromPoints(points, values, 0, points.Length - 1, inPlace);
+            tree.Root = tree.buildFromPoints(points, values, 0, points.Length, inPlace);
             return tree;
         }
 
