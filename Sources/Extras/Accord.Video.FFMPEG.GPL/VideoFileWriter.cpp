@@ -2,13 +2,13 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
+// Copyright Â© CÃ©sar Souza, 2009-2017
 // cesarsouza at gmail.com
 //
-// Copyright © AForge.NET, 2009-2011
+// Copyright Â© AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © MelvinGr, 2016-2017
+// Copyright Â© MelvinGr, 2016-2017
 // https://github.com/MelvinGr
 //
 //    This program is free software; you can redistribute it and/or modify
@@ -375,7 +375,8 @@ namespace Accord {
                     if (got_packet)
                     {
                         pkt.duration = ost->next_pts - frame->pts;
-                        pkt.pts += ost->next_pts - 1;
+                        pkt.pts = ost->frame->pts;
+                        pkt.dts = ost->frame->pts;
                         CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing video frame");
                         return true;
                     }
@@ -403,7 +404,8 @@ namespace Accord {
                     if (got_packet)
                     {
                         pkt.duration = ost->next_pts - frame->pts;
-                        pkt.pts += ost->next_pts - 1;
+                        pkt.pts = ost->frame->pts;
+                        pkt.dts = ost->frame->pts;
                         CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing audio frame");
                         return true;
                     }
