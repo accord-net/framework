@@ -2,13 +2,13 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © AForge.NET, 2009-2011
+// Copyright Â© AForge.NET, 2009-2011
 // contacts@aforgenet.com
 //
-// Copyright © MelvinGr, 2016-2017
+// Copyright Â© MelvinGr, 2016-2017
 // https://github.com/MelvinGr
 //
-// Copyright © César Souza, 2009-2017
+// Copyright Â© CÃ©sar Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This program is free software; you can redistribute it and/or modify
@@ -381,9 +381,9 @@ namespace Accord {
                 /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
                 /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
                 /// 
-                void ReadVideoFrame(BitmapData^ output)
+                Bitmap^ ReadVideoFrame(BitmapData^ output)
                 {
-                    readVideoFrame(-1, output, nullptr);
+                    return readVideoFrame(-1, output, nullptr);
                 }
 
                 /// <summary>
@@ -396,9 +396,9 @@ namespace Accord {
                 /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
                 /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
                 /// 
-                void ReadVideoFrame(int frameIndex, BitmapData^ output)
+                Bitmap^ ReadVideoFrame(int frameIndex, BitmapData^ output)
                 {
-                    readVideoFrame(frameIndex, output, nullptr);
+                    return readVideoFrame(frameIndex, output, nullptr);
                 }
 
 
@@ -443,9 +443,9 @@ namespace Accord {
                 /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
                 /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
                 /// 
-                void ReadVideoFrame(BitmapData^ output, System::Collections::Generic::IList<byte>^ audio)
+                Bitmap^ ReadVideoFrame(BitmapData^ output, System::Collections::Generic::IList<byte>^ audio)
                 {
-                    readVideoFrame(-1, output, audio);
+                    return readVideoFrame(-1, output, audio);
                 }
 
                 /// <summary>
@@ -458,9 +458,9 @@ namespace Accord {
                 /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
                 /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
                 /// 
-                void ReadVideoFrame(int frameIndex, BitmapData^ output, System::Collections::Generic::IList<byte>^ audio)
+                Bitmap^ ReadVideoFrame(int frameIndex, BitmapData^ output, System::Collections::Generic::IList<byte>^ audio)
                 {
-                    readVideoFrame(frameIndex, output, audio);
+                    return readVideoFrame(frameIndex, output, audio);
                 }
 
 
