@@ -1,4 +1,4 @@
-﻿// Accord Math Library
+// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -8,6 +8,9 @@
 // Copyright © Nayuki Minase, 2014
 // nayuki at eigenstate.org
 // http://nayuki.eigenstate.org/page/free-small-fft-in-multiple-languages
+//
+// Copyright © Guney Ozsan, 2019
+// guneyozsan at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -86,6 +89,11 @@ namespace Accord.Math.Transforms
     /// 
     public static class FourierTransform2
     {
+        // Trigonometric tables cached.
+        private static double[] cosTable;
+        private static double[] sinTable;
+        private static double[] expCosTable;
+        private static double[] expSinTable;
 
         /// <summary>
         ///   1-D Discrete Fourier Transform.
@@ -420,14 +428,9 @@ namespace Accord.Math.Transforms
             if (1 << levels != n)
                 throw new ArgumentException("Length is not a power of 2");
 
-            // TODO: keep those tables in memory
-            var cosTable = new double[n / 2];
-            var sinTable = new double[n / 2];
-            for (int i = 0; i < n / 2; i++)
-            {
-                cosTable[i] = Math.Cos(2 * Math.PI * i / n);
-                sinTable[i] = Math.Sin(2 * Math.PI * i / n);
-            }
+            // Trigonometric tables.
+            double[] cosTable = CosTable(n / 2);
+            double[] sinTable = SinTable(n / 2);
 
             // Bit-reversed addressing permutation
             for (int i = 0; i < real.Length; i++)
@@ -493,15 +496,10 @@ namespace Accord.Math.Transforms
 
             if (1 << levels != n)
                 throw new ArgumentException("Length is not a power of 2");
-
-            // TODO: keep those tables in memory
-            var cosTable = new double[n / 2];
-            var sinTable = new double[n / 2];
-            for (int i = 0; i < n / 2; i++)
-            {
-                cosTable[i] = Math.Cos(2 * Math.PI * i / n);
-                sinTable[i] = Math.Sin(2 * Math.PI * i / n);
-            }
+            
+            // Trigonometric tables.
+            double[] cosTable = CosTable(n / 2);
+            double[] sinTable = SinTable(n / 2);
 
             // Bit-reversed addressing permutation
             for (int i = 0; i < complex.Length; i++)
@@ -561,16 +559,10 @@ namespace Accord.Math.Transforms
             int n = real.Length;
             int m = HighestOneBit(n * 2 + 1) << 1;
 
-            // Trignometric tables
-            var cosTable = new double[n];
-            var sinTable = new double[n];
-            for (int i = 0; i < cosTable.Length; i++)
-            {
-                int j = (int)((long)i * i % (n * 2));  // This is more accurate than j = i * i
-                cosTable[i] = Math.Cos(Math.PI * j / n);
-                sinTable[i] = Math.Sin(Math.PI * j / n);
-            }
-
+            // Trigonometric tables.
+            double[] cosTable = ExpCosTable(n);
+            double[] sinTable = ExpSinTable(n);
+            
             // Temporary vectors and preprocessing
             var areal = new double[m];
             var aimag = new double[m];
@@ -609,16 +601,10 @@ namespace Accord.Math.Transforms
             int n = data.Length;
             int m = HighestOneBit(n * 2 + 1) << 1;
 
-            // Trignometric tables
-            var cosTable = new double[n];
-            var sinTable = new double[n];
-            for (int i = 0; i < cosTable.Length; i++)
-            {
-                int j = (int)((long)i * i % (n * 2));  // This is more accurate than j = i * i
-                cosTable[i] = Math.Cos(Math.PI * j / n);
-                sinTable[i] = Math.Sin(Math.PI * j / n);
-            }
-
+            // Trigonometric tables.
+            double[] cosTable = ExpCosTable(n);
+            double[] sinTable = ExpSinTable(n);
+            
             // Temporary vectors and preprocessing
             var areal = new double[m];
             var aimag = new double[m];
@@ -749,12 +735,6 @@ namespace Accord.Math.Transforms
             return i;
         }
 
-
-
-
-
-
-
         /// <summary>
         ///   Computes the Magnitude spectrum of a complex signal.
         /// </summary>
@@ -862,6 +842,88 @@ namespace Accord.Math.Transforms
             FourierTransform.FFT(logabs, FourierTransform.Direction.Forward);
 
             return logabs.Re();
+        }
+
+        /// <summary>
+        ///   Gets a half period cosine table.
+        ///   Keeps the results in memory and reuses if parameters are the same.
+        /// </summary>
+        /// 
+        private static double[] CosTable(int sampleCount)
+        {
+            // Return table from memory if period matches.
+            if (cosTable != null && sampleCount == cosTable.Length)
+                return cosTable;
+
+            // Create a new table and keep in memory.
+            cosTable = new double[sampleCount];
+            for (int i = 0; i < sampleCount; i++)
+            {
+                cosTable[i] = Math.Cos(Math.PI * i / sampleCount);
+            }
+            return cosTable;
+        }
+
+        /// <summary>
+        ///   Gets a half period sinus table.
+        ///   Keeps the results in memory and reuses if parameters are the same.
+        /// </summary>
+        ///
+        private static double[] SinTable(int sampleCount)
+        {
+            // Return table from memory if period matches.
+            if (sinTable != null && sampleCount == sinTable.Length)
+                return sinTable;
+
+            // Create a new table and keep in memory.
+            sinTable = new double[sampleCount];
+            for (int i = 0; i < sampleCount; i++)
+            {
+                sinTable[i] = Math.Sin(Math.PI * i / sampleCount);
+            }
+            return sinTable;
+        }
+        
+        /// <summary>
+        ///   Gets a cosine table with exponentially increasing frequency by i * i.
+        ///   Keeps the results in memory and reuses if parameters are the same.
+        /// </summary>
+        ///
+        private static double[] ExpCosTable(int sampleCount)
+        {
+            // Return table from memory if period matches.
+            if (expCosTable != null && sampleCount == expCosTable.Length)
+                return expCosTable;
+
+            // Create a new table and keep in memory.
+            expCosTable = new double[sampleCount];
+            for (int i = 0; i < sampleCount; i++)
+            {
+                int j = (int)((long)i * i % (sampleCount * 2));  // This is more accurate than j = i * i
+                expCosTable[i] = Math.Cos(Math.PI * j / sampleCount);
+            }
+            return expCosTable;
+        }
+
+        /// <summary>
+        ///   Gets a sinus table with exponentially increasing frequency by i * i.
+        ///   Keeps the results in memory and reuses if parameters are the same.
+        /// </summary>
+        ///
+        private static double[] ExpSinTable(int sampleCount)
+        {
+            // Return table from memory if period matches.
+            if (expSinTable != null && sampleCount == expSinTable.Length)
+                return expSinTable;
+
+            // Create a new table and keep in memory.
+            expSinTable = new double[sampleCount];
+            for (int i = 0; i < sampleCount; i++)
+            {
+                int j = (int)((long)i * i % (sampleCount * 2));  // This is more accurate than j = i * i
+                expSinTable[i] = Math.Sin(Math.PI * j / sampleCount);
+            }
+            return expSinTable;
         }
     }
 }
