@@ -593,7 +593,7 @@ namespace Accord {
 
                     uint8_t* q = (uint8_t*)ost->tmp_frame->data[0];
                     int remainingNumberOfSamplesPerChannel = length;
-                    size_t sampleSize = m_input_audio_sample_size;
+                    size_t sampleSize = m_input_audio_sample_size * this->m_input_audio_channels;
 
                     while (remainingNumberOfSamplesPerChannel > 0)
                     {
