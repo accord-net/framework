@@ -372,16 +372,11 @@ namespace Accord {
                     // encode the image
                     CHECK(avcodec_encode_video2(c, &pkt, frame, &got_packet), "Error encoding video frame");
 
-                    if (got_packet)
-                    {
-                        pkt.duration = ost->next_pts - frame->pts;
-                        pkt.pts = ost->frame->pts;
-                        pkt.dts = ost->frame->pts;
-                        CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing video frame");
-                        return true;
-                    }
-
-                    return false;
+                    pkt.duration = ost->next_pts - frame->pts;
+                    pkt.pts = ost->frame->pts;
+                    pkt.dts = ost->frame->pts;
+                    CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing video frame");
+                    return true;
                 }
 
                 /// <summary>
@@ -401,16 +396,11 @@ namespace Accord {
                     // encode the signal
                     CHECK(avcodec_encode_audio2(c, &pkt, frame, &got_packet), "Error encoding audio frame");
 
-                    if (got_packet)
-                    {
-                        pkt.duration = ost->next_pts - frame->pts;
-                        pkt.pts = ost->frame->pts;
-                        pkt.dts = ost->frame->pts;
-                        CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing audio frame");
-                        return true;
-                    }
-
-                    return false;
+                    pkt.duration = ost->next_pts - frame->pts;
+                    pkt.pts = ost->frame->pts;
+                    pkt.dts = ost->frame->pts;
+                    CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing audio frame");
+                    return true;
                 }
 
 
