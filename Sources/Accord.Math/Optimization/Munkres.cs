@@ -543,7 +543,7 @@ namespace Accord.Math.Optimization
                 zeros.RemoveAll(x => x.Item1 == path_row_0);
 
                 // Update
-                for (int r = 0; r < rowCover.Length; r++)
+                for (int r = 0; r < Math.Min(costMatrix.Length, rowCover.Length); r++)
                 {
                     if (rowCover[r])
                         continue;
