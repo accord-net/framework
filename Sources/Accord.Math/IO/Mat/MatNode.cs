@@ -114,7 +114,7 @@ namespace Accord.IO
 
             if (typeof(T).IsArray)
             {
-                var targetType = typeof(T).DeclaringType;
+                var targetType = typeof(T).GetElementType();
                 Array src = Value as Array;
                 Array dst = Array.CreateInstance(targetType, dimensions);
 
