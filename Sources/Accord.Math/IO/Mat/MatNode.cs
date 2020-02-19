@@ -118,6 +118,9 @@ namespace Accord.IO
                 Array src = Value as Array;
                 Array dst = Array.CreateInstance(targetType, dimensions);
 
+                if (matReader.Transpose)
+                    dst = dst.Transpose();
+
                 foreach (int[] idx in src.GetIndices())
                     dst.SetValue(Convert.ChangeType(src.GetValue(idx), targetType), idx);
 
