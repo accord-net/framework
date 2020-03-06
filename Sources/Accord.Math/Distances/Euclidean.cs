@@ -144,7 +144,7 @@ namespace Accord.Math.Distances
         public double Distance(Tuple<double, double> x, Tuple<double, double> y)
         {
             double dx = x.Item1 - y.Item1;
-            double dy = y.Item1 - y.Item2;
+            double dy = x.Item2 - y.Item2;
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
@@ -218,7 +218,7 @@ namespace Accord.Math.Distances
         public double Similarity(Tuple<double, double> x, Tuple<double, double> y)
         {
             double dx = x.Item1 - y.Item1;
-            double dy = y.Item1 - y.Item2;
+            double dy = x.Item2 - y.Item2;
 
             return 1.0 / (1.0 + Math.Sqrt(dx * dx + dy * dy));
         }
