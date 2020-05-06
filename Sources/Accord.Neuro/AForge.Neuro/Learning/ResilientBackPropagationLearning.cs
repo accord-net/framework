@@ -115,8 +115,9 @@ namespace Accord.Neuro.Learning
         /// </summary>
         /// 
         /// <param name="network">Network to teach.</param>
+        /// <param name="randomizeStartWeights">Decite whether weights are set to the value of the learning rate or randomized.</param>
         /// 
-        public ResilientBackpropagationLearning(ActivationNetwork network)
+        public ResilientBackpropagationLearning(ActivationNetwork network, bool randomizeStartWeights = false)
         {
             this.network = network;
 
@@ -160,6 +161,24 @@ namespace Accord.Neuro.Learning
 
             // intialize steps
             ResetUpdates(learningRate);
+
+
+            if (randomizeStartWeights)
+            {
+                // initialize weights again with randomized values between -1 und 2
+                var rand = new Random();
+                for (int i = 0; i < weightsUpdates.Length; i++)
+                {
+                    for (int j = 0; j < weightsUpdates[i].Length; j++)
+                    {
+                        for (int k = 0; k < weightsUpdates[i][j].Length; k++)
+                        {
+                            weightsUpdates[i][j][k] = rand.NextDouble(-1.0, 2.0);
+                        }
+                    }
+                }
+            }
+
         }
 
         /// <summary>
