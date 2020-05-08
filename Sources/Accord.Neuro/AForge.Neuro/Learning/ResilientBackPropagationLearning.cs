@@ -173,7 +173,7 @@ namespace Accord.Neuro.Learning
                     {
                         for (int k = 0; k < weightsUpdates[i][j].Length; k++)
                         {
-                            weightsUpdates[i][j][k] = rand.NextDouble(-1.0, 2.0);
+                            weightsUpdates[i][j][k] = (rand.NextDouble() * rand.Next(-1,2));
                         }
                     }
                 }
