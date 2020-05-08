@@ -165,7 +165,7 @@ namespace Accord.Neuro.Learning
 
             if (randomizeStartWeights)
             {
-                // initialize weights again with randomized values between -1 und 2
+                // initialize weights again with randomized values between 0 und 2
                 var rand = new Random();
                 for (int i = 0; i < weightsUpdates.Length; i++)
                 {
@@ -173,7 +173,7 @@ namespace Accord.Neuro.Learning
                     {
                         for (int k = 0; k < weightsUpdates[i][j].Length; k++)
                         {
-                            weightsUpdates[i][j][k] = (rand.NextDouble() * rand.Next(-1,2));
+                            weightsUpdates[i][j][k] = (rand.NextDouble() * rand.Next(1,2));
                         }
                     }
                 }
