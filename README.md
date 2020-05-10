@@ -18,6 +18,7 @@ After merging with the AForge.NET project, the framework now offers a unified AP
 
 For more information, please see the [getting started guide](https://github.com/accord-net/framework/wiki/Getting-started), and check [the classfication wiki](https://github.com/accord-net/framework/wiki/Classification). *Please do not hesitate to edit the wiki if you would like!*
 
+**Update (10/05/2020):** Please see the [current status section](https://github.com/accord-net/framework#current-status) below before you start using this library in any new projects.
 
 # Installing
 
