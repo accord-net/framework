@@ -131,7 +131,7 @@ Before you decide to use the framework for new projects, please see the followin
 > 
 > I am also willing to change the license of any file where I am the single author (you can check the copyright headers in each file) to **MIT** so people can reuse individual pieces of code more easily. Anyone who becomes administrator is welcome to slice the parts of the project that still make sense to exist (e.g., the FFmpeg wrappers, statistical distributions, statistical tests and the simple transforms like PCA) and even start new libraries (hopefully in .NET Core) providing only them if wanted.
 >
-> Also, when I started this project back in 2007 (and when the original AForge library started, even way before that), there were almost no other libraries we could built upon, so we had to do start almost everything from scratch. This is not the case anymore. Any new libraries coming out of this project should definitely reuse existing libraries for basic tasks such as matrix operations and image processing.
+> Also, when I started this project back in 2007 (and when the original AForge library started, even way before that), there were almost no other libraries we could built upon, so we had to do start almost everything from scratch. This is not the case anymore. Any new libraries coming out of this project should **definitely reuse existing libraries for basic tasks such as matrix operations and image processing**.
 > 
 > Cesar De Souza  
 > 10-May-2020
