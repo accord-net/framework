@@ -71,7 +71,6 @@ namespace Accord.Math
         {
             int N = data.Length;
 
-
             // Forward operation
             if (direction == FourierTransform.Direction.Forward)
             {
@@ -83,19 +82,7 @@ namespace Accord.Math
 
                 // Perform FFT
                 FourierTransform.FFT(cdata, FourierTransform.Direction.Forward);
-
-                //double positive frequencies
-                for (int i = 1; i < (N / 2); i++)
-                {
-                    cdata[i] *= 2.0;
-                }
-
-                // zero out negative frequencies
-                //  (leaving out the dc component)
-                for (int i = (N / 2) + 1; i < N; i++)
-                {
-                    cdata[i] = Complex.Zero;
-                }
+                TransformArray(cdata);
 
                 // Reverse the FFT
                 FourierTransform.FFT(cdata, FourierTransform.Direction.Backward);
@@ -138,18 +125,7 @@ namespace Accord.Math
 
                 // Perform FFT
                 FourierTransform.FFT(shift, FourierTransform.Direction.Backward);
-
-                //double positive frequencies
-                for (int i = 1; i < (N / 2); i++)
-                {
-                    shift[i] *= 2.0;
-                }
-                // zero out negative frequencies
-                //  (leaving out the dc component)
-                for (int i = (N / 2) + 1; i < N; i++)
-                {
-                    shift[i] = Complex.Zero;
-                }
+                TransformArray(shift);
 
                 // Reverse the FFT
                 FourierTransform.FFT(shift, FourierTransform.Direction.Forward);
@@ -166,6 +142,24 @@ namespace Accord.Math
                 for (int i = 0; i < data.Length; i++)
                     data[i] = new Complex(data[i].Real, 0.0);
             }
+        }
+        
+        private static void TransformArray(Complex[] array)
+        {
+            int N=array.Length;
+                int N2=N/2;
+                //double positive frequencies
+                for (int i = 1; i < N2; i++)
+                {
+                    array[i] *= 2.0;
+                }
+
+                // zero out negative frequencies
+                //  (leaving out the dc component)
+                for (int i = N2 + 1; i < N; i++)
+                {
+                    array[i] = Complex.Zero;
+                }
         }
 
     }
