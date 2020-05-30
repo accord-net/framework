@@ -117,6 +117,7 @@
     <Compile Include="Filters\RobinsonEdgeDetectorTest.cs" />
     <Compile Include="SpeededUpRobustFeaturesDescriptorTest.cs" />
     <Compile Include="SpeededUpRobustFeaturesDetectorTest.cs" />
+    <Compile Include="SusanCornersDetectorTests.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="ToolsTest.cs" />
     <Compile Include="Filters\WaveletTransformTest.cs" />

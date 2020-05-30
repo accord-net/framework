@@ -155,7 +155,7 @@ namespace Accord.Imaging
         /// <param name="differenceThreshold">Brightness difference threshold.</param>
         /// <param name="geometricalThreshold">Geometrical threshold.</param>
         /// 
-        public SusanCornersDetector(int differenceThreshold, int geometricalThreshold)
+        public SusanCornersDetector(int differenceThreshold, int geometricalThreshold) : this()
         {
             this.differenceThreshold = differenceThreshold;
             this.geometricalThreshold = geometricalThreshold;
