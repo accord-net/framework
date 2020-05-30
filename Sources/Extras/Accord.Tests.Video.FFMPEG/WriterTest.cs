@@ -171,7 +171,7 @@ namespace Accord.Tests.Video
         {
             var fileInput = new FileInfo(fireplace_mp4);
             var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.webm"));
-            reencode(fileInput, fileOutput, VideoCodec.Vp8, expectedFrameRate: 14.985014985014985d);
+            reencode(fileInput, fileOutput, VideoCodec.Vp8);
         }
 
         [Test]
