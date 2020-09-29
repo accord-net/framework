@@ -97,7 +97,7 @@ namespace Accord.Imaging
             else if (elements.Length == 9)
             {
                 this.elements = new float[8];
-                for (int i = 0; i < elements.Length; i++)
+                for (int i = 0; i < this.elements.Length; i++)
                     this.elements[i] = (float)(elements[i] / elements[8]);
             }
             else
