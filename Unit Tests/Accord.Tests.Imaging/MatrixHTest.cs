@@ -47,7 +47,7 @@ namespace Accord.Tests.Imaging
                 A = new MatrixH(new float[8] {1, 0, 0, 0, 1, 0, 0, 1});
                 B = new MatrixH(new float[9] {1, 0, 0, 0, 1, 0, 0, 0, 1});
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 Assert.Fail(e.Message);
             }
