@@ -120,7 +120,7 @@ Before you decide to use the framework for new projects, please see the followin
 >
 > I am writing this note to give an official status for the project.
 >
-> This project has certainly been the most important thing I have ever created, but I could not keep up with maintaining it as well as I wanted. This project allowed me to achieve the biggest dream I had, and that I never though I would have been able to achieve in my life, which was (some may laugh and possibly not understand) starting a life and career in Europe. 
+> This project has certainly been the most important thing I have ever created, but I could not keep up with maintaining it as well as I wanted. This project allowed me to achieve the biggest dream I had, and that I never though I would have been able to achieve in my life, which was (some may laugh and possibly not understand - specially if you did not know where I came from): starting a new life, and a new career, here in Europe. 
 > 
 > For about 10 years, I had worked on this project almost every day of my life.
 > 
