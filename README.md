@@ -1,5 +1,23 @@
 # Accord.NET Framework
 
+This project is currently archived. Please fork the project into your own GitHub account if you would like to continue its development.
+
+# Archiving
+
+After 14~15 years of development, the Accord.NET project has finally been archived. I would like to send a big thank you to everyone who has ever comitted, dedicated, their time and efforts into making thus repository better every day. What had been started as a project to store knowledge in the form of algorithms and implementations had grown way beyond my expectations since I first joined university and started working on research ~15 years ago.
+
+Many things have happened since them and the ML landscape has also greatly evolved since then. However, I pledge you to absolutely not interpret the archiving of this project as a loss. The main goal of this project since day 1 had been to crystalize available ML knowledge in the form of code, and store it under a free license code. As such, if you would like to, *do not feel afraid of copy and pasting portions of this project into your own implementations*. If I (Cesar De Souza) am the solely implementor of any of the classes you would like to port, I hereby grant you an irrevocable license to do so. If I am not, and the current license of the file you would like to port does not suit your needs, I can help you contact their original developers to help you with the transition.
+
+All this said. This has been an amazing ride.
+
+Thanks everyone for their ever growing support all those years.
+
+Let's keep in touch,
+Cesar
+
+
+# Previous
+
 [![DOI](https://zenodo.org/badge/3964514.svg)](https://zenodo.org/badge/latestdoi/3964514)
 [![Build status](https://ci.appveyor.com/api/projects/status/ns9h9opjmu8iw3ep?svg=true)](https://ci.appveyor.com/project/cesarsouza/framework)
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
