@@ -183,8 +183,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public ConfusionMatrix(int[] predicted, int[] expected)
         {
-            int[] expectedSymbols = expected.Distinct();
-            if (expectedSymbols.Length != 2)
+            if (expected.DistinctCount() > 2)
             {
                 throw new Exception("The vector of expected values contains more than two possible symbols. Please make sure the " +
                     "expected vector contains only values 0 or 1, or -1 and +1. If you have a multi-class decision problem, please " +
