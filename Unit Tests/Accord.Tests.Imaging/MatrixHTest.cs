@@ -42,6 +42,15 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(Accord.Math.Matrix.IsEqual(
                 expected.Elements, actual.Elements));
 
+            try
+            {
+                A = new MatrixH(new float[8] {1, 0, 0, 0, 1, 0, 0, 1});
+                B = new MatrixH(new float[9] {1, 0, 0, 0, 1, 0, 0, 0, 1});
+            }
+            catch (System.Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
 
             double[,] a = 
             {
