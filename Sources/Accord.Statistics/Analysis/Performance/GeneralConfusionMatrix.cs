@@ -394,7 +394,7 @@ namespace Accord.Statistics.Analysis
                 if (precision == null)
                 {
                     var diagonal = Diagonal;
-                    var totals = ColumnTotals;
+                    var totals = RowTotals;
                     precision = new double[NumberOfClasses];
                     for (int i = 0; i < precision.Length; i++)
                         precision[i] = diagonal[i] == 0 ? 0 : diagonal[i] / (double)totals[i];
@@ -415,7 +415,7 @@ namespace Accord.Statistics.Analysis
                 if (recall == null)
                 {
                     var diagonal = Diagonal;
-                    var totals = RowTotals;
+                    var totals = ColumnTotals;
                     recall = new double[NumberOfClasses];
                     for (int i = 0; i < recall.Length; i++)
                         recall[i] = diagonal[i] == 0 ? 0 : diagonal[i] / (double)totals[i];
