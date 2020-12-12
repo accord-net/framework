@@ -372,16 +372,11 @@ namespace Accord {
                     // encode the image
                     CHECK(avcodec_encode_video2(c, &pkt, frame, &got_packet), "Error encoding video frame");
 
-                    if (got_packet)
-                    {
-                        pkt.duration = ost->next_pts - frame->pts;
-                        pkt.pts = ost->frame->pts;
-                        pkt.dts = ost->frame->pts;
-                        CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing video frame");
-                        return true;
-                    }
-
-                    return false;
+                    pkt.duration = ost->next_pts - frame->pts;
+                    pkt.pts = ost->frame->pts;
+                    pkt.dts = ost->frame->pts;
+                    CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing video frame");
+                    return true;
                 }
 
                 /// <summary>
@@ -401,16 +396,11 @@ namespace Accord {
                     // encode the signal
                     CHECK(avcodec_encode_audio2(c, &pkt, frame, &got_packet), "Error encoding audio frame");
 
-                    if (got_packet)
-                    {
-                        pkt.duration = ost->next_pts - frame->pts;
-                        pkt.pts = ost->frame->pts;
-                        pkt.dts = ost->frame->pts;
-                        CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing audio frame");
-                        return true;
-                    }
-
-                    return false;
+                    pkt.duration = ost->next_pts - frame->pts;
+                    pkt.pts = ost->frame->pts;
+                    pkt.dts = ost->frame->pts;
+                    CHECK(write_frame(oc, &c->time_base, ost->st, &pkt), "Error while writing audio frame");
+                    return true;
                 }
 
 
@@ -442,6 +432,27 @@ namespace Accord {
 
                 void close()
                 {
+                    if (have_video) {
+                        int got_output = 0;
+                        int ret = 0;
+                        
+                        for (got_output = 1; got_output;) {
+                            AVPacket pkt;
+                            av_init_packet(&pkt);
+                            
+                            ret = avcodec_encode_video2(c, &pkt, NULL, &got_output);
+                            if (got_output) {
+                                pkt.duration = 1;
+                                pkt.pts = video_st.next_pts;
+                                pkt.dts = pkt.pts;
+                                
+                                CHECK(write_frame(oc, &c->time_base, video_st.st, &pkt), "Error while writing video frame");
+                                av_free_packet(&pkt);
+                                
+                                video_st.next_pts++;
+                            }
+                        }
+                    }
                     // Write the trailer, if any. The trailer must be written before you
                     // close the CodecContexts open when you wrote the header; otherwise
                     // av_write_trailer() may try to use memory that was freed on
@@ -593,7 +604,7 @@ namespace Accord {
 
                     uint8_t* q = (uint8_t*)ost->tmp_frame->data[0];
                     int remainingNumberOfSamplesPerChannel = length;
-                    size_t sampleSize = m_input_audio_sample_size;
+                    size_t sampleSize = m_input_audio_sample_size * this->m_input_audio_channels;
 
                     while (remainingNumberOfSamplesPerChannel > 0)
                     {
