@@ -759,7 +759,7 @@ namespace Accord {
                 }
 
                 if (timestamp >= TimeSpan::Zero)
-                    data->video_st.next_pts = TimeSpanToPTS(timestamp, data->video_st.st, data->video_st.enc);
+                    data->video_st.next_pts = TimeSpanToPTS(timestamp, data->video_st.st, data->video_st.enc)*0.5;
 
                 data->send_video_frame(&data->video_st, (uint64_t*)bitmapData->Scan0.ToPointer(), bitmapData->Stride);
             }
