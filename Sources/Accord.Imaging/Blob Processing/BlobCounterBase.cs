@@ -1301,7 +1301,7 @@ namespace Accord.Imaging
             {
                 int blobArea = area[j];
 
-                Blob blob = new Blob(j, new Rectangle(x1[j], y1[j], x2[j] - x1[j], y2[j] - y1[j]));
+                Blob blob = new Blob(j, new Rectangle(x1[j], y1[j], x2[j] - x1[j] + 1, y2[j] - y1[j] + 1));
                 blob.Area = blobArea;
                 blob.Fullness = (double)blobArea / ((x2[j] - x1[j] + 1) * (y2[j] - y1[j] + 1));
                 blob.CenterOfGravity = new Accord.Point((float)xc[j] / blobArea, (float)yc[j] / blobArea);
